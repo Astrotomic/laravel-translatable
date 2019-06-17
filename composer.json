@@ -1,5 +1,5 @@
 {
-    "name": "dimsav/laravel-translatable",
+    "name": "astrotomic/laravel-translatable",
     "description": "A Laravel package for multilingual models",
     "keywords": ["laravel", "translation", "language", "database"],
     "license": "MIT",
@@ -18,7 +18,7 @@
         }
     ],
     "support": {
-        "issues": "https://github.com/dimsav/laravel-translatable/issues"
+        "issues": "https://github.com/Astrotomic/laravel-translatable/issues"
     },
     "require": {
         "php": ">=7.1.3",
