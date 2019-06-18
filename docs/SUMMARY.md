@@ -1,4 +1,6 @@
-# Summary
+# Table of contents
 
 * [Introduction](README.md)
-* [Changelog](./../changelog.md)
+* [Changelog](changelog.md)
+* [Issues](issues.md)
+
