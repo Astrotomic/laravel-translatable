@@ -5,15 +5,15 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Dimitrios Savvopoulos",
-            "email": "ds@dimsav.com",
-            "homepage": "http://dimsav.com",
-            "role": "Developer"
-        },
-        {
             "name": "Tom Witkowski",
             "email": "dev.gummibeer@gmail.com",
             "homepage": "https://gummibeer.de",
+            "role": "Developer"
+        },
+        {
+            "name": "Dimitrios Savvopoulos",
+            "email": "ds@dimsav.com",
+            "homepage": "http://dimsav.com",
             "role": "Developer"
         }
     ],
