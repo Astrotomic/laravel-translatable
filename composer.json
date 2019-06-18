@@ -29,7 +29,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Dimsav\\Translatable\\": "src/Translatable/"
+            "Astrotomic\\Translatable\\": "src/Translatable/"
         }
     },
     "autoload-dev": {
@@ -40,7 +40,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Dimsav\\Translatable\\TranslatableServiceProvider"
+                "Astrotomic\\Translatable\\TranslatableServiceProvider"
             ]
         }
     },
