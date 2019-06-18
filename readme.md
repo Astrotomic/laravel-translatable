@@ -2,13 +2,13 @@ Laravel-Translatable
 ====================
 
 
-[![Total Downloads](https://poser.pugx.org/dimsav/laravel-translatable/downloads.svg)](https://packagist.org/packages/dimsav/laravel-translatable)
-[![Build Status](https://circleci.com/gh/dimsav/laravel-translatable.png?style=shield)](https://circleci.com/gh/dimsav/laravel-translatable)
-[![Code Coverage](https://scrutinizer-ci.com/g/dimsav/laravel-translatable/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/dimsav/laravel-translatable/?branch=master)
-[![Latest Stable Version](http://img.shields.io/packagist/v/dimsav/laravel-translatable.svg)](https://packagist.org/packages/dimsav/laravel-translatable)
-[![License](https://poser.pugx.org/dimsav/laravel-translatable/license.svg)](https://packagist.org/packages/dimsav/laravel-translatable)
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/c105358a-3211-47e8-b662-94aa98d1eeee/mini.png)](https://insight.sensiolabs.com/projects/c105358a-3211-47e8-b662-94aa98d1eeee)
-[![StyleCI](https://styleci.io/repos/16480576/shield)](https://styleci.io/repos/16480576)
+![Total Downloads](https://img.shields.io/packagist/dt/astrotomic/laravel-translatable.svg?style=flat-square)
+![Build Status](https://img.shields.io/circleci/build/github/Astrotomic/laravel-translatable/master.svg?style=flat-square)
+![Code Quality](https://img.shields.io/scrutinizer/quality/g/Astrotomic/laravel-translatable/master.svg?style=flat-square)
+![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/Astrotomic/laravel-translatable/master.svg?style=flat-square)
+[![Latest Version](http://img.shields.io/packagist/v/astrotomic/laravel-translatable.svg?style=flat-square)](https://packagist.org/packages/astrotomic/laravel-translatable)
+![MIT License](https://img.shields.io/github/license/Astrotomic/laravel-translatable.svg?color=blue&style=flat-square)
+[![StyleCI](https://styleci.io/repos/192333549/shield)](https://styleci.io/repos/192333549)
 
 ![Laravel Translatable](img/laravel-translatable.png)
 
