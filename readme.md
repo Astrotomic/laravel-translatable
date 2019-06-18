@@ -25,7 +25,6 @@ This is a Laravel package for translatable models. Its goal is to remove the com
 * [Configuration](#configuration)
 * [Features list](#features-list)
 * [FAQ / Support](#faq)
-* [Donations](#donations)
 
 ## Demo
 
@@ -510,8 +509,6 @@ Got any question or suggestion? Feel free to open an [Issue](https://github.com/
 #### I want to help!
 
 You are awesome! Watch the repo and reply to the issues. You will help offering a great experience to the users of the package. `#communityWorks`
-
-Also buy me a beer by making a [donation](#donations). ❤️
 
 #### I am getting collisions with other trait methods!
 
