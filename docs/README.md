@@ -8,8 +8,49 @@
 
 This is a Laravel package for translatable models. Its goal is to remove the complexity in retrieving and storing multilingual model instances. With this package you write less code, as the translations are being fetched/saved when you fetch/save your instance.
 
-#### Tutorials
+### Tutorials
 
 * [How To Add Multilingual Support to Eloquent](https://laravel-news.com/how-to-add-multilingual-support-to-eloquent)
 * [How To Build An Efficient and SEO Friendly Multilingual Architecture For Your Laravel Application](https://mydnic.be/post/how-to-build-an-efficient-and-seo-friendly-multilingual-architecture-for-your-laravel-application)
+
+### Quick Example
+
+#### **Getting translated attributes**
+
+```php
+$post = Post::first();
+echo $post->translate('en')->title; // My first post
+  
+App::setLocale('en');
+echo $post->title; // My first post
+
+App::setLocale('de');
+echo $post->title; // Mein erster Post
+```
+
+#### **Saving translated attributes**
+
+```php
+$post = Post::first();
+echo $post->translate('en')->title; // My first post
+  
+$post->translate('en')->title = 'My cool post';
+$post->save();
+  
+$post = Post::first();
+echo $post->translate('en')->title; // My cool post
+```
+
+#### **Filling multiple translations**
+
+```php
+$data = [
+  'author' => 'Gummibeer',
+  'en' => ['title' => 'My first post'],
+  'fr' => ['title' => 'Mon premier post'],
+];
+$post = Post::create($data);
+  
+echo $post->translate('fr')->title; // Mon premier post
+```
 
