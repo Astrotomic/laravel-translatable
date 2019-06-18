@@ -36,3 +36,5 @@ plugins:
         enabled: false
       Design/TooManyPublicMethods:
         enabled: false
+  phan:
+    enabled: false
