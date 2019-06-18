@@ -8,14 +8,9 @@
 
 This is a Laravel package for translatable models. Its goal is to remove the complexity in retrieving and storing multilingual model instances. With this package you write less code, as the translations are being fetched/saved when you fetch/save your instance.
 
-### Tutorials
+## Quick Example
 
-* [How To Add Multilingual Support to Eloquent](https://laravel-news.com/how-to-add-multilingual-support-to-eloquent)
-* [How To Build An Efficient and SEO Friendly Multilingual Architecture For Your Laravel Application](https://mydnic.be/post/how-to-build-an-efficient-and-seo-friendly-multilingual-architecture-for-your-laravel-application)
-
-### Quick Example
-
-#### **Getting translated attributes**
+### **Getting translated attributes**
 
 ```php
 $post = Post::first();
@@ -28,7 +23,7 @@ App::setLocale('de');
 echo $post->title; // Mein erster Post
 ```
 
-#### **Saving translated attributes**
+### **Saving translated attributes**
 
 ```php
 $post = Post::first();
@@ -41,7 +36,7 @@ $post = Post::first();
 echo $post->translate('en')->title; // My cool post
 ```
 
-#### **Filling multiple translations**
+### **Filling multiple translations**
 
 ```php
 $data = [
@@ -53,4 +48,18 @@ $post = Post::create($data);
   
 echo $post->translate('fr')->title; // Mon premier post
 ```
+
+## Tutorials
+
+* [How To Add Multilingual Support to Eloquent](https://laravel-news.com/how-to-add-multilingual-support-to-eloquent)
+* [How To Build An Efficient and SEO Friendly Multilingual Architecture For Your Laravel Application](https://mydnic.be/post/how-to-build-an-efficient-and-seo-friendly-multilingual-architecture-for-your-laravel-application)
+
+## Add-Ons
+
+Thanks to the community a few packages have been written to make usage of Translatable easier when working with forms:
+
+* [Propaganistas/Laravel-Translatable-Bootforms](https://github.com/Propaganistas/Laravel-Translatable-Bootforms)
+* [TypiCMS/TranslatableBootForms](https://github.com/TypiCMS/TranslatableBootForms)
+
+
 

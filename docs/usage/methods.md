@@ -89,6 +89,39 @@ $post->getTranslationsArray();
 Creates a clone and clones the translations.
 
 ```php
-$replicate = $post->replicateWithTranslations(); 
+$replicate = $post->replicateWithTranslations();
 ```
+
+## getDefaultLocale\(\)
+
+Returns the current default locale for the current model or `null` if no default locale is set.
+
+```php
+$post->getDefaultLocale(); // null
+```
+
+## setDefaultLocale\(?string $locale\)
+
+Sets the default locale for the current model.
+
+```php
+$post->setDefaultLocale('fr');
+$post->getDefaultLocale(); // 'fr'
+```
+
+## Translation Autoloading
+
+If the `toArray()` method is called it's possible to autoload all translations. To control this feature the package comes with a config value `to_array_always_loads_translations` and three static methods in the trait:
+
+### static enableAutoloadTranslations\(\)
+
+forces to load all translations
+
+### static disableAutoloadTranslations\(\)
+
+disables autoload and returns parent attributes
+
+### static defaultAutoloadTranslations\(\)
+
+does not change the default behavior logic
 

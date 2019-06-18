@@ -10,4 +10,5 @@
 * [Installation](usage/installation.md)
 * [Methods](usage/methods.md)
 * [Scopes](usage/scopes.md)
+* [Fallback locale](usage/fallback-locale.md)
 
