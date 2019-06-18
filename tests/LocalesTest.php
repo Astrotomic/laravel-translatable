@@ -1,6 +1,6 @@
 <?php
 
-use Dimsav\Translatable\Locales;
+use Astrotomic\Translatable\Locales;
 
 class LocalesTest extends TestsBase
 {

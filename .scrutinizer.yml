@@ -7,14 +7,11 @@ build:
       version: 7.3.0
   dependencies:
     before:
-    - sudo composer self-update
-    - mysql -e 'create database translatable_test;'
-    - echo "CREATE USER 'homestead'@'localhost' IDENTIFIED BY 'secret'; \n GRANT ALL PRIVILEGES ON * . * TO 'homestead'@'localhost'; \nFLUSH PRIVILEGES; \n" | mysql -u root
-    - command: 'composer install --prefer-dist'
-      idle_timeout: 1200
+      - mysql -e 'create database translatable_test;'
+      - echo "CREATE USER 'homestead'@'localhost' IDENTIFIED BY 'secret'; \n GRANT ALL PRIVILEGES ON * . * TO 'homestead'@'localhost'; \nFLUSH PRIVILEGES; \n" | mysql -u root
   tests:
     override:
-    - command: echo 1
+      - command: echo 1
 
 tools:
   external_code_coverage:

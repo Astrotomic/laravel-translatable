@@ -1,6 +1,6 @@
 <?php
 
-namespace Dimsav\Translatable;
+namespace Astrotomic\Translatable;
 
 use Illuminate\Support\ServiceProvider;
 

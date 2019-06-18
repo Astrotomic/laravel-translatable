@@ -1,11 +1,11 @@
 <?php
 
-namespace Dimsav\Translatable;
+namespace Astrotomic\Translatable;
 
 use ArrayAccess;
 use Illuminate\Contracts\Support\Arrayable;
-use Dimsav\Translatable\Exception\LocalesNotDefinedException;
 use Illuminate\Contracts\Config\Repository as ConfigContract;
+use Astrotomic\Translatable\Exception\LocalesNotDefinedException;
 use Illuminate\Contracts\Translation\Translator as TranslatorContract;
 
 class Locales implements Arrayable, ArrayAccess
@@ -38,7 +38,7 @@ class Locales implements Arrayable, ArrayAccess
         $localesConfig = (array) $this->config->get('translatable.locales', []);
 
         if (empty($localesConfig)) {
-            throw new LocalesNotDefinedException('Please make sure you have run "php artisan config:publish dimsav/laravel-translatable" and that the locales configuration is defined.');
+            throw new LocalesNotDefinedException('Please make sure you have run "php artisan config:publish astrotomic/laravel-translatable" and that the locales configuration is defined.');
         }
 
         $this->locales = [];
