@@ -98,13 +98,13 @@ This is a Laravel package for translatable models. Its goal is to remove the com
 Add the package in your composer.json by executing the command.
 
 ```bash
-composer require dimsav/laravel-translatable
+composer require astrotomic/laravel-translatable
 ```
 
 Next, add the service provider to `app/config/app.php`
 
 ```
-Dimsav\Translatable\TranslatableServiceProvider::class,
+Astrotomic\Translatable\TranslatableServiceProvider::class,
 ```
 
 ### Step 2: Migrations
@@ -133,7 +133,7 @@ Schema::create('country_translations', function(Blueprint $table)
 
 ### Step 3: Models
 
-1. The translatable model `Country` should [use the trait](http://www.sitepoint.com/using-traits-in-php-5-4/) `Dimsav\Translatable\Translatable`. 
+1. The translatable model `Country` should [use the trait](http://www.sitepoint.com/using-traits-in-php-5-4/) `Astrotomic\Translatable\Translatable`. 
 2. The convention for the translation model is `CountryTranslation`.
 
 
@@ -141,7 +141,7 @@ Schema::create('country_translations', function(Blueprint $table)
 // models/Country.php
 class Country extends Eloquent {
     
-    use \Dimsav\Translatable\Translatable;
+    use \Astrotomic\Translatable\Translatable;
     
     public $translatedAttributes = ['name'];
     protected $fillable = ['code'];
@@ -171,14 +171,8 @@ The array `$translatedAttributes` contains the names of the fields being transla
 
 We copy the configuration file to our project.
 
-Laravel 5.*
 ```bash
 php artisan vendor:publish --tag=translatable 
-```
-
-Laravel 4.*
-```bash
-php artisan config:publish dimsav/laravel-translatable
 ```
 
 *Note: There isn't any restriction for the format of the locales. Feel free to use whatever suits you better, like "eng" instead of "en", or "el" instead of "gr".  The important is to define your locales and stick to them.*
@@ -202,7 +196,7 @@ To use a custom class as translation model, define the translation class (includ
 
 namespace MyApp\Models;
 
-use Dimsav\Translatable\Translatable;
+use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 
 class Country extends Eloquent
@@ -372,7 +366,7 @@ To use the magic properties, you have to define the property `$translatedAttribu
  ```php
  class Country extends Eloquent {
 
-     use \Dimsav\Translatable\Translatable;
+     use \Astrotomic\Translatable\Translatable;
 
      public $translatedAttributes = ['name'];
  }
@@ -507,11 +501,11 @@ Thanks to the community a few packages have been written to make usage of Transl
 
 #### I need some example code!
 
-Examples for all the package features can be found [in the code](https://github.com/dimsav/laravel-translatable/tree/master/tests/models) used for the [tests](https://github.com/dimsav/laravel-translatable/tree/master/tests).
+Examples for all the package features can be found [in the code](https://github.com/Astrotomic/laravel-translatable/tree/master/tests/models) used for the [tests](https://github.com/Astrotomic/laravel-translatable/tree/master/tests).
 
 #### I need help!
 
-Got any question or suggestion? Feel free to open an [Issue](https://github.com/dimsav/laravel-translatable/issues/new).
+Got any question or suggestion? Feel free to open an [Issue](https://github.com/Astrotomic/laravel-translatable/issues/new).
 
 #### I want to help!
 
@@ -620,13 +614,3 @@ Schema::create('language_translations', function(Blueprint $table){
 ```
 
 The best solution though would be to update your mysql version. And **always make sure you have the same version both in development and production environment!**
-
-## Donations
-
-This software has been crafted with attention and love.
-
-Show your love and support by sending bitcoin to this address: `167QC4XQ3acgbwVYWAdmS81jARCcVTWBXU`
-
-Or by sending to this PayPal address: `ds@dimsav.com`
-
-❤️ Thank you!

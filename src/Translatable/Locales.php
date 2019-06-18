@@ -38,7 +38,7 @@ class Locales implements Arrayable, ArrayAccess
         $localesConfig = (array) $this->config->get('translatable.locales', []);
 
         if (empty($localesConfig)) {
-            throw new LocalesNotDefinedException('Please make sure you have run "php artisan config:publish dimsav/laravel-translatable" and that the locales configuration is defined.');
+            throw new LocalesNotDefinedException('Please make sure you have run "php artisan config:publish astrotomic/laravel-translatable" and that the locales configuration is defined.');
         }
 
         $this->locales = [];
