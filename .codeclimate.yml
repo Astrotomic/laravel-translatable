@@ -9,3 +9,8 @@ plugins:
     config:
       file_extensions:
         - php
+    checks:
+      CleanCode/StaticAccess:
+        enabled: false
+      Design/TooManyPublicMethods:
+        enabled: false
