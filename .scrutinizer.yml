@@ -15,7 +15,7 @@ build:
 
 tools:
   external_code_coverage:
-    timeout: 3600
+    timeout: 900
     runs: 4
 
 filter:
