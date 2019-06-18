@@ -1,15 +1,15 @@
 <?php
 
-use Dimsav\Translatable\Test\Model;
-use Dimsav\Translatable\Test\Model\City;
-use Dimsav\Translatable\Test\Model\Company;
-use Dimsav\Translatable\Test\Model\Country;
-use Dimsav\Translatable\Test\Model\Continent;
-use Dimsav\Translatable\Test\Model\Vegetable;
-use Dimsav\Translatable\Test\Model\CountryStrict;
-use Dimsav\Translatable\Test\Model\CountryGuarded;
-use Dimsav\Translatable\Test\Model\CityTranslation;
-use Dimsav\Translatable\Test\Model\CountryTranslation;
+use Astrotomic\Translatable\Test\Model;
+use Astrotomic\Translatable\Test\Model\City;
+use Astrotomic\Translatable\Test\Model\Company;
+use Astrotomic\Translatable\Test\Model\Country;
+use Astrotomic\Translatable\Test\Model\Continent;
+use Astrotomic\Translatable\Test\Model\Vegetable;
+use Astrotomic\Translatable\Test\Model\CountryStrict;
+use Astrotomic\Translatable\Test\Model\CountryGuarded;
+use Astrotomic\Translatable\Test\Model\CityTranslation;
+use Astrotomic\Translatable\Test\Model\CountryTranslation;
 
 class TestCoreModelExtension extends TestsBase
 {
@@ -38,22 +38,20 @@ class TestCoreModelExtension extends TestsBase
 
     // Failing saving
 
-    /**
-     * @expectedException \Exception
-     */
     public function test_it_throws_query_exception_if_code_is_null()
     {
+        $this->expectException('\Exception');
+
         $country = new Country();
         $country->name = 'Belgium';
         $country->code = null;
         $country->save();
     }
 
-    /**
-     * @expectedException \Exception
-     */
     public function test_it_throws_query_exception_if_saving_and_name_is_null()
     {
+        $this->expectException(\Exception::class);
+
         $country = new Country();
         $country->code = 'be';
         $country->name = null;
@@ -65,7 +63,7 @@ class TestCoreModelExtension extends TestsBase
         $that = $this;
         $event = App::make('events');
         $event->listen('eloquent*', function ($event, $models) use ($that) {
-            return get_class(reset($models)) == 'Dimsav\Translatable\Test\Model\Country' ? false : true;
+            return get_class(reset($models)) == 'Astrotomic\Translatable\Test\Model\Country' ? false : true;
         });
 
         $country = Country::find(1);
@@ -79,7 +77,7 @@ class TestCoreModelExtension extends TestsBase
         $that = $this;
         $event = App::make('events');
         $event->listen('eloquent*', function ($event, $models) use ($that) {
-            return get_class(reset($models)) == 'Dimsav\Translatable\Test\Model\Continent' ? false : true;
+            return get_class(reset($models)) == 'Astrotomic\Translatable\Test\Model\Continent' ? false : true;
         });
 
         $continent = new Continent();
@@ -88,21 +86,19 @@ class TestCoreModelExtension extends TestsBase
 
     // Filling
 
-    /**
-     * @expectedException Illuminate\Database\Eloquent\MassAssignmentException
-     */
     public function test_it_throws_exception_if_filling_a_protected_property()
     {
+        $this->expectException(Illuminate\Database\Eloquent\MassAssignmentException::class);
+
         $country = new CountryGuarded();
         $this->assertTrue($country->totallyGuarded());
         $country->fill(['code' => 'it', 'en' => ['name' => 'Italy']]);
     }
 
-    /**
-     * @expectedException Illuminate\Database\Eloquent\MassAssignmentException
-     */
     public function test_translation_throws_exception_if_filling_a_protected_property()
     {
+        $this->expectException(Illuminate\Database\Eloquent\MassAssignmentException::class);
+
         $country = new Country();
         $country->translationModel = Model\CountryTranslationGuarded::class;
         $country->fill(['code' => 'it', 'en' => ['name' => 'Italy']]);

@@ -1,14 +1,14 @@
 Laravel-Translatable
 ====================
 
+[![Total Downloads](https://img.shields.io/packagist/dt/astrotomic/laravel-translatable.svg?style=flat-square)](https://packagist.org/packages/astrotomic/laravel-translatable)
+[![CircleCI](https://img.shields.io/circleci/build/github/Astrotomic/laravel-translatable/master.svg?label=CircleCI&style=flat-square)](https://circleci.com/gh/Astrotomic/laravel-translatable)
+[![StyleCI](https://styleci.io/repos/192333549/shield)](https://styleci.io/repos/192333549)
+[![Code Quality](https://img.shields.io/scrutinizer/quality/g/Astrotomic/laravel-translatable/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/Astrotomic/laravel-translatable/)
+[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/Astrotomic/laravel-translatable/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/Astrotomic/laravel-translatable/)
+[![Latest Version](http://img.shields.io/packagist/v/astrotomic/laravel-translatable.svg?style=flat-square)](https://packagist.org/packages/astrotomic/laravel-translatable)
+![MIT License](https://img.shields.io/github/license/Astrotomic/laravel-translatable.svg?color=blue&style=flat-square)
 
-[![Total Downloads](https://poser.pugx.org/dimsav/laravel-translatable/downloads.svg)](https://packagist.org/packages/dimsav/laravel-translatable)
-[![Build Status](https://circleci.com/gh/dimsav/laravel-translatable.png?style=shield)](https://circleci.com/gh/dimsav/laravel-translatable)
-[![Code Coverage](https://scrutinizer-ci.com/g/dimsav/laravel-translatable/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/dimsav/laravel-translatable/?branch=master)
-[![Latest Stable Version](http://img.shields.io/packagist/v/dimsav/laravel-translatable.svg)](https://packagist.org/packages/dimsav/laravel-translatable)
-[![License](https://poser.pugx.org/dimsav/laravel-translatable/license.svg)](https://packagist.org/packages/dimsav/laravel-translatable)
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/c105358a-3211-47e8-b662-94aa98d1eeee/mini.png)](https://insight.sensiolabs.com/projects/c105358a-3211-47e8-b662-94aa98d1eeee)
-[![StyleCI](https://styleci.io/repos/16480576/shield)](https://styleci.io/repos/16480576)
 
 ![Laravel Translatable](img/laravel-translatable.png)
 
@@ -25,7 +25,6 @@ This is a Laravel package for translatable models. Its goal is to remove the com
 * [Configuration](#configuration)
 * [Features list](#features-list)
 * [FAQ / Support](#faq)
-* [Donations](#donations)
 
 ## Demo
 
@@ -73,6 +72,8 @@ This is a Laravel package for translatable models. Its goal is to remove the com
 
  Laravel  | Translatable
 :---------|:----------
+ 5.8      | 9.*
+ 5.7      | 9.*
  5.6      | 9.*
  5.5      | 8.*
  5.4      | 7.*
@@ -96,13 +97,13 @@ This is a Laravel package for translatable models. Its goal is to remove the com
 Add the package in your composer.json by executing the command.
 
 ```bash
-composer require dimsav/laravel-translatable
+composer require astrotomic/laravel-translatable
 ```
 
 Next, add the service provider to `app/config/app.php`
 
 ```
-Dimsav\Translatable\TranslatableServiceProvider::class,
+Astrotomic\Translatable\TranslatableServiceProvider::class,
 ```
 
 ### Step 2: Migrations
@@ -131,7 +132,7 @@ Schema::create('country_translations', function(Blueprint $table)
 
 ### Step 3: Models
 
-1. The translatable model `Country` should [use the trait](http://www.sitepoint.com/using-traits-in-php-5-4/) `Dimsav\Translatable\Translatable`. 
+1. The translatable model `Country` should [use the trait](http://www.sitepoint.com/using-traits-in-php-5-4/) `Astrotomic\Translatable\Translatable`. 
 2. The convention for the translation model is `CountryTranslation`.
 
 
@@ -139,7 +140,7 @@ Schema::create('country_translations', function(Blueprint $table)
 // models/Country.php
 class Country extends Eloquent {
     
-    use \Dimsav\Translatable\Translatable;
+    use \Astrotomic\Translatable\Translatable;
     
     public $translatedAttributes = ['name'];
     protected $fillable = ['code'];
@@ -169,14 +170,8 @@ The array `$translatedAttributes` contains the names of the fields being transla
 
 We copy the configuration file to our project.
 
-Laravel 5.*
 ```bash
 php artisan vendor:publish --tag=translatable 
-```
-
-Laravel 4.*
-```bash
-php artisan config:publish dimsav/laravel-translatable
 ```
 
 *Note: There isn't any restriction for the format of the locales. Feel free to use whatever suits you better, like "eng" instead of "en", or "el" instead of "gr".  The important is to define your locales and stick to them.*
@@ -200,7 +195,7 @@ To use a custom class as translation model, define the translation class (includ
 
 namespace MyApp\Models;
 
-use Dimsav\Translatable\Translatable;
+use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 
 class Country extends Eloquent
@@ -370,7 +365,7 @@ To use the magic properties, you have to define the property `$translatedAttribu
  ```php
  class Country extends Eloquent {
 
-     use \Dimsav\Translatable\Translatable;
+     use \Astrotomic\Translatable\Translatable;
 
      public $translatedAttributes = ['name'];
  }
@@ -388,7 +383,9 @@ $germany->name; // 'Germany'
 $germany->{'name:de'} // 'Deutschland'
 ```
 
-### Fallback locales
+### Fallback
+
+#### Fallback locales
 
 If you want to fallback to a default translation when a translation has not been found, enable this in the configuration
 using the `use_fallback` key. And to select the default locale, use the `fallback_locale` key.
@@ -431,6 +428,24 @@ Of course the fallback locales must be enabled to use this feature.
  
  If the property fallback is enabled in the configuration, then translatable
  will return the translation of the fallback locale for the fields where the translation is empty. 
+ 
+##### customize empty translation property detection
+
+This package is made to translate strings, but in general it's also able to translate numbers, bools or whatever you want to. By default a simple `empty()` call is used to detect if the translation value is empty or not. If you want to customize this or use different logic per property you can override `isEmptyTranslatableAttribute()` in your main model. 
+
+```php
+protected function isEmptyTranslatableAttribute(string $key, $value): bool
+{
+    switch($key) {
+        case 'name':
+            return empty($value);
+        case 'price':
+            return !is_number($value);
+        default:
+            return is_null($value);
+    }
+}
+```
 
 #### Country based fallback
 
@@ -465,8 +480,16 @@ What applies for the fallback of the locales using the `en-MX` format?
 Let's say our fallback locale is `en`. Now, when we try to fetch from the database the translation for the 
 locale `es-MX` but it doesn't exist,  we won't get as fallback the translation for `en`. Translatable will use as a 
 fallback `es` (the first part of `es-MX`) and only if nothing is found, the translation for `en` is returned.
+
+### Translation Autoloading
+
+If the `toArray()` method is called it's possible to autoload all translations. To control this feature the package comes with a config value `to_array_always_loads_translations` and three static methods in the trait:
+
+* `enableAutoloadTranslations()` - forces to load all translations
+* `disableAutoloadTranslations()` - disables autoload and returns parent attributes
+* `defaultAutoloadTranslations()` - does not change the default behavior logic (*default*)
  
-#### Add ons
+## Add ons
 
 Thanks to the community a few packages have been written to make usage of Translatable easier when working with forms:
 
@@ -477,17 +500,15 @@ Thanks to the community a few packages have been written to make usage of Transl
 
 #### I need some example code!
 
-Examples for all the package features can be found [in the code](https://github.com/dimsav/laravel-translatable/tree/master/tests/models) used for the [tests](https://github.com/dimsav/laravel-translatable/tree/master/tests).
+Examples for all the package features can be found [in the code](https://github.com/Astrotomic/laravel-translatable/tree/master/tests/models) used for the [tests](https://github.com/Astrotomic/laravel-translatable/tree/master/tests).
 
 #### I need help!
 
-Got any question or suggestion? Feel free to open an [Issue](https://github.com/dimsav/laravel-translatable/issues/new).
+Got any question or suggestion? Feel free to open an [Issue](https://github.com/Astrotomic/laravel-translatable/issues/new).
 
 #### I want to help!
 
 You are awesome! Watch the repo and reply to the issues. You will help offering a great experience to the users of the package. `#communityWorks`
-
-Also buy me a beer by making a [donation](#donations). ❤️
 
 #### I am getting collisions with other trait methods!
 
@@ -590,13 +611,3 @@ Schema::create('language_translations', function(Blueprint $table){
 ```
 
 The best solution though would be to update your mysql version. And **always make sure you have the same version both in development and production environment!**
-
-## Donations
-
-This software has been crafted with attention and love.
-
-Show your love and support by sending bitcoin to this address: `167QC4XQ3acgbwVYWAdmS81jARCcVTWBXU`
-
-Or by sending to this PayPal address: `ds@dimsav.com`
-
-❤️ Thank you!

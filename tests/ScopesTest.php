@@ -1,7 +1,7 @@
 <?php
 
-use Dimsav\Translatable\Test\Model\Country;
-use Dimsav\Translatable\Test\Model\Vegetable;
+use Astrotomic\Translatable\Test\Model\Country;
+use Astrotomic\Translatable\Test\Model\Vegetable;
 
 class ScopesTest extends TestsBase
 {
@@ -52,11 +52,11 @@ class ScopesTest extends TestsBase
         App::setLocale('de');
         App::make('config')->set('translatable.to_array_always_loads_translations', false);
 
-        $list = [[
-            'id'   => '1',
-            'name' => 'Griechenland',
-        ]];
-        $this->assertArraySubset($list, Country::listsTranslations('name')->get()->toArray());
+        $arr = Country::listsTranslations('name')->get()->toArray();
+
+        $this->assertEquals(1, count($arr));
+        $this->assertEquals('1', $arr[0]['id']);
+        $this->assertEquals('Griechenland', $arr[0]['name']);
     }
 
     public function test_lists_of_translated_fields_with_fallback()
@@ -73,7 +73,30 @@ class ScopesTest extends TestsBase
             'id'   => 2,
             'name' => 'France',
         ]];
-        $this->assertArraySubset($list, $country->listsTranslations('name')->get()->toArray());
+
+        $arr = $country->listsTranslations('name')->get()->toArray();
+
+        $this->assertEquals(2, count($arr));
+
+        $this->assertEquals(1, $arr[0]['id']);
+        $this->assertEquals('Griechenland', $arr[0]['name']);
+
+        $this->assertEquals(2, $arr[1]['id']);
+        $this->assertEquals('France', $arr[1]['name']);
+    }
+
+    public function test_lists_of_translated_fields_disable_autoload_translations()
+    {
+        App::setLocale('de');
+        App::make('config')->set('translatable.to_array_always_loads_translations', true);
+
+        $list = [[
+            'id'   => 1,
+            'name' => 'Griechenland',
+        ]];
+        Country::disableAutoloadTranslations();
+        $this->assertEquals($list, Country::listsTranslations('name')->get()->toArray());
+        Country::defaultAutoloadTranslations();
     }
 
     public function test_scope_withTranslation_without_fallback()
@@ -111,7 +134,18 @@ class ScopesTest extends TestsBase
             ['name' => 'Zucchini', 'locale' => 'de'],
             ['name' => 'Zucchetti', 'locale' => 'de-CH'],
         ];
-        $this->assertArraySubset($expectedTranslations, $result['translations']);
+        $translations = $result['translations'];
+
+        $this->assertEquals(3, count($translations));
+
+        $this->assertEquals('en', $translations[0]['locale']);
+        $this->assertEquals('zucchini', $translations[0]['name']);
+
+        $this->assertEquals('de', $translations[1]['locale']);
+        $this->assertEquals('Zucchini', $translations[1]['name']);
+
+        $this->assertEquals('de-CH', $translations[2]['locale']);
+        $this->assertEquals('Zucchetti', $translations[2]['name']);
     }
 
     public function test_whereTranslation_filters_by_translation()
@@ -164,5 +198,17 @@ class ScopesTest extends TestsBase
         $result = Country::whereTranslationLike('name', '%riechenlan%', 'de')->get();
         $this->assertSame(1, $result->count());
         $this->assertSame('gr', $result->first()->code);
+    }
+
+    public function test_orderByTranslation_sorts_by_key_asc()
+    {
+        $result = Country::orderByTranslation('name')->get();
+        $this->assertSame(2, $result->first()->id);
+    }
+
+    public function test_orderByTranslation_sorts_by_key_desc()
+    {
+        $result = Country::orderByTranslation('name', 'desc')->get();
+        $this->assertSame(1, $result->first()->id);
     }
 }
