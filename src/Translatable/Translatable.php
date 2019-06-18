@@ -185,11 +185,11 @@ trait Translatable
 
         if ($this->isTranslationAttribute($attribute)) {
             $this->getTranslationOrNew($locale)->$attribute = $value;
-        } else {
-            return parent::setAttribute($key, $value);
+
+            return $this;
         }
 
-        return $this;
+        return parent::setAttribute($key, $value);
     }
 
     protected function getTranslationOrNew(?string $locale = null): Model
