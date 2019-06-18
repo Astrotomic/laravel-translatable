@@ -1,11 +1,11 @@
 <?php
 
-use Dimsav\Translatable\Test\Model\Food;
-use Dimsav\Translatable\Test\Model\Person;
-use Dimsav\Translatable\Test\Model\Country;
-use Dimsav\Translatable\Test\Model\CountryStrict;
-use Dimsav\Translatable\Test\Model\CountryTranslation;
-use Dimsav\Translatable\Test\Model\CountryWithCustomLocaleKey;
+use Astrotomic\Translatable\Test\Model\Food;
+use Astrotomic\Translatable\Test\Model\Person;
+use Astrotomic\Translatable\Test\Model\Country;
+use Astrotomic\Translatable\Test\Model\CountryStrict;
+use Astrotomic\Translatable\Test\Model\CountryTranslation;
+use Astrotomic\Translatable\Test\Model\CountryWithCustomLocaleKey;
 use Astrotomic\Translatable\Test\Model\CountryWithCustomTranslationModel;
 
 class TranslatableTest extends TestsBase
