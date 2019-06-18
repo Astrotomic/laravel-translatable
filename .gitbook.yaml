@@ -3,3 +3,6 @@ root: ./docs
 structure:
   readme: README.md
   summary: SUMMARY.md
+
+redirects:
+  changelog: ./../changelog.md
