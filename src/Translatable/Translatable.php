@@ -306,7 +306,7 @@ trait Translatable
 
     public function replicateWithTranslations(array $except = null): Model
     {
-        $newInstance = parent::replicate($except);
+        $newInstance = $this->replicate($except);
 
         unset($newInstance->translations);
         foreach ($this->translations as $translation) {
