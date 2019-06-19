@@ -9,6 +9,7 @@ build:
     before:
       - mysql -e 'create database translatable_test;'
       - echo "CREATE USER 'homestead'@'localhost' IDENTIFIED BY 'secret'; \n GRANT ALL PRIVILEGES ON * . * TO 'homestead'@'localhost'; \nFLUSH PRIVILEGES; \n" | mysql -u root
+      - /usr/bin/composer.phar self-update
   nodes:
     analysis:
       tests:
