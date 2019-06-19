@@ -9,9 +9,11 @@ build:
     before:
       - mysql -e 'create database translatable_test;'
       - echo "CREATE USER 'homestead'@'localhost' IDENTIFIED BY 'secret'; \n GRANT ALL PRIVILEGES ON * . * TO 'homestead'@'localhost'; \nFLUSH PRIVILEGES; \n" | mysql -u root
-  tests:
-    override:
-      - command: echo 1
+  nodes:
+    analysis:
+      tests:
+        override:
+          - php-scrutinizer-run
 
 tools:
   external_code_coverage:
