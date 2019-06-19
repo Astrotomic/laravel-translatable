@@ -2,6 +2,8 @@ version: "2"
 checks:
   argument-count:
     enabled: true
+    config:
+      threshold: 6
   complex-logic:
     enabled: true
   file-lines:
