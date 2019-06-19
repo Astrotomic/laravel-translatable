@@ -49,7 +49,7 @@ class Locales implements Arrayable, ArrayAccess
                     $countryLocale = $this->getCountryLocale($key, $country);
                     $this->locales[$countryLocale] = $countryLocale;
                 }
-            } else {
+            } elseif (is_string($locale)) {
                 $this->locales[$locale] = $locale;
             }
         }
