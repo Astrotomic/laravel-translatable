@@ -5,6 +5,13 @@
 * Add PHP7 type-hints [\#557](https://github.com/dimsav/laravel-translatable/pull/557)
 * Move to `Astrotomic` [\#1](https://github.com/Astrotomic/laravel-translatable/pull/1) & [\#4](https://github.com/Astrotomic/laravel-translatable/pull/4)
 
+**migrate from dimsav to astrotomic**
+
+1. upgrade to `dimsav/laravel-translatable:v10.0.0`
+2. run `composer remove dimsav/laravel-translatable`
+3. run `composer require astrotomic/laravel-translatable`
+4. replace `Dimsav\` by `Astrotomic\` in your whole project \(namespace change\)
+
 ## v10.0.0
 
 * Add `Dimsav\Translatable\Locales` helper class [\#574](https://github.com/dimsav/laravel-translatable/pull/574)
