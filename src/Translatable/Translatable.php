@@ -328,6 +328,8 @@ trait Translatable
     public function getNewTranslation(string $locale): Model
     {
         $modelName = $this->getTranslationModelName();
+
+        /** @var Model $translation */
         $translation = new $modelName();
         $translation->setAttribute($this->getLocaleKey(), $locale);
         $this->translations->add($translation);
