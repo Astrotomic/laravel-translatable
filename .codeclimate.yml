@@ -38,5 +38,7 @@ plugins:
         enabled: false
       Design/TooManyPublicMethods:
         enabled: false
+      CyclomaticComplexity:
+        enabled: false
   phan:
     enabled: false

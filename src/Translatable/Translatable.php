@@ -63,7 +63,11 @@ trait Translatable
             if ($translation = $this->getTranslationByLocaleKey($fallbackLocale)) {
                 return $translation;
             }
-            if ($fallbackLocale !== $configFallbackLocale && $translation = $this->getTranslationByLocaleKey($configFallbackLocale)) {
+            if (
+                is_string($configFallbackLocale)
+                && $fallbackLocale !== $configFallbackLocale
+                && $translation = $this->getTranslationByLocaleKey($configFallbackLocale)
+            ) {
                 return $translation;
             }
         }
@@ -306,7 +310,7 @@ trait Translatable
 
     public function replicateWithTranslations(array $except = null): Model
     {
-        $newInstance = parent::replicate($except);
+        $newInstance = $this->replicate($except);
 
         unset($newInstance->translations);
         foreach ($this->translations as $translation) {
@@ -328,6 +332,8 @@ trait Translatable
     public function getNewTranslation(string $locale): Model
     {
         $modelName = $this->getTranslationModelName();
+
+        /** @var Model $translation */
         $translation = new $modelName();
         $translation->setAttribute($this->getLocaleKey(), $locale);
         $this->translations->add($translation);
