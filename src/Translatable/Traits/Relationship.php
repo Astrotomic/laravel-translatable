@@ -3,6 +3,7 @@
 namespace Astrotomic\Translatable\Traits;
 
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * @property-read string $translationModel
@@ -58,6 +59,19 @@ trait Relationship
         }
 
         return $this->getForeignKey();
+    }
+
+    public function translation(): HasOne
+    {
+        if ($this->useFallback() && ! $this->translations()->where('locale', $this->locale())->exists()) {
+            return $this
+                ->hasOne($this->getTranslationModelName(), $this->getTranslationRelationKey())
+                ->where('locale', $this->getFallbackLocale());
+        }
+
+        return $this
+            ->hasOne($this->getTranslationModelName(), $this->getTranslationRelationKey())
+            ->where('locale', $this->locale());
     }
 
     public function translations(): HasMany

@@ -4,6 +4,7 @@ namespace Astrotomic\Translatable\Contracts;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 interface Translatable
 {
@@ -12,8 +13,6 @@ interface Translatable
     public static function disableAutoloadTranslations(): void;
 
     public static function enableAutoloadTranslations(): void;
-
-    public function translations(): HasMany;
 
     public function deleteTranslations($locales = null): void;
 
@@ -40,4 +39,8 @@ interface Translatable
     public function translateOrDefault(?string $locale = null): ?Model;
 
     public function translateOrNew(?string $locale = null): Model;
+
+    public function translation(): HasOne;
+
+    public function translations(): HasMany;
 }
