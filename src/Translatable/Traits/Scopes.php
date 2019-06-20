@@ -32,6 +32,8 @@ trait Scopes
                     });
             });
         }
+
+        return $query;
     }
 
     public function scopeNotTranslatedIn(Builder $query, ?string $locale = null)
