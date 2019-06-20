@@ -8,6 +8,7 @@
 ## Usage
 
 * [Installation](usage/installation.md)
+* [Interface](usage/interface.md)
 * [Methods](usage/methods.md)
 * [Scopes](usage/scopes.md)
 * [Fallback locale](usage/fallback-locale.md)
