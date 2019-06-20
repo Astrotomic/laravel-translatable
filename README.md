@@ -8,7 +8,7 @@
 [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/Astrotomic/laravel-translatable/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/Astrotomic/laravel-translatable/) 
 [![Latest Version](http://img.shields.io/packagist/v/astrotomic/laravel-translatable.svg?style=flat-square)](https://packagist.org/packages/astrotomic/laravel-translatable) 
 [![MIT License](https://img.shields.io/github/license/Astrotomic/laravel-translatable.svg?color=blue&style=flat-square)](https://github.com/Astrotomic/laravel-translatable/blob/master/LICENSE)
-[![GitBook](https://img.shields.io/badge/GitBook-Astrotomic-blueviolet.svg?style=flat-square)](https://astrotomic.gitbook.io/laravel-translatable)
+[![GitBook](https://img.shields.io/badge/GitBook-Astrotomic-blueviolet.svg?style=flat-square)](https://docs.astrotomic.info/laravel-translatable)
 
 ![Laravel Translatable](docs/.gitbook/assets/laravel-translatable.png)
 
@@ -16,7 +16,7 @@
 
 This is a Laravel package for translatable models. Its goal is to remove the complexity in retrieving and storing multilingual model instances. With this package you write less code, as the translations are being fetched/saved when you fetch/save your instance.
 
-The full documentation can be found at [GitBook](https://astrotomic.gitbook.io/laravel-translatable).
+The full documentation can be found at [GitBook](https://docs.astrotomic.info/laravel-translatable).
 
 ## Quick Example
 
