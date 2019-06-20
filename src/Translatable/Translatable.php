@@ -2,11 +2,11 @@
 
 namespace Astrotomic\Translatable;
 
-use Astrotomic\Translatable\Traits\Relationship;
-use Astrotomic\Translatable\Traits\Scopes;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
+use Astrotomic\Translatable\Traits\Scopes;
 use Illuminate\Database\Eloquent\Collection;
+use Astrotomic\Translatable\Traits\Relationship;
 
 /**
  * @property-read Collection|Model[] $translations

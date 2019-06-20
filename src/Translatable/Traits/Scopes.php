@@ -3,13 +3,12 @@
 namespace Astrotomic\Translatable\Traits;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Query\JoinClause;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Query\Builder as QueryBuilder;
-use Illuminate\Database\Query\JoinClause;
 
 trait Scopes
 {
-
     public function scopeListsTranslations(Builder $query, string $translationField)
     {
         $withFallback = $this->useFallback();
@@ -76,6 +75,7 @@ trait Scopes
     {
         return $query->has('translations');
     }
+
     public function scopeTranslatedIn(Builder $query, ?string $locale = null)
     {
         $locale = $locale ?: $this->locale();
