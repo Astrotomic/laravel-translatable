@@ -135,9 +135,6 @@ trait Translatable
         return parent::getAttribute($key);
     }
 
-    /**
-     * @internal will change to protected
-     */
     public function getDefaultLocale(): ?string
     {
         return $this->defaultLocale;

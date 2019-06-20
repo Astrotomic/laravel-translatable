@@ -17,6 +17,8 @@ interface Translatable
 
     public function deleteTranslations($locales = null): void;
 
+    public function getDefaultLocale(): ?string;
+
     public function getNewTranslation(string $locale): Model;
 
     public function getTranslation(?string $locale = null, bool $withFallback = null): ?Model;
