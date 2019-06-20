@@ -3,8 +3,9 @@
 namespace Astrotomic\Translatable\Test\Model;
 
 use Astrotomic\Translatable\Translatable;
+use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 
-class CountryWithCustomTranslationModel extends Country
+class CountryWithCustomTranslationModel extends Country implements TranslatableContract
 {
     use Translatable;
 

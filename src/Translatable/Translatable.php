@@ -25,6 +25,29 @@ trait Translatable
 
     protected $defaultLocale;
 
+    public static function bootTranslatable(): void
+    {
+        static::saved(function (Model $model) {
+            /* @var Translatable $model */
+            return $model->saveTranslations();
+        });
+    }
+
+    public static function defaultAutoloadTranslations(): void
+    {
+        self::$autoloadTranslations = null;
+    }
+
+    public static function disableAutoloadTranslations(): void
+    {
+        self::$autoloadTranslations = false;
+    }
+
+    public static function enableAutoloadTranslations(): void
+    {
+        self::$autoloadTranslations = true;
+    }
+
     public function attributesToArray()
     {
         $attributes = parent::attributesToArray();
@@ -49,23 +72,10 @@ trait Translatable
         return $attributes;
     }
 
-    public static function bootTranslatable(): void
-    {
-        static::saved(function (Model $model) {
-            /* @var Translatable $model */
-            return $model->saveTranslations();
-        });
-    }
-
-    public static function defaultAutoloadTranslations(): void
-    {
-        self::$autoloadTranslations = null;
-    }
-
     /**
      * @param string|array|null $locales The locales to be deleted
      */
-    public function deleteTranslations($locales = null)
+    public function deleteTranslations($locales = null): void
     {
         if ($locales === null) {
             $translations = $this->translations()->get();
@@ -73,6 +83,7 @@ trait Translatable
             $locales = (array) $locales;
             $translations = $this->translations()->whereIn($this->getLocaleKey(), $locales)->get();
         }
+
         foreach ($translations as $translation) {
             $translation->delete();
         }
@@ -80,16 +91,6 @@ trait Translatable
         // we need to manually "reload" the collection built from the relationship
         // otherwise $this->translations()->get() would NOT be the same as $this->translations
         $this->load('translations');
-    }
-
-    public static function disableAutoloadTranslations(): void
-    {
-        self::$autoloadTranslations = false;
-    }
-
-    public static function enableAutoloadTranslations(): void
-    {
-        self::$autoloadTranslations = true;
     }
 
     public function fill(array $attributes)
@@ -134,11 +135,17 @@ trait Translatable
         return parent::getAttribute($key);
     }
 
+    /**
+     * @internal will change to protected
+     */
     public function getDefaultLocale(): ?string
     {
         return $this->defaultLocale;
     }
 
+    /**
+     * @internal will change to protected
+     */
     public function getLocaleKey(): string
     {
         return $this->localeKey ?: config('translatable.locale_key', 'locale');
@@ -313,7 +320,7 @@ trait Translatable
                     $translation->setConnection($connectionName);
                 }
 
-                $translation->setAttribute($this->getRelationKey(), $this->getKey());
+                $translation->setAttribute($this->getTranslationRelationKey(), $this->getKey());
                 $saved = $translation->save();
             }
         }

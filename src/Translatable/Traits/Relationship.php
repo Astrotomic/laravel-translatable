@@ -10,20 +10,25 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 trait Relationship
 {
+    /**
+     * @deprecated
+     */
     public function getRelationKey(): string
     {
-        if ($this->translationForeignKey) {
-            return $this->translationForeignKey;
-        }
-
-        return $this->getForeignKey();
+        return $this->getTranslationRelationKey();
     }
 
+    /**
+     * @internal will change to protected
+     */
     public function getTranslationModelName(): string
     {
         return $this->translationModel ?: $this->getTranslationModelNameDefault();
     }
 
+    /**
+     * @internal will change to private
+     */
     public function getTranslationModelNameDefault(): string
     {
         $modelName = get_class($this);
@@ -35,13 +40,28 @@ trait Relationship
         return $modelName.config('translatable.translation_suffix', 'Translation');
     }
 
+    /**
+     * @internal will change to private
+     */
     public function getTranslationModelNamespace(): ?string
     {
         return config('translatable.translation_model_namespace');
     }
 
+    /**
+     * @internal will change to protected
+     */
+    public function getTranslationRelationKey(): string
+    {
+        if ($this->translationForeignKey) {
+            return $this->translationForeignKey;
+        }
+
+        return $this->getForeignKey();
+    }
+
     public function translations(): HasMany
     {
-        return $this->hasMany($this->getTranslationModelName(), $this->getRelationKey());
+        return $this->hasMany($this->getTranslationModelName(), $this->getTranslationRelationKey());
     }
 }

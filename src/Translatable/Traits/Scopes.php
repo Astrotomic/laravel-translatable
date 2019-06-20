@@ -17,16 +17,19 @@ trait Scopes
 
         $query
             ->select($this->getTable().'.'.$this->getKeyName(), $translationTable.'.'.$translationField)
-            ->leftJoin($translationTable, $translationTable.'.'.$this->getRelationKey(), '=', $this->getTable().'.'.$this->getKeyName())
+            ->leftJoin($translationTable, $translationTable.'.'.$this->getTranslationRelationKey(), '=', $this->getTable().'.'.$this->getKeyName())
             ->where($translationTable.'.'.$localeKey, $this->locale());
+
         if ($withFallback) {
             $query->orWhere(function (Builder $q) use ($translationTable, $localeKey) {
-                $q->where($translationTable.'.'.$localeKey, $this->getFallbackLocale())
-                    ->whereNotIn($translationTable.'.'.$this->getRelationKey(), function (QueryBuilder $q) use (
+                $q
+                    ->where($translationTable.'.'.$localeKey, $this->getFallbackLocale())
+                    ->whereNotIn($translationTable.'.'.$this->getTranslationRelationKey(), function (QueryBuilder $q) use (
                         $translationTable,
                         $localeKey
                     ) {
-                        $q->select($translationTable.'.'.$this->getRelationKey())
+                        $q
+                            ->select($translationTable.'.'.$this->getTranslationRelationKey())
                             ->from($translationTable)
                             ->where($translationTable.'.'.$localeKey, $this->locale());
                     });
@@ -55,7 +58,7 @@ trait Scopes
         return $query
             ->join($translationTable, function (JoinClause $join) use ($translationTable, $localeKey, $table, $keyName) {
                 $join
-                    ->on($translationTable.'.'.$this->getRelationKey(), '=', $table.'.'.$keyName)
+                    ->on($translationTable.'.'.$this->getTranslationRelationKey(), '=', $table.'.'.$keyName)
                     ->where($translationTable.'.'.$localeKey, $this->locale());
             })
             ->orderBy($translationTable.'.'.$translationField, $sortMethod)
@@ -91,6 +94,7 @@ trait Scopes
     {
         return $query->$method('translations', function (Builder $query) use ($translationField, $value, $locale, $operator) {
             $query->where($this->getTranslationsTable().'.'.$translationField, $operator, $value);
+
             if ($locale) {
                 $query->where($this->getTranslationsTable().'.'.$this->getLocaleKey(), $operator, $locale);
             }

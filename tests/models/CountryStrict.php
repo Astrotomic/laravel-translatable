@@ -4,8 +4,9 @@ namespace Astrotomic\Translatable\Test\Model;
 
 use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model as Eloquent;
+use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 
-class CountryStrict extends Eloquent
+class CountryStrict extends Eloquent implements TranslatableContract
 {
     use Translatable;
 
