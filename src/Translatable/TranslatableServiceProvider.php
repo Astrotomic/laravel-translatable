@@ -13,6 +13,14 @@ class TranslatableServiceProvider extends ServiceProvider
         ], 'translatable');
     }
 
+    public function provides()
+    {
+        return [
+            'translatable.locales',
+            Locales::class,
+        ];
+    }
+
     public function register()
     {
         $this->mergeConfigFrom(
@@ -22,17 +30,9 @@ class TranslatableServiceProvider extends ServiceProvider
         $this->registerTranslatableHelper();
     }
 
-    public function registerTranslatableHelper()
+    protected function registerTranslatableHelper()
     {
         $this->app->singleton('translatable.locales', Locales::class);
         $this->app->singleton(Locales::class);
-    }
-
-    public function provides()
-    {
-        return [
-            'translatable.locales',
-            Locales::class,
-        ];
     }
 }

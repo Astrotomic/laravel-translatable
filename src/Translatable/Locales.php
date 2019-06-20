@@ -16,14 +16,14 @@ class Locales implements Arrayable, ArrayAccess
     protected $config;
 
     /**
-     * @var TranslatorContract
-     */
-    protected $translator;
-
-    /**
      * @var array
      */
     protected $locales = [];
+
+    /**
+     * @var TranslatorContract
+     */
+    protected $translator;
 
     public function __construct(ConfigContract $config, TranslatorContract $translator)
     {
@@ -31,6 +31,56 @@ class Locales implements Arrayable, ArrayAccess
         $this->translator = $translator;
 
         $this->load();
+    }
+
+    public function add(string $locale): void
+    {
+        $this->locales[$locale] = $locale;
+    }
+
+    public function all(): array
+    {
+        return array_values($this->locales);
+    }
+
+    public function current()
+    {
+        return $this->config->get('translatable.locale') ?: $this->translator->getLocale();
+    }
+
+    public function forget(string $locale): void
+    {
+        unset($this->locales[$locale]);
+    }
+
+    public function get(string $locale): ?string
+    {
+        return $this->locales[$locale] ?? null;
+    }
+
+    public function getCountryLocale(string $locale, string $country): string
+    {
+        return $locale.$this->getLocaleSeparator().$country;
+    }
+
+    public function getLanguageFromCountryBasedLocale(string $locale): string
+    {
+        return explode($this->getLocaleSeparator(), $locale)[0];
+    }
+
+    public function getLocaleSeparator(): string
+    {
+        return $this->config->get('translatable.locale_separator') ?: '-';
+    }
+
+    public function has(string $locale): bool
+    {
+        return isset($this->locales[$locale]);
+    }
+
+    public function isLocaleCountryBased(string $locale): bool
+    {
+        return strpos($locale, $this->getLocaleSeparator()) !== false;
     }
 
     public function load(): void
@@ -55,61 +105,6 @@ class Locales implements Arrayable, ArrayAccess
         }
     }
 
-    public function all(): array
-    {
-        return array_values($this->locales);
-    }
-
-    public function current()
-    {
-        return $this->config->get('translatable.locale') ?: $this->translator->getLocale();
-    }
-
-    public function has(string $locale): bool
-    {
-        return isset($this->locales[$locale]);
-    }
-
-    public function get(string $locale): ?string
-    {
-        return $this->locales[$locale] ?? null;
-    }
-
-    public function add(string $locale): void
-    {
-        $this->locales[$locale] = $locale;
-    }
-
-    public function forget(string $locale): void
-    {
-        unset($this->locales[$locale]);
-    }
-
-    public function getLocaleSeparator(): string
-    {
-        return $this->config->get('translatable.locale_separator') ?: '-';
-    }
-
-    public function getCountryLocale(string $locale, string $country): string
-    {
-        return $locale.$this->getLocaleSeparator().$country;
-    }
-
-    public function isLocaleCountryBased(string $locale): bool
-    {
-        return strpos($locale, $this->getLocaleSeparator()) !== false;
-    }
-
-    public function getLanguageFromCountryBasedLocale(string $locale): string
-    {
-        return explode($this->getLocaleSeparator(), $locale)[0];
-    }
-
-    public function toArray(): array
-    {
-        return $this->all();
-    }
-
     public function offsetExists($key): bool
     {
         return $this->has($key);
@@ -132,5 +127,10 @@ class Locales implements Arrayable, ArrayAccess
     public function offsetUnset($key)
     {
         $this->forget($key);
+    }
+
+    public function toArray(): array
+    {
+        return $this->all();
     }
 }

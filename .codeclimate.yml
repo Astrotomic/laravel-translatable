@@ -40,5 +40,9 @@ plugins:
         enabled: false
       CyclomaticComplexity:
         enabled: false
+      CleanCode/ElseExpression:
+        enabled: false
+      CleanCode/BooleanArgumentFlag:
+        enabled: false
   phan:
     enabled: false
