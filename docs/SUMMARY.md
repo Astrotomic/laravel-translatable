@@ -11,4 +11,5 @@
 * [Methods](usage/methods.md)
 * [Scopes](usage/scopes.md)
 * [Fallback locale](usage/fallback-locale.md)
+* [Locales helper](usage/locales-helper.md)
 
