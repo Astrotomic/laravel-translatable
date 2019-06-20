@@ -10,9 +10,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 trait Relationship
 {
-    public function translations(): HasMany
+    public function getRelationKey(): string
     {
-        return $this->hasMany($this->getTranslationModelName(), $this->getRelationKey());
+        if ($this->translationForeignKey) {
+            return $this->translationForeignKey;
+        }
+
+        return $this->getForeignKey();
     }
 
     public function getTranslationModelName(): string
@@ -36,12 +40,8 @@ trait Relationship
         return config('translatable.translation_model_namespace');
     }
 
-    public function getRelationKey(): string
+    public function translations(): HasMany
     {
-        if ($this->translationForeignKey) {
-            return $this->translationForeignKey;
-        }
-
-        return $this->getForeignKey();
+        return $this->hasMany($this->getTranslationModelName(), $this->getRelationKey());
     }
 }

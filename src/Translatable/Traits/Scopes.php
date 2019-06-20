@@ -9,28 +9,6 @@ use Illuminate\Database\Query\JoinClause;
 
 trait Scopes
 {
-    public function scopeTranslatedIn(Builder $query, ?string $locale = null)
-    {
-        $locale = $locale ?: $this->locale();
-
-        return $query->whereHas('translations', function (Builder $q) use ($locale) {
-            $q->where($this->getLocaleKey(), '=', $locale);
-        });
-    }
-
-    public function scopeNotTranslatedIn(Builder $query, ?string $locale = null)
-    {
-        $locale = $locale ?: $this->locale();
-
-        return $query->whereDoesntHave('translations', function (Builder $q) use ($locale) {
-            $q->where($this->getLocaleKey(), '=', $locale);
-        });
-    }
-
-    public function scopeTranslated(Builder $query)
-    {
-        return $query->has('translations');
-    }
 
     public function scopeListsTranslations(Builder $query, string $translationField)
     {
@@ -57,46 +35,13 @@ trait Scopes
         }
     }
 
-    public function scopeWithTranslation(Builder $query)
+    public function scopeNotTranslatedIn(Builder $query, ?string $locale = null)
     {
-        $query->with([
-            'translations' => function (Relation $query) {
-                if ($this->useFallback()) {
-                    $locale = $this->locale();
-                    $countryFallbackLocale = $this->getFallbackLocale($locale); // e.g. de-DE => de
-                    $locales = array_unique([$locale, $countryFallbackLocale, $this->getFallbackLocale()]);
+        $locale = $locale ?: $this->locale();
 
-                    return $query->whereIn($this->getTranslationsTable().'.'.$this->getLocaleKey(), $locales);
-                }
-
-                return $query->where($this->getTranslationsTable().'.'.$this->getLocaleKey(), $this->locale());
-            },
-        ]);
-    }
-
-    public function scopeWhereTranslation(Builder $query, string $translationField, $value, ?string $locale = null, string $method = 'whereHas', string $operator = '=')
-    {
-        return $query->$method('translations', function (Builder $query) use ($translationField, $value, $locale, $operator) {
-            $query->where($this->getTranslationsTable().'.'.$translationField, $operator, $value);
-            if ($locale) {
-                $query->where($this->getTranslationsTable().'.'.$this->getLocaleKey(), $operator, $locale);
-            }
+        return $query->whereDoesntHave('translations', function (Builder $q) use ($locale) {
+            $q->where($this->getLocaleKey(), '=', $locale);
         });
-    }
-
-    public function scopeOrWhereTranslation(Builder $query, string $translationField, $value, ?string $locale = null)
-    {
-        return $this->scopeWhereTranslation($query, $translationField, $value, $locale, 'orWhereHas');
-    }
-
-    public function scopeWhereTranslationLike(Builder $query, string $translationField, $value, ?string $locale = null)
-    {
-        return $this->scopeWhereTranslation($query, $translationField, $value, $locale, 'whereHas', 'LIKE');
-    }
-
-    public function scopeOrWhereTranslationLike(Builder $query, string $translationField, $value, ?string $locale = null)
-    {
-        return $this->scopeWhereTranslation($query, $translationField, $value, $locale, 'orWhereHas', 'LIKE');
     }
 
     public function scopeOrderByTranslation(Builder $query, string $translationField, string $sortMethod = 'asc')
@@ -115,6 +60,61 @@ trait Scopes
             ->orderBy($translationTable.'.'.$translationField, $sortMethod)
             ->select($table.'.*')
             ->with('translations');
+    }
+
+    public function scopeOrWhereTranslation(Builder $query, string $translationField, $value, ?string $locale = null)
+    {
+        return $this->scopeWhereTranslation($query, $translationField, $value, $locale, 'orWhereHas');
+    }
+
+    public function scopeOrWhereTranslationLike(Builder $query, string $translationField, $value, ?string $locale = null)
+    {
+        return $this->scopeWhereTranslation($query, $translationField, $value, $locale, 'orWhereHas', 'LIKE');
+    }
+
+    public function scopeTranslated(Builder $query)
+    {
+        return $query->has('translations');
+    }
+    public function scopeTranslatedIn(Builder $query, ?string $locale = null)
+    {
+        $locale = $locale ?: $this->locale();
+
+        return $query->whereHas('translations', function (Builder $q) use ($locale) {
+            $q->where($this->getLocaleKey(), '=', $locale);
+        });
+    }
+
+    public function scopeWhereTranslation(Builder $query, string $translationField, $value, ?string $locale = null, string $method = 'whereHas', string $operator = '=')
+    {
+        return $query->$method('translations', function (Builder $query) use ($translationField, $value, $locale, $operator) {
+            $query->where($this->getTranslationsTable().'.'.$translationField, $operator, $value);
+            if ($locale) {
+                $query->where($this->getTranslationsTable().'.'.$this->getLocaleKey(), $operator, $locale);
+            }
+        });
+    }
+
+    public function scopeWhereTranslationLike(Builder $query, string $translationField, $value, ?string $locale = null)
+    {
+        return $this->scopeWhereTranslation($query, $translationField, $value, $locale, 'whereHas', 'LIKE');
+    }
+
+    public function scopeWithTranslation(Builder $query)
+    {
+        $query->with([
+            'translations' => function (Relation $query) {
+                if ($this->useFallback()) {
+                    $locale = $this->locale();
+                    $countryFallbackLocale = $this->getFallbackLocale($locale); // e.g. de-DE => de
+                    $locales = array_unique([$locale, $countryFallbackLocale, $this->getFallbackLocale()]);
+
+                    return $query->whereIn($this->getTranslationsTable().'.'.$this->getLocaleKey(), $locales);
+                }
+
+                return $query->where($this->getTranslationsTable().'.'.$this->getLocaleKey(), $this->locale());
+            },
+        ]);
     }
 
     private function getTranslationsTable(): string
