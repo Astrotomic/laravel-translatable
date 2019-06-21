@@ -1,5 +1,6 @@
 # Introduction
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/02ee8c61b5c040ab9373b494028359cf)](https://app.codacy.com/app/dev-gummibeer/laravel-translatable?utm_source=github.com&utm_medium=referral&utm_content=Astrotomic/laravel-translatable&utm_campaign=Badge_Grade_Settings)
 [![Total Downloads](https://img.shields.io/packagist/dt/astrotomic/laravel-translatable.svg?label=Downloads&style=flat-square)](https://packagist.org/packages/astrotomic/laravel-translatable) 
 [![CircleCI](https://img.shields.io/circleci/build/github/Astrotomic/laravel-translatable/master.svg?label=CircleCI&style=flat-square)](https://circleci.com/gh/Astrotomic/laravel-translatable) 
 [![StyleCI](https://styleci.io/repos/192333549/shield)](https://styleci.io/repos/192333549) 
