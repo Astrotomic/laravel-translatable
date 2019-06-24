@@ -57,10 +57,15 @@ echo $post->translate('fr')->title; // Mon premier post
 
 ## Add-Ons
 
-Thanks to the community a few packages have been written to make usage of Translatable easier when working with forms:
+Thanks to the community a few packages have been written using this package:
 
-* [Propaganistas/Laravel-Translatable-Bootforms](https://github.com/Propaganistas/Laravel-Translatable-Bootforms)
-* [TypiCMS/TranslatableBootForms](https://github.com/TypiCMS/TranslatableBootForms)
+* [typicms/translatablebootforms](https://packagist.org/packages/typicms/translatablebootforms)
+* [arraycms/translatablebootforms](https://packagist.org/packages/arraycms/translatablebootforms)
+* [baklysystems/laravel-translatable-bootforms](https://packagist.org/packages/baklysystems/laravel-translatable-bootforms)
+* [chang/nova-translation](https://packagist.org/packages/chang/nova-translation)
+* [asgardcms](https://packagist.org/packages/asgardcms)
+
+If you want to be add yours to this list, just open a PR.
 
 ## Versions
 
