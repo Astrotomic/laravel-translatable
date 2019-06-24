@@ -43,7 +43,7 @@ class Locales implements Arrayable, ArrayAccess
         return array_values($this->locales);
     }
 
-    public function current()
+    public function current(): string
     {
         return $this->config->get('translatable.locale') ?: $this->translator->getLocale();
     }
@@ -115,7 +115,7 @@ class Locales implements Arrayable, ArrayAccess
         return $this->get($key);
     }
 
-    public function offsetSet($key, $value)
+    public function offsetSet($key, $value): void
     {
         if (is_string($key) && is_string($value)) {
             $this->add($this->getCountryLocale($key, $value));
@@ -124,7 +124,7 @@ class Locales implements Arrayable, ArrayAccess
         }
     }
 
-    public function offsetUnset($key)
+    public function offsetUnset($key): void
     {
         $this->forget($key);
     }
