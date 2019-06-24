@@ -1,6 +1,22 @@
 # Changelog
 
-## v11.0.0
+## v11
+
+### v11.1.1
+
+* Add missing return type-hints - [\#16](https://github.com/Astrotomic/laravel-translatable/pull/16)
+
+### v11.1.0
+
+* Add missing dependencies `illuminate/contracts` and `illuminate/database` - [\#9](https://github.com/Astrotomic/laravel-translatable/pull/9) 
+* Add `\Astrotomic\Translatable\Contracts\Translatable` interface
+* Split `\Astrotomic\Translatable\Translatable` into multiple traits - but use them in the main one
+* Add `translation` relationship - [\#3](https://github.com/Astrotomic/laravel-translatable/pull/3) 
+* Flag methods, not defined in interface as `@internal`
+* Rename `getRelationKey()` to `getTranslationRelationKey()` to prevent conflicts - the original one is `@deprecated` and will be dropped in next major release
+* Update the where translation scopes to unify them and remove duplicated code - [\#2](https://github.com/Astrotomic/laravel-translatable/pull/2) 
+
+### v11.0.0
 
 * Add PHP7 type-hints [\#557](https://github.com/dimsav/laravel-translatable/pull/557)
 * Move to `Astrotomic` [\#1](https://github.com/Astrotomic/laravel-translatable/pull/1) & [\#4](https://github.com/Astrotomic/laravel-translatable/pull/4)

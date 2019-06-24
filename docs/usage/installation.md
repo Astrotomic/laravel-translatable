@@ -60,9 +60,12 @@ The translatable model `Post` should [use the trait](http://www.sitepoint.com/us
 {% code-tabs %}
 {% code-tabs-item title="Post.php" %}
 ```php
-class Post extends Eloquent
+use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
+use Astrotomic\Translatable\Translatable;
+
+class Post extends Model implements TranslatableContract
 {
-    use \Astrotomic\Translatable\Translatable;
+    use Translatable;
     
     public $translatedAttributes = ['title', 'content'];
     protected $fillable = ['author'];
@@ -74,7 +77,7 @@ class Post extends Eloquent
 {% code-tabs %}
 {% code-tabs-item title="PostTranslation.php" %}
 ```php
-class PostTranslation extends Eloquent
+class PostTranslation extends Model
 {
     public $timestamps = false;
     protected $fillable = ['title', 'content'];
