@@ -62,3 +62,9 @@ Thanks to the community a few packages have been written to make usage of Transl
 * [Propaganistas/Laravel-Translatable-Bootforms](https://github.com/Propaganistas/Laravel-Translatable-Bootforms)
 * [TypiCMS/TranslatableBootForms](https://github.com/TypiCMS/TranslatableBootForms)
 
+## Versions
+
+| Package   | Laravel                 | PHP       |
+|-----------|-------------------------|-----------|
+| **v11.1** | `5.6.* | 5.7.* | 5.8.*` | `>=7.1.3` |
+| **v11.0** | `5.6.* | 5.7.* | 5.8.*` | `>=7.1.3` |
