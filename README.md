@@ -4,7 +4,6 @@
 [![CircleCI](https://img.shields.io/circleci/build/github/Astrotomic/laravel-translatable/master.svg?label=CircleCI&style=flat-square)](https://circleci.com/gh/Astrotomic/laravel-translatable) 
 [![StyleCI](https://styleci.io/repos/192333549/shield)](https://styleci.io/repos/192333549) 
 [![ScrutinizerCI](https://img.shields.io/scrutinizer/quality/g/Astrotomic/laravel-translatable/master.svg?label=ScrutinizerCI&style=flat-square)](https://scrutinizer-ci.com/g/Astrotomic/laravel-translatable/) 
-[![CodacyCI](https://img.shields.io/codacy/grade/38e519152551446d935b4164d39be80c.svg?label=CodacyCI&style=flat-square)](https://app.codacy.com/project/dev-gummibeer/laravel-translatable)
 [![Code Climate](https://img.shields.io/codeclimate/maintainability/Astrotomic/laravel-translatable.svg?label=CodeClimate&style=flat-square)](https://codeclimate.com/github/Astrotomic/laravel-translatable)
 [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/Astrotomic/laravel-translatable/master.svg?label=Coverage&style=flat-square)](https://scrutinizer-ci.com/g/Astrotomic/laravel-translatable/) 
 [![Latest Version](http://img.shields.io/packagist/v/astrotomic/laravel-translatable.svg?label=Release&style=flat-square)](https://packagist.org/packages/astrotomic/laravel-translatable) 
