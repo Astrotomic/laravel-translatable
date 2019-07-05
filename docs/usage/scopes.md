@@ -71,7 +71,7 @@ Post::whereTranslation('title', 'My first post')
 Post::whereTranslationLike('title', '%first%')->first();
 ```
 
-### orWhereTranslation\(string $translationField, $value, ?string $locale = null\)
+### orWhereTranslationLike\(string $translationField, $value, ?string $locale = null\)
 
 ```php
 Post::whereTranslationLike('title', '%first%')
