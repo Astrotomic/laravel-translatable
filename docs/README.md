@@ -10,7 +10,7 @@ This is a Laravel package for translatable models. Its goal is to remove the com
 
 ## Quick Example
 
-### **Getting translated attributes**
+### Getting translated attributes
 
 ```php
 $post = Post::first();
@@ -23,7 +23,7 @@ App::setLocale('de');
 echo $post->title; // Mein erster Post
 ```
 
-### **Saving translated attributes**
+### Saving translated attributes
 
 ```php
 $post = Post::first();
@@ -36,7 +36,7 @@ $post = Post::first();
 echo $post->translate('en')->title; // My cool post
 ```
 
-### **Filling multiple translations**
+### Filling multiple translations
 
 ```php
 $data = [
