@@ -13,4 +13,5 @@
 * [Scopes](usage/scopes.md)
 * [Fallback locale](usage/fallback-locale.md)
 * [Locales helper](usage/locales-helper.md)
+* [Pivot Model](usage/pivot-model.md)
 
