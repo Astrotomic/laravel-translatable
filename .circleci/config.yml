@@ -11,7 +11,7 @@ defaults: &defaults
         command: 'dockerize -wait tcp://localhost:3306 -timeout 1m'
     - run:
         name: 'Install MySQL-Client'
-        command: 'sudo apt install -y mysql-client'
+        command: 'sudo apt-get update && sudo apt-get install -y mysql-client'
 
     - run:
         name: 'MySQL Database'
