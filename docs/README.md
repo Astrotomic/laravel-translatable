@@ -10,7 +10,7 @@ This is a Laravel package for translatable models. Its goal is to remove the com
 
 ## Quick Example
 
-### **Getting translated attributes**
+### Getting translated attributes
 
 ```php
 $post = Post::first();
@@ -23,7 +23,7 @@ App::setLocale('de');
 echo $post->title; // Mein erster Post
 ```
 
-### **Saving translated attributes**
+### Saving translated attributes
 
 ```php
 $post = Post::first();
@@ -36,7 +36,7 @@ $post = Post::first();
 echo $post->translate('en')->title; // My cool post
 ```
 
-### **Filling multiple translations**
+### Filling multiple translations
 
 ```php
 $data = [
@@ -54,19 +54,6 @@ echo $post->translate('fr')->title; // Mon premier post
 * [How To Add Multilingual Support to Eloquent](https://laravel-news.com/how-to-add-multilingual-support-to-eloquent)
 * [How To Build An Efficient and SEO Friendly Multilingual Architecture For Your Laravel Application](https://mydnic.be/post/how-to-build-an-efficient-and-seo-friendly-multilingual-architecture-for-your-laravel-application)
 * [How to Add Multi-Language Models to Laravel QuickAdminPanel](https://quickadminpanel.com/blog/how-to-add-multi-language-models-to-laravel-quickadminpanel/)
-
-## Add-Ons
-
-Thanks to the community a few packages have been written using this package:
-
-* [typicms/translatablebootforms](https://packagist.org/packages/typicms/translatablebootforms)
-* [arraycms/translatablebootforms](https://packagist.org/packages/arraycms/translatablebootforms)
-* [baklysystems/laravel-translatable-bootforms](https://packagist.org/packages/baklysystems/laravel-translatable-bootforms)
-* [yeswedev/nova-translatable](https://packagist.org/packages/yeswedev/nova-translatable)
-* [chang/nova-translation](https://packagist.org/packages/chang/nova-translation)
-* [asgardcms](https://packagist.org/packages/asgardcms)
-
-If you want to be add yours to this list, just open a PR.
 
 ## Versions
 
