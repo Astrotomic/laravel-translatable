@@ -2,6 +2,10 @@
 
 ## v11
 
+### v11.1.2
+
+* Refactor `translation` relationship - [\#23](https://github.com/Astrotomic/laravel-translatable/pull/23)
+
 ### v11.1.1
 
 * Add missing return type-hints - [\#16](https://github.com/Astrotomic/laravel-translatable/pull/16)
