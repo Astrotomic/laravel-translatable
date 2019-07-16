@@ -63,15 +63,16 @@ trait Relationship
 
     public function translation(): HasOne
     {
-        if ($this->useFallback() && ! $this->translations()->where('locale', $this->locale())->exists()) {
-            return $this
-                ->hasOne($this->getTranslationModelName(), $this->getTranslationRelationKey())
-                ->where('locale', $this->getFallbackLocale());
-        }
-
         return $this
             ->hasOne($this->getTranslationModelName(), $this->getTranslationRelationKey())
-            ->where('locale', $this->locale());
+            ->where('locale', $this->localeOrFallback());
+    }
+
+    private function localeOrFallback()
+    {
+        return $this->useFallback() && ! $this->translations()->where('locale', $this->locale())->exists()
+            ? $this->getFallbackLocale()
+            : $this->locale();
     }
 
     public function translations(): HasMany
