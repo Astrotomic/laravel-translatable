@@ -2,7 +2,6 @@
 
 namespace Astrotomic\Translatable\Traits;
 
-use Astrotomic\Translatable\Locales;
 use Illuminate\Contracts\Validation\Factory as ValidationFactory;
 
 trait TranslatableFormRequest
@@ -15,8 +14,9 @@ trait TranslatableFormRequest
      */
     protected function createDefaultValidator(ValidationFactory $factory)
     {
-        if(!\method_exists($this, 'translatableRules'))
+        if (! \method_exists($this, 'translatableRules')) {
             return parent::createDefaultValidator($factory);
+        }
 
         $rules = array_merge(
             $this->container->call([$this, 'rules']),
@@ -37,11 +37,9 @@ trait TranslatableFormRequest
 
         $translatableRules = [];
 
-        foreach($rules as $key => $value)
-        {
+        foreach ($rules as $key => $value) {
             $translatableRules[$key] = 'required|array';
-            foreach($locales as $locale) 
-            {
+            foreach ($locales as $locale) {
                 $translatableRules[$key.'.'.$locale] = $value;
             }
         }

@@ -6,7 +6,7 @@ use Illuminate\Contracts\Validation\Factory as ValidationFactory;
 
 class TranslatableFormRequestTest extends TestsBase
 {
-    public function test_it_generate_all_rules_by_locale() 
+    public function test_it_generate_all_rules_by_locale()
     {
         $factory = m::mock(ValidationFactory::class);
 
@@ -31,10 +31,12 @@ class TranslatableFormRequestTest extends TestsBase
         static::getMethod('createDefaultValidator')->invokeArgs($request, [$factory]);
     }
 
-    protected static function getMethod($name) {
+    protected static function getMethod($name)
+    {
         $class = new ReflectionClass(DummyFormRequest::class);
         $method = $class->getMethod($name);
         $method->setAccessible(true);
+
         return $method;
-      }
+    }
 }

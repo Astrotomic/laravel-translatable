@@ -8,7 +8,7 @@ use Astrotomic\Translatable\Traits\TranslatableFormRequest;
 class DummyFormRequest extends FormRequest
 {
     use TranslatableFormRequest;
-    
+
     public function rules()
     {
         return [
