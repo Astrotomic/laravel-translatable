@@ -1,8 +1,8 @@
 <?php
 
-use Astrotomic\Translatable\TranslatableServiceProvider;
-use Illuminate\Contracts\Console\Kernel;
 use Orchestra\Testbench\TestCase;
+use Illuminate\Contracts\Console\Kernel;
+use Astrotomic\Translatable\TranslatableServiceProvider;
 
 class TestsBase extends TestCase
 {

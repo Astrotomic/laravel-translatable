@@ -2,8 +2,8 @@
 
 namespace Astrotomic\Translatable\Validation;
 
-use Astrotomic\Translatable\Locales;
 use InvalidArgumentException;
+use Astrotomic\Translatable\Locales;
 
 class RuleFactory
 {
@@ -57,8 +57,8 @@ class RuleFactory
             return $this;
         }
 
-        foreach($locales as $locale) {
-            if(!$helper->has($locale)) {
+        foreach ($locales as $locale) {
+            if (! $helper->has($locale)) {
                 throw new InvalidArgumentException(sprintf('The locale [%s] is not defined in available locales.', $locale));
             }
         }
@@ -73,12 +73,12 @@ class RuleFactory
         $rules = [];
 
         foreach ($input as $key => $value) {
-            if(!$this->isTranslatable($key)) {
+            if (! $this->isTranslatable($key)) {
                 $rules[$key] = $value;
                 continue;
             }
 
-            foreach($this->locales as $locale) {
+            foreach ($this->locales as $locale) {
                 $rules[$this->formatKey($locale, $key)] = $value;
             }
         }
