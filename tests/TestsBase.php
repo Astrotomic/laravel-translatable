@@ -1,7 +1,8 @@
 <?php
 
+use Astrotomic\Translatable\TranslatableServiceProvider;
+use Illuminate\Contracts\Console\Kernel;
 use Orchestra\Testbench\TestCase;
-use Astrotomic\Translatable\Test\Model\Country;
 
 class TestsBase extends TestCase
 {
@@ -30,7 +31,7 @@ class TestsBase extends TestCase
     protected function migrate($dbConnectionName)
     {
         $migrationsPath = '../../../../tests/migrations';
-        $artisan = $this->app->make(\Illuminate\Contracts\Console\Kernel::class);
+        $artisan = $this->app->make(Kernel::class);
 
         // Makes sure the migrations table is created
         $artisan->call('migrate:fresh', [
@@ -39,16 +40,10 @@ class TestsBase extends TestCase
         ]);
     }
 
-    public function testRunningMigration()
-    {
-        $country = Country::find(1);
-        $this->assertEquals('gr', $country->code);
-    }
-
     protected function getPackageProviders($app)
     {
         return [
-            \Astrotomic\Translatable\TranslatableServiceProvider::class,
+            TranslatableServiceProvider::class,
         ];
     }
 
