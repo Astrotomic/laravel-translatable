@@ -6,6 +6,8 @@ checks:
       threshold: 6
   complex-logic:
     enabled: true
+    config:
+      threshold: 6
   file-lines:
     enabled: false
   method-complexity:
