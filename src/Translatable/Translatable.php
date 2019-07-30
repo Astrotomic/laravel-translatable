@@ -176,7 +176,7 @@ trait Translatable
 
         return null;
     }
-    
+
     public function getFallbackTranslation(?string $locale = null): ?Model
     {
         $configFallbackLocale = $this->getFallbackLocale();
@@ -193,8 +193,8 @@ trait Translatable
             ) {
                 return $translation;
             }
-        } elseif($configFallbackLocale == null) {
-            foreach($this->getLocalesHelper()->all() as $configuredLocale) {
+        } elseif ($configFallbackLocale == null) {
+            foreach ($this->getLocalesHelper()->all() as $configuredLocale) {
                 if ($translation = $this->getTranslationByLocaleKey($configuredLocale)) {
                     return $translation;
                 }
