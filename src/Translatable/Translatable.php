@@ -182,16 +182,13 @@ trait Translatable
                 return $translation;
             }
         } elseif ($withFallback && $configFallbackLocale == null) {
-            //Use first available locale as fallback
-            $configured_locales = $this->getLocalesHelper()->all();
-            foreach ($configured_locales as $configured_locale) {
-                if ($translation = $this->getTranslationByLocaleKey($configured_locale)) {
+            $configuredLocales = $this->getLocalesHelper()->all();
+            foreach ($configuredLocales as $configuredLocale) {
+                if ($translation = $this->getTranslationByLocaleKey($configuredLocale)) {
                     return $translation;
                 }
             }
         }
-
-        return null;
     }
 
     public function getTranslationOrNew(?string $locale = null): Model
