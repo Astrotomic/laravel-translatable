@@ -181,17 +181,18 @@ trait Translatable
         $configFallbackLocale = $this->getFallbackLocale();
         $fallbackLocale = $this->getFallbackLocale($locale);
 
-        if ($fallbackLocale) {
-            if ($translation = $this->getTranslationByLocaleKey($fallbackLocale)) {
-                return $translation;
-            }
-            if (
-                is_string($configFallbackLocale)
-                && $fallbackLocale !== $configFallbackLocale
-                && $translation = $this->getTranslationByLocaleKey($configFallbackLocale)
-            ) {
-                return $translation;
-            }
+        if (
+            $fallbackLocale
+            && $translation = $this->getTranslationByLocaleKey($fallbackLocale)
+        ) {
+            return $translation;
+        } elseif (
+            $fallbackLocale
+            && is_string($configFallbackLocale)
+            && $fallbackLocale !== $configFallbackLocale
+            && $translation = $this->getTranslationByLocaleKey($configFallbackLocale)
+        ) {
+            return $translation;
         } elseif ($configFallbackLocale == null) {
             foreach ($this->getLocalesHelper()->all() as $configuredLocale) {
                 if ($translation = $this->getTranslationByLocaleKey($configuredLocale)) {
