@@ -184,9 +184,7 @@ trait Translatable
         } elseif ($withFallback && $configFallbackLocale == null) {
             $configuredLocales = $this->getLocalesHelper()->all();
             foreach ($configuredLocales as $configuredLocale) {
-                if ($translation = $this->getTranslationByLocaleKey($configuredLocale)) {
-                    return $translation;
-                }
+                if ($translation = $this->getTranslationByLocaleKey($configuredLocale)) return $translation;
             }
         }
     }
