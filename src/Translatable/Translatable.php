@@ -199,7 +199,7 @@ trait Translatable
                 }
             }
         }
-        
+
         return null;
     }
 
