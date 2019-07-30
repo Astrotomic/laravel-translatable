@@ -162,15 +162,14 @@ trait Translatable
 
     public function getTranslation(?string $locale = null, bool $withFallback = null): ?Model
     {
-        $configFallbackLocale = $this->getFallbackLocale();
         $locale = $locale ?: $this->locale();
         $withFallback = $withFallback === null ? $this->useFallback() : $withFallback;
-        $fallbackLocale = $this->getFallbackLocale($locale);
 
         if ($translation = $this->getTranslationByLocaleKey($locale)) {
             return $translation;
         }
-        if ($translation = $this->getFallbackTranslation($locale)) {
+        if ($withFallback
+            && $translation = $this->getFallbackTranslation($locale)) {
             return $translation;
         }
 
