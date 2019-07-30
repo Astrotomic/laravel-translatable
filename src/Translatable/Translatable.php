@@ -170,23 +170,36 @@ trait Translatable
         if ($translation = $this->getTranslationByLocaleKey($locale)) {
             return $translation;
         }
-        if ($withFallback && $fallbackLocale) {
-            if ($translation = $this->getTranslationByLocaleKey($fallbackLocale)
-               || (
-                   is_string($configFallbackLocale)
-                   && $fallbackLocale !== $configFallbackLocale
-                   && $translation = $this->getTranslationByLocaleKey($configFallbackLocale))
-               ) {
+        if ($translation = $this->getFallbackTranslation($locale)) {
+            return $translation;
+        }
+
+        return null;
+    }
+    
+    public function getFallbackTranslation(?string $locale = null): ?Model {
+        $configFallbackLocale = $this->getFallbackLocale();
+        $fallbackLocale = $this->getFallbackLocale($locale);
+        
+        if ($fallbackLocale) {
+            if ($translation = $this->getTranslationByLocaleKey($fallbackLocale)) {
                 return $translation;
             }
-        } elseif ($withFallback && $configFallbackLocale == null) {
-            foreach ($this->getLocalesHelper()->all() as $configuredLocale) {
+            if (
+                is_string($configFallbackLocale)
+                && $fallbackLocale !== $configFallbackLocale
+                && $translation = $this->getTranslationByLocaleKey($configFallbackLocale)
+            ) {
+                return $translation;
+            }
+        } else if($configFallbackLocale == null) {
+            foreach($this->getLocalesHelper()->all() as $configuredLocale) {
                 if ($translation = $this->getTranslationByLocaleKey($configuredLocale)) {
                     return $translation;
                 }
             }
         }
-
+        
         return null;
     }
 
