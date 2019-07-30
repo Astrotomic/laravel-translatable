@@ -171,14 +171,12 @@ trait Translatable
             return $translation;
         }
         if ($withFallback && $fallbackLocale) {
-            if ($translation = $this->getTranslationByLocaleKey($fallbackLocale)) {
-                return $translation;
-            }
-            if (
-                is_string($configFallbackLocale)
-                && $fallbackLocale !== $configFallbackLocale
-                && $translation = $this->getTranslationByLocaleKey($configFallbackLocale)
-            ) {
+            if ($translation = $this->getTranslationByLocaleKey($fallbackLocale)
+               || (
+                   is_string($configFallbackLocale)
+                   && $fallbackLocale !== $configFallbackLocale
+                   && $translation = $this->getTranslationByLocaleKey($configFallbackLocale))
+               ) {
                 return $translation;
             }
         } elseif ($withFallback && $configFallbackLocale == null) {
@@ -188,6 +186,8 @@ trait Translatable
                 }
             }
         }
+        
+        return null;
     }
 
     public function getTranslationOrNew(?string $locale = null): Model
