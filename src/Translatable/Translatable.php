@@ -181,10 +181,10 @@ trait Translatable
             ) {
                 return $translation;
             }
-        } else if($withFallback && $configFallbackLocale == null) {
+        } elseif ($withFallback && $configFallbackLocale == null) {
             //Use first available locale as fallback
             $configured_locales = $this->getLocalesHelper()->all();
-            foreach($configured_locales as $configured_locale) {
+            foreach ($configured_locales as $configured_locale) {
                 if ($translation = $this->getTranslationByLocaleKey($configured_locale)) {
                     return $translation;
                 }
