@@ -186,7 +186,7 @@ trait Translatable
                 }
             }
         }
-        
+
         return null;
     }
 
