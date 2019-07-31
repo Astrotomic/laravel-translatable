@@ -189,6 +189,8 @@ trait Translatable
                 }
             }
         }
+
+        return null;
     }
 
     public function getTranslationOrNew(?string $locale = null): Model
