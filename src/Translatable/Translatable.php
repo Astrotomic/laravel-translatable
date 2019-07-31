@@ -174,6 +174,7 @@ trait Translatable
             if ($translation = $this->getTranslationByLocaleKey($fallbackLocale)) {
                 return $translation;
             }
+
             if (
                 is_string($configFallbackLocale)
                 && $fallbackLocale !== $configFallbackLocale
@@ -183,6 +184,7 @@ trait Translatable
             }
         } elseif ($withFallback && $configFallbackLocale == null) {
             $configuredLocales = $this->getLocalesHelper()->all();
+
             foreach ($configuredLocales as $configuredLocale) {
                 if ($translation = $this->getTranslationByLocaleKey($configuredLocale)) {
                     return $translation;
