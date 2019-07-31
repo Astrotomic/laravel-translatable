@@ -170,6 +170,7 @@ trait Translatable
         if ($translation = $this->getTranslationByLocaleKey($locale)) {
             return $translation;
         }
+
         if ($withFallback && $fallbackLocale) {
             if ($translation = $this->getTranslationByLocaleKey($fallbackLocale)) {
                 return $translation;
