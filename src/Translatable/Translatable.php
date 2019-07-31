@@ -162,46 +162,33 @@ trait Translatable
 
     public function getTranslation(?string $locale = null, bool $withFallback = null): ?Model
     {
+        $configFallbackLocale = $this->getFallbackLocale();
         $locale = $locale ?: $this->locale();
         $withFallback = $withFallback === null ? $this->useFallback() : $withFallback;
+        $fallbackLocale = $this->getFallbackLocale($locale);
 
         if ($translation = $this->getTranslationByLocaleKey($locale)) {
             return $translation;
         }
-        if ($withFallback
-            && $translation = $this->getFallbackTranslation($locale)) {
-            return $translation;
-        }
-
-        return null;
-    }
-
-    public function getFallbackTranslation(?string $locale = null): ?Model
-    {
-        $configFallbackLocale = $this->getFallbackLocale();
-        $fallbackLocale = $this->getFallbackLocale($locale);
-
-        if (
-            $fallbackLocale
-            && $translation = $this->getTranslationByLocaleKey($fallbackLocale)
-        ) {
-            return $translation;
-        } elseif (
-            $fallbackLocale
-            && is_string($configFallbackLocale)
-            && $fallbackLocale !== $configFallbackLocale
-            && $translation = $this->getTranslationByLocaleKey($configFallbackLocale)
-        ) {
-            return $translation;
-        } elseif ($configFallbackLocale == null) {
-            foreach ($this->getLocalesHelper()->all() as $configuredLocale) {
+        if ($withFallback && $fallbackLocale) {
+            if ($translation = $this->getTranslationByLocaleKey($fallbackLocale)) {
+                return $translation;
+            }
+            if (
+                is_string($configFallbackLocale)
+                && $fallbackLocale !== $configFallbackLocale
+                && $translation = $this->getTranslationByLocaleKey($configFallbackLocale)
+            ) {
+                return $translation;
+            }
+        } elseif ($withFallback && $configFallbackLocale == null) {
+            $configuredLocales = $this->getLocalesHelper()->all();
+            foreach ($configuredLocales as $configuredLocale) {
                 if ($translation = $this->getTranslationByLocaleKey($configuredLocale)) {
                     return $translation;
                 }
             }
         }
-
-        return null;
     }
 
     public function getTranslationOrNew(?string $locale = null): Model
