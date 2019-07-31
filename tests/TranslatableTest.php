@@ -1,5 +1,6 @@
 <?php
 
+use Astrotomic\Translatable\Locales;
 use Astrotomic\Translatable\Test\Model\Food;
 use Astrotomic\Translatable\Test\Model\Person;
 use Astrotomic\Translatable\Test\Model\Country;
@@ -817,5 +818,71 @@ class TranslatableTest extends TestsBase
 
         $translation = Country::find(1)->translation;
         $this->assertNull($translation);
+    }
+
+    public function test_it_returns_first_existing_translation_as_fallback()
+    {
+        /** @var Locales $helper */
+        $helper = $this->app->make(Locales::class);
+
+        $this->app->make('config')->set('translatable.locales', [
+            'xyz',
+            'en',
+            'de' => [
+                'DE',
+                'AT',
+            ],
+            'fr',
+            'el',
+        ]);
+        $this->app->make('config')->set('translatable.fallback_locale', null);
+        $this->app->make('config')->set('translatable.use_fallback', true);
+        $this->app->setLocale('xyz');
+        $helper->load();
+
+        CountryTranslation::create([
+            'country_id' => 1,
+            'locale' => $helper->getCountryLocale('de', 'DE'),
+            'name' => 'Griechenland',
+        ]);
+
+        /** @var Country $country */
+        $country = Country::find(1);
+        $this->assertNull($country->getTranslation(null, false));
+
+        // returns first existing locale
+        $translation = $country->getTranslation();
+        $this->assertInstanceOf(CountryTranslation::class, $translation);
+        $this->assertEquals('en', $translation->locale);
+
+        // still returns simple locale for country based locale
+        $translation = $country->getTranslation($helper->getCountryLocale('de', 'AT'));
+        $this->assertInstanceOf(CountryTranslation::class, $translation);
+        $this->assertEquals('de', $translation->locale);
+
+        $this->app->make('config')->set('translatable.locales', [
+            'xyz',
+            'de' => [
+                'DE',
+                'AT',
+            ],
+            'en',
+            'fr',
+            'el',
+        ]);
+        $helper->load();
+
+        // returns simple locale before country based locale
+        $translation = $country->getTranslation();
+        $this->assertInstanceOf(CountryTranslation::class, $translation);
+        $this->assertEquals('de', $translation->locale);
+
+        $country->translations()->where('locale', 'de')->delete();
+        $country->unsetRelation('translations');
+
+        // returns country based locale before next simple one
+        $translation = $country->getTranslation();
+        $this->assertInstanceOf(CountryTranslation::class, $translation);
+        $this->assertEquals($helper->getCountryLocale('de', 'DE'), $translation->locale);
     }
 }
