@@ -818,4 +818,37 @@ class TranslatableTest extends TestsBase
         $translation = Country::find(1)->translation;
         $this->assertNull($translation);
     }
+
+    public function test_can_fill_conflicting_attribute_locale()
+    {
+        config(['translatable.locales' => ['en', 'id']]);
+        $this->app->make(\Astrotomic\Translatable\Locales::class)->load();
+
+        $city = new class extends \Astrotomic\Translatable\Test\Model\City {
+            protected $guarded = [];
+            protected $table = 'cities';
+            public $translationModel = \Astrotomic\Translatable\Test\Model\CityTranslation::class;
+            public $translationForeignKey = 'city_id';
+        };
+
+        $city->fill([
+            'country_id' => Country::first()->getKey(),
+            'id' => [
+                'name' => 'id:my city',
+            ],
+            'en' => [
+                'name' => 'en:my city',
+            ],
+        ]);
+
+        $city->fill([
+            'id' => 100,
+        ]);
+
+        $city->save();
+
+        $this->assertEquals(100, $city->getKey());
+        $this->assertEquals('id:my city', $city->getTranslation('id', false)->name);
+        $this->assertEquals('en:my city', $city->getTranslation('en', false)->name);
+    }
 }
