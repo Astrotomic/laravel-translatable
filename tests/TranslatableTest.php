@@ -832,6 +832,7 @@ class TranslatableTest extends TestsBase
         };
 
         $city->fill([
+            'country_id' => Country::first()->getKey(),
             'id' => [
                 'name' => 'id:my city',
             ],
