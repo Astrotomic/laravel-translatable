@@ -96,12 +96,19 @@ trait Translatable
     public function fill(array $attributes)
     {
         foreach ($attributes as $key => $values) {
-            if ($this->getLocalesHelper()->has($key)) {
+            if (
+                $this->getLocalesHelper()->has($key)
+                && is_array($values)
+            ) {
                 $this->getTranslationOrNew($key)->fill($values);
                 unset($attributes[$key]);
             } else {
                 [$attribute, $locale] = $this->getAttributeAndLocale($key);
-                if ($this->isTranslationAttribute($attribute) and $this->getLocalesHelper()->has($locale)) {
+
+                if (
+                    $this->getLocalesHelper()->has($locale)
+                    && $this->isTranslationAttribute($attribute)
+                ) {
                     $this->getTranslationOrNew($locale)->fill([$attribute => $values]);
                     unset($attributes[$key]);
                 }
