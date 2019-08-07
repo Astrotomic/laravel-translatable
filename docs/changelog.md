@@ -2,6 +2,10 @@
 
 ## v11
 
+### v11.3.0
+
+* Add `\Astrotomic\Translatable\Validation\RuleFactory` - [\#34](https://github.com/Astrotomic/laravel-translatable/pull/34)
+
 ### v11.2.1
 
 * Fix duplicate checks of same locale - [\#40](https://github.com/Astrotomic/laravel-translatable/pull/40)
