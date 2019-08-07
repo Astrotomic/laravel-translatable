@@ -130,6 +130,30 @@ class ValidationTest extends TestsBase
         ], RuleFactory::make($rules, RuleFactory::FORMAT_ARRAY, '$', '$'));
     }
 
+    public function test_format_array_it_uses_config_as_default()
+    {
+        app('config')->set('translatable.rule_factory', [
+            'format' => RuleFactory::FORMAT_ARRAY,
+            'prefix' => '{',
+            'suffix' => '}',
+        ]);
+
+        $rules = [
+            'title' => 'required',
+            '{content}' => 'required',
+            '%content%' => 'required',
+        ];
+
+        $this->assertEquals([
+            'title' => 'required',
+            '%content%' => 'required',
+            'en.content' => 'required',
+            'de.content' => 'required',
+            'de-DE.content' => 'required',
+            'de-AT.content' => 'required',
+        ], RuleFactory::make($rules));
+    }
+
     public function test_format_key_it_replaces_single_key()
     {
         $rules = [
@@ -176,6 +200,30 @@ class ValidationTest extends TestsBase
             'translations.content:de-DE.body' => 'required',
             'translations.content:de-AT.body' => 'required',
         ], RuleFactory::make($rules, RuleFactory::FORMAT_KEY));
+    }
+
+    public function test_format_key_it_uses_config_as_default()
+    {
+        app('config')->set('translatable.rule_factory', [
+            'format' => RuleFactory::FORMAT_KEY,
+            'prefix' => '{',
+            'suffix' => '}',
+        ]);
+
+        $rules = [
+            'title' => 'required',
+            '{content}' => 'required',
+            '%content%' => 'required',
+        ];
+
+        $this->assertEquals([
+            'title' => 'required',
+            '%content%' => 'required',
+            'content:en' => 'required',
+            'content:de' => 'required',
+            'content:de-DE' => 'required',
+            'content:de-AT' => 'required',
+        ], RuleFactory::make($rules));
     }
 
     public function test_it_replaces_key_with_custom_locales()

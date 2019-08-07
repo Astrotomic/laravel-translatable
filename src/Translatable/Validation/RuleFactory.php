@@ -2,6 +2,7 @@
 
 namespace Astrotomic\Translatable\Validation;
 
+use Illuminate\Contracts\Config\Repository;
 use InvalidArgumentException;
 use Astrotomic\Translatable\Locales;
 
@@ -30,16 +31,16 @@ class RuleFactory
      */
     protected $locales = null;
 
-    public function __construct(int $format = self::FORMAT_ARRAY, string $prefix = '%', string $suffix = '%')
+    public function __construct(Repository $config, ?int $format = null, ?string $prefix = null, ?string $suffix = null)
     {
-        $this->format = $format;
-        $this->prefix = $prefix;
-        $this->suffix = $suffix;
+        $this->format = $format ?? $config->get('translatable.rule_factory.format');
+        $this->prefix = $prefix ?? $config->get('translatable.rule_factory.prefix');
+        $this->suffix = $suffix ?? $config->get('translatable.rule_factory.suffix');
     }
 
-    public static function make(array $rules, int $format = self::FORMAT_ARRAY, string $prefix = '%', string $suffix = '%', ?array $locales = null): array
+    public static function make(array $rules, ?int $format = null, ?string $prefix = null, ?string $suffix = null, ?array $locales = null): array
     {
-        $factory = new static($format, $prefix, $suffix);
+        $factory = app()->make(static::class, compact('format', 'prefix', 'suffix'));
 
         $factory->setLocales($locales);
 
