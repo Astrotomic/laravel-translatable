@@ -131,4 +131,19 @@ return [
     |
      */
     'to_array_always_loads_translations' => true,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Configure the default behavior of the rule factory
+    |--------------------------------------------------------------------------
+    | The default values used to control the behavior of the RuleFactory.
+    | Here you can set your own default format and delimiters for
+    | your whole app.
+     *
+     */
+    'rule_factory' => [
+        'format' => \Astrotomic\Translatable\Validation\RuleFactory::FORMAT_ARRAY,
+        'prefix' => '%',
+        'suffix' => '%',
+    ],
 ];
