@@ -391,13 +391,7 @@ trait Translatable
 
     private function getTranslationByLocaleKey(string $key): ?Model
     {
-        foreach ($this->translations as $translation) {
-            if ($translation->getAttribute($this->getLocaleKey()) == $key) {
-                return $translation;
-            }
-        }
-
-        return null;
+        return $this->translations->firstWhere($this->getLocaleKey(), $key);
     }
 
     private function toArrayAlwaysLoadsTranslations(): bool
