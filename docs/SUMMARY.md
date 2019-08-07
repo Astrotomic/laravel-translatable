@@ -4,14 +4,19 @@
 * [Issues](issues.md)
 * [Changelog](changelog.md)
 * [FAQ](faq.md)
+* [Installation](installation.md)
+
+## Package
+
+* [Interface](package/interface.md)
+* [Methods](package/methods.md)
+* [Scopes](package/scopes.md)
+* [Fallback locale](package/fallback-locale.md)
+* [Locales helper](package/locales-helper.md)
 
 ## Usage
 
-* [Installation](usage/installation.md)
-* [Interface](usage/interface.md)
-* [Methods](usage/methods.md)
-* [Scopes](usage/scopes.md)
-* [Fallback locale](usage/fallback-locale.md)
-* [Locales helper](usage/locales-helper.md)
+* [Attributes](usage/attributes.md)
+* [Forms](usage/forms.md)
 * [Pivot Model](usage/pivot-model.md)
 
