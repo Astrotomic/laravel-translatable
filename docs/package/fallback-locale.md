@@ -13,6 +13,37 @@ If you want to fallback to a default translation when a translation has not been
 ]
 ```
 
+If you do not want to define the default fallback locale but just get the first \(in order of configuration\) defined one you can set `fallback_locale` to `null`.
+
+```php
+[
+    // ...
+    'use_fallback' => true,
+    'fallback_locale' => null,
+    'locales' => [
+        'en',
+        'de' => [
+            'DE',
+            'AT',
+            'CH',        
+        ],
+    ]
+    // ...
+]
+```
+
+This configuration will check the locales in following order and return the first defined one:
+
+1. `en`
+2. `de`
+3. `de-DE`
+4. `de-AT`
+5. `de-CH`
+
+{% hint style="info" %}
+The simple language based locale will be checked before the assigned country based ones.
+{% endhint %}
+
 ## per Model
 
 You can also define per-model the default for "if fallback should be used", by setting the `$useTranslationFallback`property:
