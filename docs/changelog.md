@@ -2,6 +2,10 @@
 
 ## v11
 
+### v11.2.1
+
+* Fix duplicate checks of same locale - [\#40](https://github.com/Astrotomic/laravel-translatable/pull/40)
+
 ### v11.2.0
 
 * Add auto fallback locale finder - [\#36](https://github.com/Astrotomic/laravel-translatable/pull/36)
