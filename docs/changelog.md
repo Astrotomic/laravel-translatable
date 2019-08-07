@@ -2,6 +2,14 @@
 
 ## v11
 
+### v11.2.0
+
+* Add auto fallback locale finder - [\#36](https://github.com/Astrotomic/laravel-translatable/pull/36)
+
+### v11.1.3
+
+* Fix conflict between attributes and locales during `fill()` - [\#38](https://github.com/Astrotomic/laravel-translatable/pull/38)
+
 ### v11.1.2
 
 * Refactor `translation` relationship - [\#23](https://github.com/Astrotomic/laravel-translatable/pull/23)
