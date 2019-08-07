@@ -13,6 +13,7 @@
 * [Scopes](package/scopes.md)
 * [Fallback locale](package/fallback-locale.md)
 * [Locales helper](package/locales-helper.md)
+* [Validation Rule Factory](package/validation-rule-factory.md)
 
 ## Usage
 
