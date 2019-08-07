@@ -196,7 +196,11 @@ trait Translatable
             $configuredLocales = $this->getLocalesHelper()->all();
 
             foreach ($configuredLocales as $configuredLocale) {
-                if ($translation = $this->getTranslationByLocaleKey($configuredLocale)) {
+                if (
+                    $locale !== $configuredLocale
+                    && $fallbackLocale !== $configuredLocale
+                    && $translation = $this->getTranslationByLocaleKey($configuredLocale)
+                ) {
                     return $translation;
                 }
             }
