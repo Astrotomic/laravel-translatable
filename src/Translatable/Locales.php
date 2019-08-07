@@ -95,6 +95,7 @@ class Locales implements Arrayable, ArrayAccess
         foreach ($localesConfig as $key => $locale) {
             if (is_string($key) && is_array($locale)) {
                 $this->locales[$key] = $key;
+
                 foreach ($locale as $country) {
                     $countryLocale = $this->getCountryLocale($key, $country);
                     $this->locales[$countryLocale] = $countryLocale;

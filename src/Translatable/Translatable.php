@@ -177,16 +177,28 @@ trait Translatable
         if ($translation = $this->getTranslationByLocaleKey($locale)) {
             return $translation;
         }
+
         if ($withFallback && $fallbackLocale) {
             if ($translation = $this->getTranslationByLocaleKey($fallbackLocale)) {
                 return $translation;
             }
+
             if (
                 is_string($configFallbackLocale)
                 && $fallbackLocale !== $configFallbackLocale
                 && $translation = $this->getTranslationByLocaleKey($configFallbackLocale)
             ) {
                 return $translation;
+            }
+        }
+
+        if ($withFallback && $configFallbackLocale === null) {
+            $configuredLocales = $this->getLocalesHelper()->all();
+
+            foreach ($configuredLocales as $configuredLocale) {
+                if ($translation = $this->getTranslationByLocaleKey($configuredLocale)) {
+                    return $translation;
+                }
             }
         }
 

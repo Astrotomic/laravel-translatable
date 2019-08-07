@@ -78,6 +78,10 @@ return [
     | A fallback locale is the locale being used to return a translation
     | when the requested translation is not existing. To disable it
     | set it to false.
+    | If set to null it will loop through all configured locales until
+    | one existing is found or end of list reached. The locales are looped
+    | from top to bottom and for country based locales the simple one
+    | is used first. So "es" will be checked before "es_MX".
     |
     */
     'fallback_locale' => 'en',
