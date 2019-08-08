@@ -7,7 +7,7 @@ $post->fill([
   'en' => [
     'title' => 'My first edited post',
   ],
-  'en' => [
+  'de' => [
     'title' => 'Mein erster bearbeiteter Beitrag',
   ],
 ]);
