@@ -397,9 +397,9 @@ trait Translatable
             && $this->translation->getAttribute($this->getLocaleKey()) == $key
         ) {
             return $this->translation;
-        } else {
-            return $this->translations->firstWhere($this->getLocaleKey(), $key);
         }
+
+        return $this->translations->firstWhere($this->getLocaleKey(), $key);
     }
 
     private function toArrayAlwaysLoadsTranslations(): bool
