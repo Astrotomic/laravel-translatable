@@ -391,6 +391,14 @@ trait Translatable
 
     private function getTranslationByLocaleKey(string $key): ?Model
     {
+        if (
+            $this->relationLoaded('translation')
+            && $this->translation
+            && $this->translation->getAttribute($this->getLocaleKey()) == $key
+        ) {
+            return $this->translation;
+        }
+
         return $this->translations->firstWhere($this->getLocaleKey(), $key);
     }
 
