@@ -918,4 +918,56 @@ class TranslatableTest extends TestsBase
         $this->assertInstanceOf(CountryTranslation::class, $translation);
         $this->assertEquals($helper->getCountryLocale('de', 'DE'), $translation->locale);
     }
+
+    public function test_it_uses_translation_relation_if_locale_matches()
+    {
+        $this->app->make('config')->set('translatable.use_fallback', false);
+        $this->app->setLocale('de');
+
+        /** @var Country $country */
+        $country = Country::find(1);
+        $country->load('translation');
+        $this->assertTrue($country->relationLoaded('translation'));
+        $this->assertFalse($country->relationLoaded('translations'));
+
+        $translation = $country->getTranslation();
+        $this->assertInstanceOf(CountryTranslation::class, $translation);
+        $this->assertEquals('de', $translation->locale);
+        $this->assertFalse($country->relationLoaded('translations'));
+    }
+
+    public function test_it_uses_translations_relation_if_locale_does_not_match()
+    {
+        $this->app->make('config')->set('translatable.use_fallback', false);
+        $this->app->setLocale('de');
+
+        /** @var Country $country */
+        $country = Country::find(1);
+        $country->load('translation');
+        $this->assertTrue($country->relationLoaded('translation'));
+        $this->assertFalse($country->relationLoaded('translations'));
+        $this->app->setLocale('en');
+
+        $translation = $country->getTranslation();
+        $this->assertInstanceOf(CountryTranslation::class, $translation);
+        $this->assertEquals('en', $translation->locale);
+        $this->assertTrue($country->relationLoaded('translations'));
+    }
+
+    public function test_it_does_not_load_translation_relation_if_not_already_loaded()
+    {
+        $this->app->make('config')->set('translatable.use_fallback', false);
+        $this->app->setLocale('de');
+
+        /** @var Country $country */
+        $country = Country::find(1);
+        $this->assertFalse($country->relationLoaded('translation'));
+        $this->assertFalse($country->relationLoaded('translations'));
+
+        $translation = $country->getTranslation();
+        $this->assertInstanceOf(CountryTranslation::class, $translation);
+        $this->assertEquals('de', $translation->locale);
+        $this->assertFalse($country->relationLoaded('translation'));
+        $this->assertTrue($country->relationLoaded('translations'));
+    }
 }
