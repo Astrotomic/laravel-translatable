@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Astrotomic\Translatable\Traits\Relationship;
 
 /**
+ * @property-read Model $translation
  * @property-read Collection|Model[] $translations
  * @property-read string $translationModel
  * @property-read string $translationForeignKey
