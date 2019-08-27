@@ -80,7 +80,7 @@ class RuleFactory
             }
 
             foreach ($this->locales as $locale) {
-                $rules[$this->formatKey($locale, $key)] = $value;
+                $rules[$this->formatKey($locale, $key)] = $this->formatRule($locale, $value);
             }
         }
 
@@ -94,6 +94,16 @@ class RuleFactory
                 return preg_replace($this->getPattern(), $locale.'.$1', $key);
             case self::FORMAT_KEY:
                 return preg_replace($this->getPattern(), '$1:'.$locale, $key);
+        }
+    }
+
+    protected function formatRule(string $locale, string $value): string
+    {
+        switch ($this->format) {
+            case self::FORMAT_ARRAY:
+                return preg_replace($this->getPattern(), $locale.'.$1', $value);
+            case self::FORMAT_KEY:
+                return preg_replace($this->getPattern(), '$1:'.$locale, $value);
         }
     }
 
