@@ -1,9 +1,9 @@
 <?php
 
-use Astrotomic\Translatable\Locales;
-use Astrotomic\Translatable\Validation\RuleFactory;
 use Illuminate\Validation\Rule;
+use Astrotomic\Translatable\Locales;
 use Illuminate\Validation\Rules\RequiredIf;
+use Astrotomic\Translatable\Validation\RuleFactory;
 
 class ValidationTest extends TestsBase
 {
@@ -347,7 +347,7 @@ class ValidationTest extends TestsBase
                 'required_with:%title%',
                 Rule::requiredIf(function () {
                     return true;
-                })
+                }),
             ],
         ];
 
@@ -450,7 +450,7 @@ class ValidationTest extends TestsBase
                 'required_with:"%title%"',
                 Rule::requiredIf(function () {
                     return true;
-                })
+                }),
             ],
         ];
 
