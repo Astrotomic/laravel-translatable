@@ -56,6 +56,8 @@
         "csfix": "php-cs-fixer fix --using-cache=no"
     },
     "support": {
-        "issues": "https://github.com/Astrotomic/laravel-translatable/issues"
+        "issues": "https://github.com/Astrotomic/laravel-translatable/issues",
+        "source": "https://github.com/Astrotomic/laravel-translatable",
+        "docs": "https://docs.astrotomic.info/laravel-translatable"
     }
 }
