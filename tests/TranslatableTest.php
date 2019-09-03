@@ -9,7 +9,7 @@ use Astrotomic\Translatable\Test\Model\CountryTranslation;
 use Astrotomic\Translatable\Test\Model\CountryWithCustomLocaleKey;
 use Astrotomic\Translatable\Test\Model\CountryWithCustomTranslationModel;
 
-class TranslatableTest extends TestsBase
+final class TranslatableTest extends TestsBase
 {
     public function test_it_finds_the_default_translation_class()
     {

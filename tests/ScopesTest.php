@@ -3,7 +3,7 @@
 use Astrotomic\Translatable\Test\Model\Country;
 use Astrotomic\Translatable\Test\Model\Vegetable;
 
-class ScopesTest extends TestsBase
+final class ScopesTest extends TestsBase
 {
     public function test_translated_in_scope_returns_only_translated_records_for_this_locale()
     {

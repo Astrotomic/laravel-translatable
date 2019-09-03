@@ -11,7 +11,7 @@ use Astrotomic\Translatable\Test\Model\CountryGuarded;
 use Astrotomic\Translatable\Test\Model\CityTranslation;
 use Astrotomic\Translatable\Test\Model\CountryTranslation;
 
-class TestCoreModelExtension extends TestsBase
+final class TestCoreModelExtension extends TestsBase
 {
     // Saving
 

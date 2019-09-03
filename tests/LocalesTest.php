@@ -2,7 +2,7 @@
 
 use Astrotomic\Translatable\Locales;
 
-class LocalesTest extends TestsBase
+final class LocalesTest extends TestsBase
 {
     public function test_singleton()
     {
