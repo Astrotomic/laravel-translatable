@@ -3,7 +3,7 @@
 use Astrotomic\Translatable\Locales;
 use Astrotomic\Translatable\Validation\RuleFactory;
 
-class ValidationTest extends TestsBase
+final class ValidationTest extends TestsBase
 {
     public function test_it_does_not_touch_untranslated_keys()
     {
