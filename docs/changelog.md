@@ -2,6 +2,14 @@
 
 ## v11
 
+### v11.5.0
+
+* Add rule parsing to `\Astrotomic\Translatable\Validation\RuleFactory` - [\#56](https://github.com/Astrotomic/laravel-translatable/pull/56)
+
+### v11.4.0
+
+* Add Laravel 6 support - [\#52](https://github.com/Astrotomic/laravel-translatable/pull/52)
+
 ### v11.3.0
 
 * Add `\Astrotomic\Translatable\Validation\RuleFactory` - [\#34](https://github.com/Astrotomic/laravel-translatable/pull/34)

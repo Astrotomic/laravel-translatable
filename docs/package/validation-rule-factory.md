@@ -4,22 +4,26 @@ If you want to validate translated attributes it could get quite complex to list
 
 ```php
 $rules = [
-    'title' => 'required',
-    'translations.%content%.body' => 'required',
+    'translations.%title%' => 'sometimes|string',
+    'translations.%content%' => ['required_with:translations.%title%', 'string'],
 ];
 
 RuleFactory::make($rules);
 ```
 
-This will return an array which adjusted the `translations.%content%.body` key to match your configured key format. The result will be:
+This will return an array which adjusted the placeholder in key and string value or array with strings to match your configured key format. The result will be:
 
 ```php
 [
-    'title' => 'required',
-    'translations.en.content.body' => 'required',
-    'translations.de.content.body' => 'required',
-    'translations.de-DE.content.body' => 'required',
-    'translations.de-AT.content.body' => 'required',
+    'translations.en.title' => 'sometimes|string',
+    'translations.de.title' => 'sometimes|string',
+    'translations.de-DE.title' => 'sometimes|string',
+    'translations.de-AT.title' => 'sometimes|string',
+
+    'en.content' => ['required_with:translations.en.title', 'string'],
+    'de.content' => ['required_with:translations.de.title', 'string'],
+    'de-DE.content' => ['required_with:translations.de-DE.title', 'string'],
+    'de-AT.content' => ['required_with:translations.de-AT.title', 'string'],
 ]
 ```
 
@@ -48,6 +52,10 @@ This will create the dot-notation to support locale sub-arrays. `en.content`.
 #### RuleFactory::FORMAT\_KEY
 
 This will create the colon separated style. `content:en`
+
+{% hint style="info" %}
+If you use the key format and want to use use it as argument for a rule you have to wrap it in quotes. `required_with:"translations.content:en"`
+{% endhint %}
 
 ### Runtime
 
