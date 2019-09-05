@@ -2,6 +2,10 @@
 
 ## v11
 
+### v11.5.1
+
+* Fix `getTranslationByLocaleKey()` to use `translation` relation if possible - [\#49](https://github.com/Astrotomic/laravel-translatable/pull/49)
+
 ### v11.5.0
 
 * Add rule parsing to `\Astrotomic\Translatable\Validation\RuleFactory` - [\#56](https://github.com/Astrotomic/laravel-translatable/pull/56)
