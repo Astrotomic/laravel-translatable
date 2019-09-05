@@ -40,7 +40,8 @@ class RuleFactory
 
     public static function make(array $rules, ?int $format = null, ?string $prefix = null, ?string $suffix = null, ?array $locales = null): array
     {
-        $factory = app()->make(static::class, compact('format', 'prefix', 'suffix'));
+        /** @var RuleFactory $factory */
+        $factory = app(static::class, compact('format', 'prefix', 'suffix'));
 
         $factory->setLocales($locales);
 
@@ -80,7 +81,7 @@ class RuleFactory
             }
 
             foreach ($this->locales as $locale) {
-                $rules[$this->formatKey($locale, $key)] = $value;
+                $rules[$this->formatKey($locale, $key)] = $this->formatRule($locale, $value);
             }
         }
 
@@ -89,11 +90,47 @@ class RuleFactory
 
     protected function formatKey(string $locale, string $key): string
     {
+        return $this->replacePlaceholder($locale, $key);
+    }
+
+    /**
+     * @param string $locale
+     * @param string|string[]|mixed $rule
+     *
+     * @return string|string[]|mixed
+     */
+    protected function formatRule(string $locale, $rule)
+    {
+        if (is_string($rule)) {
+            if (strpos($rule, '|')) {
+                return implode('|', array_map(function (string $rule) use ($locale) {
+                    return $this->replacePlaceholder($locale, $rule);
+                }, explode('|', $rule)));
+            }
+
+            return $this->replacePlaceholder($locale, $rule);
+        } elseif (is_array($rule)) {
+            return array_map(function ($rule) use ($locale) {
+                return $this->formatRule($locale, $rule);
+            }, $rule);
+        }
+
+        return $rule;
+    }
+
+    protected function replacePlaceholder(string $locale, string $value): string
+    {
+        return preg_replace($this->getPattern(), $this->getReplacement($locale), $value);
+    }
+
+    protected function getReplacement(string $locale): string
+    {
         switch ($this->format) {
-            case self::FORMAT_ARRAY:
-                return preg_replace($this->getPattern(), $locale.'.$1', $key);
             case self::FORMAT_KEY:
-                return preg_replace($this->getPattern(), '$1:'.$locale, $key);
+                return '$1:'.$locale;
+            default:
+            case self::FORMAT_ARRAY:
+                return $locale.'.$1';
         }
     }
 

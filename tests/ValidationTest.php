@@ -1,6 +1,8 @@
 <?php
 
+use Illuminate\Validation\Rule;
 use Astrotomic\Translatable\Locales;
+use Illuminate\Validation\Rules\RequiredIf;
 use Astrotomic\Translatable\Validation\RuleFactory;
 
 final class ValidationTest extends TestsBase
@@ -257,6 +259,212 @@ final class ValidationTest extends TestsBase
             'de',
             'at',
         ]);
+    }
+
+    public function test_format_array_it_replaces_single_rule()
+    {
+        $rules = [
+            '%title%' => 'sometimes|string',
+            '%content%' => 'required_with:%title%',
+        ];
+
+        $this->assertEquals([
+            'en.title' => 'sometimes|string',
+            'de.title' => 'sometimes|string',
+            'de-DE.title' => 'sometimes|string',
+            'de-AT.title' => 'sometimes|string',
+
+            'en.content' => 'required_with:en.title',
+            'de.content' => 'required_with:de.title',
+            'de-DE.content' => 'required_with:de-DE.title',
+            'de-AT.content' => 'required_with:de-AT.title',
+        ], RuleFactory::make($rules, RuleFactory::FORMAT_ARRAY));
+    }
+
+    public function test_format_array_it_replaces_imploded_rules()
+    {
+        $rules = [
+            '%title%' => 'sometimes|string',
+            '%content%' => 'required_with:%title%|string',
+        ];
+
+        $this->assertEquals([
+            'en.title' => 'sometimes|string',
+            'de.title' => 'sometimes|string',
+            'de-DE.title' => 'sometimes|string',
+            'de-AT.title' => 'sometimes|string',
+
+            'en.content' => 'required_with:en.title|string',
+            'de.content' => 'required_with:de.title|string',
+            'de-DE.content' => 'required_with:de-DE.title|string',
+            'de-AT.content' => 'required_with:de-AT.title|string',
+        ], RuleFactory::make($rules, RuleFactory::FORMAT_ARRAY));
+    }
+
+    public function test_format_array_it_replaces_array_of_rules()
+    {
+        $rules = [
+            '%title%' => 'sometimes|string',
+            '%content%' => ['required_with:%title%', 'string'],
+        ];
+
+        $this->assertEquals([
+            'en.title' => 'sometimes|string',
+            'de.title' => 'sometimes|string',
+            'de-DE.title' => 'sometimes|string',
+            'de-AT.title' => 'sometimes|string',
+
+            'en.content' => ['required_with:en.title', 'string'],
+            'de.content' => ['required_with:de.title', 'string'],
+            'de-DE.content' => ['required_with:de-DE.title', 'string'],
+            'de-AT.content' => ['required_with:de-AT.title', 'string'],
+        ], RuleFactory::make($rules, RuleFactory::FORMAT_ARRAY));
+    }
+
+    public function test_format_array_it_does_not_touch_non_string_rule()
+    {
+        $rules = [
+            'title' => 'required',
+            '%content%' => Rule::requiredIf(function () {
+                return true;
+            }),
+        ];
+
+        $formattedRules = RuleFactory::make($rules, RuleFactory::FORMAT_ARRAY);
+
+        $this->assertEquals('required', $formattedRules['title']);
+        $this->assertInstanceOf(RequiredIf::class, $formattedRules['en.content']);
+        $this->assertInstanceOf(RequiredIf::class, $formattedRules['de.content']);
+        $this->assertInstanceOf(RequiredIf::class, $formattedRules['de-DE.content']);
+        $this->assertInstanceOf(RequiredIf::class, $formattedRules['de-AT.content']);
+    }
+
+    public function test_format_array_it_does_not_touch_non_string_rule_in_array()
+    {
+        $rules = [
+            'title' => 'required',
+            '%content%' => [
+                'required_with:%title%',
+                Rule::requiredIf(function () {
+                    return true;
+                }),
+            ],
+        ];
+
+        $formattedRules = RuleFactory::make($rules, RuleFactory::FORMAT_ARRAY);
+
+        $this->assertEquals('required', $formattedRules['title']);
+        $this->assertEquals('required_with:en.title', $formattedRules['en.content'][0]);
+        $this->assertEquals('required_with:de.title', $formattedRules['de.content'][0]);
+        $this->assertEquals('required_with:de-DE.title', $formattedRules['de-DE.content'][0]);
+        $this->assertEquals('required_with:de-AT.title', $formattedRules['de-AT.content'][0]);
+        $this->assertInstanceOf(RequiredIf::class, $formattedRules['en.content'][1]);
+        $this->assertInstanceOf(RequiredIf::class, $formattedRules['de.content'][1]);
+        $this->assertInstanceOf(RequiredIf::class, $formattedRules['de-DE.content'][1]);
+        $this->assertInstanceOf(RequiredIf::class, $formattedRules['de-AT.content'][1]);
+    }
+
+    public function test_format_key_it_replaces_single_rule()
+    {
+        $rules = [
+            '%title%' => 'sometimes|string',
+            '%content%' => 'required_with:"%title%"',
+        ];
+
+        $this->assertEquals([
+            'title:en' => 'sometimes|string',
+            'title:de' => 'sometimes|string',
+            'title:de-DE' => 'sometimes|string',
+            'title:de-AT' => 'sometimes|string',
+
+            'content:en' => 'required_with:"title:en"',
+            'content:de' => 'required_with:"title:de"',
+            'content:de-DE' => 'required_with:"title:de-DE"',
+            'content:de-AT' => 'required_with:"title:de-AT"',
+        ], RuleFactory::make($rules, RuleFactory::FORMAT_KEY));
+    }
+
+    public function test_format_key_it_replaces_imploded_rules()
+    {
+        $rules = [
+            '%title%' => 'sometimes|string',
+            '%content%' => 'required_with:"%title%"|string',
+        ];
+
+        $this->assertEquals([
+            'title:en' => 'sometimes|string',
+            'title:de' => 'sometimes|string',
+            'title:de-DE' => 'sometimes|string',
+            'title:de-AT' => 'sometimes|string',
+
+            'content:en' => 'required_with:"title:en"|string',
+            'content:de' => 'required_with:"title:de"|string',
+            'content:de-DE' => 'required_with:"title:de-DE"|string',
+            'content:de-AT' => 'required_with:"title:de-AT"|string',
+        ], RuleFactory::make($rules, RuleFactory::FORMAT_KEY));
+    }
+
+    public function test_format_key_it_replaces_array_of_rules()
+    {
+        $rules = [
+            '%title%' => 'sometimes|string',
+            '%content%' => ['required_with:"%title%"', 'string'],
+        ];
+
+        $this->assertEquals([
+            'title:en' => 'sometimes|string',
+            'title:de' => 'sometimes|string',
+            'title:de-DE' => 'sometimes|string',
+            'title:de-AT' => 'sometimes|string',
+
+            'content:en' => ['required_with:"title:en"', 'string'],
+            'content:de' => ['required_with:"title:de"', 'string'],
+            'content:de-DE' => ['required_with:"title:de-DE"', 'string'],
+            'content:de-AT' => ['required_with:"title:de-AT"', 'string'],
+        ], RuleFactory::make($rules, RuleFactory::FORMAT_KEY));
+    }
+
+    public function test_format_key_it_does_not_touch_non_string_rule()
+    {
+        $rules = [
+            'title' => 'required',
+            '%content%' => Rule::requiredIf(function () {
+                return true;
+            }),
+        ];
+
+        $formattedRules = RuleFactory::make($rules, RuleFactory::FORMAT_KEY);
+
+        $this->assertEquals('required', $formattedRules['title']);
+        $this->assertInstanceOf(RequiredIf::class, $formattedRules['content:en']);
+        $this->assertInstanceOf(RequiredIf::class, $formattedRules['content:de']);
+        $this->assertInstanceOf(RequiredIf::class, $formattedRules['content:de-DE']);
+        $this->assertInstanceOf(RequiredIf::class, $formattedRules['content:de-AT']);
+    }
+
+    public function test_format_key_it_does_not_touch_non_string_rule_in_array()
+    {
+        $rules = [
+            'title' => 'required',
+            '%content%' => [
+                'required_with:"%title%"',
+                Rule::requiredIf(function () {
+                    return true;
+                }),
+            ],
+        ];
+
+        $formattedRules = RuleFactory::make($rules, RuleFactory::FORMAT_KEY);
+
+        $this->assertEquals('required', $formattedRules['title']);
+        $this->assertEquals('required_with:"title:en"', $formattedRules['content:en'][0]);
+        $this->assertEquals('required_with:"title:de"', $formattedRules['content:de'][0]);
+        $this->assertEquals('required_with:"title:de-DE"', $formattedRules['content:de-DE'][0]);
+        $this->assertEquals('required_with:"title:de-AT"', $formattedRules['content:de-AT'][0]);
+        $this->assertInstanceOf(RequiredIf::class, $formattedRules['content:en'][1]);
+        $this->assertInstanceOf(RequiredIf::class, $formattedRules['content:de'][1]);
+        $this->assertInstanceOf(RequiredIf::class, $formattedRules['content:de-DE'][1]);
+        $this->assertInstanceOf(RequiredIf::class, $formattedRules['content:de-AT'][1]);
     }
 
     protected function setUp(): void
