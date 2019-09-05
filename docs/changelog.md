@@ -2,6 +2,11 @@
 
 ## v11
 
+### v11.4.0
+
+* optimize translation by locale getter - [\#42](https://github.com/Astrotomic/laravel-translatable/pull/42)
+* add Laravel 6 support - [\#52](https://github.com/Astrotomic/laravel-translatable/pull/52)
+
 ### v11.3.0
 
 * Add `\Astrotomic\Translatable\Validation\RuleFactory` - [\#34](https://github.com/Astrotomic/laravel-translatable/pull/34)

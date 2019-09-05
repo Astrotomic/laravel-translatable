@@ -20,5 +20,3 @@ To achieve this structure in your form - to prevent manipulating the form data j
 <input type="text" name="de[title]" />
 ```
 
-
-

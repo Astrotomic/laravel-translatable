@@ -4,7 +4,7 @@ use Orchestra\Testbench\TestCase;
 use Illuminate\Contracts\Console\Kernel;
 use Astrotomic\Translatable\TranslatableServiceProvider;
 
-class TestsBase extends TestCase
+abstract class TestsBase extends TestCase
 {
     protected $queriesCount;
     protected static $db2Setup = false;
