@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Astrotomic\Translatable\Traits\Relationship;
 
 /**
+ * @property-read null|Model $translation
  * @property-read Collection|Model[] $translations
  * @property-read string $translationModel
  * @property-read string $translationForeignKey
@@ -391,6 +392,14 @@ trait Translatable
 
     private function getTranslationByLocaleKey(string $key): ?Model
     {
+        if (
+            $this->relationLoaded('translation')
+            && $this->translation
+            && $this->translation->getAttribute($this->getLocaleKey()) == $key
+        ) {
+            return $this->translation;
+        }
+
         return $this->translations->firstWhere($this->getLocaleKey(), $key);
     }
 
