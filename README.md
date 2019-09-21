@@ -1,6 +1,6 @@
 # Introduction
 
-[![Total Downloads](https://img.shields.io/packagist/dt/astrotomic/laravel-translatable.svg?label=Downloads&style=flat-square&cacheSeconds=600)](https://packagist.org/packages/astrotomic/laravel-translatable) 
+[![Financial Contributors on Open Collective](https://opencollective.com/astrotomic/all/badge.svg?label=financial+contributors&style=flat-square)](https://opencollective.com/astrotomic) [![Total Downloads](https://img.shields.io/packagist/dt/astrotomic/laravel-translatable.svg?label=Downloads&style=flat-square&cacheSeconds=600)](https://packagist.org/packages/astrotomic/laravel-translatable) 
 [![CircleCI](https://img.shields.io/circleci/build/github/Astrotomic/laravel-translatable/master.svg?label=CircleCI&style=flat-square&cacheSeconds=600)](https://circleci.com/gh/Astrotomic/laravel-translatable) 
 [![StyleCI](https://styleci.io/repos/192333549/shield)](https://styleci.io/repos/192333549) 
 [![ScrutinizerCI](https://img.shields.io/scrutinizer/quality/g/Astrotomic/laravel-translatable/master.svg?label=ScrutinizerCI&style=flat-square&cacheSeconds=600)](https://scrutinizer-ci.com/g/Astrotomic/laravel-translatable/) 
@@ -73,3 +73,33 @@ echo $post->translate('fr')->title; // Mon premier post
 | **v11.2** | `5.6.* / 5.7.* / 5.8.*` | `>=7.1.3` |
 | **v11.1** | `5.6.* / 5.7.* / 5.8.*` | `>=7.1.3` |
 | **v11.0** | `5.6.* / 5.7.* / 5.8.*` | `>=7.1.3` |
+
+## Contributors
+
+### Code Contributors
+
+This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
+<a href="https://github.com/Astrotomic/laravel-translatable/graphs/contributors"><img src="https://opencollective.com/astrotomic/contributors.svg?width=890&button=false" /></a>
+
+### Financial Contributors
+
+Become a financial contributor and help us sustain our community. [[Contribute](https://opencollective.com/astrotomic/contribute)]
+
+#### Individuals
+
+<a href="https://opencollective.com/astrotomic"><img src="https://opencollective.com/astrotomic/individuals.svg?width=890"></a>
+
+#### Organizations
+
+Support this project with your organization. Your logo will show up here with a link to your website. [[Contribute](https://opencollective.com/astrotomic/contribute)]
+
+<a href="https://opencollective.com/astrotomic/organization/0/website"><img src="https://opencollective.com/astrotomic/organization/0/avatar.svg"></a>
+<a href="https://opencollective.com/astrotomic/organization/1/website"><img src="https://opencollective.com/astrotomic/organization/1/avatar.svg"></a>
+<a href="https://opencollective.com/astrotomic/organization/2/website"><img src="https://opencollective.com/astrotomic/organization/2/avatar.svg"></a>
+<a href="https://opencollective.com/astrotomic/organization/3/website"><img src="https://opencollective.com/astrotomic/organization/3/avatar.svg"></a>
+<a href="https://opencollective.com/astrotomic/organization/4/website"><img src="https://opencollective.com/astrotomic/organization/4/avatar.svg"></a>
+<a href="https://opencollective.com/astrotomic/organization/5/website"><img src="https://opencollective.com/astrotomic/organization/5/avatar.svg"></a>
+<a href="https://opencollective.com/astrotomic/organization/6/website"><img src="https://opencollective.com/astrotomic/organization/6/avatar.svg"></a>
+<a href="https://opencollective.com/astrotomic/organization/7/website"><img src="https://opencollective.com/astrotomic/organization/7/avatar.svg"></a>
+<a href="https://opencollective.com/astrotomic/organization/8/website"><img src="https://opencollective.com/astrotomic/organization/8/avatar.svg"></a>
+<a href="https://opencollective.com/astrotomic/organization/9/website"><img src="https://opencollective.com/astrotomic/organization/9/avatar.svg"></a>
