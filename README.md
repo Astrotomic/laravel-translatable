@@ -9,6 +9,7 @@
 [![Latest Version](http://img.shields.io/packagist/v/astrotomic/laravel-translatable.svg?label=Release&style=flat-square&cacheSeconds=600)](https://packagist.org/packages/astrotomic/laravel-translatable) 
 [![MIT License](https://img.shields.io/github/license/Astrotomic/laravel-translatable.svg?label=License&color=blue&style=flat-square&cacheSeconds=600)](https://github.com/Astrotomic/laravel-translatable/blob/master/LICENSE)
 [![GitBook](https://img.shields.io/badge/GitBook-Astrotomic-7e57c2.svg?style=flat-square&cacheSeconds=600)](https://docs.astrotomic.info/laravel-translatable)
+[![Open Collective](https://img.shields.io/opencollective/all/astrotomic?label=Open%20Collective&style=flat-square&cacheSeconds=600)](https://opencollective.com/astrotomic)
 
 ![Laravel Translatable](docs/.gitbook/assets/laravel-translatable.png)
 
