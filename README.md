@@ -1,6 +1,6 @@
 # Introduction
 
-[![Financial Contributors on Open Collective](https://opencollective.com/astrotomic/all/badge.svg?label=financial+contributors&style=flat-square)](https://opencollective.com/astrotomic) [![Total Downloads](https://img.shields.io/packagist/dt/astrotomic/laravel-translatable.svg?label=Downloads&style=flat-square&cacheSeconds=600)](https://packagist.org/packages/astrotomic/laravel-translatable) 
+[![Total Downloads](https://img.shields.io/packagist/dt/astrotomic/laravel-translatable.svg?label=Downloads&style=flat-square&cacheSeconds=600)](https://packagist.org/packages/astrotomic/laravel-translatable) 
 [![CircleCI](https://img.shields.io/circleci/build/github/Astrotomic/laravel-translatable/master.svg?label=CircleCI&style=flat-square&cacheSeconds=600)](https://circleci.com/gh/Astrotomic/laravel-translatable) 
 [![StyleCI](https://styleci.io/repos/192333549/shield)](https://styleci.io/repos/192333549) 
 [![ScrutinizerCI](https://img.shields.io/scrutinizer/quality/g/Astrotomic/laravel-translatable/master.svg?label=ScrutinizerCI&style=flat-square&cacheSeconds=600)](https://scrutinizer-ci.com/g/Astrotomic/laravel-translatable/) 
@@ -9,6 +9,7 @@
 [![Latest Version](http://img.shields.io/packagist/v/astrotomic/laravel-translatable.svg?label=Release&style=flat-square&cacheSeconds=600)](https://packagist.org/packages/astrotomic/laravel-translatable) 
 [![MIT License](https://img.shields.io/github/license/Astrotomic/laravel-translatable.svg?label=License&color=blue&style=flat-square&cacheSeconds=600)](https://github.com/Astrotomic/laravel-translatable/blob/master/LICENSE)
 [![GitBook](https://img.shields.io/badge/GitBook-Astrotomic-7e57c2.svg?style=flat-square&cacheSeconds=600)](https://docs.astrotomic.info/laravel-translatable)
+[![Open Collective backers and sponsors](https://img.shields.io/opencollective/all/astrotomic?label=Open%20Collective&style=flat-square&cacheSeconds=600)](https://opencollective.com/astrotomic)
 
 ![Laravel Translatable](docs/.gitbook/assets/laravel-translatable.png)
 
