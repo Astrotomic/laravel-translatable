@@ -50,3 +50,6 @@ You can update the default locale attributes by accessing the translatable attri
 $post->title = 'My first post'; // Will update the English translatable model
 ```
 
+```php
+$post->fill(['title' => 'My first post']); // Will update the English translatable model
+```
