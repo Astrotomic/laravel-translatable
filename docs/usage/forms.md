@@ -13,6 +13,8 @@ $post->fill([
 ]);
 ```
 
+## Request as array syntax
+
 To achieve this structure in your form - to prevent manipulating the form data just to save them. You can use the input name array `[]` [syntax](https://www.php.net/manual/en/faq.html.php#faq.html.arrays).
 
 ```html
@@ -20,14 +22,18 @@ To achieve this structure in your form - to prevent manipulating the form data j
 <input type="text" name="de[title]" />
 ```
 
-# Saving the request directly
+## Request as plain syntax
 
-If you want to use `$post->update(request()->all())` you can structure your input in semicolon notation.
+If you want, you can structure the request inputs in colon notation too. Notice that with this approach the attribute goes first.
 
 ```html
 <input type="text" name="title:en" />
 <input type="text" name="title:de" />
 ```
+
+## Saving the request
+
+Both ways are ready to save the translatable attributes to the model without any other modification.
 
 ```php
 public function update(Request $request, Post $post)
@@ -35,6 +41,7 @@ public function update(Request $request, Post $post)
   $post->update($request->all());
 }
 ```
+
 # Updating the default locale
 
 You can update the default locale attributes by accessing the translatable attributes from the model itself.
