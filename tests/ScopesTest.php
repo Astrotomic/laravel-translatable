@@ -3,214 +3,262 @@
 use Astrotomic\Translatable\Test\Model\Food;
 use Astrotomic\Translatable\Test\Model\Country;
 use Astrotomic\Translatable\Test\Model\Vegetable;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
-final class ScopesTest extends TestsBase
+final class ScopesTest extends TestCase
 {
-    public function test_translated_in_scope_returns_only_translated_records_for_this_locale()
+    use RefreshDatabase;
+
+    /** @test */
+    public function translated_in_scope_returns_only_translated_records_for_this_locale()
     {
-        $translatedCountries = Country::translatedIn('fr')->get();
-        $this->assertEquals($translatedCountries->count(), 1);
+        factory(Country::class)->create(['code' => 'ca', 'name:ca' => 'Català']);
+        factory(Country::class)->create(['code' => 'fr', 'name:fr' => 'Français']);
+
+        $this->assertEquals(1, Country::translatedIn('fr')->count());
     }
 
-    public function test_translated_in_scope_works_with_default_locale()
+    /** @test */
+    public function translated_in_scope_works_with_default_locale()
     {
-        App::setLocale('de');
-        $translatedCountries = Country::translatedIn()->get();
+        app()->setLocale('de');
+        factory(Country::class)->create(['code' => 'ca', 'name:ca' => 'Català']);
+        factory(Country::class)->create(['code' => 'el', 'name:de' => 'Griechenland']);
 
-        $this->assertSame($translatedCountries->count(), 1);
-        $this->assertSame('Griechenland', $translatedCountries->first()->name);
+        $this->assertEquals(1, Country::translatedIn()->count());
+        $this->assertEquals('Griechenland', Country::translatedIn()->first()->name);
     }
 
-    public function test_not_translated_in_scope_returns_only_not_translated_records_for_this_locale()
+    /** @test */
+    public function not_translated_in_scope_returns_only_not_translated_records_for_this_locale()
     {
-        $notTranslatedCountries = Country::notTranslatedIn('en')->get();
-        $this->assertCount(2, $notTranslatedCountries);
+        factory(Country::class)->create(['code' => 'ca', 'name:ca' => 'Català']);
+        factory(Country::class)->create(['code' => 'fr', 'name:fr' => 'Français']);
+        factory(Country::class)->create(['code' => 'en', 'name:en' => 'English']);
 
-        foreach ($notTranslatedCountries as $notTranslatedCountry) {
-            $this->assertFalse($notTranslatedCountry->hasTranslation('en'));
-        }
+        $notTranslated = Country::notTranslatedIn('en')->get();
+
+        $this->assertEquals(2, $notTranslated->count());
+        $this->assertFalse($notTranslated->first()->hasTranslation('en'));
+        $this->assertFalse($notTranslated->last()->hasTranslation('en'));
     }
 
-    public function test_not_translated_in_scope_works_with_default_locale()
+    /** @test */
+    public function not_translated_in_scope_works_with_default_locale()
     {
-        App::setLocale('en');
-        $notTranslatedCountries = Country::notTranslatedIn()->get();
-        $this->assertCount(2, $notTranslatedCountries);
+        app()->setLocale('en');
 
-        foreach ($notTranslatedCountries as $notTranslatedCountry) {
-            $this->assertFalse($notTranslatedCountry->hasTranslation('en'));
-        }
+        factory(Country::class)->create(['code' => 'ca', 'name:ca' => 'Català']);
+        factory(Country::class)->create(['code' => 'en', 'name:es' => 'Inglés']);
+
+        $notTranslated = Country::notTranslatedIn()->get();
+        $this->assertEquals(2, $notTranslated->count());
+        $this->assertFalse($notTranslated->first()->hasTranslation('en'));
     }
 
-    public function test_translated_scope_returns_records_with_at_least_one_translation()
+    /** @test */
+    public function translated_scope_returns_records_with_at_least_one_translation()
     {
-        $translatedCountries = Country::translated()->get();
-        $this->assertEquals($translatedCountries->count(), 2);
+        factory(Country::class)->create(['code' => 'ca']);
+        factory(Country::class)->create(['code' => 'en', 'name:en' => 'English']);
+
+        $this->assertEquals(1, Country::translated()->count());
+        $this->assertEquals('English', Country::with('translations')->translated()->first()->{"name:en"});
     }
 
-    public function test_lists_of_translated_fields()
+    /** @test */
+    public function lists_of_translated_fields()
     {
-        App::setLocale('de');
-        App::make('config')->set('translatable.to_array_always_loads_translations', false);
+        app()->setLocale('de');
+        app('config')->set('translatable.to_array_always_loads_translations', false);
 
-        $arr = Country::listsTranslations('name')->get()->toArray();
+        factory(Country::class)->create(['code' => 'el', 'name:de' => 'Griechenland']);
+        factory(Country::class)->create(['code' => 'ca', 'name:ca' => 'Català']);
 
-        $this->assertEquals(1, count($arr));
-        $this->assertEquals('1', $arr[0]['id']);
-        $this->assertEquals('Griechenland', $arr[0]['name']);
+        $countries = Country::listsTranslations('name')->get();
+
+        $this->assertEquals(1, $countries->count());
+        $this->assertEquals(1, $countries->first()->id);
+        $this->assertEquals('Griechenland', $countries->first()->name);
     }
 
-    public function test_lists_of_translated_fields_with_fallback()
+    /** @test */
+    public function lists_of_translated_fields_with_fallback()
     {
-        App::make('config')->set('translatable.fallback_locale', 'en');
-        App::make('config')->set('translatable.to_array_always_loads_translations', false);
-        App::setLocale('de');
+        app('config')->set('translatable.fallback_locale', 'en');
+        app('config')->set('translatable.to_array_always_loads_translations', false);
+        app()->setLocale('de');
+
+        factory(Country::class)->create(['code' => 'el', 'name:de' => 'Griechenland']);
+        factory(Country::class)->create(['code' => 'fr', 'name:en' => 'France']);
+
         $country = new Country();
         $country->useTranslationFallback = true;
-        $list = [[
-            'id'   => 1,
-            'name' => 'Griechenland',
-        ], [
-            'id'   => 2,
-            'name' => 'France',
-        ]];
 
-        $arr = $country->listsTranslations('name')->get()->toArray();
+        $countries = $country->listsTranslations('name')->get();
 
-        $this->assertEquals(2, count($arr));
+        $this->assertEquals(2, $countries->count());
 
-        $this->assertEquals(1, $arr[0]['id']);
-        $this->assertEquals('Griechenland', $arr[0]['name']);
-
-        $this->assertEquals(2, $arr[1]['id']);
-        $this->assertEquals('France', $arr[1]['name']);
+        $this->assertEquals(1, $countries->first()->id);
+        $this->assertEquals('Griechenland', $countries->first()->name);
+        $this->assertEquals('France', $countries->last()->name);
     }
 
-    public function test_lists_of_translated_fields_disable_autoload_translations()
+    /** @test */
+    public function lists_of_translated_fields_disable_autoload_translations()
     {
-        App::setLocale('de');
-        App::make('config')->set('translatable.to_array_always_loads_translations', true);
+        app()->setLocale('de');
+        app('config')->set('translatable.to_array_always_loads_translations', true);
 
-        $list = [[
-            'id'   => 1,
-            'name' => 'Griechenland',
-        ]];
+        factory(Country::class)->create(['code' => 'el', 'name:de' => 'Griechenland']);
+
         Country::disableAutoloadTranslations();
-        $this->assertEquals($list, Country::listsTranslations('name')->get()->toArray());
+
+        $this->assertEquals([['id' => 1, 'name' => 'Griechenland']], Country::listsTranslations('name')->get()->toArray());
         Country::defaultAutoloadTranslations();
     }
 
-    public function test_scope_withTranslation_without_fallback()
+    /** @test */
+    public function scope_withTranslation_without_fallback()
     {
-        $result = Country::withTranslation()->first();
-        $loadedTranslations = $result->toArray()['translations'];
-        $this->assertCount(1, $loadedTranslations);
-        $this->assertSame('Greece', $loadedTranslations[0]['name']);
-    }
-
-    public function test_scope_withTranslation_with_fallback()
-    {
-        App::make('config')->set('translatable.fallback_locale', 'de');
-        App::make('config')->set('translatable.use_fallback', true);
+        factory(Country::class)->create(['code' => 'el', 'name:en' => 'Greece']);
 
         $result = Country::withTranslation()->first();
-        $loadedTranslations = $result->toArray()['translations'];
-        $this->assertCount(2, $loadedTranslations);
-        $this->assertSame('Greece', $loadedTranslations[0]['name']);
-        $this->assertSame('Griechenland', $loadedTranslations[1]['name']);
+
+        $this->assertCount(1, $result->translations);
+        $this->assertSame('Greece', $result->translations->first()->name);
     }
 
-    public function test_scope_withTranslation_with_country_based_fallback()
+    /** @test */
+    public function scope_withTranslation_with_fallback()
     {
-        App::make('config')->set('translatable.fallback_locale', 'en');
-        App::make('config')->set('translatable.use_fallback', true);
-        App::setLocale('en-GB');
-        $result = Vegetable::withTranslation()->find(1)->toArray();
-        $this->assertSame('courgette', $result['name']);
+        app('config')->set('translatable.fallback_locale', 'de');
+        app('config')->set('translatable.use_fallback', true);
 
-        App::setLocale('de-CH');
-        $result = Vegetable::withTranslation()->find(1)->toArray();
-        $expectedTranslations = [
-            ['name' => 'zucchini', 'locale' => 'en'],
-            ['name' => 'Zucchini', 'locale' => 'de'],
-            ['name' => 'Zucchetti', 'locale' => 'de-CH'],
-        ];
-        $translations = $result['translations'];
+        factory(Country::class)->create(['code' => 'el', 'name:en' => 'Greece', 'name:de' => 'Griechenland']);
 
-        $this->assertEquals(3, count($translations));
-
-        $this->assertEquals('en', $translations[0]['locale']);
-        $this->assertEquals('zucchini', $translations[0]['name']);
-
-        $this->assertEquals('de', $translations[1]['locale']);
-        $this->assertEquals('Zucchini', $translations[1]['name']);
-
-        $this->assertEquals('de-CH', $translations[2]['locale']);
-        $this->assertEquals('Zucchetti', $translations[2]['name']);
+        $result = Country::withTranslation()->first();
+        $this->assertEquals(2, $result->translations->count());
+        $this->assertEquals('Greece', $result->translations->where('locale', 'en')->first()->name);
+        $this->assertEquals('Griechenland', $result->translations->where('locale', 'de')->first()->name);
     }
 
-    public function test_whereTranslation_filters_by_translation()
+    /** @test */
+    public function scope_withTranslation_with_country_based_fallback()
     {
-        /** @var Country $country */
-        $country = Country::whereTranslation('name', 'Greece')->first();
-        $this->assertSame('gr', $country->code);
+        app('config')->set('translatable.fallback_locale', 'en');
+        app('config')->set('translatable.use_fallback', true);
+        app()->setLocale('en-GB');
+
+        factory(Vegetable::class)->create([
+            'en' => ['name' => 'Zucchini'],
+            'de' => ['name' => 'Zucchini'],
+            'de-CH' => ['name' => 'Zucchetti'],
+            'en-GB' => ['name' => 'Courgette'],
+        ]);
+
+        $this->assertEquals('Courgette', Vegetable::withTranslation()->first()->name);
+
+        app()->setLocale('de-CH');
+
+        $translations = Vegetable::withTranslation()->first()->translations;
+
+        $this->assertEquals(3, $translations->count());
+
+        $this->assertEquals('de', $translations[0]->locale);
+        $this->assertEquals('Zucchini', $translations[0]->name);
+
+        $this->assertEquals('de-CH', $translations[1]->locale);
+        $this->assertEquals('Zucchetti', $translations[1]->name);
+
+        $this->assertEquals('en', $translations[2]->locale);
+        $this->assertEquals('Zucchini', $translations[2]->name);
     }
 
-    public function test_orWhereTranslation_filters_by_translation()
+    /** @test */
+    public function whereTranslation_filters_by_translation()
     {
+        factory(Country::class)->create(['code' => 'gr', 'name:en' => 'Greece']);
+
+        $this->assertSame('gr', Country::whereTranslation('name', 'Greece')->first()->code);
+    }
+
+    /** @test */
+    public function orWhereTranslation_filters_by_translation()
+    {
+        factory(Country::class)->create(['code' => 'gr', 'name:en' => 'Greece']);
+        factory(Country::class)->create(['code' => 'fr', 'name:en' => 'France']);
+
         $result = Country::whereTranslation('name', 'Greece')->orWhereTranslation('name', 'France')->get();
-        $this->assertCount(2, $result);
-        $this->assertSame('Greece', $result[0]->name);
-        $this->assertSame('France', $result[1]->name);
+
+        $this->assertEquals(2, $result->count());
+        $this->assertSame('Greece', $result->first()->name);
+        $this->assertSame('France', $result->last()->name);
     }
 
-    public function test_whereTranslation_filters_by_translation_and_locale()
+    /** @test */
+    public function whereTranslation_filters_by_translation_and_locale()
     {
-        Country::create(['code' => 'some-code', 'name' => 'Griechenland']);
+        factory(Country::class)->create(['code' => 'gr', 'name:de' => 'Griechenland']);
+        factory(Country::class)->create(['code' => 'some-code', 'name' => 'Griechenland']);
 
-        $this->assertSame(2, Country::whereTranslation('name', 'Griechenland')->count());
+        $this->assertEquals(2, Country::whereTranslation('name', 'Griechenland')->count());
 
         $result = Country::whereTranslation('name', 'Griechenland', 'de')->get();
         $this->assertSame(1, $result->count());
         $this->assertSame('gr', $result->first()->code);
     }
 
-    public function test_whereTranslationLike_filters_by_translation()
+    /** @test */
+    public function whereTranslationLike_filters_by_translation()
     {
-        /** @var Country $country */
-        $country = Country::whereTranslationLike('name', '%Greec%')->first();
-        $this->assertSame('gr', $country->code);
+        factory(Country::class)->create(['code' => 'gr', 'name:en' => 'Greece']);
+
+        $this->assertSame('gr', Country::whereTranslationLike('name', '%Greec%')->first()->code);
     }
 
-    public function test_orWhereTranslationLike_filters_by_translation()
+    /** @test */
+    public function orWhereTranslationLike_filters_by_translation()
     {
+        factory(Country::class)->create(['code' => 'gr', 'name:en' => 'Greece']);
+        factory(Country::class)->create(['code' => 'fr', 'name:en' => 'France']);
+
         $result = Country::whereTranslationLike('name', '%eece%')->orWhereTranslationLike('name', '%ance%')->get();
-        $this->assertCount(2, $result);
-        $this->assertSame('Greece', $result[0]->name);
-        $this->assertSame('France', $result[1]->name);
+
+        $this->assertEquals(2, $result->count());
+        $this->assertSame('Greece', $result->first()->name);
+        $this->assertSame('France', $result->last()->name);
     }
 
-    public function test_whereTranslationLike_filters_by_translation_and_locale()
+    /** @test */
+    public function whereTranslationLike_filters_by_translation_and_locale()
     {
-        Country::create(['code' => 'some-code', 'name' => 'Griechenland']);
+        factory(Country::class)->create(['code' => 'gr', 'name:de' => 'Griechenland']);
+        factory(Country::class)->create(['code' => 'some-code', 'name:en' => 'Griechenland']);
 
-        $this->assertSame(2, Country::whereTranslationLike('name', 'Griechen%')->count());
+        $this->assertEquals(2, Country::whereTranslationLike('name', 'Griechen%')->count());
 
         $result = Country::whereTranslationLike('name', '%riechenlan%', 'de')->get();
-        $this->assertSame(1, $result->count());
-        $this->assertSame('gr', $result->first()->code);
+        $this->assertEquals(1, $result->count());
+        $this->assertEquals('gr', $result->first()->code);
     }
 
-    public function test_orderByTranslation_sorts_by_key_asc()
+    /** @test */
+    public function orderByTranslation_sorts_by_key_asc()
     {
-        $result = Country::orderByTranslation('name')->get();
-        $this->assertSame(3, $result->first()->id);
+        factory(Country::class)->create(['code' => 'el', 'name' => 'Greece']);
+        factory(Country::class)->create(['code' => 'fr', 'name' => 'France']);
+
+        $this->assertEquals('fr', Country::orderByTranslation('name')->get()->first()->code);
     }
 
-    public function test_orderByTranslation_sorts_by_key_desc()
+    /** @test */
+    public function orderByTranslation_sorts_by_key_desc()
     {
-        $result = Country::orderByTranslation('name', 'desc')->get();
-        $this->assertSame(1, $result->first()->id);
+        factory(Country::class)->create(['code' => 'el', 'name' => 'Greece']);
+        factory(Country::class)->create(['code' => 'fr', 'name' => 'France']);
+
+        $this->assertEquals('el', Country::orderByTranslation('name', 'desc')->get()->first()->code);
     }
 
     public function test_orderByTranslation_sorts_by_key_asc_even_if_locale_is_missing()
