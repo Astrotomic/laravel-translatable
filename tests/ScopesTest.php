@@ -1,6 +1,7 @@
 <?php
 
 use Astrotomic\Translatable\Test\Model\Country;
+use Astrotomic\Translatable\Test\Model\Food;
 use Astrotomic\Translatable\Test\Model\Vegetable;
 
 final class ScopesTest extends TestsBase
@@ -215,8 +216,15 @@ final class ScopesTest extends TestsBase
 
     public function test_orderByTranslation_sorts_by_key_asc_even_if_locale_is_missing()
     {
-        App::setLocale('ca');
-        $result = Country::orderByTranslation('name')->count();
-        $this->assertSame(4, $result);
+        Food::create(['en' => ['name' => 'Potatoes'],'fr' => ['name' => 'Pommes de Terre']]);
+        Food::create(['en' => ['name' => 'Strawberries'],'fr' => ['name' => 'Fraises']]);
+        Food::create([]);
+
+        $orderInEnglish = Food::with('translations')->orderByTranslation('name')->get();
+        $this->assertEquals([null, 'Potatoes', 'Strawberries'], $orderInEnglish->pluck('name')->toArray());
+
+        App::setLocale('fr');
+        $orderInFrench = Food::with('translations')->orderByTranslation('name', 'desc')->get();
+        $this->assertEquals(['Pommes de Terre', 'Fraises', null], $orderInFrench->pluck('name')->toArray());
     }
 }

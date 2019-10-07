@@ -57,14 +57,13 @@ trait Scopes
 
         return $query
             ->with('translations')
-            ->select($table.'.*')
+            ->select("{$table}.*")
             ->leftJoin($translationTable, function (JoinClause $join) use ($translationTable, $localeKey, $table, $keyName) {
                 $join
-                    ->on($translationTable.'.'.$this->getTranslationRelationKey(), '=', $table.'.'.$keyName)
-                    ->where($translationTable.'.'.$localeKey, $this->locale());
+                    ->on("{$translationTable}.{$this->getTranslationRelationKey()}", '=', "{$table}.{$keyName}")
+                    ->where("{$translationTable}.{$localeKey}", $this->locale());
             })
-            ->orderByRaw("CASE WHEN {$translationTable}.{$translationField} = '{$this->locale()}' THEN 1 ELSE 2 END")
-            ->orderBy("{$translationTable}.{$localeKey}", $sortMethod);
+            ->orderBy("{$translationTable}.{$translationField}", $sortMethod);
     }
 
     public function scopeOrWhereTranslation(Builder $query, string $translationField, $value, ?string $locale = null)
