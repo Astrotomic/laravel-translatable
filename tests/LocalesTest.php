@@ -1,6 +1,7 @@
 <?php
 
 use Astrotomic\Translatable\Locales;
+use Astrotomic\Translatable\Exception\LocalesNotDefinedException;
 
 final class LocalesTest extends TestCase
 {
@@ -29,6 +30,15 @@ final class LocalesTest extends TestCase
         $this->assertEquals(['de'], $this->app->make('translatable.locales')->all());
         $this->app->make('translatable.locales')->load();
         $this->assertEquals(['de', 'en'], $this->app->make('translatable.locales')->all());
+    }
+
+    /** @test */
+    public function it_throws_an_exception_if_there_are_no_locales()
+    {
+        $this->expectException(LocalesNotDefinedException::class);
+
+        $this->app['config']->set('translatable.locales', []);
+        $this->app->make('translatable.locales')->load();
     }
 
     /** @test */
