@@ -1,197 +1,61 @@
 <?php
 
-use Astrotomic\Translatable\Test\Model;
-use Astrotomic\Translatable\Test\Model\City;
-use Astrotomic\Translatable\Test\Model\Company;
-use Astrotomic\Translatable\Test\Model\Country;
-use Astrotomic\Translatable\Test\Model\Continent;
 use Astrotomic\Translatable\Test\Model\Vegetable;
-use Astrotomic\Translatable\Test\Model\CountryStrict;
-use Astrotomic\Translatable\Test\Model\CountryGuarded;
-use Astrotomic\Translatable\Test\Model\CityTranslation;
-use Astrotomic\Translatable\Test\Model\CountryTranslation;
 
-final class TestCoreModelExtension extends TestsBase
+final class TestCoreModelExtension extends TestCase
 {
-    // Saving
-
-    public function test_it_saves_empty_instances()
+    
+    /** @test */
+    public function to_array_returns_translated_attributes()
     {
-        $company = new Company();
-        $company->save();
-        $this->assertGreaterThan(0, $company->id);
+        $vegetable = factory(Vegetable::class)->make(['name:en' => 'Peas']);
 
-        $country = new Continent();
-        $country->save();
-        $this->assertGreaterThan(0, $country->id);
+        $this->assertArrayHasKey('name', $vegetable->toArray());
     }
 
-    public function test_it_saves_translations_when_existing_and_dirty()
+    /** @test */
+    public function to_array_wont_break_if_no_translations_exist()
     {
-        $country = Country::find(1);
-        $country->code = 'make_model_dirty';
-        $country->name = 'abc';
-        $this->assertTrue($country->save());
-        $country = Country::find(1);
-        $this->assertEquals($country->name, 'abc');
+        $vegetable = factory(Vegetable::class)->make();
+
+        $this->assertIsArray($vegetable->toArray());
     }
 
-    // Failing saving
-
-    public function test_it_throws_query_exception_if_code_is_null()
+    /** @test */
+    public function translated_attributes_can_be_accessed_as_properties()
     {
-        $this->expectException('\Exception');
+        $vegetable = factory(Vegetable::class)->make(['name:en' => 'Peas']);
 
-        $country = new Country();
-        $country->name = 'Belgium';
-        $country->code = null;
-        $country->save();
+        $this->assertTrue(isset($vegetable->name));
+        $this->assertEquals('Peas', $vegetable->name);
     }
 
-    public function test_it_throws_query_exception_if_saving_and_name_is_null()
+    /** @test */
+    public function it_can_hide_translated_attributes()
     {
-        $this->expectException(\Exception::class);
+        $vegetable = factory(Vegetable::class)->make(['name:en' => 'Peas']);
 
-        $country = new Country();
-        $country->code = 'be';
-        $country->name = null;
-        $country->save();
+        $this->assertTrue(isset($vegetable->toArray()['name']));
+
+        $vegetable->setHidden(['name']);
+
+        $this->assertFalse(isset($vegetable->toArray()['name']));
     }
 
-    public function test_it_returns_false_if_exists_and_dirty_and_parent_save_returns_false()
+    /** @test */
+    public function it_finds_custom_primary_keys()
     {
-        $that = $this;
-        $event = App::make('events');
-        $event->listen('eloquent*', function ($event, $models) use ($that) {
-            return get_class(reset($models)) == 'Astrotomic\Translatable\Test\Model\Country' ? false : true;
-        });
+        $vegetable = new Vegetable();
 
-        $country = Country::find(1);
-        $country->code = 'make_model_dirty';
-        $country->name = 'abc';
-        $this->assertFalse($country->save());
+        $this->assertEquals('vegetable_identity', $vegetable->getRelationKey());
     }
 
-    public function test_it_returns_false_if_does_not_exist_and_parent_save_returns_false()
+    /** @test */
+    public function setAttribute_returns_parent_setAttribute()
     {
-        $that = $this;
-        $event = App::make('events');
-        $event->listen('eloquent*', function ($event, $models) use ($that) {
-            return get_class(reset($models)) == 'Astrotomic\Translatable\Test\Model\Continent' ? false : true;
-        });
+        $vegetable = new Vegetable();
 
-        $continent = new Continent();
-        $this->assertFalse($continent->save());
+        $this->assertSame($vegetable, $vegetable->setAttribute('name', 'China'));
     }
 
-    // Filling
-
-    public function test_it_throws_exception_if_filling_a_protected_property()
-    {
-        $this->expectException(Illuminate\Database\Eloquent\MassAssignmentException::class);
-
-        $country = new CountryGuarded();
-        $this->assertTrue($country->totallyGuarded());
-        $country->fill(['code' => 'it', 'en' => ['name' => 'Italy']]);
-    }
-
-    public function test_translation_throws_exception_if_filling_a_protected_property()
-    {
-        $this->expectException(Illuminate\Database\Eloquent\MassAssignmentException::class);
-
-        $country = new Country();
-        $country->translationModel = Model\CountryTranslationGuarded::class;
-        $country->fill(['code' => 'it', 'en' => ['name' => 'Italy']]);
-    }
-
-    // Deleting
-
-    public function test_it_deletes_translations()
-    {
-        $city = City::find(1);
-        $cityId = $city->id;
-        $translation = $city->translate('en');
-        $this->assertTrue(is_object($translation));
-        $city->delete();
-        $city = City::find($cityId);
-        $this->assertNull($city);
-        $translations = CityTranslation::where('city_id', '=', $cityId)->get();
-        $this->assertEquals(0, count($translations));
-    }
-
-    public function test_it_does_not_delete_translations_when_attempting_to_delete_translatable()
-    {
-        $country = Country::find(1);
-        $countryId = $country->id;
-        $translation = $country->translate('en');
-        $this->assertTrue(is_object($translation));
-        try {
-            $country->delete();
-        } catch (\Exception $e) {
-        }
-
-        $country = Country::find(1);
-        $this->assertNotNull($country);
-
-        $translations = CountryTranslation::where('country_id', '=', $countryId)->get();
-        $this->assertEquals(4, count($translations));
-    }
-
-    public function test_it_does_not_delete_translations_while_force_deleting()
-    {
-        $country = CountryStrict::find(2);
-        $country->forceDelete();
-        $after = CountryTranslation::where('country_id', '=', 2)->get();
-        $this->assertEquals(0, count($after));
-    }
-
-    public function test_to_array_returns_translated_attributes()
-    {
-        $country = Country::find(1);
-        $this->assertArrayHasKey('name', $country->toArray());
-        $this->assertArrayHasKey('code', $country->toArray());
-    }
-
-    public function test_to_array_wont_break_if_no_translations_exist()
-    {
-        $country = new Country(['code' => 'test']);
-        $country->save();
-        $this->assertArrayHasKey('code', $country->toArray());
-    }
-
-    // Forms
-
-    public function test_it_fakes_isset_for_translated_attributes()
-    {
-        $country = Country::find(1);
-        $this->assertEquals(true, isset($country->name));
-    }
-
-    // Hidden attributes
-
-    public function test_it_should_hide_attributes_after_to_array()
-    {
-        $country = Country::find(1);
-
-        $this->assertEquals(true, isset($country->toArray()['name']));
-
-        // it is equivalent to set
-        //      protected $hidden = ['name'];
-        // in Eloquent
-        $country->setHidden(['name']);
-        $this->assertEquals(false, isset($country->toArray()['name']));
-    }
-
-    public function test_it_finds_custom_primary_keys()
-    {
-        $vegetable = new Vegetable;
-        $this->assertSame('vegetable_identity', $vegetable->getRelationKey());
-    }
-
-    public function test_setAttribute_returns_this()
-    {
-        $country = new Country;
-        $this->assertSame($country, $country->setAttribute('code', 'ch'));
-        $this->assertSame($country, $country->setAttribute('name', 'China'));
-    }
 }
