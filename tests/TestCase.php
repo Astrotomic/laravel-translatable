@@ -15,8 +15,11 @@ abstract class TestCase extends OrchestraTestCase
         ]);
 
         $this->withFactories(realpath('tests/factories'));
+    }
 
-        app('config')->set('translatable.locales', ['el', 'en', 'fr', 'de', 'id', 'en-GB', 'en-US', 'de-DE', 'de-CH']);
+    protected function getEnvironmentSetUp($app)
+    {
+        $app['config']->set('translatable.locales', ['el', 'en', 'fr', 'de', 'id', 'en-GB', 'en-US', 'de-DE', 'de-CH']);
     }
 
     protected function getPackageProviders($app)
