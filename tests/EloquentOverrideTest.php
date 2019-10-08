@@ -2,7 +2,7 @@
 
 use Astrotomic\Translatable\Test\Model\Vegetable;
 
-final class TestCoreModelExtension extends TestCase
+final class EloquentOverrideTest extends TestCase
 {
     
     /** @test */
