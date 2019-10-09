@@ -1,5 +1,10 @@
 language: php
 
+dist: bionic
+
+services:
+  - mysql
+
 cache:
   directories:
     - $HOME/.composer/cache/files
@@ -39,6 +44,7 @@ matrix:
     - php: 7.4snapshot
 
 before_install:
+  - mysql -e 'CREATE DATABASE translatable_test;'
   - composer config discard-changes true
   - travis_retry composer self-update
   - travis_retry composer require --dev "laravel/framework:${LARAVEL}" --no-interaction --no-update
@@ -47,7 +53,7 @@ install:
   - travis_retry composer update ${COMPOSER_FLAGS} --prefer-dist --no-suggest --no-interaction
 
 script:
-  - vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
+  - DB_CONNECTION=mysql DB_DATABASE=translatable_test DB_USERNAME=travis vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
 
 after_script:
   - wget https://scrutinizer-ci.com/ocular.phar
