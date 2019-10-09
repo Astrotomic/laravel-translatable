@@ -19,6 +19,12 @@ This is a Laravel package for translatable models. Its goal is to remove the com
 
 The full documentation can be found at [GitBook](https://docs.astrotomic.info/laravel-translatable).
 
+## Installation
+
+```bash
+composer require astrotomic/laravel-translatable
+```
+
 ## Quick Example
 
 ### **Getting translated attributes**
@@ -65,6 +71,24 @@ echo $post->translate('fr')->title; // Mon premier post
 * [How To Add Multilingual Support to Eloquent](https://laravel-news.com/how-to-add-multilingual-support-to-eloquent)
 * [How To Build An Efficient and SEO Friendly Multilingual Architecture For Your Laravel Application](https://mydnic.be/post/how-to-build-an-efficient-and-seo-friendly-multilingual-architecture-for-your-laravel-application)
 * [How to Add Multi-Language Models to Laravel QuickAdminPanel](https://quickadminpanel.com/blog/how-to-add-multi-language-models-to-laravel-quickadminpanel/)
+
+## Changelog
+
+Please see [CHANGELOG](docs/changelog.md) for more information on what has changed recently.
+
+## Contributing
+
+Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
+
+### Security
+
+Please see [SECURITY](SECURITY.md) for details.
+
+## Credits
+
+- [Tom Witkowski](https://github.com/Gummibeer)
+- [Dimitrios Savvopoulos](https://github.com/dimsav)
+- [All Contributors](https://github.com/Astrotomic/laravel-translatable/graphs/contributors)
 
 ## Versions
 
