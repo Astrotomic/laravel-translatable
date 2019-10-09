@@ -11,6 +11,7 @@ final class EloquentOverrideTest extends TestCase
         $vegetable = factory(Vegetable::class)->make(['name:en' => 'Peas']);
 
         $this->assertArrayHasKey('name', $vegetable->toArray());
+        $this->assertEquals('Peas', $vegetable->toArray()['name']);
     }
 
     /** @test */
