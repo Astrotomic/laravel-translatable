@@ -2,6 +2,10 @@
 
 ## v11
 
+### v11.5.2
+
+* Fix scope `orderByTranslation()` to return all translations - [\#72](https://github.com/Astrotomic/laravel-translatable/pull/72)
+
 ### v11.5.1
 
 * Fix `getTranslationByLocaleKey()` to use `translation` relation if possible - [\#49](https://github.com/Astrotomic/laravel-translatable/pull/49)
