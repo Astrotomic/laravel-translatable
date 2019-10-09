@@ -1,3 +1,5 @@
 <?php
 
-abstract class TestsBase extends TestCase {}
+abstract class TestsBase extends TestCase
+{
+}
