@@ -29,8 +29,7 @@
         "illuminate/support": "5.6.* || 5.7.* || 5.8.* || ^6.0"
     },
     "require-dev": {
-        "orchestra/testbench": "3.6.* || 3.7.* || 3.8.* || ^4.0",
-        "orchestra/testbench-core": "3.6.* || 3.7.* || 3.8.* || ^4.0"
+        "orchestra/testbench": "3.6.* || 3.7.* || 3.8.* || ^4.0"
     },
     "config": {
         "sort-packages": true

@@ -1,7 +1,7 @@
 # Introduction
 
 [![Total Downloads](https://img.shields.io/packagist/dt/astrotomic/laravel-translatable.svg?label=Downloads&style=flat-square&cacheSeconds=600)](https://packagist.org/packages/astrotomic/laravel-translatable) 
-[![CircleCI](https://img.shields.io/circleci/build/github/Astrotomic/laravel-translatable/master.svg?label=CircleCI&style=flat-square&cacheSeconds=600)](https://circleci.com/gh/Astrotomic/laravel-translatable) 
+[![TravisCI](https://img.shields.io/travis/Astrotomic/laravel-translatable/master?label=TravisCI&style=flat-square&cacheSeconds=600)](https://travis-ci.org/Astrotomic/laravel-translatable/branches) 
 [![StyleCI](https://styleci.io/repos/192333549/shield)](https://styleci.io/repos/192333549) 
 [![ScrutinizerCI](https://img.shields.io/scrutinizer/quality/g/Astrotomic/laravel-translatable/master.svg?label=ScrutinizerCI&style=flat-square&cacheSeconds=600)](https://scrutinizer-ci.com/g/Astrotomic/laravel-translatable/) 
 [![Code Climate](https://img.shields.io/codeclimate/maintainability/Astrotomic/laravel-translatable.svg?label=CodeClimate&style=flat-square&cacheSeconds=600)](https://codeclimate.com/github/Astrotomic/laravel-translatable)
