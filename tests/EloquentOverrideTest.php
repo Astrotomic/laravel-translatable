@@ -48,7 +48,7 @@ final class EloquentOverrideTest extends TestCase
     {
         $vegetable = new Vegetable();
 
-        $this->assertEquals('vegetable_identity', $vegetable->getRelationKey());
+        $this->assertEquals('vegetable_identity', $vegetable->getTranslationRelationKey());
     }
 
     /** @test */
