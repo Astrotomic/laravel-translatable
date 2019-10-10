@@ -263,15 +263,15 @@ final class ScopesTest extends TestCase
 
     public function test_orderByTranslation_sorts_by_key_asc_even_if_locale_is_missing()
     {
-        Food::create(['en' => ['name' => 'Potatoes'], 'fr' => ['name' => 'Pommes de Terre']]);
-        Food::create(['en' => ['name' => 'Strawberries'], 'fr' => ['name' => 'Fraises']]);
-        Food::create([]);
+        factory(Vegetable::class)->create(['en' => ['name' => 'Potatoes'], 'fr' => ['name' => 'Pommes de Terre']]);
+        factory(Vegetable::class)->create(['en' => ['name' => 'Strawberries'], 'fr' => ['name' => 'Fraises']]);
+        factory(Vegetable::class)->create([]);
 
-        $orderInEnglish = Food::with('translations')->orderByTranslation('name')->get();
+        $orderInEnglish = Vegetable::orderByTranslation('name')->get();
         $this->assertEquals([null, 'Potatoes', 'Strawberries'], $orderInEnglish->pluck('name')->toArray());
 
-        App::setLocale('fr');
-        $orderInFrench = Food::with('translations')->orderByTranslation('name', 'desc')->get();
+        app()->setLocale('fr');
+        $orderInFrench = Vegetable::orderByTranslation('name', 'desc')->get();
         $this->assertEquals(['Pommes de Terre', 'Fraises', null], $orderInFrench->pluck('name')->toArray());
     }
 }
