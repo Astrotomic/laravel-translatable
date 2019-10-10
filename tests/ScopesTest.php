@@ -1,6 +1,5 @@
 <?php
 
-use Astrotomic\Translatable\Test\Model\Food;
 use Astrotomic\Translatable\Test\Model\Country;
 use Astrotomic\Translatable\Test\Model\Vegetable;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -63,7 +62,7 @@ final class ScopesTest extends TestCase
         factory(Country::class)->create(['code' => 'en', 'name:en' => 'English']);
 
         $this->assertEquals(1, Country::translated()->count());
-        $this->assertEquals('English', Country::with('translations')->translated()->first()->{"name:en"});
+        $this->assertEquals('English', Country::with('translations')->translated()->first()->{'name:en'});
     }
 
     /** @test */
