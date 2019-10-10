@@ -503,11 +503,7 @@ final class ValidationTest extends TestCase
                 'AT',
             ],
         ]);
-        $this->getLocalesHelper()->load();
-    }
 
-    private function getLocalesHelper(): Locales
-    {
-        return app(Locales::class);
+        app(Locales::class)->load();
     }
 }
