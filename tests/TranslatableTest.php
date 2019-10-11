@@ -574,166 +574,158 @@ final class TranslatableTest extends TestCase
         $this->assertEquals(2, count($vegetable->translations));
     }
 
-    public function test_fill_with_translation_key()
+    /** @test */
+    public function fill_with_translation_key()
     {
-        $country = new Country();
-        $country->fill([
-            'code'    => 'tr',
-            'name:en' => 'Turkey',
-            'name:de' => 'Türkei',
+        $vegetable = new Vegetable();
+        $vegetable->fill([
+            'name:en' => 'Peas',
+            'name:de' => 'Erbsen',
         ]);
-        $this->assertEquals($country->translate('en')->name, 'Turkey');
-        $this->assertEquals($country->translate('de')->name, 'Türkei');
+        $this->assertEquals('Peas', $vegetable->translate('en')->name);
+        $this->assertEquals('Erbsen', $vegetable->translate('de')->name);
 
-        $country->save();
-        $country = Country::whereCode('tr')->first();
-        $this->assertEquals($country->translate('en')->name, 'Turkey');
-        $this->assertEquals($country->translate('de')->name, 'Türkei');
+        $vegetable->save();
+        $vegetable = Vegetable::first();
+        $this->assertEquals('Peas', $vegetable->translate('en')->name);
+        $this->assertEquals('Erbsen', $vegetable->translate('de')->name);
     }
 
-    public function test_it_uses_the_default_locale_from_the_model()
+    /** @test */
+    public function it_uses_the_default_locale_from_the_model()
     {
-        $country = new Country();
-        $country->fill([
-            'code'    => 'tn',
-            'name:en' => 'Tunisia',
-            'name:fr' => 'Tunisie',
+        $vegetable = new Vegetable();
+        $vegetable->fill([
+            'name:en' => 'Peas',
+            'name:fr' => 'Pois',
         ]);
-        $this->assertEquals($country->name, 'Tunisia');
-        $country->setDefaultLocale('fr');
-        $this->assertEquals($country->name, 'Tunisie');
+        $this->assertEquals('Peas', $vegetable->name);
+        $vegetable->setDefaultLocale('fr');
+        $this->assertEquals('Pois', $vegetable->name);
 
-        $country->setDefaultLocale(null);
-        $country->save();
-        $country = Country::whereCode('tn')->first();
-        $this->assertEquals($country->name, 'Tunisia');
-        $country->setDefaultLocale('fr');
-        $this->assertEquals($country->name, 'Tunisie');
+        $vegetable->setDefaultLocale(null);
+        
+        $vegetable->save();
+        $vegetable = Vegetable::first();
+
+        $this->assertEquals('Peas', $vegetable->name);
+        $vegetable->setDefaultLocale('fr');
+        $this->assertEquals('Pois', $vegetable->name);
     }
 
-    public function test_replicate_entity()
+    /** @test */
+    public function replicate_entity()
     {
-        $apple = new Food();
-        $apple->fill([
+        $vegetable = new Vegetable();
+        $vegetable->fill([
             'name:fr' => 'Pomme',
             'name:en' => 'Apple',
             'name:de' => 'Apfel',
         ]);
-        $apple->save();
+        $vegetable->save();
 
-        $replicatedApple = $apple->replicateWithTranslations();
-        $this->assertNotSame($replicatedApple->id, $apple->id);
-        $this->assertEquals($replicatedApple->translate('fr')->name, $apple->translate('fr')->name);
-        $this->assertEquals($replicatedApple->translate('en')->name, $apple->translate('en')->name);
-        $this->assertEquals($replicatedApple->translate('de')->name, $apple->translate('de')->name);
+        $vegetable->refresh();
+        $replicated = $vegetable->replicateWithTranslations();
+        $this->assertNotSame($replicated->identity, $vegetable->identity);
+        $this->assertEquals($replicated->translate('fr')->name, $vegetable->translate('fr')->name);
+        $this->assertEquals($replicated->translate('en')->name, $vegetable->translate('en')->name);
+        $this->assertEquals($replicated->translate('de')->name, $vegetable->translate('de')->name);
     }
 
-    public function test_getTranslationsArray()
+    /** @test */
+    public function can_get_translations_as_array()
     {
-        Country::create([
-            'code'    => 'tn',
-            'name:en' => 'Tunisia',
-            'name:fr' => 'Tunisie',
-            'name:de' => 'Tunesien',
+        $vegetable = factory(Vegetable::class)->create([
+            'name:en' => 'Peas',
+            'name:fr' => 'Pois',
+            'name:de' => 'Erbsen',
         ]);
 
-        /** @var Country $country */
-        $country = Country::where('code', 'tn')->first();
-
-        $this->assertSame([
-            'de' => ['name' => 'Tunesien'],
-            'en' => ['name' => 'Tunisia'],
-            'fr' => ['name' => 'Tunisie'],
-        ], $country->getTranslationsArray());
+        $this->assertEquals([
+            'de' => ['name' => 'Erbsen'],
+            'en' => ['name' => 'Peas'],
+            'fr' => ['name' => 'Pois'],
+        ], $vegetable->getTranslationsArray());
     }
 
-    public function test_fill_when_locale_key_unknown()
+    /** @test */
+    public function fill_will_ignore_unkown_locales()
     {
         config(['translatable.locales' => ['en']]);
 
-        $country = new Country();
-        $country->fill([
-            'code' => 'ua',
-            'en'   => ['name' => 'Ukraine'],
-            'ua'   => ['name' => 'Україна'], // "ua" is unknown, so must be ignored
+        $vegetable = new Vegetable();
+        $vegetable->fill([
+            'en'   => ['name' => 'Peas'],
+            'ua'   => ['name' => 'Unkown'],
+        ]);
+        $vegetable->save();
+
+        $this->assertDatabaseHas('vegetable_translations', [
+            'locale' => 'en',
+            'name' => 'Peas'
         ]);
 
-        $modelTranslations = [];
-
-        foreach ($country->translations as $translation) {
-            foreach ($country->translatedAttributes as $attr) {
-                $modelTranslations[$translation->locale][$attr] = $translation->{$attr};
-            }
-        }
-
-        $expectedTranslations = [
-            'en' => ['name' => 'Ukraine'],
-        ];
-
-        $this->assertEquals($modelTranslations, $expectedTranslations);
+        $this->assertDatabaseMissing('vegetable_translations', ['locale' => 'ua']);
     }
 
-    public function test_fill_with_translation_key_when_locale_key_unknown()
+    /** @test */
+    public function fill_will_ignore_unkown_locales_with_translations()
     {
         config(['translatable.locales' => ['en']]);
 
-        $country = new Country();
-        $country->fill([
-            'code'    => 'ua',
-            'name:en' => 'Ukraine',
-            'name:ua' => 'Україна', // "ua" is unknown, so must be ignored
+        $vegetable = new Vegetable();
+        $vegetable->fill([
+            'name:en' => 'Peas',
+            'name:ua' => 'Unkown', 
         ]);
 
-        $modelTranslations = [];
+        $vegetable->save();
 
-        foreach ($country->translations as $translation) {
-            foreach ($country->translatedAttributes as $attr) {
-                $modelTranslations[$translation->locale][$attr] = $translation->{$attr};
-            }
-        }
+        $this->assertDatabaseHas('vegetable_translations', [
+            'locale' => 'en',
+            'name' => 'Peas'
+        ]);
 
-        $expectedTranslations = [
-            'en' => ['name' => 'Ukraine'],
-        ];
+        $this->assertDatabaseMissing('vegetable_translations', ['locale' => 'ua']);
 
-        $this->assertEquals($modelTranslations, $expectedTranslations);
     }
 
-    public function test_it_uses_fallback_locale_if_default_is_empty()
+    /** @test */
+    public function it_uses_fallback_locale_if_default_is_empty()
     {
-        App::make('config')->set('translatable.use_fallback', true);
-        App::make('config')->set('translatable.use_property_fallback', true);
-        App::make('config')->set('translatable.fallback_locale', 'en');
-        $country = new Country();
-        $country->fill([
-            'code'    => 'tn',
-            'name:en' => 'Tunisia',
+        $this->app->make('config')->set('translatable.use_fallback', true);
+        $this->app->make('config')->set('translatable.use_property_fallback', true);
+        $this->app->make('config')->set('translatable.fallback_locale', 'en');
+        $vegetable = new Vegetable();
+        $vegetable->fill([
+            'name:en' => 'Peas',
             'name:fr' => '',
         ]);
+
         $this->app->setLocale('en');
-        $this->assertEquals('Tunisia', $country->name);
+        $this->assertEquals('Peas', $vegetable->name);
         $this->app->setLocale('fr');
-        $this->assertEquals('Tunisia', $country->name);
+        $this->assertEquals('Peas', $vegetable->name);
     }
 
-    public function test_it_always_uses_value_when_fallback_not_available()
+    /** @test */
+    public function it_uses_value_when_fallback_is_not_available()
     {
-        App::make('config')->set('translatable.fallback_locale', 'it');
-        App::make('config')->set('translatable.use_fallback', true);
+        $this->app->make('config')->set('translatable.fallback_locale', 'it');
+        $this->app->make('config')->set('translatable.use_fallback', true);
 
-        $country = new Country();
-        $country->fill([
-            'code' => 'gr',
+        $vegetable = new Vegetable();
+        $vegetable->fill([
             'en' => ['name' => ''],
-            'de' => ['name' => 'Griechenland'],
+            'de' => ['name' => 'Erbsen'],
         ]);
 
         // verify translated attributed is correctly returned when empty (non-existing fallback is ignored)
         $this->app->setLocale('en');
-        $this->assertEquals('', $country->getAttribute('name'));
+        $this->assertEquals('', $vegetable->getAttribute('name'));
 
         $this->app->setLocale('de');
-        $this->assertEquals('Griechenland', $country->getAttribute('name'));
+        $this->assertEquals('Erbsen', $vegetable->getAttribute('name'));
     }
 
     public function test_translation_with_multiconnection()
@@ -768,11 +760,13 @@ final class TranslatableTest extends TestCase
         $this->assertEmpty($sgCountry1->translate('sg'));
     }
 
-    public function test_empty_translated_attribute()
+    /** @test */
+    public function empty_translated_attribute()
     {
-        $country = Country::whereCode('gr')->first();
         $this->app->setLocale('invalid');
-        $this->assertSame(null, $country->name);
+        $vegetable = factory(Vegetable::class)->create();
+        
+        $this->assertNull($vegetable->name);
     }
 
     public function test_numeric_translated_attribute()
