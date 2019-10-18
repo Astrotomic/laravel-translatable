@@ -1,9 +1,9 @@
 <?php
 
- use Faker\Generator as Faker;
- use Astrotomic\Translatable\Test\Model\Vegetable;
+use Faker\Generator as Faker;
+use Astrotomic\Translatable\Test\Model\Vegetable;
 
- $factory->define(Vegetable::class, function (Faker $faker) {
-     return [
-     ];
- }); 
+$factory->define(Vegetable::class, function (Faker $faker) {
+    return [
+    ];
+});

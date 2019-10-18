@@ -5,9 +5,10 @@ use Astrotomic\Translatable\Locales;
 use Illuminate\Validation\Rules\RequiredIf;
 use Astrotomic\Translatable\Validation\RuleFactory;
 
-final class ValidationTest extends TestsBase
+final class ValidationTest extends TestCase
 {
-    public function test_it_does_not_touch_untranslated_keys()
+    /** @test */
+    public function it_does_not_touch_untranslated_keys()
     {
         $rules = [
             'title' => 'required',
@@ -20,7 +21,8 @@ final class ValidationTest extends TestsBase
         $this->assertEquals($rules, RuleFactory::make($rules));
     }
 
-    public function test_format_array_it_replaces_single_key()
+    /** @test */
+    public function format_array_it_replaces_single_key()
     {
         $rules = [
             'title' => 'required',
@@ -36,7 +38,8 @@ final class ValidationTest extends TestsBase
         ], RuleFactory::make($rules, RuleFactory::FORMAT_ARRAY));
     }
 
-    public function test_format_array_it_replaces_sub_key()
+    /** @test */
+    public function format_array_it_replaces_sub_key()
     {
         $rules = [
             'title' => 'required',
@@ -52,7 +55,8 @@ final class ValidationTest extends TestsBase
         ], RuleFactory::make($rules, RuleFactory::FORMAT_ARRAY));
     }
 
-    public function test_format_array_it_replaces_middle_key()
+    /** @test */
+    public function format_array_it_replaces_middle_key()
     {
         $rules = [
             'title' => 'required',
@@ -68,7 +72,8 @@ final class ValidationTest extends TestsBase
         ], RuleFactory::make($rules, RuleFactory::FORMAT_ARRAY));
     }
 
-    public function test_format_array_it_replaces_middle_key_with_custom_prefix()
+    /** @test */
+    public function format_array_it_replaces_middle_key_with_custom_prefix()
     {
         $rules = [
             'title' => 'required',
@@ -84,7 +89,8 @@ final class ValidationTest extends TestsBase
         ], RuleFactory::make($rules, RuleFactory::FORMAT_ARRAY, '{'));
     }
 
-    public function test_format_array_it_replaces_middle_key_with_custom_suffix()
+    /** @test */
+    public function format_array_it_replaces_middle_key_with_custom_suffix()
     {
         $rules = [
             'title' => 'required',
@@ -100,7 +106,8 @@ final class ValidationTest extends TestsBase
         ], RuleFactory::make($rules, RuleFactory::FORMAT_ARRAY, '%', '}'));
     }
 
-    public function test_format_array_it_replaces_middle_key_with_custom_delimiters()
+    /** @test */
+    public function format_array_it_replaces_middle_key_with_custom_delimiters()
     {
         $rules = [
             'title' => 'required',
@@ -116,7 +123,8 @@ final class ValidationTest extends TestsBase
         ], RuleFactory::make($rules, RuleFactory::FORMAT_ARRAY, '{', '}'));
     }
 
-    public function test_format_array_it_replaces_middle_key_with_custom_regex_delimiters()
+    /** @test */
+    public function format_array_it_replaces_middle_key_with_custom_regex_delimiters()
     {
         $rules = [
             'title' => 'required',
@@ -132,7 +140,8 @@ final class ValidationTest extends TestsBase
         ], RuleFactory::make($rules, RuleFactory::FORMAT_ARRAY, '$', '$'));
     }
 
-    public function test_format_array_it_uses_config_as_default()
+    /** @test */
+    public function format_array_it_uses_config_as_default()
     {
         app('config')->set('translatable.rule_factory', [
             'format' => RuleFactory::FORMAT_ARRAY,
@@ -156,7 +165,8 @@ final class ValidationTest extends TestsBase
         ], RuleFactory::make($rules));
     }
 
-    public function test_format_key_it_replaces_single_key()
+    /** @test */
+    public function format_key_it_replaces_single_key()
     {
         $rules = [
             'title' => 'required',
@@ -172,7 +182,8 @@ final class ValidationTest extends TestsBase
         ], RuleFactory::make($rules, RuleFactory::FORMAT_KEY));
     }
 
-    public function test_format_key_it_replaces_sub_key()
+    /** @test */
+    public function format_key_it_replaces_sub_key()
     {
         $rules = [
             'title' => 'required',
@@ -188,7 +199,8 @@ final class ValidationTest extends TestsBase
         ], RuleFactory::make($rules, RuleFactory::FORMAT_KEY));
     }
 
-    public function test_format_key_it_replaces_middle_key()
+    /** @test */
+    public function format_key_it_replaces_middle_key()
     {
         $rules = [
             'title' => 'required',
@@ -204,7 +216,8 @@ final class ValidationTest extends TestsBase
         ], RuleFactory::make($rules, RuleFactory::FORMAT_KEY));
     }
 
-    public function test_format_key_it_uses_config_as_default()
+    /** @test */
+    public function format_key_it_uses_config_as_default()
     {
         app('config')->set('translatable.rule_factory', [
             'format' => RuleFactory::FORMAT_KEY,
@@ -228,7 +241,8 @@ final class ValidationTest extends TestsBase
         ], RuleFactory::make($rules));
     }
 
-    public function test_it_replaces_key_with_custom_locales()
+    /** @test */
+    public function it_replaces_key_with_custom_locales()
     {
         $rules = [
             'title' => 'required',
@@ -245,7 +259,8 @@ final class ValidationTest extends TestsBase
         ]));
     }
 
-    public function test_it_throws_exception_with_undefined_locales()
+    /** @test */
+    public function it_throws_exception_with_undefined_locales()
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -261,7 +276,8 @@ final class ValidationTest extends TestsBase
         ]);
     }
 
-    public function test_format_array_it_replaces_single_rule()
+    /** @test */
+    public function format_array_it_replaces_single_rule()
     {
         $rules = [
             '%title%' => 'sometimes|string',
@@ -281,7 +297,8 @@ final class ValidationTest extends TestsBase
         ], RuleFactory::make($rules, RuleFactory::FORMAT_ARRAY));
     }
 
-    public function test_format_array_it_replaces_imploded_rules()
+    /** @test */
+    public function format_array_it_replaces_imploded_rules()
     {
         $rules = [
             '%title%' => 'sometimes|string',
@@ -301,7 +318,8 @@ final class ValidationTest extends TestsBase
         ], RuleFactory::make($rules, RuleFactory::FORMAT_ARRAY));
     }
 
-    public function test_format_array_it_replaces_array_of_rules()
+    /** @test */
+    public function format_array_it_replaces_array_of_rules()
     {
         $rules = [
             '%title%' => 'sometimes|string',
@@ -321,7 +339,8 @@ final class ValidationTest extends TestsBase
         ], RuleFactory::make($rules, RuleFactory::FORMAT_ARRAY));
     }
 
-    public function test_format_array_it_does_not_touch_non_string_rule()
+    /** @test */
+    public function format_array_it_does_not_touch_non_string_rule()
     {
         $rules = [
             'title' => 'required',
@@ -339,7 +358,8 @@ final class ValidationTest extends TestsBase
         $this->assertInstanceOf(RequiredIf::class, $formattedRules['de-AT.content']);
     }
 
-    public function test_format_array_it_does_not_touch_non_string_rule_in_array()
+    /** @test */
+    public function format_array_it_does_not_touch_non_string_rule_in_array()
     {
         $rules = [
             'title' => 'required',
@@ -364,7 +384,8 @@ final class ValidationTest extends TestsBase
         $this->assertInstanceOf(RequiredIf::class, $formattedRules['de-AT.content'][1]);
     }
 
-    public function test_format_key_it_replaces_single_rule()
+    /** @test */
+    public function format_key_it_replaces_single_rule()
     {
         $rules = [
             '%title%' => 'sometimes|string',
@@ -384,7 +405,8 @@ final class ValidationTest extends TestsBase
         ], RuleFactory::make($rules, RuleFactory::FORMAT_KEY));
     }
 
-    public function test_format_key_it_replaces_imploded_rules()
+    /** @test */
+    public function format_key_it_replaces_imploded_rules()
     {
         $rules = [
             '%title%' => 'sometimes|string',
@@ -404,7 +426,8 @@ final class ValidationTest extends TestsBase
         ], RuleFactory::make($rules, RuleFactory::FORMAT_KEY));
     }
 
-    public function test_format_key_it_replaces_array_of_rules()
+    /** @test */
+    public function format_key_it_replaces_array_of_rules()
     {
         $rules = [
             '%title%' => 'sometimes|string',
@@ -424,7 +447,8 @@ final class ValidationTest extends TestsBase
         ], RuleFactory::make($rules, RuleFactory::FORMAT_KEY));
     }
 
-    public function test_format_key_it_does_not_touch_non_string_rule()
+    /** @test */
+    public function format_key_it_does_not_touch_non_string_rule()
     {
         $rules = [
             'title' => 'required',
@@ -442,7 +466,8 @@ final class ValidationTest extends TestsBase
         $this->assertInstanceOf(RequiredIf::class, $formattedRules['content:de-AT']);
     }
 
-    public function test_format_key_it_does_not_touch_non_string_rule_in_array()
+    /** @test */
+    public function format_key_it_does_not_touch_non_string_rule_in_array()
     {
         $rules = [
             'title' => 'required',
@@ -469,7 +494,8 @@ final class ValidationTest extends TestsBase
 
     protected function setUp(): void
     {
-        $this->setUpTheTestEnvironment();
+        parent::setUp();
+
         app('config')->set('translatable.locales', [
             'en',
             'de' => [
@@ -477,11 +503,7 @@ final class ValidationTest extends TestsBase
                 'AT',
             ],
         ]);
-        $this->getLocalesHelper()->load();
-    }
 
-    private function getLocalesHelper(): Locales
-    {
-        return app(Locales::class);
+        app(Locales::class)->load();
     }
 }
