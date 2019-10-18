@@ -734,25 +734,22 @@ final class TranslatableTest extends TestCase
         $potatoes->{'name:en'} = 'Potatoes';
         $potatoes->save();
 
-        $this->app->make('config')->set('database.connections.mysql2', [
-            'driver' => 'mysql',
-            'host' => '127.0.0.1',
-            'database' => 'translatable_test2',
-            'username' => env('DB_USERNAME', 'root'),
-            'password' => env('DB_PASSWORD', ''),
+        $this->app->make('config')->set('database.connections.testing2', [
+            'driver' => 'sqlite',
+            'database' => ':memory:',
         ]);
-        $this->loadMigrationsFrom(['--database' => 'mysql2', '--path' => realpath('tests/migrations')]);
+        $this->loadMigrationsFrom(['--database' => 'testing2', '--path' => realpath('tests/migrations')]);
 
         $peas = new Vegetable();
-        $peas->setConnection('mysql2');
+        $peas->setConnection('testing2');
         $peas->{'name:es'} = 'Guisantes';
         $peas->save();
 
         $this->assertDatabaseHas('vegetable_translations', ['locale' => 'en', 'name' => 'Potatoes'], 'testing');
         $this->assertDatabaseMissing('vegetable_translations', ['locale' => 'es'], 'testing');
 
-        $this->assertDatabaseHas('vegetable_translations', ['locale' => 'es', 'name' => 'Guisantes'], 'mysql2');
-        $this->assertDatabaseMissing('vegetable_translations', ['locale' => 'en'], 'mysql2');
+        $this->assertDatabaseHas('vegetable_translations', ['locale' => 'es', 'name' => 'Guisantes'], 'testing2');
+        $this->assertDatabaseMissing('vegetable_translations', ['locale' => 'en'], 'testing2');
     }
 
     /** @test */
