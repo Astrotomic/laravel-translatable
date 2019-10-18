@@ -949,14 +949,17 @@ final class TranslatableTest extends TestCase
         $this->assertEquals($helper->getCountryLocale('de', 'DE'), $translation->locale);
     }
 
-    public function test_it_uses_translation_relation_if_locale_matches()
+    /** @test */
+    public function it_uses_translation_relation_if_locale_matches()
     {
         $this->app->make('config')->set('translatable.use_fallback', false);
         $this->app->setLocale('de');
+        Country::create(['code' => 'gr', 'name:de' => 'Griechenland']);
 
         /** @var Country $country */
-        $country = Country::find(1);
+        $country = Country::first();
         $country->load('translation');
+
         $this->assertTrue($country->relationLoaded('translation'));
         $this->assertFalse($country->relationLoaded('translations'));
 
@@ -966,14 +969,17 @@ final class TranslatableTest extends TestCase
         $this->assertFalse($country->relationLoaded('translations'));
     }
 
-    public function test_it_uses_translations_relation_if_locale_does_not_match()
+    /** @test */
+    public function it_uses_translations_relation_if_locale_does_not_match()
     {
         $this->app->make('config')->set('translatable.use_fallback', false);
         $this->app->setLocale('de');
+        Country::create(['code' => 'gr', 'name:de' => 'Griechenland', 'name:en' => 'Greece']);
 
         /** @var Country $country */
-        $country = Country::find(1);
+        $country = Country::first();
         $country->load('translation');
+
         $this->assertTrue($country->relationLoaded('translation'));
         $this->assertFalse($country->relationLoaded('translations'));
         $this->app->setLocale('en');
@@ -984,13 +990,15 @@ final class TranslatableTest extends TestCase
         $this->assertTrue($country->relationLoaded('translations'));
     }
 
-    public function test_it_does_not_load_translation_relation_if_not_already_loaded()
+    /** @test */
+    public function it_does_not_load_translation_relation_if_not_already_loaded()
     {
         $this->app->make('config')->set('translatable.use_fallback', false);
         $this->app->setLocale('de');
+        Country::create(['code' => 'gr', 'name:de' => 'Griechenland', 'name:en' => 'Greece']);
 
         /** @var Country $country */
-        $country = Country::find(1);
+        $country = Country::first();
         $this->assertFalse($country->relationLoaded('translation'));
         $this->assertFalse($country->relationLoaded('translations'));
 
