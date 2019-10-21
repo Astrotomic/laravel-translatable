@@ -29,7 +29,8 @@
         "illuminate/support": "5.8.* || ^6.0"
     },
     "require-dev": {
-        "orchestra/testbench": "3.8.* || ^4.0"
+        "orchestra/testbench": "3.8.* || ^4.0",
+        "phpunit/phpunit": "^8.0"
     },
     "config": {
         "sort-packages": true
