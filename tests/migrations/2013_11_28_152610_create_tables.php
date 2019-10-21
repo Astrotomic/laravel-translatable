@@ -1,23 +1,38 @@
 <?php
 
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Builder;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migrator;
 use Illuminate\Database\Migrations\Migration;
 
 class CreateTables extends Migration
 {
+    /** @var Builder */
+    protected $schema;
+
+    /** @var Migrator */
+    protected $migrator;
+
+    public function __construct()
+    {
+        $this->migrator = app('migrator');
+        $this->schema = Schema::connection($this->migrator->getConnection());
+    }
+
     /**
      * Run the migrations.
      */
     public function up()
     {
-        Schema::create('countries', function (Blueprint $table) {
+        $this->schema->create('countries', function (Blueprint $table) {
             $table->increments('id');
             $table->string('code');
             $table->timestamps();
             $table->softDeletes();
         });
 
-        Schema::create('country_translations', function (Blueprint $table) {
+        $this->schema->create('country_translations', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('country_id')->unsigned();
             $table->string('name');
@@ -27,7 +42,7 @@ class CreateTables extends Migration
             $table->foreign('country_id')->references('id')->on('countries')->onDelete('cascade');
         });
 
-        Schema::create('cities', function (Blueprint $table) {
+        $this->schema->create('cities', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('country_id')->unsigned();
             $table->timestamps();
@@ -35,7 +50,7 @@ class CreateTables extends Migration
             $table->foreign('country_id')->references('id')->on('countries');
         });
 
-        Schema::create('city_translations', function (Blueprint $table) {
+        $this->schema->create('city_translations', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('city_id')->unsigned();
             $table->string('name')->nullable();
@@ -45,23 +60,23 @@ class CreateTables extends Migration
             $table->foreign('city_id')->references('id')->on('cities')->onDelete('cascade');
         });
 
-        Schema::create('companies', function (Blueprint $table) {
+        $this->schema->create('companies', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->nullable();
             $table->timestamps();
         });
 
-        Schema::create('continents', function (Blueprint $table) {
+        $this->schema->create('continents', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
         });
 
-        Schema::create('foods', function (Blueprint $table) {
+        $this->schema->create('foods', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
         });
 
-        Schema::create('food_translations', function (Blueprint $table) {
+        $this->schema->create('food_translations', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('food_id')->unsigned();
             $table->string('name');
@@ -71,7 +86,7 @@ class CreateTables extends Migration
             $table->foreign('food_id')->references('id')->on('foods')->onDelete('cascade');
         });
 
-        Schema::create('continent_translations', function (Blueprint $table) {
+        $this->schema->create('continent_translations', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('continent_id')->unsigned();
             $table->string('name');
@@ -79,13 +94,13 @@ class CreateTables extends Migration
             $table->timestamps();
         });
 
-        Schema::create('vegetables', function (Blueprint $table) {
+        $this->schema->create('vegetables', function (Blueprint $table) {
             $table->increments('identity');
             $table->integer('quantity')->default(0);
             $table->timestamps();
         });
 
-        Schema::create('vegetable_translations', function (Blueprint $table) {
+        $this->schema->create('vegetable_translations', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('vegetable_identity')->unsigned();
             $table->string('name');
@@ -95,12 +110,12 @@ class CreateTables extends Migration
             $table->foreign('vegetable_identity')->references('identity')->on('vegetables')->onDelete('cascade');
         });
 
-        Schema::create('people', function (Blueprint $table) {
+        $this->schema->create('people', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
         });
 
-        Schema::create('person_translations', function (Blueprint $table) {
+        $this->schema->create('person_translations', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('person_id')->unsigned();
             $table->string('name');
@@ -116,21 +131,21 @@ class CreateTables extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('city_translations');
-        Schema::dropIfExists('cities');
+        $this->schema->dropIfExists('city_translations');
+        $this->schema->dropIfExists('cities');
 
-        Schema::dropIfExists('country_translations');
-        Schema::dropIfExists('countries');
+        $this->schema->dropIfExists('country_translations');
+        $this->schema->dropIfExists('countries');
 
-        Schema::dropIfExists('companies');
+        $this->schema->dropIfExists('companies');
 
-        Schema::dropIfExists('continent_translations');
-        Schema::dropIfExists('continents');
-        Schema::dropIfExists('food_translations');
-        Schema::dropIfExists('foods');
-        Schema::dropIfExists('vegetable_translations');
-        Schema::dropIfExists('vegetables');
-        Schema::dropIfExists('person_translations');
-        Schema::dropIfExists('people');
+        $this->schema->dropIfExists('continent_translations');
+        $this->schema->dropIfExists('continents');
+        $this->schema->dropIfExists('food_translations');
+        $this->schema->dropIfExists('foods');
+        $this->schema->dropIfExists('vegetable_translations');
+        $this->schema->dropIfExists('vegetables');
+        $this->schema->dropIfExists('person_translations');
+        $this->schema->dropIfExists('people');
     }
 }
