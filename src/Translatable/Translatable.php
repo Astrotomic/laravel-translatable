@@ -320,8 +320,8 @@ trait Translatable
 
     protected function locale(): string
     {
-        if ($this->defaultLocale) {
-            return $this->defaultLocale;
+        if ($this->getDefaultLocale()) {
+            return $this->getDefaultLocale();
         }
 
         return $this->getLocalesHelper()->current();
