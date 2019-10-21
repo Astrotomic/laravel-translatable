@@ -9,7 +9,7 @@ class VegetableTranslation extends Eloquent
     public $timestamps = false;
 
     protected $fillable = [
-        'country_id',
+        'vegetable_identity',
         'locale',
         'name',
     ];
