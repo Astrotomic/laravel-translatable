@@ -10,6 +10,7 @@ cache:
     - $HOME/.composer/cache/files
 
 php:
+  - 7.1
   - 7.2
   - 7.3
 
@@ -24,6 +25,11 @@ matrix:
     - php: 7.4snapshot
       env: LARAVEL='^6.0' COMPOSER_FLAGS='--prefer-lowest'
     - php: 7.4snapshot
+      env: LARAVEL='^6.0' COMPOSER_FLAGS='--prefer-stable'
+  exclude:
+    - php: 7.1
+      env: LARAVEL='^6.0' COMPOSER_FLAGS='--prefer-lowest'
+    - php: 7.1
       env: LARAVEL='^6.0' COMPOSER_FLAGS='--prefer-stable'
   fast_finish: true
   allow_failures:
