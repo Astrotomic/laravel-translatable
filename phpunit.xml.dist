@@ -7,16 +7,17 @@
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
          processIsolation="false"
-         stopOnFailure="true"
+         stopOnFailure="false"
 >
     <testsuites>
         <testsuite name="Package Test Suite">
             <directory suffix=".php">./tests/</directory>
+            <exclude>./tests/factories/</exclude>
         </testsuite>
     </testsuites>
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="false">
-            <directory suffix=".php">src/Translatable</directory>
+            <directory suffix=".php">./src/Translatable/</directory>
         </whitelist>
     </filter>
     <php>

@@ -11,7 +11,7 @@ abstract class TestCase extends OrchestraTestCase
 
         $this->loadMigrationsFrom([
             '--database' => 'testing',
-            '--path' => realpath('tests/migrations')
+            '--path' => realpath('tests/migrations'),
         ]);
 
         $this->withFactories(realpath('tests/factories'));

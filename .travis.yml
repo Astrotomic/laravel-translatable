@@ -1,0 +1,60 @@
+language: php
+
+dist: bionic
+
+services:
+  - mysql
+
+cache:
+  directories:
+    - $HOME/.composer/cache/files
+
+php:
+  - 7.1
+  - 7.2
+  - 7.3
+
+env:
+  - LARAVEL='5.6.*' COMPOSER_FLAGS='--prefer-lowest'
+  - LARAVEL='5.6.*' COMPOSER_FLAGS='--prefer-stable'
+  - LARAVEL='5.7.*' COMPOSER_FLAGS='--prefer-lowest'
+  - LARAVEL='5.7.*' COMPOSER_FLAGS='--prefer-stable'
+  - LARAVEL='5.8.*' COMPOSER_FLAGS='--prefer-lowest'
+  - LARAVEL='5.8.*' COMPOSER_FLAGS='--prefer-stable'
+  - LARAVEL='^6.0' COMPOSER_FLAGS='--prefer-lowest'
+  - LARAVEL='^6.0' COMPOSER_FLAGS='--prefer-stable'
+
+matrix:
+  include:
+    - php: 7.4snapshot
+      env: LARAVEL='^6.0' COMPOSER_FLAGS='--prefer-lowest'
+    - php: 7.4snapshot
+      env: LARAVEL='^6.0' COMPOSER_FLAGS='--prefer-stable'
+  exclude:
+    - php: 7.3
+      env: LARAVEL='5.6.*' COMPOSER_FLAGS='--prefer-lowest'
+    - php: 7.3
+      env: LARAVEL='5.6.*' COMPOSER_FLAGS='--prefer-stable'
+    - php: 7.1
+      env: LARAVEL='^6.0' COMPOSER_FLAGS='--prefer-lowest'
+    - php: 7.1
+      env: LARAVEL='^6.0' COMPOSER_FLAGS='--prefer-stable'
+  fast_finish: true
+  allow_failures:
+    - php: 7.4snapshot
+
+before_install:
+  - mysql -e 'CREATE DATABASE translatable_test;'
+  - composer config discard-changes true
+  - travis_retry composer self-update
+  - travis_retry composer require --dev "laravel/framework:${LARAVEL}" --no-interaction --no-update
+
+install:
+  - travis_retry composer update ${COMPOSER_FLAGS} --prefer-dist --no-suggest --no-interaction
+
+script:
+  - DB_CONNECTION=mysql DB_DATABASE=translatable_test DB_USERNAME=travis vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
+
+after_script:
+  - wget https://scrutinizer-ci.com/ocular.phar
+  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover

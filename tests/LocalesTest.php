@@ -9,7 +9,7 @@ final class LocalesTest extends TestCase
     public function locales_is_declared_as_a_singleton_instance()
     {
         $singletonHash = spl_object_hash(app(Locales::class));
-        
+
         $this->assertEquals($singletonHash, spl_object_hash($this->app->make('translatable.locales')));
         $this->assertEquals($singletonHash, spl_object_hash($this->app->make(Locales::class)));
     }
