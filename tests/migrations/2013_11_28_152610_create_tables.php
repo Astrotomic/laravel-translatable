@@ -81,6 +81,7 @@ class CreateTables extends Migration
 
         Schema::create('vegetables', function (Blueprint $table) {
             $table->increments('identity');
+            $table->integer('quantity')->default(0);
             $table->timestamps();
         });
 
