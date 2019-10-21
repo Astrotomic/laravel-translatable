@@ -52,7 +52,9 @@
         ]
     },
     "scripts": {
-        "csfix": "php-cs-fixer fix --using-cache=no"
+        "csfix": "php-cs-fixer fix --using-cache=no",
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html=build"
     },
     "support": {
         "issues": "https://github.com/Astrotomic/laravel-translatable/issues",
