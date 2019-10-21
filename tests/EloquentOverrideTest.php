@@ -9,8 +9,8 @@ final class EloquentOverrideTest extends TestCase
     {
         $vegetable = factory(Vegetable::class)->make(['name:en' => 'Peas']);
 
-        $this->assertArrayHasKey('name', $vegetable->toArray());
-        $this->assertEquals('Peas', $vegetable->toArray()['name']);
+        static::assertArrayHasKey('name', $vegetable->toArray());
+        static::assertEquals('Peas', $vegetable->toArray()['name']);
     }
 
     /** @test */
@@ -18,7 +18,7 @@ final class EloquentOverrideTest extends TestCase
     {
         $vegetable = factory(Vegetable::class)->make();
 
-        $this->assertIsArray($vegetable->toArray());
+        static::assertIsArray($vegetable->toArray());
     }
 
     /** @test */
@@ -26,8 +26,8 @@ final class EloquentOverrideTest extends TestCase
     {
         $vegetable = factory(Vegetable::class)->make(['name:en' => 'Peas']);
 
-        $this->assertTrue(isset($vegetable->name));
-        $this->assertEquals('Peas', $vegetable->name);
+        static::assertTrue(isset($vegetable->name));
+        static::assertEquals('Peas', $vegetable->name);
     }
 
     /** @test */
@@ -35,11 +35,11 @@ final class EloquentOverrideTest extends TestCase
     {
         $vegetable = factory(Vegetable::class)->make(['name:en' => 'Peas']);
 
-        $this->assertTrue(isset($vegetable->toArray()['name']));
+        static::assertTrue(isset($vegetable->toArray()['name']));
 
         $vegetable->setHidden(['name']);
 
-        $this->assertFalse(isset($vegetable->toArray()['name']));
+        static::assertFalse(isset($vegetable->toArray()['name']));
     }
 
     /** @test */
@@ -47,7 +47,7 @@ final class EloquentOverrideTest extends TestCase
     {
         $vegetable = new Vegetable();
 
-        $this->assertEquals('vegetable_identity', $vegetable->getTranslationRelationKey());
+        static::assertEquals('vegetable_identity', $vegetable->getTranslationRelationKey());
     }
 
     /** @test */
@@ -55,6 +55,6 @@ final class EloquentOverrideTest extends TestCase
     {
         $vegetable = new Vegetable();
 
-        $this->assertSame($vegetable, $vegetable->setAttribute('name', 'China'));
+        static::assertSame($vegetable, $vegetable->setAttribute('name', 'China'));
     }
 }
