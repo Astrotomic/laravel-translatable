@@ -88,6 +88,7 @@ Please see [SECURITY](SECURITY.md) for details.
 
 - [Tom Witkowski](https://github.com/Gummibeer)
 - [Dimitrios Savvopoulos](https://github.com/dimsav)
+- [David Llop](https://github.com/Lloople)
 - [All Contributors](https://github.com/Astrotomic/laravel-translatable/graphs/contributors)
 
 ## Versions
