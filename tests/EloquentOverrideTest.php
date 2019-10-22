@@ -5,56 +5,56 @@ use Astrotomic\Translatable\Test\Model\Vegetable;
 final class EloquentOverrideTest extends TestCase
 {
     /** @test */
-    public function to_array_returns_translated_attributes()
+    public function to_array_returns_translated_attributes(): void
     {
         $vegetable = factory(Vegetable::class)->make(['name:en' => 'Peas']);
 
-        $this->assertArrayHasKey('name', $vegetable->toArray());
-        $this->assertEquals('Peas', $vegetable->toArray()['name']);
+        static::assertArrayHasKey('name', $vegetable->toArray());
+        static::assertEquals('Peas', $vegetable->toArray()['name']);
     }
 
     /** @test */
-    public function to_array_wont_break_if_no_translations_exist()
+    public function to_array_wont_break_if_no_translations_exist(): void
     {
         $vegetable = factory(Vegetable::class)->make();
 
-        $this->assertIsArray($vegetable->toArray());
+        static::assertIsArray($vegetable->toArray());
     }
 
     /** @test */
-    public function translated_attributes_can_be_accessed_as_properties()
+    public function translated_attributes_can_be_accessed_as_properties(): void
     {
         $vegetable = factory(Vegetable::class)->make(['name:en' => 'Peas']);
 
-        $this->assertTrue(isset($vegetable->name));
-        $this->assertEquals('Peas', $vegetable->name);
+        static::assertTrue(isset($vegetable->name));
+        static::assertEquals('Peas', $vegetable->name);
     }
 
     /** @test */
-    public function it_can_hide_translated_attributes()
+    public function it_can_hide_translated_attributes(): void
     {
         $vegetable = factory(Vegetable::class)->make(['name:en' => 'Peas']);
 
-        $this->assertTrue(isset($vegetable->toArray()['name']));
+        static::assertTrue(isset($vegetable->toArray()['name']));
 
         $vegetable->setHidden(['name']);
 
-        $this->assertFalse(isset($vegetable->toArray()['name']));
+        static::assertFalse(isset($vegetable->toArray()['name']));
     }
 
     /** @test */
-    public function it_finds_custom_primary_keys()
+    public function it_finds_custom_primary_keys(): void
     {
         $vegetable = new Vegetable();
 
-        $this->assertEquals('vegetable_identity', $vegetable->getTranslationRelationKey());
+        static::assertEquals('vegetable_identity', $vegetable->getTranslationRelationKey());
     }
 
     /** @test */
-    public function setAttribute_returns_parent_setAttribute()
+    public function setAttribute_returns_parent_setAttribute(): void
     {
         $vegetable = new Vegetable();
 
-        $this->assertSame($vegetable, $vegetable->setAttribute('name', 'China'));
+        static::assertSame($vegetable, $vegetable->setAttribute('name', 'China'));
     }
 }
