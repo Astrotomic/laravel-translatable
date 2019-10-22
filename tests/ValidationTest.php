@@ -18,7 +18,7 @@ final class ValidationTest extends TestCase
             ],
         ];
 
-        $this->assertEquals($rules, RuleFactory::make($rules));
+        static::assertEquals($rules, RuleFactory::make($rules));
     }
 
     /** @test */
@@ -29,7 +29,7 @@ final class ValidationTest extends TestCase
             '%content%' => 'required',
         ];
 
-        $this->assertEquals([
+        static::assertEquals([
             'title' => 'required',
             'en.content' => 'required',
             'de.content' => 'required',
@@ -46,7 +46,7 @@ final class ValidationTest extends TestCase
             'translations.%content%' => 'required',
         ];
 
-        $this->assertEquals([
+        static::assertEquals([
             'title' => 'required',
             'translations.en.content' => 'required',
             'translations.de.content' => 'required',
@@ -63,7 +63,7 @@ final class ValidationTest extends TestCase
             'translations.%content%.body' => 'required',
         ];
 
-        $this->assertEquals([
+        static::assertEquals([
             'title' => 'required',
             'translations.en.content.body' => 'required',
             'translations.de.content.body' => 'required',
@@ -80,7 +80,7 @@ final class ValidationTest extends TestCase
             'translations.{content%.body' => 'required',
         ];
 
-        $this->assertEquals([
+        static::assertEquals([
             'title' => 'required',
             'translations.en.content.body' => 'required',
             'translations.de.content.body' => 'required',
@@ -97,7 +97,7 @@ final class ValidationTest extends TestCase
             'translations.%content}.body' => 'required',
         ];
 
-        $this->assertEquals([
+        static::assertEquals([
             'title' => 'required',
             'translations.en.content.body' => 'required',
             'translations.de.content.body' => 'required',
@@ -114,7 +114,7 @@ final class ValidationTest extends TestCase
             'translations.{content}.body' => 'required',
         ];
 
-        $this->assertEquals([
+        static::assertEquals([
             'title' => 'required',
             'translations.en.content.body' => 'required',
             'translations.de.content.body' => 'required',
@@ -131,7 +131,7 @@ final class ValidationTest extends TestCase
             'translations.$content$.body' => 'required',
         ];
 
-        $this->assertEquals([
+        static::assertEquals([
             'title' => 'required',
             'translations.en.content.body' => 'required',
             'translations.de.content.body' => 'required',
@@ -155,7 +155,7 @@ final class ValidationTest extends TestCase
             '%content%' => 'required',
         ];
 
-        $this->assertEquals([
+        static::assertEquals([
             'title' => 'required',
             '%content%' => 'required',
             'en.content' => 'required',
@@ -173,7 +173,7 @@ final class ValidationTest extends TestCase
             '%content%' => 'required',
         ];
 
-        $this->assertEquals([
+        static::assertEquals([
             'title' => 'required',
             'content:en' => 'required',
             'content:de' => 'required',
@@ -190,7 +190,7 @@ final class ValidationTest extends TestCase
             'translations.%content%' => 'required',
         ];
 
-        $this->assertEquals([
+        static::assertEquals([
             'title' => 'required',
             'translations.content:en' => 'required',
             'translations.content:de' => 'required',
@@ -207,7 +207,7 @@ final class ValidationTest extends TestCase
             'translations.%content%.body' => 'required',
         ];
 
-        $this->assertEquals([
+        static::assertEquals([
             'title' => 'required',
             'translations.content:en.body' => 'required',
             'translations.content:de.body' => 'required',
@@ -231,7 +231,7 @@ final class ValidationTest extends TestCase
             '%content%' => 'required',
         ];
 
-        $this->assertEquals([
+        static::assertEquals([
             'title' => 'required',
             '%content%' => 'required',
             'content:en' => 'required',
@@ -249,7 +249,7 @@ final class ValidationTest extends TestCase
             'translations.%content%.body' => 'required',
         ];
 
-        $this->assertEquals([
+        static::assertEquals([
             'title' => 'required',
             'translations.en.content.body' => 'required',
             'translations.de.content.body' => 'required',
@@ -284,7 +284,7 @@ final class ValidationTest extends TestCase
             '%content%' => 'required_with:%title%',
         ];
 
-        $this->assertEquals([
+        static::assertEquals([
             'en.title' => 'sometimes|string',
             'de.title' => 'sometimes|string',
             'de-DE.title' => 'sometimes|string',
@@ -305,7 +305,7 @@ final class ValidationTest extends TestCase
             '%content%' => 'required_with:%title%|string',
         ];
 
-        $this->assertEquals([
+        static::assertEquals([
             'en.title' => 'sometimes|string',
             'de.title' => 'sometimes|string',
             'de-DE.title' => 'sometimes|string',
@@ -326,7 +326,7 @@ final class ValidationTest extends TestCase
             '%content%' => ['required_with:%title%', 'string'],
         ];
 
-        $this->assertEquals([
+        static::assertEquals([
             'en.title' => 'sometimes|string',
             'de.title' => 'sometimes|string',
             'de-DE.title' => 'sometimes|string',
@@ -351,11 +351,11 @@ final class ValidationTest extends TestCase
 
         $formattedRules = RuleFactory::make($rules, RuleFactory::FORMAT_ARRAY);
 
-        $this->assertEquals('required', $formattedRules['title']);
-        $this->assertInstanceOf(RequiredIf::class, $formattedRules['en.content']);
-        $this->assertInstanceOf(RequiredIf::class, $formattedRules['de.content']);
-        $this->assertInstanceOf(RequiredIf::class, $formattedRules['de-DE.content']);
-        $this->assertInstanceOf(RequiredIf::class, $formattedRules['de-AT.content']);
+        static::assertEquals('required', $formattedRules['title']);
+        static::assertInstanceOf(RequiredIf::class, $formattedRules['en.content']);
+        static::assertInstanceOf(RequiredIf::class, $formattedRules['de.content']);
+        static::assertInstanceOf(RequiredIf::class, $formattedRules['de-DE.content']);
+        static::assertInstanceOf(RequiredIf::class, $formattedRules['de-AT.content']);
     }
 
     /** @test */
@@ -373,15 +373,15 @@ final class ValidationTest extends TestCase
 
         $formattedRules = RuleFactory::make($rules, RuleFactory::FORMAT_ARRAY);
 
-        $this->assertEquals('required', $formattedRules['title']);
-        $this->assertEquals('required_with:en.title', $formattedRules['en.content'][0]);
-        $this->assertEquals('required_with:de.title', $formattedRules['de.content'][0]);
-        $this->assertEquals('required_with:de-DE.title', $formattedRules['de-DE.content'][0]);
-        $this->assertEquals('required_with:de-AT.title', $formattedRules['de-AT.content'][0]);
-        $this->assertInstanceOf(RequiredIf::class, $formattedRules['en.content'][1]);
-        $this->assertInstanceOf(RequiredIf::class, $formattedRules['de.content'][1]);
-        $this->assertInstanceOf(RequiredIf::class, $formattedRules['de-DE.content'][1]);
-        $this->assertInstanceOf(RequiredIf::class, $formattedRules['de-AT.content'][1]);
+        static::assertEquals('required', $formattedRules['title']);
+        static::assertEquals('required_with:en.title', $formattedRules['en.content'][0]);
+        static::assertEquals('required_with:de.title', $formattedRules['de.content'][0]);
+        static::assertEquals('required_with:de-DE.title', $formattedRules['de-DE.content'][0]);
+        static::assertEquals('required_with:de-AT.title', $formattedRules['de-AT.content'][0]);
+        static::assertInstanceOf(RequiredIf::class, $formattedRules['en.content'][1]);
+        static::assertInstanceOf(RequiredIf::class, $formattedRules['de.content'][1]);
+        static::assertInstanceOf(RequiredIf::class, $formattedRules['de-DE.content'][1]);
+        static::assertInstanceOf(RequiredIf::class, $formattedRules['de-AT.content'][1]);
     }
 
     /** @test */
@@ -392,7 +392,7 @@ final class ValidationTest extends TestCase
             '%content%' => 'required_with:"%title%"',
         ];
 
-        $this->assertEquals([
+        static::assertEquals([
             'title:en' => 'sometimes|string',
             'title:de' => 'sometimes|string',
             'title:de-DE' => 'sometimes|string',
@@ -413,7 +413,7 @@ final class ValidationTest extends TestCase
             '%content%' => 'required_with:"%title%"|string',
         ];
 
-        $this->assertEquals([
+        static::assertEquals([
             'title:en' => 'sometimes|string',
             'title:de' => 'sometimes|string',
             'title:de-DE' => 'sometimes|string',
@@ -434,7 +434,7 @@ final class ValidationTest extends TestCase
             '%content%' => ['required_with:"%title%"', 'string'],
         ];
 
-        $this->assertEquals([
+        static::assertEquals([
             'title:en' => 'sometimes|string',
             'title:de' => 'sometimes|string',
             'title:de-DE' => 'sometimes|string',
@@ -459,11 +459,11 @@ final class ValidationTest extends TestCase
 
         $formattedRules = RuleFactory::make($rules, RuleFactory::FORMAT_KEY);
 
-        $this->assertEquals('required', $formattedRules['title']);
-        $this->assertInstanceOf(RequiredIf::class, $formattedRules['content:en']);
-        $this->assertInstanceOf(RequiredIf::class, $formattedRules['content:de']);
-        $this->assertInstanceOf(RequiredIf::class, $formattedRules['content:de-DE']);
-        $this->assertInstanceOf(RequiredIf::class, $formattedRules['content:de-AT']);
+        static::assertEquals('required', $formattedRules['title']);
+        static::assertInstanceOf(RequiredIf::class, $formattedRules['content:en']);
+        static::assertInstanceOf(RequiredIf::class, $formattedRules['content:de']);
+        static::assertInstanceOf(RequiredIf::class, $formattedRules['content:de-DE']);
+        static::assertInstanceOf(RequiredIf::class, $formattedRules['content:de-AT']);
     }
 
     /** @test */
@@ -481,15 +481,15 @@ final class ValidationTest extends TestCase
 
         $formattedRules = RuleFactory::make($rules, RuleFactory::FORMAT_KEY);
 
-        $this->assertEquals('required', $formattedRules['title']);
-        $this->assertEquals('required_with:"title:en"', $formattedRules['content:en'][0]);
-        $this->assertEquals('required_with:"title:de"', $formattedRules['content:de'][0]);
-        $this->assertEquals('required_with:"title:de-DE"', $formattedRules['content:de-DE'][0]);
-        $this->assertEquals('required_with:"title:de-AT"', $formattedRules['content:de-AT'][0]);
-        $this->assertInstanceOf(RequiredIf::class, $formattedRules['content:en'][1]);
-        $this->assertInstanceOf(RequiredIf::class, $formattedRules['content:de'][1]);
-        $this->assertInstanceOf(RequiredIf::class, $formattedRules['content:de-DE'][1]);
-        $this->assertInstanceOf(RequiredIf::class, $formattedRules['content:de-AT'][1]);
+        static::assertEquals('required', $formattedRules['title']);
+        static::assertEquals('required_with:"title:en"', $formattedRules['content:en'][0]);
+        static::assertEquals('required_with:"title:de"', $formattedRules['content:de'][0]);
+        static::assertEquals('required_with:"title:de-DE"', $formattedRules['content:de-DE'][0]);
+        static::assertEquals('required_with:"title:de-AT"', $formattedRules['content:de-AT'][0]);
+        static::assertInstanceOf(RequiredIf::class, $formattedRules['content:en'][1]);
+        static::assertInstanceOf(RequiredIf::class, $formattedRules['content:de'][1]);
+        static::assertInstanceOf(RequiredIf::class, $formattedRules['content:de-DE'][1]);
+        static::assertInstanceOf(RequiredIf::class, $formattedRules['content:de-AT'][1]);
     }
 
     protected function setUp(): void
