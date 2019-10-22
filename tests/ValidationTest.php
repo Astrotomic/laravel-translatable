@@ -8,7 +8,7 @@ use Astrotomic\Translatable\Validation\RuleFactory;
 final class ValidationTest extends TestCase
 {
     /** @test */
-    public function it_does_not_touch_untranslated_keys()
+    public function it_does_not_touch_untranslated_keys(): void
     {
         $rules = [
             'title' => 'required',
@@ -22,7 +22,7 @@ final class ValidationTest extends TestCase
     }
 
     /** @test */
-    public function format_array_it_replaces_single_key()
+    public function format_array_it_replaces_single_key(): void
     {
         $rules = [
             'title' => 'required',
@@ -39,7 +39,7 @@ final class ValidationTest extends TestCase
     }
 
     /** @test */
-    public function format_array_it_replaces_sub_key()
+    public function format_array_it_replaces_sub_key(): void
     {
         $rules = [
             'title' => 'required',
@@ -56,7 +56,7 @@ final class ValidationTest extends TestCase
     }
 
     /** @test */
-    public function format_array_it_replaces_middle_key()
+    public function format_array_it_replaces_middle_key(): void
     {
         $rules = [
             'title' => 'required',
@@ -73,7 +73,7 @@ final class ValidationTest extends TestCase
     }
 
     /** @test */
-    public function format_array_it_replaces_middle_key_with_custom_prefix()
+    public function format_array_it_replaces_middle_key_with_custom_prefix(): void
     {
         $rules = [
             'title' => 'required',
@@ -90,7 +90,7 @@ final class ValidationTest extends TestCase
     }
 
     /** @test */
-    public function format_array_it_replaces_middle_key_with_custom_suffix()
+    public function format_array_it_replaces_middle_key_with_custom_suffix(): void
     {
         $rules = [
             'title' => 'required',
@@ -107,7 +107,7 @@ final class ValidationTest extends TestCase
     }
 
     /** @test */
-    public function format_array_it_replaces_middle_key_with_custom_delimiters()
+    public function format_array_it_replaces_middle_key_with_custom_delimiters(): void
     {
         $rules = [
             'title' => 'required',
@@ -124,7 +124,7 @@ final class ValidationTest extends TestCase
     }
 
     /** @test */
-    public function format_array_it_replaces_middle_key_with_custom_regex_delimiters()
+    public function format_array_it_replaces_middle_key_with_custom_regex_delimiters(): void
     {
         $rules = [
             'title' => 'required',
@@ -141,7 +141,7 @@ final class ValidationTest extends TestCase
     }
 
     /** @test */
-    public function format_array_it_uses_config_as_default()
+    public function format_array_it_uses_config_as_default(): void
     {
         app('config')->set('translatable.rule_factory', [
             'format' => RuleFactory::FORMAT_ARRAY,
@@ -166,7 +166,7 @@ final class ValidationTest extends TestCase
     }
 
     /** @test */
-    public function format_key_it_replaces_single_key()
+    public function format_key_it_replaces_single_key(): void
     {
         $rules = [
             'title' => 'required',
@@ -183,7 +183,7 @@ final class ValidationTest extends TestCase
     }
 
     /** @test */
-    public function format_key_it_replaces_sub_key()
+    public function format_key_it_replaces_sub_key(): void
     {
         $rules = [
             'title' => 'required',
@@ -200,7 +200,7 @@ final class ValidationTest extends TestCase
     }
 
     /** @test */
-    public function format_key_it_replaces_middle_key()
+    public function format_key_it_replaces_middle_key(): void
     {
         $rules = [
             'title' => 'required',
@@ -217,7 +217,7 @@ final class ValidationTest extends TestCase
     }
 
     /** @test */
-    public function format_key_it_uses_config_as_default()
+    public function format_key_it_uses_config_as_default(): void
     {
         app('config')->set('translatable.rule_factory', [
             'format' => RuleFactory::FORMAT_KEY,
@@ -242,7 +242,7 @@ final class ValidationTest extends TestCase
     }
 
     /** @test */
-    public function it_replaces_key_with_custom_locales()
+    public function it_replaces_key_with_custom_locales(): void
     {
         $rules = [
             'title' => 'required',
@@ -260,7 +260,7 @@ final class ValidationTest extends TestCase
     }
 
     /** @test */
-    public function it_throws_exception_with_undefined_locales()
+    public function it_throws_exception_with_undefined_locales(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -277,7 +277,7 @@ final class ValidationTest extends TestCase
     }
 
     /** @test */
-    public function format_array_it_replaces_single_rule()
+    public function format_array_it_replaces_single_rule(): void
     {
         $rules = [
             '%title%' => 'sometimes|string',
@@ -298,7 +298,7 @@ final class ValidationTest extends TestCase
     }
 
     /** @test */
-    public function format_array_it_replaces_imploded_rules()
+    public function format_array_it_replaces_imploded_rules(): void
     {
         $rules = [
             '%title%' => 'sometimes|string',
@@ -319,7 +319,7 @@ final class ValidationTest extends TestCase
     }
 
     /** @test */
-    public function format_array_it_replaces_array_of_rules()
+    public function format_array_it_replaces_array_of_rules(): void
     {
         $rules = [
             '%title%' => 'sometimes|string',
@@ -340,7 +340,7 @@ final class ValidationTest extends TestCase
     }
 
     /** @test */
-    public function format_array_it_does_not_touch_non_string_rule()
+    public function format_array_it_does_not_touch_non_string_rule(): void
     {
         $rules = [
             'title' => 'required',
@@ -359,7 +359,7 @@ final class ValidationTest extends TestCase
     }
 
     /** @test */
-    public function format_array_it_does_not_touch_non_string_rule_in_array()
+    public function format_array_it_does_not_touch_non_string_rule_in_array(): void
     {
         $rules = [
             'title' => 'required',
@@ -385,7 +385,7 @@ final class ValidationTest extends TestCase
     }
 
     /** @test */
-    public function format_key_it_replaces_single_rule()
+    public function format_key_it_replaces_single_rule(): void
     {
         $rules = [
             '%title%' => 'sometimes|string',
@@ -406,7 +406,7 @@ final class ValidationTest extends TestCase
     }
 
     /** @test */
-    public function format_key_it_replaces_imploded_rules()
+    public function format_key_it_replaces_imploded_rules(): void
     {
         $rules = [
             '%title%' => 'sometimes|string',
@@ -427,7 +427,7 @@ final class ValidationTest extends TestCase
     }
 
     /** @test */
-    public function format_key_it_replaces_array_of_rules()
+    public function format_key_it_replaces_array_of_rules(): void
     {
         $rules = [
             '%title%' => 'sometimes|string',
@@ -448,7 +448,7 @@ final class ValidationTest extends TestCase
     }
 
     /** @test */
-    public function format_key_it_does_not_touch_non_string_rule()
+    public function format_key_it_does_not_touch_non_string_rule(): void
     {
         $rules = [
             'title' => 'required',
@@ -467,7 +467,7 @@ final class ValidationTest extends TestCase
     }
 
     /** @test */
-    public function format_key_it_does_not_touch_non_string_rule_in_array()
+    public function format_key_it_does_not_touch_non_string_rule_in_array(): void
     {
         $rules = [
             'title' => 'required',
