@@ -24,6 +24,8 @@ trait Translatable
 
     protected static $autoloadTranslations = null;
 
+    protected static $deleteTranslationsCascade = false;
+
     protected $defaultLocale;
 
     public static function bootTranslatable(): void
@@ -31,6 +33,12 @@ trait Translatable
         static::saved(function (Model $model) {
             /* @var Translatable $model */
             return $model->saveTranslations();
+        });
+
+        static::deleted(function (Model $model) {
+            if (self::$deleteTranslationsCascade === true) {
+                return $model->deleteTranslations();
+            }
         });
     }
 

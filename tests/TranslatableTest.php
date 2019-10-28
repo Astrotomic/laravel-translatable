@@ -1006,4 +1006,28 @@ final class TranslatableTest extends TestCase
         static::assertFalse($country->relationLoaded('translation'));
         static::assertTrue($country->relationLoaded('translations'));
     }
+
+    /** @test */
+    public function it_does_not_delete_translations_on_cascade_by_default()
+    {
+        $vegetable = factory(Vegetable::class)->create(['name:en' => 'Peas']);
+
+        $vegetable->delete();
+
+        $this->assertDatabaseHas('vegetable_translations', ['vegetable_identity' => $vegetable->identity]);
+    }
+
+    /** @test */
+    public function it_deletes_translations_on_cascade()
+    {
+        $vegetable = new class(['name:en']) extends Vegetable {
+            protected $table = 'vegetables';
+            protected static $deleteTranslationsCascade = true;
+        };
+        $vegetable->save();
+
+        $vegetable->delete();
+
+        $this->assertDatabaseMissing('vegetable_translations', ['vegetable_identity' => $vegetable->identity]);
+    }
 }
