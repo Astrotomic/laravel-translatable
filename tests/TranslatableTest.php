@@ -1020,11 +1020,8 @@ final class TranslatableTest extends TestCase
     /** @test */
     public function it_deletes_translations_on_cascade()
     {
-        $vegetable = new class(['name:en']) extends Vegetable {
-            protected $table = 'vegetables';
-            protected static $deleteTranslationsCascade = true;
-        };
-        $vegetable->save();
+        Vegetable::enableDeleteTranslationsCascade();
+        $vegetable = factory(Vegetable::class)->create(['name:en' => 'Peas']);
 
         $vegetable->delete();
 

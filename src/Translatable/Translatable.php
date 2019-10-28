@@ -57,6 +57,21 @@ trait Translatable
         self::$autoloadTranslations = true;
     }
 
+    public static function defaultDeleteTranslationsCascade(): void
+    {
+        self::$deleteTranslationsCascade = false;
+    }
+
+    public static function disableDeleteTranslationsCascade(): void
+    {
+        self::$deleteTranslationsCascade = false;
+    }
+
+    public static function enableDeleteTranslationsCascade(): void
+    {
+        self::$deleteTranslationsCascade = true;
+    }
+
     public function attributesToArray()
     {
         $attributes = parent::attributesToArray();
