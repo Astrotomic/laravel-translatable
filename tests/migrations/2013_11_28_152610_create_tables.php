@@ -107,7 +107,7 @@ class CreateTables extends Migration
             $table->string('locale')->index();
 
             $table->unique(['vegetable_identity', 'locale']);
-            $table->foreign('vegetable_identity')->references('identity')->on('vegetables')->onDelete('cascade');
+            $table->foreign('vegetable_identity')->references('identity')->on('vegetables');
         });
 
         $this->schema->create('people', function (Blueprint $table) {
