@@ -14,8 +14,6 @@ interface Translatable
 
     public static function enableAutoloadTranslations(): void;
 
-    public static function defaultDeleteTranslationsCascade(): void;
-
     public static function disableDeleteTranslationsCascade(): void;
 
     public static function enableDeleteTranslationsCascade(): void;

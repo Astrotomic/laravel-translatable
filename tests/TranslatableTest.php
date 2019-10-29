@@ -1027,4 +1027,16 @@ final class TranslatableTest extends TestCase
 
         $this->assertDatabaseMissing('vegetable_translations', ['vegetable_identity' => $vegetable->identity]);
     }
+
+    /** @test */
+    public function it_does_not_delete_on_cascade_after_retrieving_a_model()
+    {
+        Vegetable::enableDeleteTranslationsCascade();
+        $vegetable = factory(Vegetable::class)->create(['name:en' => 'Peas']);
+        Vegetable::disableDeleteTranslationsCascade();
+
+        $vegetable->delete();
+
+        $this->assertDatabaseHas('vegetable_translations', ['vegetable_identity' => $vegetable->identity]);
+    }
 }
