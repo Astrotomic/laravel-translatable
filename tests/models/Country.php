@@ -40,7 +40,8 @@ class Country extends Eloquent implements TranslatableContract
      *
      * @var array
      */
-    public $fillable = ['code'];
+    public $fillable = [];
+    public $guarded = [];
 
     /**
      * The database field being used to define the locale parameter in the translation model.

@@ -120,6 +120,29 @@ final class ScopesTest extends TestCase
     }
 
     /** @test */
+    public function lists_of_translated_fields_enable_autoload_translations(): void
+    {
+        app()->setLocale('de');
+        app('config')->set('translatable.to_array_always_loads_translations', true);
+
+        factory(Country::class)->create(['code' => 'el', 'name:de' => 'Griechenland']);
+
+        Country::enableAutoloadTranslations();
+
+        static::assertEquals([[
+            'id' => 1,
+            'name' => 'Griechenland',
+            'translations' => [[
+                'id' => 1,
+                'country_id' => '1',
+                'name' => 'Griechenland',
+                'locale' => 'de',
+            ]],
+        ]], Country::listsTranslations('name')->get()->toArray());
+        Country::defaultAutoloadTranslations();
+    }
+
+    /** @test */
     public function scope_withTranslation_without_fallback(): void
     {
         factory(Country::class)->create(['code' => 'el', 'name:en' => 'Greece']);

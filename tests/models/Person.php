@@ -53,6 +53,6 @@ class Person extends Eloquent implements TranslatableContract
      */
     public function getNameAttribute($value)
     {
-        return ucfirst($value);
+        return ucwords($value);
     }
 }

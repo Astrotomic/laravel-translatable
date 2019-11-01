@@ -5,18 +5,14 @@ namespace Astrotomic\Translatable\Tests;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\App;
 use Astrotomic\Translatable\Locales;
-use Astrotomic\Translatable\Tests\Models\City;
-use Astrotomic\Translatable\Tests\Models\Food;
 use Astrotomic\Translatable\Tests\Models\Person;
 use Astrotomic\Translatable\Tests\Models\Country;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Astrotomic\Translatable\Tests\Models\Vegetable;
 use Astrotomic\Translatable\Tests\Models\CountryStrict;
-use Astrotomic\Translatable\Tests\Models\CityTranslation;
 use Illuminate\Database\Eloquent\MassAssignmentException;
 use Astrotomic\Translatable\Tests\Models\CountryTranslation;
 use Astrotomic\Translatable\Tests\Models\VegetableTranslation;
-use Astrotomic\Translatable\Tests\Models\CountryWithCustomTranslationModel;
 
 final class TranslatableTest extends TestCase
 {
@@ -373,7 +369,8 @@ final class TranslatableTest extends TestCase
 
     public function test_the_translation_model_can_be_customized(): void
     {
-        $country = CountryWithCustomTranslationModel::create([
+        CountryStrict::unguard();
+        $country = CountryStrict::create([
             'code' => 'es',
             'name:en' => 'Spain',
             'name:de' => 'Spanien',
@@ -381,6 +378,7 @@ final class TranslatableTest extends TestCase
         static::assertTrue($country->exists());
         static::assertEquals($country->translate('en')->name, 'Spain');
         static::assertEquals($country->translate('de')->name, 'Spanien');
+        CountryStrict::reguard();
     }
 
     /** @test */
@@ -439,15 +437,15 @@ final class TranslatableTest extends TestCase
     {
         $this->app->config->set('translatable.locales', ['en' => ['US', 'GB']]);
 
-        $frenchFries = Food::create([
-            'en'    => ['name' => 'French fries'],
-            'en-US' => ['name' => 'American french fries'],
-            'en-GB' => ['name' => 'Chips'],
+        $vegetable = Vegetable::create([
+            'en'    => ['name' => 'Peas'],
+            'en-US' => ['name' => 'US Peas'],
+            'en-GB' => ['name' => 'GB Peas'],
         ]);
 
-        static::assertEquals('French fries', $frenchFries->getTranslation('en')->name);
-        static::assertEquals('Chips', $frenchFries->getTranslation('en-GB')->name);
-        static::assertEquals('American french fries', $frenchFries->getTranslation('en-US')->name);
+        static::assertEquals('Peas', $vegetable->getTranslation('en')->name);
+        static::assertEquals('GB Peas', $vegetable->getTranslation('en-GB')->name);
+        static::assertEquals('US Peas', $vegetable->getTranslation('en-US')->name);
     }
 
     /** @test */
@@ -541,7 +539,7 @@ final class TranslatableTest extends TestCase
         $person = new Person(['name' => 'john doe']);
         $person->save();
         $person = Person::find(1);
-        static::assertEquals('John doe', $person->name);
+        static::assertEquals('John Doe', $person->name);
     }
 
     /** @test */
@@ -773,13 +771,9 @@ final class TranslatableTest extends TestCase
         $this->app->make('config')->set('translatable.fallback_locale', 'de');
         $this->app->make('config')->set('translatable.use_fallback', true);
 
-        $city = new class extends City {
-            protected $fillable = [
-                'country_id',
-            ];
-            protected $table = 'cities';
-            public $translationModel = CityTranslation::class;
-            public $translationForeignKey = 'city_id';
+        $vegetable = new class extends Vegetable {
+            protected $table = 'vegetables';
+            public $translationModel = VegetableTranslation::class;
 
             protected function isEmptyTranslatableAttribute(string $key, $value): bool
             {
@@ -791,19 +785,18 @@ final class TranslatableTest extends TestCase
             }
         };
 
-        $city->fill([
-            'country_id' => Country::create(['code' => 'en'])->id,
+        $vegetable->fill([
             'en' => ['name' => '0'],
             'de' => ['name' => '1'],
             'fr' => ['name' => null],
         ]);
-        $city->save();
+        $vegetable->save();
 
         $this->app->setLocale('en');
-        static::assertSame('0', $city->name);
+        static::assertSame('0', $vegetable->name);
 
         $this->app->setLocale('fr');
-        static::assertSame('1', $city->name);
+        static::assertSame('1', $vegetable->name);
     }
 
     /** @test */
@@ -847,34 +840,27 @@ final class TranslatableTest extends TestCase
     public function can_fill_conflicting_attribute_locale(): void
     {
         $this->app->make('config')->set('translatable.locales', ['en', 'id']);
-        $this->app->make(\Astrotomic\Translatable\Locales::class)->load();
+        $this->app->make(Locales::class)->load();
 
-        $city = new class extends City {
-            protected $guarded = [];
-            protected $table = 'cities';
-            public $translationModel = CityTranslation::class;
-            public $translationForeignKey = 'city_id';
-        };
-
-        $city->fill([
-            'country_id' => Country::create(['code' => 'en'])->id,
+        $country = new Country([
+            'code' => 'my',
             'id' => [
-                'name' => 'id:my city',
+                'name' => 'id:my country',
             ],
             'en' => [
-                'name' => 'en:my city',
+                'name' => 'en:my country',
             ],
         ]);
 
-        $city->fill([
+        $country->fill([
             'id' => 100,
         ]);
 
-        $city->save();
+        $country->save();
 
-        static::assertEquals(100, $city->getKey());
-        static::assertEquals('id:my city', $city->getTranslation('id', false)->name);
-        static::assertEquals('en:my city', $city->getTranslation('en', false)->name);
+        static::assertEquals(100, $country->getKey());
+        static::assertEquals('id:my country', $country->getTranslation('id', false)->name);
+        static::assertEquals('en:my country', $country->getTranslation('en', false)->name);
     }
 
     /** @test */
