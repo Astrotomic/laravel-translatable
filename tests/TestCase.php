@@ -1,5 +1,7 @@
 <?php
 
+namespace Astrotomic\Translatable\Tests;
+
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 use Astrotomic\Translatable\TranslatableServiceProvider;
 

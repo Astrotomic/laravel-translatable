@@ -1,8 +1,10 @@
 <?php
 
-use Astrotomic\Translatable\Test\Model\Country;
-use Astrotomic\Translatable\Test\Model\Vegetable;
+namespace Astrotomic\Translatable\Tests;
+
+use Astrotomic\Translatable\Tests\Models\Country;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Astrotomic\Translatable\Tests\Models\Vegetable;
 
 final class ScopesTest extends TestCase
 {

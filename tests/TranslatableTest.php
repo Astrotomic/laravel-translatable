@@ -1,15 +1,22 @@
 <?php
 
+namespace Astrotomic\Translatable\Tests;
+
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\App;
 use Astrotomic\Translatable\Locales;
-use Astrotomic\Translatable\Test\Model\Food;
-use Astrotomic\Translatable\Test\Model\Person;
-use Astrotomic\Translatable\Test\Model\Country;
-use Astrotomic\Translatable\Test\Model\Vegetable;
+use Astrotomic\Translatable\Tests\Models\City;
+use Astrotomic\Translatable\Tests\Models\Food;
+use Astrotomic\Translatable\Tests\Models\Person;
+use Astrotomic\Translatable\Tests\Models\Country;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Astrotomic\Translatable\Test\Model\CountryStrict;
-use Astrotomic\Translatable\Test\Model\CountryTranslation;
-use Astrotomic\Translatable\Test\Model\VegetableTranslation;
-use Astrotomic\Translatable\Test\Model\CountryWithCustomTranslationModel;
+use Astrotomic\Translatable\Tests\Models\Vegetable;
+use Astrotomic\Translatable\Tests\Models\CountryStrict;
+use Astrotomic\Translatable\Tests\Models\CityTranslation;
+use Illuminate\Database\Eloquent\MassAssignmentException;
+use Astrotomic\Translatable\Tests\Models\CountryTranslation;
+use Astrotomic\Translatable\Tests\Models\VegetableTranslation;
+use Astrotomic\Translatable\Tests\Models\CountryWithCustomTranslationModel;
 
 final class TranslatableTest extends TestCase
 {
@@ -41,7 +48,7 @@ final class TranslatableTest extends TestCase
         $this->app->make('config')->set('translatable.translation_suffix', 'Trans');
 
         static::assertEquals(
-            'Astrotomic\Translatable\Test\Model\VegetableTrans',
+            'Astrotomic\Translatable\Tests\Models\VegetableTrans',
             (new Vegetable())->getTranslationModelName()
         );
     }
@@ -225,7 +232,7 @@ final class TranslatableTest extends TestCase
     /** @test */
     public function it_skips_mass_assignment_if_attributes_non_fillable(): void
     {
-        $this->expectException(Illuminate\Database\Eloquent\MassAssignmentException::class);
+        $this->expectException(MassAssignmentException::class);
         $country = CountryStrict::create([
             'code' => 'be',
             'en'   => ['name' => 'Belgium'],
@@ -766,12 +773,12 @@ final class TranslatableTest extends TestCase
         $this->app->make('config')->set('translatable.fallback_locale', 'de');
         $this->app->make('config')->set('translatable.use_fallback', true);
 
-        $city = new class extends \Astrotomic\Translatable\Test\Model\City {
+        $city = new class extends City {
             protected $fillable = [
                 'country_id',
             ];
             protected $table = 'cities';
-            public $translationModel = \Astrotomic\Translatable\Test\Model\CityTranslation::class;
+            public $translationModel = CityTranslation::class;
             public $translationForeignKey = 'city_id';
 
             protected function isEmptyTranslatableAttribute(string $key, $value): bool
@@ -842,10 +849,10 @@ final class TranslatableTest extends TestCase
         $this->app->make('config')->set('translatable.locales', ['en', 'id']);
         $this->app->make(\Astrotomic\Translatable\Locales::class)->load();
 
-        $city = new class extends \Astrotomic\Translatable\Test\Model\City {
+        $city = new class extends City {
             protected $guarded = [];
             protected $table = 'cities';
-            public $translationModel = \Astrotomic\Translatable\Test\Model\CityTranslation::class;
+            public $translationModel = CityTranslation::class;
             public $translationForeignKey = 'city_id';
         };
 

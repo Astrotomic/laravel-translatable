@@ -1,5 +1,8 @@
 <?php
 
+namespace Astrotomic\Translatable\Tests;
+
+use InvalidArgumentException;
 use Illuminate\Validation\Rule;
 use Astrotomic\Translatable\Locales;
 use Illuminate\Validation\Rules\RequiredIf;
