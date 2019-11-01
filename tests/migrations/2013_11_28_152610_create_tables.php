@@ -58,7 +58,6 @@ class CreateTables extends Migration
             $table->foreign('vegetable_identity')->references('identity')->on('vegetables');
         });
 
-        /** @see \Doctrine\Common\Inflector\Inflector::$plural */
         $this->schema->create('people', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
