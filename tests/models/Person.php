@@ -8,9 +8,9 @@ use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 
 class Person extends Eloquent implements TranslatableContract
 {
-    use Translatable;
-
     protected $table = 'people';
+
+    use Translatable;
 
     /**
      * Array with the fields translated in the Translation table.
@@ -53,6 +53,6 @@ class Person extends Eloquent implements TranslatableContract
      */
     public function getNameAttribute($value)
     {
-        return ucwords($value);
+        return ucfirst($value);
     }
 }
