@@ -17,4 +17,8 @@ class Vegetable extends Eloquent implements TranslatableContract
     public $translatedAttributes = ['name'];
 
     protected $fillable = ['quantity'];
+
+    public $localeKey;
+
+    public $translationModel;
 }

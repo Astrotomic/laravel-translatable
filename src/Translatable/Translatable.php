@@ -428,7 +428,7 @@ trait Translatable
 
     private function useFallback(): bool
     {
-        if (isset($this->useTranslationFallback) && $this->useTranslationFallback !== null) {
+        if (isset($this->useTranslationFallback) && is_bool($this->useTranslationFallback)) {
             return $this->useTranslationFallback;
         }
 

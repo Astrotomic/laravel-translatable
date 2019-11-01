@@ -49,4 +49,6 @@ class Country extends Eloquent implements TranslatableContract
      * @var string
      */
     public $localeKey;
+
+    public $useTranslationFallback;
 }
