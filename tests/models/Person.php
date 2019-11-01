@@ -10,6 +10,8 @@ class Person extends Eloquent implements TranslatableContract
 {
     use Translatable;
 
+    protected $table = 'people';
+
     /**
      * Array with the fields translated in the Translation table.
      *
