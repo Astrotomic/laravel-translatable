@@ -24,6 +24,8 @@ trait Translatable
 
     protected static $autoloadTranslations = null;
 
+    protected static $deleteTranslationsCascade = false;
+
     protected $defaultLocale;
 
     public static function bootTranslatable(): void
@@ -31,6 +33,12 @@ trait Translatable
         static::saved(function (Model $model) {
             /* @var Translatable $model */
             return $model->saveTranslations();
+        });
+
+        static::deleted(function (Model $model) {
+            if (self::$deleteTranslationsCascade === true) {
+                return $model->deleteTranslations();
+            }
         });
     }
 
@@ -47,6 +55,16 @@ trait Translatable
     public static function enableAutoloadTranslations(): void
     {
         self::$autoloadTranslations = true;
+    }
+
+    public static function disableDeleteTranslationsCascade(): void
+    {
+        self::$deleteTranslationsCascade = false;
+    }
+
+    public static function enableDeleteTranslationsCascade(): void
+    {
+        self::$deleteTranslationsCascade = true;
     }
 
     public function attributesToArray()
