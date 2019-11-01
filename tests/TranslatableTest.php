@@ -2,21 +2,21 @@
 
 namespace Astrotomic\Translatable\Tests;
 
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\App;
 use Astrotomic\Translatable\Locales;
 use Astrotomic\Translatable\Tests\Models\City;
-use Astrotomic\Translatable\Tests\Models\CityTranslation;
-use Astrotomic\Translatable\Tests\Models\Country;
-use Astrotomic\Translatable\Tests\Models\CountryStrict;
-use Astrotomic\Translatable\Tests\Models\CountryTranslation;
-use Astrotomic\Translatable\Tests\Models\CountryWithCustomTranslationModel;
 use Astrotomic\Translatable\Tests\Models\Food;
 use Astrotomic\Translatable\Tests\Models\Person;
-use Astrotomic\Translatable\Tests\Models\Vegetable;
-use Astrotomic\Translatable\Tests\Models\VegetableTranslation;
-use Illuminate\Database\Eloquent\MassAssignmentException;
+use Astrotomic\Translatable\Tests\Models\Country;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\DB;
+use Astrotomic\Translatable\Tests\Models\Vegetable;
+use Astrotomic\Translatable\Tests\Models\CountryStrict;
+use Astrotomic\Translatable\Tests\Models\CityTranslation;
+use Illuminate\Database\Eloquent\MassAssignmentException;
+use Astrotomic\Translatable\Tests\Models\CountryTranslation;
+use Astrotomic\Translatable\Tests\Models\VegetableTranslation;
+use Astrotomic\Translatable\Tests\Models\CountryWithCustomTranslationModel;
 
 final class TranslatableTest extends TestCase
 {

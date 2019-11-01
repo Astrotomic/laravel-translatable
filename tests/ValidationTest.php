@@ -2,11 +2,11 @@
 
 namespace Astrotomic\Translatable\Tests;
 
+use InvalidArgumentException;
 use Illuminate\Validation\Rule;
 use Astrotomic\Translatable\Locales;
 use Illuminate\Validation\Rules\RequiredIf;
 use Astrotomic\Translatable\Validation\RuleFactory;
-use InvalidArgumentException;
 
 final class ValidationTest extends TestCase
 {
