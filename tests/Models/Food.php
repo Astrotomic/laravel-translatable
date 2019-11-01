@@ -6,10 +6,8 @@ use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 
-class Person extends Eloquent implements TranslatableContract
+class Food extends Eloquent implements TranslatableContract
 {
-    protected $table = 'people';
-
     use Translatable;
 
     /**
@@ -43,16 +41,5 @@ class Person extends Eloquent implements TranslatableContract
      * @var string
      */
     public $localeKey;
-
-    /**
-     * Mutate name attribute into upper-case.
-     *
-     * @param $value
-     *
-     * @return string
-     */
-    public function getNameAttribute($value)
-    {
-        return ucfirst($value);
-    }
+    public $fillable = ['id'];
 }

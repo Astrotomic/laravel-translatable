@@ -48,9 +48,9 @@
         }
     },
     "autoload-dev": {
-        "classmap": [
-            "tests"
-        ]
+        "psr-4": {
+            "Astrotomic\\Translatable\\Tests\\": "tests/"
+        }
     },
     "scripts": {
         "csfix": "php-cs-fixer fix --using-cache=no",
