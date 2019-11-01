@@ -125,3 +125,14 @@ disables autoload and returns parent attributes
 
 does not change the default behavior logic
 
+## Translation cascade deletion
+
+If the `delete()` method is called it's possible to delete all assigned translations. The eloquent `delete()` method will be used so you will get all events but it creates 1+n queries.
+
+### static disableDeleteTranslationsCascade\(\)
+
+disables cascade deletion on PHP side
+
+### static enableDeleteTranslationsCascade\(\)
+
+enables cascade deletion on PHP side
