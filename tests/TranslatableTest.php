@@ -5,14 +5,14 @@ namespace Astrotomic\Translatable\Tests;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\App;
 use Astrotomic\Translatable\Locales;
-use Astrotomic\Translatable\Tests\Models\Person;
-use Astrotomic\Translatable\Tests\Models\Country;
+use Astrotomic\Translatable\Tests\Eloquent\Person;
+use Astrotomic\Translatable\Tests\Eloquent\Country;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Astrotomic\Translatable\Tests\Models\Vegetable;
-use Astrotomic\Translatable\Tests\Models\CountryStrict;
+use Astrotomic\Translatable\Tests\Eloquent\Vegetable;
+use Astrotomic\Translatable\Tests\Eloquent\CountryStrict;
 use Illuminate\Database\Eloquent\MassAssignmentException;
-use Astrotomic\Translatable\Tests\Models\CountryTranslation;
-use Astrotomic\Translatable\Tests\Models\VegetableTranslation;
+use Astrotomic\Translatable\Tests\Eloquent\CountryTranslation;
+use Astrotomic\Translatable\Tests\Eloquent\VegetableTranslation;
 
 final class TranslatableTest extends TestCase
 {
@@ -44,7 +44,7 @@ final class TranslatableTest extends TestCase
         $this->app->make('config')->set('translatable.translation_suffix', 'Trans');
 
         static::assertEquals(
-            'Astrotomic\Translatable\Tests\Models\VegetableTrans',
+            'Astrotomic\Translatable\Tests\Eloquent\VegetableTrans',
             (new Vegetable())->getTranslationModelName()
         );
     }

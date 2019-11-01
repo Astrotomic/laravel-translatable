@@ -1,6 +1,6 @@
 <?php
 
-namespace Astrotomic\Translatable\Tests\Models;
+namespace Astrotomic\Translatable\Tests\Eloquent;
 
 use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model as Eloquent;
