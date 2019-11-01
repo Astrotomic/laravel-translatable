@@ -13,14 +13,6 @@ class TranslatableServiceProvider extends ServiceProvider
         ], 'translatable');
     }
 
-    public function provides()
-    {
-        return [
-            'translatable.locales',
-            Locales::class,
-        ];
-    }
-
     public function register()
     {
         $this->mergeConfigFrom(

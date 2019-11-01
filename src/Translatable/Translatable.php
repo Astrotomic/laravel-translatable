@@ -24,6 +24,8 @@ trait Translatable
 
     protected static $autoloadTranslations = null;
 
+    protected static $deleteTranslationsCascade = false;
+
     protected $defaultLocale;
 
     public static function bootTranslatable(): void
@@ -31,6 +33,12 @@ trait Translatable
         static::saved(function (Model $model) {
             /* @var Translatable $model */
             return $model->saveTranslations();
+        });
+
+        static::deleted(function (Model $model) {
+            if (self::$deleteTranslationsCascade === true) {
+                return $model->deleteTranslations();
+            }
         });
     }
 
@@ -47,6 +55,16 @@ trait Translatable
     public static function enableAutoloadTranslations(): void
     {
         self::$autoloadTranslations = true;
+    }
+
+    public static function disableDeleteTranslationsCascade(): void
+    {
+        self::$deleteTranslationsCascade = false;
+    }
+
+    public static function enableDeleteTranslationsCascade(): void
+    {
+        self::$deleteTranslationsCascade = true;
     }
 
     public function attributesToArray()
@@ -320,8 +338,8 @@ trait Translatable
 
     protected function locale(): string
     {
-        if ($this->defaultLocale) {
-            return $this->defaultLocale;
+        if ($this->getDefaultLocale()) {
+            return $this->getDefaultLocale();
         }
 
         return $this->getLocalesHelper()->current();
@@ -410,7 +428,7 @@ trait Translatable
 
     private function useFallback(): bool
     {
-        if (isset($this->useTranslationFallback) && $this->useTranslationFallback !== null) {
+        if (isset($this->useTranslationFallback) && is_bool($this->useTranslationFallback)) {
             return $this->useTranslationFallback;
         }
 

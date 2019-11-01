@@ -2,6 +2,12 @@
 
 ## v11
 
+### v11.6.0
+
+* Drop PHP 7.1 support
+* Drop Laravel 5.6 & 5.7 support
+* Add PHP side translation cascade deletion - [\#98](https://github.com/Astrotomic/laravel-translatable/pull/98) (_disabled by default_)
+
 ### v11.5.2
 
 * Fix scope `orderByTranslation()` to return all translations - [\#72](https://github.com/Astrotomic/laravel-translatable/pull/72)

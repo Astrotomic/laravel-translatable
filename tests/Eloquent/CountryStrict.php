@@ -1,6 +1,6 @@
 <?php
 
-namespace Astrotomic\Translatable\Test\Model;
+namespace Astrotomic\Translatable\Tests\Eloquent;
 
 use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model as Eloquent;
@@ -19,11 +19,11 @@ class CountryStrict extends Eloquent implements TranslatableContract
 
     /**
      * Here we set a custom model for translation.
-     * The convention would be Astrotomic\Translatable\Test\Model\CountryStrictTranslation.
+     * The convention would be Astrotomic\Translatable\Tests\Models\CountryStrictTranslation.
      *
      * @var string Class containing the translation
      */
-    public $translationModel = 'Astrotomic\Translatable\Test\Model\StrictTranslation';
+    public $translationModel = StrictTranslation::class;
 
     /**
      * @var string Foreign key for the translation relationship

@@ -1,15 +1,15 @@
 <?php
 
-namespace Astrotomic\Translatable\Test\Model;
+namespace Astrotomic\Translatable\Tests\Eloquent;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
 
-class CountryTranslation extends Eloquent
+class VegetableTranslation extends Eloquent
 {
     public $timestamps = false;
 
     protected $fillable = [
-        'country_id',
+        'vegetable_identity',
         'locale',
         'name',
     ];

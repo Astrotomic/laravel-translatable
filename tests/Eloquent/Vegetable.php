@@ -1,6 +1,6 @@
 <?php
 
-namespace Astrotomic\Translatable\Test\Model;
+namespace Astrotomic\Translatable\Tests\Eloquent;
 
 use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model as Eloquent;
@@ -12,7 +12,13 @@ class Vegetable extends Eloquent implements TranslatableContract
 
     protected $primaryKey = 'identity';
 
-    protected $translationForeignKey = 'vegetable_identity';
+    public $translationForeignKey = 'vegetable_identity';
 
     public $translatedAttributes = ['name'];
+
+    protected $fillable = ['quantity'];
+
+    public $localeKey;
+
+    public $translationModel;
 }

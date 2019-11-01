@@ -1,12 +1,12 @@
 <?php
 
-namespace Astrotomic\Translatable\Test\Model;
+namespace Astrotomic\Translatable\Tests\Eloquent;
 
 use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 
-class Food extends Eloquent implements TranslatableContract
+class Country extends Eloquent implements TranslatableContract
 {
     use Translatable;
 
@@ -35,11 +35,21 @@ class Food extends Eloquent implements TranslatableContract
     public $translationForeignKey;
 
     /**
+     * Add your translated attributes here if you want
+     * fill them with mass assignment.
+     *
+     * @var array
+     */
+    public $fillable = [];
+    public $guarded = [];
+
+    /**
      * The database field being used to define the locale parameter in the translation model.
      * Defaults to 'locale'.
      *
      * @var string
      */
     public $localeKey;
-    public $fillable = ['id'];
+
+    public $useTranslationFallback;
 }
