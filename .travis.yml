@@ -4,6 +4,7 @@ dist: bionic
 
 services:
   - mysql
+  - postgresql
 
 cache:
   directories:
@@ -14,23 +15,26 @@ php:
   - 7.3
 
 env:
-  - LARAVEL='5.8.*' COMPOSER_FLAGS='--prefer-lowest'
-  - LARAVEL='5.8.*' COMPOSER_FLAGS='--prefer-stable'
-  - LARAVEL='^6.0' COMPOSER_FLAGS='--prefer-lowest'
-  - LARAVEL='^6.0' COMPOSER_FLAGS='--prefer-stable'
+  - LARAVEL='5.8.*' COMPOSER_FLAGS='--prefer-lowest' DB_CONNECTION='mysql' DB_DATABASE='translatable_test' DB_USERNAME='travis'
+  - LARAVEL='5.8.*' COMPOSER_FLAGS='--prefer-stable' DB_CONNECTION='mysql' DB_DATABASE='translatable_test' DB_USERNAME='travis'
+  - LARAVEL='^6.0' COMPOSER_FLAGS='--prefer-lowest' DB_CONNECTION='mysql' DB_DATABASE='translatable_test' DB_USERNAME='travis'
+  - LARAVEL='^6.0' COMPOSER_FLAGS='--prefer-stable' DB_CONNECTION='mysql' DB_DATABASE='translatable_test' DB_USERNAME='travis'
 
 matrix:
   include:
     - php: 7.4snapshot
-      env: LARAVEL='^6.0' COMPOSER_FLAGS='--prefer-lowest'
+      env: LARAVEL='^6.0' COMPOSER_FLAGS='--prefer-lowest' DB_CONNECTION='mysql' DB_DATABASE='translatable_test' DB_USERNAME='travis'
     - php: 7.4snapshot
-      env: LARAVEL='^6.0' COMPOSER_FLAGS='--prefer-stable'
+      env: LARAVEL='^6.0' COMPOSER_FLAGS='--prefer-stable' DB_CONNECTION='mysql' DB_DATABASE='translatable_test' DB_USERNAME='travis'
+    - php: 7.3
+      env: LARAVEL='^6.0' COMPOSER_FLAGS='--prefer-stable' DB_CONNECTION='pgsql' DB_DATABASE='translatable_test' DB_USERNAME='postgres'
   fast_finish: true
   allow_failures:
     - php: 7.4snapshot
 
 before_install:
-  - mysql -e 'CREATE DATABASE translatable_test;'
+  - sh -c "if [[ '$DB_CONNECTION' = 'mysql' ]]; then mysql -e 'CREATE DATABASE translatable_test;'; fi"
+  - sh -c "if [[ '$DB_CONNECTION' = 'pgsql' ]]; then psql -c 'create database translatable_test;' -U postgres; fi"
   - composer config discard-changes true
   - travis_retry composer self-update
   - travis_retry composer require --dev "laravel/framework:${LARAVEL}" --no-interaction --no-update
@@ -39,7 +43,7 @@ install:
   - travis_retry composer update ${COMPOSER_FLAGS} --prefer-dist --no-suggest --no-interaction
 
 script:
-  - DB_CONNECTION=mysql DB_DATABASE=translatable_test DB_USERNAME=travis vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
+  - vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
 
 after_script:
   - wget https://scrutinizer-ci.com/ocular.phar
