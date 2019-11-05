@@ -35,7 +35,7 @@ trait Translatable
             return $model->saveTranslations();
         });
 
-        static::deleted(function (Model $model) {
+        static::deleting(function (Model $model) {
             if (self::$deleteTranslationsCascade === true) {
                 return $model->deleteTranslations();
             }
