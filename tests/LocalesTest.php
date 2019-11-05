@@ -2,8 +2,8 @@
 
 namespace Astrotomic\Translatable\Tests;
 
-use Astrotomic\Translatable\Locales;
 use Astrotomic\Translatable\Exception\LocalesNotDefinedException;
+use Astrotomic\Translatable\Locales;
 
 final class LocalesTest extends TestCase
 {

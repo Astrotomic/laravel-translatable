@@ -2,9 +2,9 @@
 
 namespace Astrotomic\Translatable\Tests\Eloquent;
 
+use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model as Eloquent;
-use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 
 class Person extends Eloquent implements TranslatableContract
 {
