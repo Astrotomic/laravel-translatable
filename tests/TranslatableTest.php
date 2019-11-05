@@ -2,17 +2,17 @@
 
 namespace Astrotomic\Translatable\Tests;
 
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\App;
 use Astrotomic\Translatable\Locales;
-use Astrotomic\Translatable\Tests\Eloquent\Person;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Astrotomic\Translatable\Tests\Eloquent\Country;
-use Astrotomic\Translatable\Tests\Eloquent\Vegetable;
 use Astrotomic\Translatable\Tests\Eloquent\CountryStrict;
-use Illuminate\Database\Eloquent\MassAssignmentException;
 use Astrotomic\Translatable\Tests\Eloquent\CountryTranslation;
+use Astrotomic\Translatable\Tests\Eloquent\Person;
+use Astrotomic\Translatable\Tests\Eloquent\Vegetable;
 use Astrotomic\Translatable\Tests\Eloquent\VegetableTranslation;
+use Illuminate\Database\Eloquent\MassAssignmentException;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\DB;
 
 final class TranslatableTest extends TestCase
 {
