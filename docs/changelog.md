@@ -2,6 +2,10 @@
 
 ## v11
 
+### v11.6.1
+
+* Fix PHP translation cascade deletion - [\#105](https://github.com/Astrotomic/laravel-translatable/pull/105)
+
 ### v11.6.0
 
 * Drop PHP 7.1 support
