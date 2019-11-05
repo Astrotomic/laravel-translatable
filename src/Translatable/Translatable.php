@@ -36,6 +36,7 @@ trait Translatable
         });
 
         static::deleted(function (Model $model) {
+            /* @var Translatable $model */
             if (self::$deleteTranslationsCascade === true) {
                 return $model->deleteTranslations();
             }
@@ -103,9 +104,7 @@ trait Translatable
             $translations = $this->translations()->whereIn($this->getLocaleKey(), $locales)->get();
         }
 
-        foreach ($translations as $translation) {
-            $translation->delete();
-        }
+        $translations->each->delete();
 
         // we need to manually "reload" the collection built from the relationship
         // otherwise $this->translations()->get() would NOT be the same as $this->translations
