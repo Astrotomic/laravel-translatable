@@ -9,6 +9,7 @@ use Astrotomic\Translatable\Tests\Eloquent\CountryTranslation;
 use Astrotomic\Translatable\Tests\Eloquent\Person;
 use Astrotomic\Translatable\Tests\Eloquent\Vegetable;
 use Astrotomic\Translatable\Tests\Eloquent\VegetableTranslation;
+use Exception;
 use Illuminate\Database\Eloquent\MassAssignmentException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\App;
@@ -1042,6 +1043,23 @@ final class TranslatableTest extends TestCase
         $vegetable->delete();
 
         $this->assertDatabaseMissing('vegetables', ['identity' => $vegetable->identity]);
+        $this->assertDatabaseHas('vegetable_translations', ['vegetable_identity' => $vegetable->identity]);
+    }
+
+    /** @test */
+    public function it_can_restore_translations_in_a_transaction()
+    {
+        Vegetable::enableDeleteTranslationsCascade();
+        $vegetable = factory(Vegetable::class)->create(['name:en' => 'Peas']);
+
+        $this->assertDatabaseHas('vegetables', ['identity' => $vegetable->identity]);
+        $this->assertDatabaseHas('vegetable_translations', ['vegetable_identity' => $vegetable->identity]);
+
+        DB::connection()->beginTransaction();
+        $vegetable->delete();
+        DB::connection()->rollBack();
+
+        $this->assertDatabaseHas('vegetables', ['identity' => $vegetable->identity]);
         $this->assertDatabaseHas('vegetable_translations', ['vegetable_identity' => $vegetable->identity]);
     }
 }
