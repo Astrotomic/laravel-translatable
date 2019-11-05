@@ -9,7 +9,6 @@ use Astrotomic\Translatable\Tests\Eloquent\CountryTranslation;
 use Astrotomic\Translatable\Tests\Eloquent\Person;
 use Astrotomic\Translatable\Tests\Eloquent\Vegetable;
 use Astrotomic\Translatable\Tests\Eloquent\VegetableTranslation;
-use Exception;
 use Illuminate\Database\Eloquent\MassAssignmentException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\App;
