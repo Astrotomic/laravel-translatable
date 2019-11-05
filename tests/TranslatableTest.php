@@ -1005,8 +1005,12 @@ final class TranslatableTest extends TestCase
     {
         $vegetable = factory(Vegetable::class)->create(['name:en' => 'Peas']);
 
+        $this->assertDatabaseHas('vegetables', ['identity' => $vegetable->identity]);
+        $this->assertDatabaseHas('vegetable_translations', ['vegetable_identity' => $vegetable->identity]);
+
         $vegetable->delete();
 
+        $this->assertDatabaseMissing('vegetables', ['identity' => $vegetable->identity]);
         $this->assertDatabaseHas('vegetable_translations', ['vegetable_identity' => $vegetable->identity]);
     }
 
@@ -1016,8 +1020,12 @@ final class TranslatableTest extends TestCase
         Vegetable::enableDeleteTranslationsCascade();
         $vegetable = factory(Vegetable::class)->create(['name:en' => 'Peas']);
 
+        $this->assertDatabaseHas('vegetables', ['identity' => $vegetable->identity]);
+        $this->assertDatabaseHas('vegetable_translations', ['vegetable_identity' => $vegetable->identity]);
+
         $vegetable->delete();
 
+        $this->assertDatabaseMissing('vegetables', ['identity' => $vegetable->identity]);
         $this->assertDatabaseMissing('vegetable_translations', ['vegetable_identity' => $vegetable->identity]);
     }
 
@@ -1028,8 +1036,12 @@ final class TranslatableTest extends TestCase
         $vegetable = factory(Vegetable::class)->create(['name:en' => 'Peas']);
         Vegetable::disableDeleteTranslationsCascade();
 
+        $this->assertDatabaseHas('vegetables', ['identity' => $vegetable->identity]);
+        $this->assertDatabaseHas('vegetable_translations', ['vegetable_identity' => $vegetable->identity]);
+
         $vegetable->delete();
 
+        $this->assertDatabaseMissing('vegetables', ['identity' => $vegetable->identity]);
         $this->assertDatabaseHas('vegetable_translations', ['vegetable_identity' => $vegetable->identity]);
     }
 }
