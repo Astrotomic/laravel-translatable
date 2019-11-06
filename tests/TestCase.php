@@ -2,8 +2,8 @@
 
 namespace Astrotomic\Translatable\Tests;
 
-use Orchestra\Testbench\TestCase as OrchestraTestCase;
 use Astrotomic\Translatable\TranslatableServiceProvider;
+use Orchestra\Testbench\TestCase as OrchestraTestCase;
 
 abstract class TestCase extends OrchestraTestCase
 {

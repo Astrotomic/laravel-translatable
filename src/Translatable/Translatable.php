@@ -2,11 +2,11 @@
 
 namespace Astrotomic\Translatable;
 
-use Illuminate\Support\Str;
-use Illuminate\Database\Eloquent\Model;
+use Astrotomic\Translatable\Traits\Relationship;
 use Astrotomic\Translatable\Traits\Scopes;
 use Illuminate\Database\Eloquent\Collection;
-use Astrotomic\Translatable\Traits\Relationship;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 /**
  * @property-read null|Model $translation
@@ -35,7 +35,8 @@ trait Translatable
             return $model->saveTranslations();
         });
 
-        static::deleted(function (Model $model) {
+        static::deleting(function (Model $model) {
+            /* @var Translatable $model */
             if (self::$deleteTranslationsCascade === true) {
                 return $model->deleteTranslations();
             }
@@ -103,9 +104,7 @@ trait Translatable
             $translations = $this->translations()->whereIn($this->getLocaleKey(), $locales)->get();
         }
 
-        foreach ($translations as $translation) {
-            $translation->delete();
-        }
+        $translations->each->delete();
 
         // we need to manually "reload" the collection built from the relationship
         // otherwise $this->translations()->get() would NOT be the same as $this->translations

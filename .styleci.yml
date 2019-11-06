@@ -1,7 +1,3 @@
 preset: laravel
 
 risky: true
-
-disabled:
-  - no_useless_return
-  - simplified_null_return

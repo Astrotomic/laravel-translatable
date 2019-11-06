@@ -2,9 +2,9 @@
 
 namespace Astrotomic\Translatable\Validation;
 
-use InvalidArgumentException;
 use Astrotomic\Translatable\Locales;
 use Illuminate\Contracts\Config\Repository;
+use InvalidArgumentException;
 
 class RuleFactory
 {

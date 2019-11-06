@@ -2,9 +2,9 @@
 
 namespace Astrotomic\Translatable\Tests;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Astrotomic\Translatable\Tests\Eloquent\Country;
 use Astrotomic\Translatable\Tests\Eloquent\Vegetable;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 final class ScopesTest extends TestCase
 {

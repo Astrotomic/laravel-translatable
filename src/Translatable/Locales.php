@@ -3,9 +3,9 @@
 namespace Astrotomic\Translatable;
 
 use ArrayAccess;
-use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Contracts\Config\Repository as ConfigContract;
 use Astrotomic\Translatable\Exception\LocalesNotDefinedException;
+use Illuminate\Contracts\Config\Repository as ConfigContract;
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Translation\Translator as TranslatorContract;
 
 class Locales implements Arrayable, ArrayAccess
