@@ -10,6 +10,7 @@ use Astrotomic\Translatable\Tests\Eloquent\Person;
 use Astrotomic\Translatable\Tests\Eloquent\Vegetable;
 use Astrotomic\Translatable\Tests\Eloquent\VegetableTranslation;
 use Illuminate\Database\Eloquent\MassAssignmentException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
@@ -412,6 +413,18 @@ final class TranslatableTest extends TestCase
 
         $this->app->setLocale('xyz');
         static::assertEquals('xyz', $vegetable->translateOrNew()->locale);
+    }
+
+    /** @test */
+    public function it_has_methods_that_throw_an_exception_if_translation_does_not_exist(): void
+    {
+        $vegetable = Vegetable::create([
+            'en' => ['name' => 'Peas'],
+        ]);
+        static::assertEquals('en', $vegetable->translateOrFail('en')->locale);
+        
+        $this->expectException(ModelNotFoundException::class);
+        $vegetable->translateOrFail('xyz');
     }
 
     /** @test */
