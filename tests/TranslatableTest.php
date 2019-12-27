@@ -416,13 +416,13 @@ final class TranslatableTest extends TestCase
     }
 
     /** @test */
-    public function it_has_methods_that_throw_an_exception_if_translation_does_not_exist(): void
+    public function it_throws_an_exception_if_translation_does_not_exist(): void
     {
         $vegetable = Vegetable::create([
             'en' => ['name' => 'Peas'],
         ]);
         static::assertEquals('en', $vegetable->translateOrFail('en')->locale);
-        
+
         $this->expectException(ModelNotFoundException::class);
         $vegetable->translateOrFail('xyz');
     }
