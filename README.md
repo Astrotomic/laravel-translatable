@@ -1,13 +1,16 @@
 # Introduction
 
-[![Total Downloads](https://img.shields.io/packagist/dt/astrotomic/laravel-translatable.svg?label=Downloads&style=flat-square&cacheSeconds=600)](https://packagist.org/packages/astrotomic/laravel-translatable) 
-[![TravisCI](https://img.shields.io/travis/Astrotomic/laravel-translatable/master?label=TravisCI&style=flat-square&cacheSeconds=600)](https://travis-ci.org/Astrotomic/laravel-translatable/branches) 
-[![StyleCI](https://styleci.io/repos/192333549/shield)](https://styleci.io/repos/192333549) 
-[![ScrutinizerCI](https://img.shields.io/scrutinizer/quality/g/Astrotomic/laravel-translatable/master.svg?label=ScrutinizerCI&style=flat-square&cacheSeconds=600)](https://scrutinizer-ci.com/g/Astrotomic/laravel-translatable/) 
+[![Latest Version](http://img.shields.io/packagist/v/astrotomic/laravel-translatable.svg?label=Release&style=for-the-badge&cacheSeconds=600)](https://packagist.org/packages/astrotomic/laravel-translatable)
+[![MIT License](https://img.shields.io/github/license/Astrotomic/laravel-translatable.svg?label=License&color=blue&style=for-the-badge&cacheSeconds=600)](https://github.com/Astrotomic/laravel-translatable/blob/master/LICENSE)
+[![Offset Earth](https://img.shields.io/badge/Treeware-%F0%9F%8C%B3-green?style=for-the-badge&cacheSeconds=600)](https://offset.earth/astrotomic)
+
+[![TravisCI](https://img.shields.io/travis/Astrotomic/laravel-translatable/master?label=TravisCI&style=flat-square&cacheSeconds=600)](https://travis-ci.org/Astrotomic/laravel-translatable/branches)
+[![StyleCI](https://styleci.io/repos/192333549/shield)](https://styleci.io/repos/192333549)
+[![ScrutinizerCI](https://img.shields.io/scrutinizer/quality/g/Astrotomic/laravel-translatable/master.svg?label=ScrutinizerCI&style=flat-square&cacheSeconds=600)](https://scrutinizer-ci.com/g/Astrotomic/laravel-translatable/)
 [![Code Climate](https://img.shields.io/codeclimate/maintainability/Astrotomic/laravel-translatable.svg?label=CodeClimate&style=flat-square&cacheSeconds=600)](https://codeclimate.com/github/Astrotomic/laravel-translatable)
-[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/Astrotomic/laravel-translatable/master.svg?label=Coverage&style=flat-square&cacheSeconds=600)](https://scrutinizer-ci.com/g/Astrotomic/laravel-translatable/) 
-[![Latest Version](http://img.shields.io/packagist/v/astrotomic/laravel-translatable.svg?label=Release&style=flat-square&cacheSeconds=600)](https://packagist.org/packages/astrotomic/laravel-translatable) 
-[![MIT License](https://img.shields.io/github/license/Astrotomic/laravel-translatable.svg?label=License&color=blue&style=flat-square&cacheSeconds=600)](https://github.com/Astrotomic/laravel-translatable/blob/master/LICENSE)
+[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/Astrotomic/laravel-translatable/master.svg?label=Coverage&style=flat-square&cacheSeconds=600)](https://scrutinizer-ci.com/g/Astrotomic/laravel-translatable/)
+
+[![Total Downloads](https://img.shields.io/packagist/dt/astrotomic/laravel-translatable.svg?label=Downloads&style=flat-square&cacheSeconds=600)](https://packagist.org/packages/astrotomic/laravel-translatable) 
 [![GitBook](https://img.shields.io/badge/GitBook-Astrotomic-7e57c2.svg?style=flat-square&cacheSeconds=600)](https://docs.astrotomic.info/laravel-translatable)
 [![Open Collective](https://img.shields.io/opencollective/all/astrotomic?label=Open%20Collective&style=flat-square&cacheSeconds=600)](https://opencollective.com/astrotomic)
 
@@ -98,3 +101,14 @@ Please see [SECURITY](SECURITY.md) for details.
 | **v11.6** | `5.8.* / 6.*` | `>=7.2` |
 | **v11.4 - v11.5** | `5.6.* / 5.7.* / 5.8.* / 6.*` | `>=7.1.3` |
 | **v11.0 - v11.3** | `5.6.* / 5.7.* / 5.8.*` | `>=7.1.3` |
+
+## Treeware
+
+You're free to use this package, but if it makes it to your production environment I would highly appreciate you buying the world a tree.
+
+It’s now common knowledge that one of the best tools to tackle the climate crisis and keep our temperatures from rising above 1.5C is to [plant trees](https://www.bbc.co.uk/news/science-environment-48870920). If you contribute to my forest you’ll be creating employment for local families and restoring wildlife habitats.
+
+You can buy trees for my forest at [offset.earth/astrotomic](https://offset.earth/astrotomic).
+But you can also support the Laravel frameworks forest at [offset.earth/laravel](https://offset.earth/laravel).
+
+[![We offset our carbon footprint via Offset Earth](https://toolkit.offset.earth/carbonpositiveworkforce/badge/5e0ce1777a8c7b00178d7ac0?black=true&landscape=true)](https://offset.earth/astrotomic)
