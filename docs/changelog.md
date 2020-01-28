@@ -2,6 +2,10 @@
 
 ## v11
 
+### v11.7.0
+
+* Add `translateOrFail()` method - [\#114](https://github.com/Astrotomic/laravel-translatable/pull/114)
+
 ### v11.6.1
 
 * Fix PHP translation cascade deletion - [\#105](https://github.com/Astrotomic/laravel-translatable/pull/105)
