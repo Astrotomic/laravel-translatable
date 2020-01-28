@@ -25,15 +25,13 @@ env:
 
 matrix:
   include:
-    - php: 7.4snapshot
+    - php: 7.4
       env: LARAVEL='^6.0' COMPOSER_FLAGS='--prefer-lowest' DB_CONNECTION='mysql' DB_DATABASE='translatable_test' DB_USERNAME='travis'
-    - php: 7.4snapshot
+    - php: 7.4
       env: LARAVEL='^6.0' COMPOSER_FLAGS='--prefer-stable' DB_CONNECTION='mysql' DB_DATABASE='translatable_test' DB_USERNAME='travis'
-    - php: 7.3
+    - php: 7.4
       env: LARAVEL='^6.0' COMPOSER_FLAGS='--prefer-stable' DB_CONNECTION='pgsql' DB_DATABASE='translatable_test' DB_USERNAME='postgres'
   fast_finish: true
-  allow_failures:
-    - php: 7.4snapshot
 
 before_install:
   - sh -c "if [ '$DB_CONNECTION' = 'mysql' ]; then mysql -e 'CREATE DATABASE translatable_test;'; fi"
