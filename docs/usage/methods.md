@@ -46,6 +46,16 @@ $post->translateOrNew('fr'); // returns the french translation model
 $post->translateOrNew('it'); // returns the new italian translation model
 ```
 
+### translateOrFail\(string $locale\)
+
+**Alias of:** `getTranslationOrFail(string $locale)`
+
+This returns an instance of `PostTranslation` using the given locale and will throw a ModelNotFoundException if none exists.
+
+```php
+$post->translateOrFail('fr'); // returns the french translation model
+```
+
 ## hasTranslation\(?string $locale = null\)
 
 Check if the post has a translation in default or given locale.

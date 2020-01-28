@@ -6,6 +6,7 @@ use Astrotomic\Translatable\Traits\Relationship;
 use Astrotomic\Translatable\Traits\Scopes;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Str;
 
 /**
@@ -238,6 +239,15 @@ trait Translatable
         return $translation;
     }
 
+    public function getTranslationOrFail(string $locale): Model
+    {
+        if (($translation = $this->getTranslation($locale, false)) === null) {
+            throw new ModelNotFoundException();
+        }
+
+        return $translation;
+    }
+
     public function getTranslationsArray(): array
     {
         $translations = [];
@@ -315,6 +325,11 @@ trait Translatable
     public function translateOrNew(?string $locale = null): Model
     {
         return $this->getTranslationOrNew($locale);
+    }
+
+    public function translateOrFail(string $locale): Model
+    {
+        return $this->getTranslationOrFail($locale);
     }
 
     protected function getLocalesHelper(): Locales
