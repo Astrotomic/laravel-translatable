@@ -418,12 +418,14 @@ final class TranslatableTest extends TestCase
     /** @test */
     public function it_throws_an_exception_if_translation_does_not_exist(): void
     {
+        $this->expectException(ModelNotFoundException::class);
+        $this->expectExceptionMessage(sprintf('No query results for model [%s] %s', VegetableTranslation::class, 'xyz'));
+
         $vegetable = Vegetable::create([
             'en' => ['name' => 'Peas'],
         ]);
         static::assertEquals('en', $vegetable->translateOrFail('en')->locale);
 
-        $this->expectException(ModelNotFoundException::class);
         $vegetable->translateOrFail('xyz');
     }
 

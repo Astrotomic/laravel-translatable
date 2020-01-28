@@ -242,7 +242,7 @@ trait Translatable
     public function getTranslationOrFail(string $locale): Model
     {
         if (($translation = $this->getTranslation($locale, false)) === null) {
-            throw new ModelNotFoundException();
+            throw (new ModelNotFoundException)->setModel($this->getTranslationModelName(), $locale);
         }
 
         return $translation;
