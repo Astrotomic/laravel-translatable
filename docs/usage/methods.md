@@ -54,6 +54,7 @@ This returns an instance of `PostTranslation` using the given locale and will th
 
 ```php
 $post->translateOrFail('fr'); // returns the french translation model
+$post->translateOrFail('xyz'); // throws a ModelNotFoundException
 ```
 
 ## hasTranslation\(?string $locale = null\)
