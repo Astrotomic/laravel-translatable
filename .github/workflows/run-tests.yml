@@ -1,0 +1,84 @@
+name: run-tests
+
+on:
+  push:
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: true
+      matrix:
+        php: [7.4, 7.3, 7.2]
+        laravel: [6.*, 5.8.*]
+        dependency-version: [prefer-lowest, prefer-stable]
+        database: [mysql, pgsql]
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        include:
+          - laravel: 6.*
+            testbench: 4.*
+          - laravel: 5.8.*
+            testbench: 3.8.*
+        exclude:
+          - php: 7.4
+            laravel: 5.8.*
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: translatable_test
+        ports:
+          - 3306:3306
+      postgres:
+        image: postgres:10.8
+        env:
+          POSTGRES_USER: root
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: translatable_test
+        ports:
+          - 5432:5432
+
+    env:
+      DB_CONNECTION: ${{ matrix.database }}
+      DB_DATABASE: translatable_test
+      DB_USERNAME: root
+      DB_PASSWORD: password
+
+    name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.dependency-version }} - ${{ matrix.os }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Cache dependencies
+        uses: actions/cache@v1
+        with:
+          path: ~/.composer/cache/files
+          key: dependencies-laravel-${{ matrix.laravel }}-php-${{ matrix.php }}-composer-${{ hashFiles('composer.json')
+          keys: |
+            dependencies-laravel-${{ matrix.laravel }}-php-${{ matrix.php }}-composer-
+            dependencies-laravel-${{ matrix.laravel }}-php-
+            dependencies-laravel-
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v1
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, mysql, mysqli, pdo_mysql
+          coverage: none
+
+      - name: Install dependencies
+        run: |
+          composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
+          composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-suggest
+
+      - name: Configure matchers
+        uses: mheap/phpunit-matcher-action@master
+
+      - name: Execute tests
+        run: vendor/bin/phpunit --teamcity
+        env:
+          DB_PORT: ${{ job.services.mysql.ports[3306] }}
