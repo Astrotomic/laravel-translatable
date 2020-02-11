@@ -68,7 +68,7 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, mysql, mysqli, pdo_mysql
-          coverage: none
+          coverage: xdebug
 
       - name: Install dependencies
         run: |
@@ -79,6 +79,9 @@ jobs:
         uses: mheap/phpunit-matcher-action@master
 
       - name: Execute tests
-        run: vendor/bin/phpunit --teamcity
-        env:
-          DB_PORT: ${{ job.services.mysql.ports[3306] }}
+        run: vendor/bin/phpunit --teamcity --coverage-text --coverage-clover=coverage.clover
+
+      - name: Upload coverage
+        run: |
+          wget https://scrutinizer-ci.com/ocular.phar
+          php ocular.phar code-coverage:upload --format=php-clover coverage.clover
