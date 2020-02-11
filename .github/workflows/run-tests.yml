@@ -62,5 +62,5 @@ jobs:
 
       - name: Upload coverage
         run: |
-          curl -O https://scrutinizer-ci.com/ocular.phar
+          php -r "copy('https://scrutinizer-ci.com/ocular.phar', 'ocular.phar');"
           php ocular.phar code-coverage:upload --format=php-clover coverage.clover
