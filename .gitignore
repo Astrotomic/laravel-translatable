@@ -3,3 +3,4 @@
 /coverage/
 /.phpunit.result.cache
 /build/
+/coverage.clover
