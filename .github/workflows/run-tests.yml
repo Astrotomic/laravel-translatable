@@ -8,6 +8,7 @@ on:
 jobs:
   test:
     runs-on: ${{ matrix.os }}
+
     strategy:
       fail-fast: true
       matrix:
@@ -24,28 +25,6 @@ jobs:
         exclude:
           - php: 7.4
             laravel: 5.8.*
-    services:
-      mysql:
-        image: mysql:5.7
-        env:
-          MYSQL_ROOT_PASSWORD: password
-          MYSQL_DATABASE: translatable_test
-        ports:
-          - 3306:3306
-      postgres:
-        image: postgres:10.8
-        env:
-          POSTGRES_USER: root
-          POSTGRES_PASSWORD: password
-          POSTGRES_DB: translatable_test
-        ports:
-          - 5432:5432
-
-    env:
-      DB_CONNECTION: ${{ matrix.database }}
-      DB_DATABASE: translatable_test
-      DB_USERNAME: root
-      DB_PASSWORD: password
 
     name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.dependency-version }} - ${{ matrix.os }}
 
