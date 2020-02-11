@@ -18,7 +18,7 @@ build:
 tools:
   external_code_coverage:
     timeout: 900
-    runs: 60
+    runs: 1
 
 filter:
   paths:
