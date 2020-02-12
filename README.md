@@ -1,18 +1,18 @@
 # Introduction
 
-[![Latest Version](http://img.shields.io/packagist/v/astrotomic/laravel-translatable.svg?label=Release&style=for-the-badge&cacheSeconds=600)](https://packagist.org/packages/astrotomic/laravel-translatable)
-[![MIT License](https://img.shields.io/github/license/Astrotomic/laravel-translatable.svg?label=License&color=blue&style=for-the-badge&cacheSeconds=600)](https://github.com/Astrotomic/laravel-translatable/blob/master/LICENSE)
-[![Offset Earth](https://img.shields.io/badge/Treeware-%F0%9F%8C%B3-green?style=for-the-badge&cacheSeconds=600)](https://offset.earth/treeware)
+[![Latest Version](http://img.shields.io/packagist/v/astrotomic/laravel-translatable.svg?label=Release&style=for-the-badge)](https://packagist.org/packages/astrotomic/laravel-translatable)
+[![MIT License](https://img.shields.io/github/license/Astrotomic/laravel-translatable.svg?label=License&color=blue&style=for-the-badge)](https://github.com/Astrotomic/laravel-translatable/blob/master/LICENSE)
+[![Offset Earth](https://img.shields.io/badge/Treeware-%F0%9F%8C%B3-green?style=for-the-badge)](https://offset.earth/treeware)
 
-[![TravisCI](https://img.shields.io/travis/Astrotomic/laravel-translatable/master?label=TravisCI&style=flat-square&cacheSeconds=600)](https://travis-ci.org/Astrotomic/laravel-translatable/branches)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/Astrotomic/laravel-translatable/run-tests?style=flat-square&logoColor=white&logo=github&label=Tests)](https://github.com/Astrotomic/laravel-translatable/actions?query=workflow%3Arun-tests)
 [![StyleCI](https://styleci.io/repos/192333549/shield)](https://styleci.io/repos/192333549)
-[![ScrutinizerCI](https://img.shields.io/scrutinizer/quality/g/Astrotomic/laravel-translatable/master.svg?label=ScrutinizerCI&style=flat-square&cacheSeconds=600)](https://scrutinizer-ci.com/g/Astrotomic/laravel-translatable/)
-[![Code Climate](https://img.shields.io/codeclimate/maintainability/Astrotomic/laravel-translatable.svg?label=CodeClimate&style=flat-square&cacheSeconds=600)](https://codeclimate.com/github/Astrotomic/laravel-translatable)
-[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/Astrotomic/laravel-translatable/master.svg?label=Coverage&style=flat-square&cacheSeconds=600)](https://scrutinizer-ci.com/g/Astrotomic/laravel-translatable/)
+[![ScrutinizerCI](https://img.shields.io/scrutinizer/quality/g/Astrotomic/laravel-translatable/master.svg?label=Scrutinizer&logoColor=white&logo=scrutinizer-ci&style=flat-square)](https://scrutinizer-ci.com/g/Astrotomic/laravel-translatable/)
+[![Code Climate](https://img.shields.io/codeclimate/maintainability/Astrotomic/laravel-translatable.svg?label=CodeClimate&logoColor=white&logo=code-climate&style=flat-square)](https://codeclimate.com/github/Astrotomic/laravel-translatable)
+[![Codecov Coverage](https://img.shields.io/codecov/c/github/Astrotomic/laravel-translatable?logo=codecov&logoColor=white&label=Codecov&style=flat-square)](https://codecov.io/gh/Astrotomic/laravel-translatable)
 
-[![Total Downloads](https://img.shields.io/packagist/dt/astrotomic/laravel-translatable.svg?label=Downloads&style=flat-square&cacheSeconds=600)](https://packagist.org/packages/astrotomic/laravel-translatable) 
-[![GitBook](https://img.shields.io/badge/GitBook-Astrotomic-7e57c2.svg?style=flat-square&cacheSeconds=600)](https://docs.astrotomic.info/laravel-translatable)
-[![Open Collective](https://img.shields.io/opencollective/all/astrotomic?label=Open%20Collective&style=flat-square&cacheSeconds=600)](https://opencollective.com/astrotomic)
+[![Total Downloads](https://img.shields.io/packagist/dt/astrotomic/laravel-translatable.svg?label=Downloads&style=flat-square)](https://packagist.org/packages/astrotomic/laravel-translatable) 
+[![GitBook](https://img.shields.io/badge/GitBook-Astrotomic-7e57c2.svg?style=flat-square)](https://docs.astrotomic.info/laravel-translatable)
+[![Open Collective](https://img.shields.io/opencollective/all/astrotomic?label=Open%20Collective&style=flat-square)](https://opencollective.com/astrotomic)
 
 ![Laravel Translatable](docs/.gitbook/assets/laravel-translatable.png)
 
