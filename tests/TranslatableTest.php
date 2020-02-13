@@ -71,10 +71,10 @@ final class TranslatableTest extends TestCase
     public function it_returns_relation_key(): void
     {
         $vegetable = new Vegetable();
-        static::assertEquals('vegetable_identity', $vegetable->getRelationKey());
+        static::assertEquals('vegetable_identity', $vegetable->getTranslationRelationKey());
 
         $vegetable->translationForeignKey = 'my_awesome_key';
-        static::assertEquals('my_awesome_key', $vegetable->getRelationKey());
+        static::assertEquals('my_awesome_key', $vegetable->getTranslationRelationKey());
     }
 
     /** @test */
