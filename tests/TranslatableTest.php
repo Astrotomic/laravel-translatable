@@ -643,12 +643,17 @@ final class TranslatableTest extends TestCase
         ]);
         $vegetable->save();
 
-        $vegetable->refresh();
         $replicated = $vegetable->replicateWithTranslations();
+        $replicated->save();
+
+        static::assertNotNull($replicated->identity);
         static::assertNotSame($replicated->identity, $vegetable->identity);
         static::assertEquals($replicated->translate('fr')->name, $vegetable->translate('fr')->name);
         static::assertEquals($replicated->translate('en')->name, $vegetable->translate('en')->name);
         static::assertEquals($replicated->translate('de')->name, $vegetable->translate('de')->name);
+
+        static::assertNotNull($replicated->translate('fr')->vegetable_identity);
+        static::assertEquals($replicated->translate('fr')->vegetable_identity, $replicated->identity);
     }
 
     /** @test */
