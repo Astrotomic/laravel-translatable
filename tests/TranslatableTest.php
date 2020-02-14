@@ -643,12 +643,22 @@ final class TranslatableTest extends TestCase
         ]);
         $vegetable->save();
 
-        $vegetable->refresh();
         $replicated = $vegetable->replicateWithTranslations();
-        static::assertNotSame($replicated->identity, $vegetable->identity);
+        $replicated->save();
+
+        static::assertNotNull($replicated->identity);
+        static::assertNotEquals($replicated->identity, $vegetable->identity);
         static::assertEquals($replicated->translate('fr')->name, $vegetable->translate('fr')->name);
         static::assertEquals($replicated->translate('en')->name, $vegetable->translate('en')->name);
         static::assertEquals($replicated->translate('de')->name, $vegetable->translate('de')->name);
+
+        static::assertNotNull($replicated->translate('fr')->vegetable_identity);
+        static::assertNotEquals($replicated->translate('fr')->vegetable_identity, $vegetable->identity);
+        static::assertEquals($replicated->translate('fr')->vegetable_identity, $replicated->identity);
+        static::assertNotEquals($replicated->translate('en')->vegetable_identity, $vegetable->identity);
+        static::assertEquals($replicated->translate('en')->vegetable_identity, $replicated->identity);
+        static::assertNotEquals($replicated->translate('de')->vegetable_identity, $vegetable->identity);
+        static::assertEquals($replicated->translate('de')->vegetable_identity, $replicated->identity);
     }
 
     /** @test */
