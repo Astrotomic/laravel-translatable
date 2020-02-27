@@ -2,6 +2,10 @@
 
 ## v11
 
+### v11.7.1
+
+* Add `.gitattributes` to exclude files from archive - [\#126](https://github.com/Astrotomic/laravel-translatable/pull/126)
+
 ### v11.7.0
 
 * Add `translateOrFail()` method - [\#114](https://github.com/Astrotomic/laravel-translatable/pull/114)
