@@ -7,11 +7,12 @@
         "language",
         "database"
     ],
+    "homepage": "https://astrotomic.info",
     "license": "MIT",
     "authors": [
         {
             "name": "Tom Witkowski",
-            "email": "dev.gummibeer@gmail.com",
+            "email": "gummibeer@astrotomic.info",
             "homepage": "https://gummibeer.de",
             "role": "Developer"
         },
@@ -58,6 +59,7 @@
         "test-coverage": "vendor/bin/phpunit --coverage-html=build"
     },
     "support": {
+        "email": "dev@astrotomic.info",
         "issues": "https://github.com/Astrotomic/laravel-translatable/issues",
         "source": "https://github.com/Astrotomic/laravel-translatable",
         "docs": "https://docs.astrotomic.info/laravel-translatable"
