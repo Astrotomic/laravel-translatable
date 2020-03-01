@@ -9,4 +9,4 @@ community_bridge: # Replace with a single Community Bridge project-name e.g., cl
 liberapay: # Replace with a single Liberapay username
 issuehunt: astrotomic
 otechie: # Replace with a single Otechie username
-custom: ['https://offset.earth/treeware', 'https://buymeacoffee.com/gummibeer', 'https://paypal.me/Gummibeer']
+custom: ['https://offset.earth/treeware']
