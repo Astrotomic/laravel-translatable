@@ -4,12 +4,9 @@ namespace Astrotomic\Translatable\Tests;
 
 use Astrotomic\Translatable\Tests\Eloquent\Country;
 use Astrotomic\Translatable\Tests\Eloquent\Vegetable;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 final class ScopesTest extends TestCase
 {
-    use RefreshDatabase;
-
     /** @test */
     public function translated_in_scope_returns_only_translated_records_for_this_locale(): void
     {

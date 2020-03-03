@@ -11,14 +11,11 @@ use Astrotomic\Translatable\Tests\Eloquent\Vegetable;
 use Astrotomic\Translatable\Tests\Eloquent\VegetableTranslation;
 use Illuminate\Database\Eloquent\MassAssignmentException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 
 final class TranslatableTest extends TestCase
 {
-    use RefreshDatabase;
-
     /** @test */
     public function it_finds_the_default_translation_class(): void
     {
@@ -754,31 +751,6 @@ final class TranslatableTest extends TestCase
 
         $this->app->setLocale('de');
         static::assertEquals('Erbsen', $vegetable->getAttribute('name'));
-    }
-
-    /** @test */
-    public function translation_model_is_saved_in_the_correct_connection(): void
-    {
-        $potatoes = new Vegetable();
-        $potatoes->{'name:en'} = 'Potatoes';
-        $potatoes->save();
-
-        $this->app->make('config')->set('database.connections.testing2', [
-            'driver' => 'sqlite',
-            'database' => ':memory:',
-        ]);
-        $this->loadMigrationsFrom(['--database' => 'testing2', '--path' => realpath('tests/migrations')]);
-
-        $peas = new Vegetable();
-        $peas->setConnection('testing2');
-        $peas->{'name:es'} = 'Guisantes';
-        $peas->save();
-
-        static::assertDatabaseHas('vegetable_translations', ['locale' => 'en', 'name' => 'Potatoes'], 'testing');
-        static::assertDatabaseMissing('vegetable_translations', ['locale' => 'es'], 'testing');
-
-        static::assertDatabaseHas('vegetable_translations', ['locale' => 'es', 'name' => 'Guisantes'], 'testing2');
-        static::assertDatabaseMissing('vegetable_translations', ['locale' => 'en'], 'testing2');
     }
 
     /** @test */
