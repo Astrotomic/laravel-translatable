@@ -2,6 +2,10 @@
 
 ## v11
 
+### v11.8.0
+
+* Add Laravel 7 support - [\#128](https://github.com/Astrotomic/laravel-translatable/pull/128)
+
 ### v11.7.1
 
 * Add `.gitattributes` to exclude files from archive - [\#126](https://github.com/Astrotomic/laravel-translatable/pull/126)
