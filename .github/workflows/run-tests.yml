@@ -61,11 +61,6 @@ jobs:
       - name: Execute tests
         run: vendor/bin/phpunit --teamcity --coverage-text --coverage-clover=coverage.clover
 
-      - name: Upload ScrutinizerCI coverage
-        run: |
-          php -r "copy('https://scrutinizer-ci.com/ocular.phar', 'ocular.phar');"
-          php ocular.phar code-coverage:upload --repository="g/Astrotomic/laravel-translatable" --revision="${{ github.sha }}" --format=php-clover coverage.clover
-
       - name: Upload Codecov coverage
         uses: codecov/codecov-action@v1
         with:
