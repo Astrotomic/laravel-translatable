@@ -25,13 +25,13 @@
     ],
     "require": {
         "php": ">=7.2",
-        "illuminate/contracts": "5.8.* || ^6.0 | ^7.0",
-        "illuminate/database": "5.8.* || ^6.0 | ^7.0",
-        "illuminate/support": "5.8.* || ^6.0 | ^7.0"
+        "illuminate/contracts": "5.8.* || ^6.0 || ^7.0",
+        "illuminate/database": "5.8.* || ^6.0 || ^7.0",
+        "illuminate/support": "5.8.* || ^6.0 || ^7.0"
     },
     "require-dev": {
-        "orchestra/testbench": "3.8.* || ^4.0 | ^5.0",
-        "phpunit/phpunit": "^8.0 | ^9.0"
+        "orchestra/testbench": "3.8.* || ^4.0 || ^5.0",
+        "phpunit/phpunit": "^8.0 || ^9.0"
     },
     "config": {
         "sort-packages": true
@@ -53,13 +53,13 @@
             "Astrotomic\\Translatable\\Tests\\": "tests/"
         }
     },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "scripts": {
         "csfix": "php-cs-fixer fix --using-cache=no",
         "test": "vendor/bin/phpunit",
         "test-coverage": "vendor/bin/phpunit --coverage-html=build"
     },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
     "support": {
         "email": "dev@astrotomic.info",
         "issues": "https://github.com/Astrotomic/laravel-translatable/issues",
