@@ -55,11 +55,8 @@ jobs:
           composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
           composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-suggest
 
-      - name: Configure matchers
-        uses: mheap/phpunit-matcher-action@master
-
       - name: Execute tests
-        run: vendor/bin/phpunit --teamcity --coverage-text --coverage-clover=coverage.clover
+        run: vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
 
       - name: Upload Codecov coverage
         uses: codecov/codecov-action@v1
