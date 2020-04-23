@@ -17,14 +17,10 @@ class CountryLocaleStrategy extends BaseFallbackStrategy
             return null;
         }
 
-        $locale = $this->getLocalesHelper()->getLanguageFromCountryBasedLocale($locale);
-
-        if ($alreadyCheckedLocales->contains($locale)) {
-            return null;
-        }
-
-        $alreadyCheckedLocales->push($locale);
-
-        return $translatable->translations->firstWhere($translatable->getLocaleKey(), $locale);
+        return $this->resolveTranslationByLocale(
+            $translatable,
+            $this->getLocalesHelper()->getLanguageFromCountryBasedLocale($locale),
+            $alreadyCheckedLocales
+        );
     }
 }

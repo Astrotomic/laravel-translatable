@@ -33,6 +33,20 @@ abstract class BaseFallbackStrategy implements FallbackStrategy
         return $translation;
     }
 
+    protected function resolveTranslationByLocale(
+        Translatable $translatable,
+        string $locale,
+        Collection $alreadyCheckedLocales
+    ): ?Model {
+        if ($alreadyCheckedLocales->contains($locale)) {
+            return null;
+        }
+
+        $alreadyCheckedLocales->push($locale);
+
+        return $translatable->translations->firstWhere($translatable->getLocaleKey(), $locale);
+    }
+
     protected function getLocalesHelper(): Locales
     {
         return app(Locales::class);

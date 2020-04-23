@@ -13,14 +13,10 @@ class ConfigFallbackStrategy extends BaseFallbackStrategy
         string $locale,
         Collection $alreadyCheckedLocales
     ): ?Model {
-        $locale = config('translatable.fallback_locale');
-
-        if ($alreadyCheckedLocales->contains($locale)) {
-            return null;
-        }
-
-        $alreadyCheckedLocales->push($locale);
-
-        return $translatable->translations->firstWhere($translatable->getLocaleKey(), $locale);
+        return $this->resolveTranslationByLocale(
+            $translatable,
+            config('translatable.fallback_locale'),
+            $alreadyCheckedLocales
+        );
     }
 }
