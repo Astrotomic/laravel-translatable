@@ -9,36 +9,6 @@ use Illuminate\Database\Query\JoinClause;
 
 trait Scopes
 {
-    public function scopeListsTranslations(Builder $query, string $translationField)
-    {
-        $withFallback = $this->useFallback();
-        $translationTable = $this->getTranslationsTable();
-        $localeKey = $this->getLocaleKey();
-
-        $query
-            ->select($this->getTable().'.'.$this->getKeyName(), $translationTable.'.'.$translationField)
-            ->leftJoin($translationTable, $translationTable.'.'.$this->getTranslationRelationKey(), '=', $this->getTable().'.'.$this->getKeyName())
-            ->where($translationTable.'.'.$localeKey, $this->locale());
-
-        if ($withFallback) {
-            $query->orWhere(function (Builder $q) use ($translationTable, $localeKey) {
-                $q
-                    ->where($translationTable.'.'.$localeKey, $this->getFallbackLocale())
-                    ->whereNotIn($translationTable.'.'.$this->getTranslationRelationKey(), function (QueryBuilder $q) use (
-                        $translationTable,
-                        $localeKey
-                    ) {
-                        $q
-                            ->select($translationTable.'.'.$this->getTranslationRelationKey())
-                            ->from($translationTable)
-                            ->where($translationTable.'.'.$localeKey, $this->locale());
-                    });
-            });
-        }
-
-        return $query;
-    }
-
     public function scopeNotTranslatedIn(Builder $query, ?string $locale = null)
     {
         $locale = $locale ?: $this->locale();
@@ -104,23 +74,6 @@ trait Scopes
     public function scopeWhereTranslationLike(Builder $query, string $translationField, $value, ?string $locale = null)
     {
         return $this->scopeWhereTranslation($query, $translationField, $value, $locale, 'whereHas', 'LIKE');
-    }
-
-    public function scopeWithTranslation(Builder $query)
-    {
-        $query->with([
-            'translations' => function (Relation $query) {
-                if ($this->useFallback()) {
-                    $locale = $this->locale();
-                    $countryFallbackLocale = $this->getFallbackLocale($locale); // e.g. de-DE => de
-                    $locales = array_unique([$locale, $countryFallbackLocale, $this->getFallbackLocale()]);
-
-                    return $query->whereIn($this->getTranslationsTable().'.'.$this->getLocaleKey(), $locales);
-                }
-
-                return $query->where($this->getTranslationsTable().'.'.$this->getLocaleKey(), $this->locale());
-            },
-        ]);
     }
 
     private function getTranslationsTable(): string

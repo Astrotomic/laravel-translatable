@@ -4,7 +4,7 @@ namespace Astrotomic\Translatable\TranslationResolvers;
 
 use Astrotomic\Translatable\Contracts\TranslationResolver;
 use Astrotomic\Translatable\Locales;
-use Astrotomic\Translatable\Translatable;
+use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 use BadMethodCallException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
@@ -19,7 +19,7 @@ abstract class BaseFallbackResolver extends BaseTranslationResolver
     abstract protected function fallbackLocales(string $locale): array;
 
     public function resolve(
-        Translatable $translatable,
+        TranslatableContract $translatable,
         string $locale,
         bool $withFallback,
         Collection $alreadyCheckedLocales
@@ -44,7 +44,7 @@ abstract class BaseFallbackResolver extends BaseTranslationResolver
     }
 
     public function resolveWithAttribute(
-        Translatable $translatable,
+        TranslatableContract $translatable,
         string $locale,
         bool $withFallback,
         Collection $alreadyCheckedLocales,

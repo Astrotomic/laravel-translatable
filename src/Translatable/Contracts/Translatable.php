@@ -2,10 +2,20 @@
 
 namespace Astrotomic\Translatable\Contracts;
 
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
+/**
+ * @property-read EloquentCollection|Model[] $translations
+ * @property-read string $translationModel
+ * @property-read string $translationForeignKey
+ * @property-read string $localeKey
+ * @property-read bool $useTranslationFallback
+ *
+ * @mixin Model
+ */
 interface Translatable
 {
     public static function defaultAutoloadTranslations(): void;
@@ -44,7 +54,7 @@ interface Translatable
 
     public function translateOrNew(?string $locale = null): Model;
 
-    public function translation(): HasOne;
-
     public function translations(): HasMany;
+
+    public function isEmptyTranslatableAttribute(string $key, $value): bool;
 }

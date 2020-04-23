@@ -87,6 +87,23 @@ return [
     'fallback_locale' => 'en',
 
     /*
+     * --------------------------------------------------------------------------
+     * Translation Resolvers
+     * --------------------------------------------------------------------------
+     *
+     * A list of \Astrotomic\Translatable\Contracts\TranslationResolver FQCNs.
+     * The order is respected while resolving the used translation.
+     * If the \Astrotomic\Translatable\TranslationResolvers\GivenLocale resolver
+     * is not listed it will be prepended before looping through the list.
+     * So by default it's enough to only list the fallback resolvers.
+     */
+    'translation_resolvers' => [
+        \Astrotomic\Translatable\TranslationResolvers\CountryBasedLocale::class,
+        \Astrotomic\Translatable\TranslationResolvers\ConfigFallbackLocale::class,
+        // \Astrotomic\Translatable\TranslationResolvers\FirstAvailableLocale::class,
+    ],
+
+    /*
     |--------------------------------------------------------------------------
     | Translation Model Namespace
     |--------------------------------------------------------------------------

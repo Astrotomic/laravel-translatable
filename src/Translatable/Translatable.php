@@ -2,16 +2,22 @@
 
 namespace Astrotomic\Translatable;
 
+use Astrotomic\Translatable\Contracts\TranslationResolver;
+use Astrotomic\Translatable\TranslationResolvers\ConfigFallbackLocale;
+use Astrotomic\Translatable\TranslationResolvers\CountryBasedLocale;
 use Astrotomic\Translatable\Traits\Relationship;
 use Astrotomic\Translatable\Traits\Scopes;
-use Illuminate\Database\Eloquent\Collection;
+use Astrotomic\Translatable\TranslationResolvers\FirstAvailableLocale;
+use Astrotomic\Translatable\TranslationResolvers\GivenLocale;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
 /**
- * @property-read null|Model $translation
- * @property-read Collection|Model[] $translations
+ * @property-read EloquentCollection|Model[] $translations
  * @property-read string $translationModel
  * @property-read string $translationForeignKey
  * @property-read string $localeKey
@@ -188,40 +194,15 @@ trait Translatable
 
     public function getTranslation(?string $locale = null, bool $withFallback = null): ?Model
     {
-        $configFallbackLocale = $this->getFallbackLocale();
         $locale = $locale ?: $this->locale();
-        $withFallback = $withFallback === null ? $this->useFallback() : $withFallback;
-        $fallbackLocale = $this->getFallbackLocale($locale);
+        $withFallback = $withFallback ?? $this->useFallback();
+        $alreadyCheckedLocales = collect([]);
 
-        if ($translation = $this->getTranslationByLocaleKey($locale)) {
-            return $translation;
-        }
+        foreach($this->getTranslationResolvers() as $resolver) {
+            $translation = $resolver->resolve($this, $locale, $withFallback, $alreadyCheckedLocales);
 
-        if ($withFallback && $fallbackLocale) {
-            if ($translation = $this->getTranslationByLocaleKey($fallbackLocale)) {
+            if ($translation instanceof Model) {
                 return $translation;
-            }
-
-            if (
-                is_string($configFallbackLocale)
-                && $fallbackLocale !== $configFallbackLocale
-                && $translation = $this->getTranslationByLocaleKey($configFallbackLocale)
-            ) {
-                return $translation;
-            }
-        }
-
-        if ($withFallback && $configFallbackLocale === null) {
-            $configuredLocales = $this->getLocalesHelper()->all();
-
-            foreach ($configuredLocales as $configuredLocale) {
-                if (
-                    $locale !== $configuredLocale
-                    && $fallbackLocale !== $configuredLocale
-                    && $translation = $this->getTranslationByLocaleKey($configuredLocale)
-                ) {
-                    return $translation;
-                }
             }
         }
 
@@ -337,7 +318,7 @@ trait Translatable
         return app(Locales::class);
     }
 
-    protected function isEmptyTranslatableAttribute(string $key, $value): bool
+    public function isEmptyTranslatableAttribute(string $key, $value): bool
     {
         return empty($value);
     }
@@ -392,47 +373,19 @@ trait Translatable
 
     private function getAttributeOrFallback(?string $locale, string $attribute)
     {
-        $translation = $this->getTranslation($locale);
+        $locale = $locale ?: $this->locale();
+        $withFallback = $this->usePropertyFallback();
+        $alreadyCheckedLocales = collect([]);
 
-        if (
-            (
-                ! $translation instanceof Model
-                || $this->isEmptyTranslatableAttribute($attribute, $translation->$attribute)
-            )
-            && $this->usePropertyFallback()
-        ) {
-            $translation = $this->getTranslation($this->getFallbackLocale(), false);
-        }
+        foreach($this->getTranslationResolvers() as $resolver) {
+            $translation = $resolver->resolveWithAttribute($this, $locale, $withFallback, $alreadyCheckedLocales, $attribute);
 
-        if ($translation instanceof Model) {
-            return $translation->$attribute;
-        }
-
-        return null;
-    }
-
-    private function getFallbackLocale(?string $locale = null): ?string
-    {
-        if ($locale && $this->getLocalesHelper()->isLocaleCountryBased($locale)) {
-            if ($fallback = $this->getLocalesHelper()->getLanguageFromCountryBasedLocale($locale)) {
-                return $fallback;
+            if ($translation instanceof Model) {
+                return $translation->$attribute;
             }
         }
 
-        return config('translatable.fallback_locale');
-    }
-
-    private function getTranslationByLocaleKey(string $key): ?Model
-    {
-        if (
-            $this->relationLoaded('translation')
-            && $this->translation
-            && $this->translation->getAttribute($this->getLocaleKey()) == $key
-        ) {
-            return $this->translation;
-        }
-
-        return $this->translations->firstWhere($this->getLocaleKey(), $key);
+        return null;
     }
 
     private function toArrayAlwaysLoadsTranslations(): bool
@@ -446,12 +399,29 @@ trait Translatable
             return $this->useTranslationFallback;
         }
 
-        return (bool) config('translatable.use_fallback');
+        return (bool) config('translatable.use_fallback', false);
     }
 
     private function usePropertyFallback(): bool
     {
         return $this->useFallback() && config('translatable.use_property_fallback', false);
+    }
+
+    /**
+     * @return TranslationResolver[]
+     */
+    private function getTranslationResolvers(): array
+    {
+        $resolvers = config('translatable.translation_resolvers', []);
+
+        if(!in_array(GivenLocale::class, $resolvers)) {
+            $resolvers = Arr::prepend($resolvers, GivenLocale::class);
+        }
+
+        return array_map(
+            fn(string $resolver): TranslationResolver => app($resolver),
+            $resolvers
+        );
     }
 
     public function __isset($key)

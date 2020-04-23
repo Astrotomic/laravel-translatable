@@ -61,20 +61,6 @@ trait Relationship
         return $this->getForeignKey();
     }
 
-    public function translation(): HasOne
-    {
-        return $this
-            ->hasOne($this->getTranslationModelName(), $this->getTranslationRelationKey())
-            ->where($this->getLocaleKey(), $this->localeOrFallback());
-    }
-
-    private function localeOrFallback()
-    {
-        return $this->useFallback() && ! $this->translations()->where($this->getLocaleKey(), $this->locale())->exists()
-            ? $this->getFallbackLocale()
-            : $this->locale();
-    }
-
     public function translations(): HasMany
     {
         return $this->hasMany($this->getTranslationModelName(), $this->getTranslationRelationKey());

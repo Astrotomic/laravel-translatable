@@ -2,6 +2,7 @@
 
 namespace Astrotomic\Translatable\TranslationResolvers;
 
+use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 use Astrotomic\Translatable\Contracts\TranslationResolver;
 use Astrotomic\Translatable\Locales;
 use Astrotomic\Translatable\Translatable;
@@ -11,7 +12,7 @@ use Illuminate\Support\Collection;
 abstract class BaseTranslationResolver implements TranslationResolver
 {
     protected function resolveTranslationByLocale(
-        Translatable $translatable,
+        TranslatableContract $translatable,
         string $locale,
         Collection $alreadyCheckedLocales
     ): ?Model {
@@ -25,7 +26,7 @@ abstract class BaseTranslationResolver implements TranslationResolver
     }
 
     protected function resolveTranslationWithAttributeByLocale(
-        Translatable $translatable,
+        TranslatableContract $translatable,
         string $locale,
         Collection $alreadyCheckedLocales,
         string $attribute

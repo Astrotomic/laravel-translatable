@@ -2,21 +2,21 @@
 
 namespace Astrotomic\Translatable\Contracts;
 
-use Astrotomic\Translatable\Translatable;
+use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
 interface TranslationResolver
 {
     public function resolve(
-        Translatable $translatable,
+        TranslatableContract $translatable,
         string $locale,
         bool $withFallback,
         Collection $alreadyCheckedLocales
     ): ?Model;
 
     public function resolveWithAttribute(
-        Translatable $translatable,
+        TranslatableContract $translatable,
         string $locale,
         bool $withFallback,
         Collection $alreadyCheckedLocales,

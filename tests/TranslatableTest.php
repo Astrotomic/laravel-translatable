@@ -9,6 +9,10 @@ use Astrotomic\Translatable\Tests\Eloquent\CountryTranslation;
 use Astrotomic\Translatable\Tests\Eloquent\Person;
 use Astrotomic\Translatable\Tests\Eloquent\Vegetable;
 use Astrotomic\Translatable\Tests\Eloquent\VegetableTranslation;
+use Astrotomic\Translatable\TranslationResolvers\ConfigFallbackLocale;
+use Astrotomic\Translatable\TranslationResolvers\CountryBasedLocale;
+use Astrotomic\Translatable\TranslationResolvers\FirstAvailableLocale;
+use Astrotomic\Translatable\TranslationResolvers\GivenLocale;
 use Illuminate\Database\Eloquent\MassAssignmentException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\App;
@@ -772,7 +776,7 @@ final class TranslatableTest extends TestCase
             protected $table = 'vegetables';
             public $translationModel = VegetableTranslation::class;
 
-            protected function isEmptyTranslatableAttribute(string $key, $value): bool
+            public function isEmptyTranslatableAttribute(string $key, $value): bool
             {
                 if ($key === 'name') {
                     return is_null($value);
@@ -794,43 +798,6 @@ final class TranslatableTest extends TestCase
 
         $this->app->setLocale('fr');
         static::assertSame('1', $vegetable->name);
-    }
-
-    /** @test */
-    public function translation_relation(): void
-    {
-        $this->app->make('config')->set('translatable.fallback_locale', 'fr');
-        $this->app->make('config')->set('translatable.use_fallback', true);
-        $this->app->setLocale('en');
-
-        $peas = factory(Vegetable::class)->create(['name:en' => 'Peas']);
-
-        static::assertInstanceOf(VegetableTranslation::class, $peas->translation);
-        static::assertEquals('en', $peas->translation->locale);
-    }
-
-    /** @test */
-    public function translation_relation_can_use_fallback_locale(): void
-    {
-        $this->app->make('config')->set('translatable.fallback_locale', 'fr');
-        $this->app->make('config')->set('translatable.use_fallback', true);
-        $this->app->setLocale('en');
-
-        $peas = factory(Vegetable::class)->create(['name:fr' => 'Pois']);
-
-        static::assertEquals('fr', $peas->translation->locale);
-    }
-
-    /** @test */
-    public function translation_relation_returns_null_if_no_available_locale_was_found(): void
-    {
-        $this->app->make('config')->set('translatable.fallback_locale', 'xyz');
-        $this->app->make('config')->set('translatable.use_fallback', true);
-        $this->app->setLocale('xyz');
-
-        $peas = factory(Vegetable::class)->create(['name:en' => 'Peas']);
-
-        static::assertNull($peas->translation);
     }
 
     /** @test */
@@ -878,6 +845,11 @@ final class TranslatableTest extends TestCase
         ]);
         $this->app->make('config')->set('translatable.fallback_locale', null);
         $this->app->make('config')->set('translatable.use_fallback', true);
+        $this->app->make('config')->set('translatable.translation_resolvers', [
+            CountryBasedLocale::class,
+            ConfigFallbackLocale::class,
+            FirstAvailableLocale::class,
+        ]);
         $this->app->setLocale('xyz');
 
         $helper->load();
@@ -935,66 +907,6 @@ final class TranslatableTest extends TestCase
         $translation = $country->getTranslation();
         static::assertInstanceOf(CountryTranslation::class, $translation);
         static::assertEquals($helper->getCountryLocale('de', 'DE'), $translation->locale);
-    }
-
-    /** @test */
-    public function it_uses_translation_relation_if_locale_matches(): void
-    {
-        $this->app->make('config')->set('translatable.use_fallback', false);
-        $this->app->setLocale('de');
-        Country::create(['code' => 'gr', 'name:de' => 'Griechenland']);
-
-        /** @var Country $country */
-        $country = Country::first();
-        $country->load('translation');
-
-        static::assertTrue($country->relationLoaded('translation'));
-        static::assertFalse($country->relationLoaded('translations'));
-
-        $translation = $country->getTranslation();
-        static::assertInstanceOf(CountryTranslation::class, $translation);
-        static::assertEquals('de', $translation->locale);
-        static::assertFalse($country->relationLoaded('translations'));
-    }
-
-    /** @test */
-    public function it_uses_translations_relation_if_locale_does_not_match(): void
-    {
-        $this->app->make('config')->set('translatable.use_fallback', false);
-        $this->app->setLocale('de');
-        Country::create(['code' => 'gr', 'name:de' => 'Griechenland', 'name:en' => 'Greece']);
-
-        /** @var Country $country */
-        $country = Country::first();
-        $country->load('translation');
-
-        static::assertTrue($country->relationLoaded('translation'));
-        static::assertFalse($country->relationLoaded('translations'));
-        $this->app->setLocale('en');
-
-        $translation = $country->getTranslation();
-        static::assertInstanceOf(CountryTranslation::class, $translation);
-        static::assertEquals('en', $translation->locale);
-        static::assertTrue($country->relationLoaded('translations'));
-    }
-
-    /** @test */
-    public function it_does_not_load_translation_relation_if_not_already_loaded(): void
-    {
-        $this->app->make('config')->set('translatable.use_fallback', false);
-        $this->app->setLocale('de');
-        Country::create(['code' => 'gr', 'name:de' => 'Griechenland', 'name:en' => 'Greece']);
-
-        /** @var Country $country */
-        $country = Country::first();
-        static::assertFalse($country->relationLoaded('translation'));
-        static::assertFalse($country->relationLoaded('translations'));
-
-        $translation = $country->getTranslation();
-        static::assertInstanceOf(CountryTranslation::class, $translation);
-        static::assertEquals('de', $translation->locale);
-        static::assertFalse($country->relationLoaded('translation'));
-        static::assertTrue($country->relationLoaded('translations'));
     }
 
     /** @test */
