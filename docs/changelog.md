@@ -2,6 +2,10 @@
 
 ## v11
 
+### v11.8.1
+
+* Fix custom locale column name in `\Astrotomic\Translatable\Traits\Relationship::translation()` method - [\#146](https://github.com/Astrotomic/laravel-translatable/pull/146)
+
 ### v11.8.0
 
 * Add Laravel 7 support - [\#128](https://github.com/Astrotomic/laravel-translatable/pull/128)
