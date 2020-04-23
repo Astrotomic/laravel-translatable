@@ -65,12 +65,12 @@ trait Relationship
     {
         return $this
             ->hasOne($this->getTranslationModelName(), $this->getTranslationRelationKey())
-            ->where('locale', $this->localeOrFallback());
+            ->where($this->getLocaleKey(), $this->localeOrFallback());
     }
 
     private function localeOrFallback()
     {
-        return $this->useFallback() && ! $this->translations()->where('locale', $this->locale())->exists()
+        return $this->useFallback() && ! $this->translations()->where($this->getLocaleKey(), $this->locale())->exists()
             ? $this->getFallbackLocale()
             : $this->locale();
     }
