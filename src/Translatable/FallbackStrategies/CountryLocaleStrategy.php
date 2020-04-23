@@ -12,9 +12,8 @@ class CountryLocaleStrategy extends BaseFallbackStrategy
         Translatable $translatable,
         string $locale,
         Collection $alreadyCheckedLocales
-    ): ?Model
-    {
-        if (!$translatable->getLocalesHelper()->isLocaleCountryBased($locale)) {
+    ): ?Model {
+        if (! $translatable->getLocalesHelper()->isLocaleCountryBased($locale)) {
             return null;
         }
 

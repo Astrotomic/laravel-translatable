@@ -15,8 +15,7 @@ abstract class BaseFallbackStrategy implements FallbackStrategy
         string $locale,
         Collection $alreadyCheckedLocales,
         string $attribute
-    ): ?Model
-    {
+    ): ?Model {
         $translation = $this->fallback($translatable, $locale, $alreadyCheckedLocales);
 
         if ($translation === null) {

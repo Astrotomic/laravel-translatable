@@ -12,8 +12,7 @@ class ConfigFallbackStrategy extends BaseFallbackStrategy
         Translatable $translatable,
         string $locale,
         Collection $alreadyCheckedLocales
-    ): ?Model
-    {
+    ): ?Model {
         $locale = config('translatable.fallback_locale');
 
         if ($alreadyCheckedLocales->contains($locale)) {
