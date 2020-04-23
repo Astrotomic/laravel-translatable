@@ -1,6 +1,15 @@
 # Introduction
 
-[![Total Downloads](https://img.shields.io/packagist/dt/astrotomic/laravel-translatable.svg?style=flat-square)](https://packagist.org/packages/astrotomic/laravel-translatable) [![TravisCI](https://img.shields.io/travis/Astrotomic/laravel-translatable/master?label=TravisCI&style=flat-square&cacheSeconds=600)](https://travis-ci.org/Astrotomic/laravel-translatable/branches)  [![StyleCI](https://styleci.io/repos/192333549/shield)](https://styleci.io/repos/192333549) [![ScrutinizerCI](https://img.shields.io/scrutinizer/quality/g/Astrotomic/laravel-translatable/master.svg?label=ScrutinizerCI&style=flat-square)](https://scrutinizer-ci.com/g/Astrotomic/laravel-translatable/) [![Code Climate](https://img.shields.io/codeclimate/maintainability/Astrotomic/laravel-translatable.svg?label=CodeClimate&style=flat-square)](https://codeclimate.com/github/Astrotomic/laravel-translatable) [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/Astrotomic/laravel-translatable/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/Astrotomic/laravel-translatable/) [![Latest Version](http://img.shields.io/packagist/v/astrotomic/laravel-translatable.svg?style=flat-square)](https://packagist.org/packages/astrotomic/laravel-translatable) ![MIT License](https://img.shields.io/github/license/Astrotomic/laravel-translatable.svg?color=blue&style=flat-square) [![Open Collective](https://img.shields.io/opencollective/all/astrotomic?label=Open%20Collective&style=flat-square&cacheSeconds=600)](https://opencollective.com/astrotomic)
+[![Latest Version](http://img.shields.io/packagist/v/astrotomic/laravel-translatable.svg?label=Release&style=for-the-badge)](https://packagist.org/packages/astrotomic/laravel-translatable)
+[![MIT License](https://img.shields.io/github/license/Astrotomic/laravel-translatable.svg?label=License&color=blue&style=for-the-badge)](https://github.com/Astrotomic/laravel-translatable/blob/master/LICENSE)
+[![Offset Earth](https://img.shields.io/badge/Treeware-%F0%9F%8C%B3-green?style=for-the-badge)](https://plant.treeware.earth/Astrotomic/laravel-translatable)
+
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/Astrotomic/laravel-translatable/run-tests?style=flat-square&logoColor=white&logo=github&label=Tests)](https://github.com/Astrotomic/laravel-translatable/actions?query=workflow%3Arun-tests)
+[![StyleCI](https://styleci.io/repos/192333549/shield)](https://styleci.io/repos/192333549)
+[![ScrutinizerCI](https://img.shields.io/scrutinizer/quality/g/Astrotomic/laravel-translatable/master.svg?label=Scrutinizer&logoColor=white&logo=scrutinizer-ci&style=flat-square)](https://scrutinizer-ci.com/g/Astrotomic/laravel-translatable/)
+[![Code Climate](https://img.shields.io/codeclimate/maintainability/Astrotomic/laravel-translatable.svg?label=CodeClimate&logoColor=white&logo=code-climate&style=flat-square)](https://codeclimate.com/github/Astrotomic/laravel-translatable)
+[![Codecov Coverage](https://img.shields.io/codecov/c/github/Astrotomic/laravel-translatable?logo=codecov&logoColor=white&label=Codecov&style=flat-square)](https://codecov.io/gh/Astrotomic/laravel-translatable)
+[![Total Downloads](https://img.shields.io/packagist/dt/astrotomic/laravel-translatable.svg?label=Downloads&style=flat-square)](https://packagist.org/packages/astrotomic/laravel-translatable)
 
 ![Laravel Translatable](.gitbook/assets/laravel-translatable-2-1.png)
 
@@ -72,7 +81,16 @@ echo $post->translate('fr')->title; // Mon premier post
 
 | Package | Laravel | PHP |
 | :--- | :--- | :--- |
-| **v11.6 - v11.7** | `5.8.* / 6.*` | `>=7.2` |
+| **v11.6 - v11.8** | `5.8.* / 6.* / 7.*` | `>=7.2` |
 | **v11.4 - v11.5** | `5.6.* / 5.7.* / 5.8.* / 6.*` | `>=7.1.3` |
 | **v11.0 - v11.3** | `5.6.* / 5.7.* / 5.8.*` | `>=7.1.3` |
 
+## Treeware
+
+You're free to use this package, but if it makes it to your production environment I would highly appreciate you buying the world a tree.
+
+It’s now common knowledge that one of the best tools to tackle the climate crisis and keep our temperatures from rising above 1.5C is to [plant trees](https://www.bbc.co.uk/news/science-environment-48870920). If you contribute to my forest you’ll be creating employment for local families and restoring wildlife habitats.
+
+You can buy trees at [https://offset.earth/treeware](https://plant.treeware.earth/Astrotomic/laravel-translatable)
+
+Read more about Treeware at https://treeware.earth

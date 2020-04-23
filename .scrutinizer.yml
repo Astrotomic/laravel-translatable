@@ -15,11 +15,6 @@ build:
         override:
           - php-scrutinizer-run
 
-tools:
-  external_code_coverage:
-    timeout: 900
-    runs: 1
-
 filter:
   paths:
     - src/
