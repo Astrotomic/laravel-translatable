@@ -3,7 +3,6 @@
 namespace Astrotomic\Translatable\Traits;
 
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * @property-read string $translationModel

@@ -2,10 +2,7 @@
 
 namespace Astrotomic\Translatable\TranslationResolvers;
 
-use Astrotomic\Translatable\Contracts\TranslationResolver;
-use Astrotomic\Translatable\Locales;
 use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
-use BadMethodCallException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
@@ -24,7 +21,7 @@ abstract class BaseFallbackResolver extends BaseTranslationResolver
         bool $withFallback,
         Collection $alreadyCheckedLocales
     ): ?Model {
-        if(! $withFallback) {
+        if (! $withFallback) {
             return null;
         }
 

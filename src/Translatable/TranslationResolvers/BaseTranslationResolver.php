@@ -4,8 +4,6 @@ namespace Astrotomic\Translatable\TranslationResolvers;
 
 use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 use Astrotomic\Translatable\Contracts\TranslationResolver;
-use Astrotomic\Translatable\Locales;
-use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 

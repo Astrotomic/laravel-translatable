@@ -3,8 +3,6 @@
 namespace Astrotomic\Translatable\TranslationResolvers;
 
 use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
-use Astrotomic\Translatable\Translatable;
-use Illuminate\Contracts\Config\Repository as Config;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 

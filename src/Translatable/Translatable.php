@@ -3,11 +3,8 @@
 namespace Astrotomic\Translatable;
 
 use Astrotomic\Translatable\Contracts\TranslationResolver;
-use Astrotomic\Translatable\TranslationResolvers\ConfigFallbackLocale;
-use Astrotomic\Translatable\TranslationResolvers\CountryBasedLocale;
 use Astrotomic\Translatable\Traits\Relationship;
 use Astrotomic\Translatable\Traits\Scopes;
-use Astrotomic\Translatable\TranslationResolvers\FirstAvailableLocale;
 use Astrotomic\Translatable\TranslationResolvers\GivenLocale;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Database\Eloquent\Model;
@@ -198,7 +195,7 @@ trait Translatable
         $withFallback = $withFallback ?? $this->useFallback();
         $alreadyCheckedLocales = collect([]);
 
-        foreach($this->getTranslationResolvers() as $resolver) {
+        foreach ($this->getTranslationResolvers() as $resolver) {
             $translation = $resolver->resolve($this, $locale, $withFallback, $alreadyCheckedLocales);
 
             if ($translation instanceof Model) {
@@ -377,7 +374,7 @@ trait Translatable
         $withFallback = $this->usePropertyFallback();
         $alreadyCheckedLocales = collect([]);
 
-        foreach($this->getTranslationResolvers() as $resolver) {
+        foreach ($this->getTranslationResolvers() as $resolver) {
             $translation = $resolver->resolveWithAttribute($this, $locale, $withFallback, $alreadyCheckedLocales, $attribute);
 
             if ($translation instanceof Model) {
@@ -414,12 +411,12 @@ trait Translatable
     {
         $resolvers = config('translatable.translation_resolvers', []);
 
-        if(!in_array(GivenLocale::class, $resolvers)) {
+        if (! in_array(GivenLocale::class, $resolvers)) {
             $resolvers = Arr::prepend($resolvers, GivenLocale::class);
         }
 
         return array_map(
-            fn(string $resolver): TranslationResolver => app($resolver),
+            fn (string $resolver): TranslationResolver => app($resolver),
             $resolvers
         );
     }

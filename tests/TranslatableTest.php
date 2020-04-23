@@ -12,7 +12,6 @@ use Astrotomic\Translatable\Tests\Eloquent\VegetableTranslation;
 use Astrotomic\Translatable\TranslationResolvers\ConfigFallbackLocale;
 use Astrotomic\Translatable\TranslationResolvers\CountryBasedLocale;
 use Astrotomic\Translatable\TranslationResolvers\FirstAvailableLocale;
-use Astrotomic\Translatable\TranslationResolvers\GivenLocale;
 use Illuminate\Database\Eloquent\MassAssignmentException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\App;

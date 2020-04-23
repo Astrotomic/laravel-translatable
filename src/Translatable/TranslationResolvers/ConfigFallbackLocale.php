@@ -2,10 +2,7 @@
 
 namespace Astrotomic\Translatable\TranslationResolvers;
 
-use Astrotomic\Translatable\Translatable;
 use Illuminate\Contracts\Config\Repository as Config;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Collection;
 
 class ConfigFallbackLocale extends BaseFallbackResolver
 {
