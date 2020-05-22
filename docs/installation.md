@@ -16,16 +16,30 @@ We copy the configuration file to our project.
 php artisan vendor:publish --tag=translatable 
 ```
 
+After this you will have to configure the `locales` your app should use.
+
+```php
+'locales' => [
+    'en',
+    'fr',
+    'es' => [
+        'MX', // mexican spanish
+        'CO', // colombian spanish
+    ],
+],
+```
+
 {% hint style="info" %}
 There isn't any restriction for the format of the locales. Feel free to use whatever suits you better, like "eng" instead of "en", or "el" instead of "gr". The important is to define your locales and stick to them.
 {% endhint %}
+
+That's the only configuration key you **have** to adjust. All the others have a working default value and are described in the configuration file itself.
 
 ### Migrations
 
 In this example, we want to translate the model `Post`. We will need an extra table `post_translations`:
 
-{% code-tabs %}
-{% code-tabs-item title="create\_posts\_table.php" %}
+{% code title="create\_posts\_table.php" %}
 ```php
 Schema::create('posts', function(Blueprint $table) {
     $table->increments('id');
@@ -33,11 +47,9 @@ Schema::create('posts', function(Blueprint $table) {
     $table->timestamps();
 });
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 
-{% code-tabs %}
-{% code-tabs-item title="create\_post\_translations\_table" %}
+{% code title="create\_post\_translations\_table" %}
 ```php
 Schema::create('post_translations', function(Blueprint $table) {
     $table->increments('id');
@@ -50,15 +62,13 @@ Schema::create('post_translations', function(Blueprint $table) {
     $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade');
 });
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 
 ### Models
 
 The translatable model `Post` should [use the trait](http://www.sitepoint.com/using-traits-in-php-5-4/) `Astrotomic\Translatable\Translatable`. The default convention for the translation model is `PostTranslation`. The array `$translatedAttributes` contains the names of the fields being translated in the `PostTranslation` model.
 
-{% code-tabs %}
-{% code-tabs-item title="Post.php" %}
+{% code title="Post.php" %}
 ```php
 use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 use Astrotomic\Translatable\Translatable;
@@ -71,11 +81,9 @@ class Post extends Model implements TranslatableContract
     protected $fillable = ['author'];
 }
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 
-{% code-tabs %}
-{% code-tabs-item title="PostTranslation.php" %}
+{% code title="PostTranslation.php" %}
 ```php
 class PostTranslation extends Model
 {
@@ -83,6 +91,5 @@ class PostTranslation extends Model
     protected $fillable = ['title', 'content'];
 }
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 
