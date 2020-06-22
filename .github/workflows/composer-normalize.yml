@@ -4,15 +4,22 @@ on:
   push:
     paths:
       - 'composer.json'
+  pull_request:
+    paths:
+      - 'composer.json'
 
 jobs:
   normalize:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository
     runs-on: ubuntu-latest
     steps:
       - name: Git checkout
         uses: actions/checkout@v2
 
-      - name: normalize composer.json
+      - name: Validate Composer configuration
+        run: composer validate --strict
+
+      - name: Normalize composer.json
         run: |
           composer global require ergebnis/composer-normalize
           composer normalize
