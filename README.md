@@ -89,18 +89,18 @@ If you discover any security related issues, please check [SECURITY](https://git
 
 ## Credits
 
-- [Tom Witkowski](https://github.com/Gummibeer)
-- [Dimitrios Savvopoulos](https://github.com/dimsav)
-- [David Llop](https://github.com/Lloople)
-- [All Contributors](https://github.com/Astrotomic/laravel-translatable/graphs/contributors)
+* [Tom Witkowski](https://github.com/Gummibeer)
+* [Dimitrios Savvopoulos](https://github.com/dimsav)
+* [David Llop](https://github.com/Lloople)
+* [All Contributors](https://github.com/Astrotomic/laravel-translatable/graphs/contributors)
 
 ## Versions
 
-| Package | Laravel | PHP |
-| :--- | :--- | :--- |
-| **v11.6 - v11.8** | `5.8.* / 6.* / 7.*` | `>=7.2` |
+| Package           | Laravel                       | PHP       |
+| :---------------- | :---------------------------- | :-------- |
+| **v11.6 - v11.8** | `5.8.* / 6.* / 7.*`           | `>=7.2`   |
 | **v11.4 - v11.5** | `5.6.* / 5.7.* / 5.8.* / 6.*` | `>=7.1.3` |
-| **v11.0 - v11.3** | `5.6.* / 5.7.* / 5.8.*` | `>=7.1.3` |
+| **v11.0 - v11.3** | `5.6.* / 5.7.* / 5.8.*`       | `>=7.1.3` |
 
 ## Treeware
 
