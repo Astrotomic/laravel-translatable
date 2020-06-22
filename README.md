@@ -85,7 +85,7 @@ Please see [CONTRIBUTING](https://github.com/Astrotomic/.github/blob/master/CONT
 
 ### Security
 
-Please see [SECURITY](SECURITY.md) for details.
+If you discover any security related issues, please check [SECURITY](https://github.com/Astrotomic/.github/blob/master/SECURITY.md) for steps to report it.
 
 ## Credits
 
