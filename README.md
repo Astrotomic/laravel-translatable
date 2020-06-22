@@ -110,4 +110,4 @@ It’s now common knowledge that one of the best tools to tackle the climate cri
 
 You can buy trees at [offset.earth/treeware](https://plant.treeware.earth/Astrotomic/laravel-translatable)
 
-Read more about Treeware at https://treeware.earth
+Read more about Treeware at [treeware.earth](https://treeware.earth)
