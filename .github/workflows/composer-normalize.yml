@@ -4,9 +4,6 @@ on:
   push:
     paths:
       - 'composer.json'
-  pull_request:
-    paths:
-      - 'composer.json'
 
 jobs:
   normalize:
