@@ -1,0 +1,22 @@
+name: normalize markdown
+
+on:
+  push:
+    paths:
+      - '*.md'
+  pull_request:
+    paths:
+      - '*.md'
+
+jobs:
+  normalize:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@v2
+
+      - name: Prettify markdown
+        uses: creyD/prettier_action@v3.0
+        with:
+            prettier_options: --write **/*.md
