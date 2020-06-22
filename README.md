@@ -79,9 +79,13 @@ echo $post->translate('fr')->title; // Mon premier post
 
 ## Changelog
 
-Please see [CHANGELOG](docs/changelog.md) for more information on what has changed recently.## Contributing
+Please see [CHANGELOG](docs/changelog.md) for more information on what has changed recently.
 
-Please see [CONTRIBUTING](https://github.com/Astrotomic/.github/blob/master/CONTRIBUTING.md) for details. You could also be interested in [CODE OF CONDUCT](https://github.com/Astrotomic/.github/blob/master/CODE_OF_CONDUCT.md).### Security
+## Contributing
+
+Please see [CONTRIBUTING](https://github.com/Astrotomic/.github/blob/master/CONTRIBUTING.md) for details. You could also be interested in [CODE OF CONDUCT](https://github.com/Astrotomic/.github/blob/master/CODE_OF_CONDUCT.md).
+
+### Security
 
 Please see [SECURITY](SECURITY.md) for details.
 
@@ -98,7 +102,9 @@ Please see [SECURITY](SECURITY.md) for details.
 | :--- | :--- | :--- |
 | **v11.6 - v11.8** | `5.8.* / 6.* / 7.*` | `>=7.2` |
 | **v11.4 - v11.5** | `5.6.* / 5.7.* / 5.8.* / 6.*` | `>=7.1.3` |
-| **v11.0 - v11.3** | `5.6.* / 5.7.* / 5.8.*` | `>=7.1.3` |## Treeware
+| **v11.0 - v11.3** | `5.6.* / 5.7.* / 5.8.*` | `>=7.1.3` |
+
+## Treeware
 
 You're free to use this package, but if it makes it to your production environment I would highly appreciate you buying the world a tree.
 
