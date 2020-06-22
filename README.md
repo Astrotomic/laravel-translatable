@@ -10,7 +10,7 @@
 [![Code Climate](https://img.shields.io/codeclimate/maintainability/Astrotomic/laravel-translatable.svg?label=CodeClimate&logoColor=white&logo=code-climate&style=flat-square)](https://codeclimate.com/github/Astrotomic/laravel-translatable)
 [![Codecov Coverage](https://img.shields.io/codecov/c/github/Astrotomic/laravel-translatable?logo=codecov&logoColor=white&label=Codecov&style=flat-square)](https://codecov.io/gh/Astrotomic/laravel-translatable)
 
-[![Total Downloads](https://img.shields.io/packagist/dt/astrotomic/laravel-translatable.svg?label=Downloads&style=flat-square)](https://packagist.org/packages/astrotomic/laravel-translatable) 
+[![Total Downloads](https://img.shields.io/packagist/dt/astrotomic/laravel-translatable.svg?label=Downloads&style=flat-square)](https://packagist.org/packages/astrotomic/laravel-translatable)
 [![GitBook](https://img.shields.io/badge/GitBook-Astrotomic-7e57c2.svg?style=flat-square)](https://docs.astrotomic.info/laravel-translatable)
 [![Open Collective](https://img.shields.io/opencollective/all/astrotomic?label=Open%20Collective&style=flat-square)](https://opencollective.com/astrotomic)
 
@@ -71,9 +71,9 @@ echo $post->translate('fr')->title; // Mon premier post
 
 ## Tutorials
 
-* [How To Add Multilingual Support to Eloquent](https://laravel-news.com/how-to-add-multilingual-support-to-eloquent)
-* [How To Build An Efficient and SEO Friendly Multilingual Architecture For Your Laravel Application](https://mydnic.be/post/how-to-build-an-efficient-and-seo-friendly-multilingual-architecture-for-your-laravel-application)
-* [How to Add Multi-Language Models to Laravel QuickAdminPanel](https://quickadminpanel.com/blog/how-to-add-multi-language-models-to-laravel-quickadminpanel/)
+- [How To Add Multilingual Support to Eloquent](https://laravel-news.com/how-to-add-multilingual-support-to-eloquent)
+- [How To Build An Efficient and SEO Friendly Multilingual Architecture For Your Laravel Application](https://mydnic.be/post/how-to-build-an-efficient-and-seo-friendly-multilingual-architecture-for-your-laravel-application)
+- [How to Add Multi-Language Models to Laravel QuickAdminPanel](https://quickadminpanel.com/blog/how-to-add-multi-language-models-to-laravel-quickadminpanel/)
 
 ## Changelog
 
@@ -89,10 +89,10 @@ If you discover any security related issues, please check [SECURITY](https://git
 
 ## Credits
 
-* [Tom Witkowski](https://github.com/Gummibeer)
-* [Dimitrios Savvopoulos](https://github.com/dimsav)
-* [David Llop](https://github.com/Lloople)
-* [All Contributors](https://github.com/Astrotomic/laravel-translatable/graphs/contributors)
+- [Tom Witkowski](https://github.com/Gummibeer)
+- [Dimitrios Savvopoulos](https://github.com/dimsav)
+- [David Llop](https://github.com/Lloople)
+- [All Contributors](https://github.com/Astrotomic/laravel-translatable/graphs/contributors)
 
 ## Versions
 
