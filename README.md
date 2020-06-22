@@ -79,13 +79,9 @@ echo $post->translate('fr')->title; // Mon premier post
 
 ## Changelog
 
-Please see [CHANGELOG](docs/changelog.md) for more information on what has changed recently.
+Please see [CHANGELOG](docs/changelog.md) for more information on what has changed recently.## Contributing
 
-## Contributing
-
-Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
-
-### Security
+Please see [CONTRIBUTING](https://github.com/Astrotomic/.github/blob/master/CONTRIBUTING.md) for details. You could also be interested in [CODE OF CONDUCT](https://github.com/Astrotomic/.github/blob/master/CODE_OF_CONDUCT.md).### Security
 
 Please see [SECURITY](SECURITY.md) for details.
 
