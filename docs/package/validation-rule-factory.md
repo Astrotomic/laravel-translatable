@@ -31,8 +31,7 @@ This will return an array which adjusted the placeholder in key and string value
 
 To adjust the default `format` , `prefix` or `suffix` used by the factory you can change them in the package configuration file.
 
-{% code-tabs %}
-{% code-tabs-item title="config/translatable.php" %}
+{% code title="config/translatable.php" %}
 ```php
 'rule_factory' => [
     'format' => \Astrotomic\Translatable\Validation\RuleFactory::FORMAT_ARRAY,
@@ -40,8 +39,7 @@ To adjust the default `format` , `prefix` or `suffix` used by the factory you ca
     'suffix' => '%',
 ]
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 
 As `format` we support the two possible variants the `fill()` method supports.
 

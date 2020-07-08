@@ -10,7 +10,7 @@
 [![Code Climate](https://img.shields.io/codeclimate/maintainability/Astrotomic/laravel-translatable.svg?label=CodeClimate&logoColor=white&logo=code-climate&style=flat-square)](https://codeclimate.com/github/Astrotomic/laravel-translatable)
 [![Codecov Coverage](https://img.shields.io/codecov/c/github/Astrotomic/laravel-translatable?logo=codecov&logoColor=white&label=Codecov&style=flat-square)](https://codecov.io/gh/Astrotomic/laravel-translatable)
 
-[![Total Downloads](https://img.shields.io/packagist/dt/astrotomic/laravel-translatable.svg?label=Downloads&style=flat-square)](https://packagist.org/packages/astrotomic/laravel-translatable) 
+[![Total Downloads](https://img.shields.io/packagist/dt/astrotomic/laravel-translatable.svg?label=Downloads&style=flat-square)](https://packagist.org/packages/astrotomic/laravel-translatable)
 [![GitBook](https://img.shields.io/badge/GitBook-Astrotomic-7e57c2.svg?style=flat-square)](https://docs.astrotomic.info/laravel-translatable)
 [![Open Collective](https://img.shields.io/opencollective/all/astrotomic?label=Open%20Collective&style=flat-square)](https://opencollective.com/astrotomic)
 
@@ -71,9 +71,9 @@ echo $post->translate('fr')->title; // Mon premier post
 
 ## Tutorials
 
-* [How To Add Multilingual Support to Eloquent](https://laravel-news.com/how-to-add-multilingual-support-to-eloquent)
-* [How To Build An Efficient and SEO Friendly Multilingual Architecture For Your Laravel Application](https://mydnic.be/post/how-to-build-an-efficient-and-seo-friendly-multilingual-architecture-for-your-laravel-application)
-* [How to Add Multi-Language Models to Laravel QuickAdminPanel](https://quickadminpanel.com/blog/how-to-add-multi-language-models-to-laravel-quickadminpanel/)
+- [How To Add Multilingual Support to Eloquent](https://laravel-news.com/how-to-add-multilingual-support-to-eloquent)
+- [How To Build An Efficient and SEO Friendly Multilingual Architecture For Your Laravel Application](https://mydnic.be/post/how-to-build-an-efficient-and-seo-friendly-multilingual-architecture-for-your-laravel-application)
+- [How to Add Multi-Language Models to Laravel QuickAdminPanel](https://quickadminpanel.com/blog/how-to-add-multi-language-models-to-laravel-quickadminpanel/)
 
 ## Changelog
 
@@ -81,11 +81,11 @@ Please see [CHANGELOG](docs/changelog.md) for more information on what has chang
 
 ## Contributing
 
-Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
+Please see [CONTRIBUTING](https://github.com/Astrotomic/.github/blob/master/CONTRIBUTING.md) for details. You could also be interested in [CODE OF CONDUCT](https://github.com/Astrotomic/.github/blob/master/CODE_OF_CONDUCT.md).
 
 ### Security
 
-Please see [SECURITY](SECURITY.md) for details.
+If you discover any security related issues, please check [SECURITY](https://github.com/Astrotomic/.github/blob/master/SECURITY.md) for steps to report it.
 
 ## Credits
 
@@ -96,11 +96,11 @@ Please see [SECURITY](SECURITY.md) for details.
 
 ## Versions
 
-| Package | Laravel | PHP |
-| :--- | :--- | :--- |
-| **v11.6 - v11.8** | `5.8.* / 6.* / 7.*` | `>=7.2` |
+| Package           | Laravel                       | PHP       |
+| :---------------- | :---------------------------- | :-------- |
+| **v11.6 - v11.8** | `5.8.* / 6.* / 7.*`           | `>=7.2`   |
 | **v11.4 - v11.5** | `5.6.* / 5.7.* / 5.8.* / 6.*` | `>=7.1.3` |
-| **v11.0 - v11.3** | `5.6.* / 5.7.* / 5.8.*` | `>=7.1.3` |
+| **v11.0 - v11.3** | `5.6.* / 5.7.* / 5.8.*`       | `>=7.1.3` |
 
 ## Treeware
 
@@ -110,4 +110,4 @@ It’s now common knowledge that one of the best tools to tackle the climate cri
 
 You can buy trees at [offset.earth/treeware](https://plant.treeware.earth/Astrotomic/laravel-translatable)
 
-Read more about Treeware at https://treeware.earth
+Read more about Treeware at [treeware.earth](https://treeware.earth)

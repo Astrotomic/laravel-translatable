@@ -1,17 +1,10 @@
 # Introduction
 
-[![Latest Version](http://img.shields.io/packagist/v/astrotomic/laravel-translatable.svg?label=Release&style=for-the-badge)](https://packagist.org/packages/astrotomic/laravel-translatable)
-[![MIT License](https://img.shields.io/github/license/Astrotomic/laravel-translatable.svg?label=License&color=blue&style=for-the-badge)](https://github.com/Astrotomic/laravel-translatable/blob/master/LICENSE)
-[![Offset Earth](https://img.shields.io/badge/Treeware-%F0%9F%8C%B3-green?style=for-the-badge)](https://plant.treeware.earth/Astrotomic/laravel-translatable)
+[![Latest Version](http://img.shields.io/packagist/v/astrotomic/laravel-translatable.svg?label=Release&style=for-the-badge)](https://packagist.org/packages/astrotomic/laravel-translatable) [![MIT License](https://img.shields.io/github/license/Astrotomic/laravel-translatable.svg?label=License&color=blue&style=for-the-badge)](https://github.com/Astrotomic/laravel-translatable/blob/master/LICENSE) [![Offset Earth](https://img.shields.io/badge/Treeware-%F0%9F%8C%B3-green?style=for-the-badge)](https://plant.treeware.earth/Astrotomic/laravel-translatable)
 
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/Astrotomic/laravel-translatable/run-tests?style=flat-square&logoColor=white&logo=github&label=Tests)](https://github.com/Astrotomic/laravel-translatable/actions?query=workflow%3Arun-tests)
-[![StyleCI](https://styleci.io/repos/192333549/shield)](https://styleci.io/repos/192333549)
-[![ScrutinizerCI](https://img.shields.io/scrutinizer/quality/g/Astrotomic/laravel-translatable/master.svg?label=Scrutinizer&logoColor=white&logo=scrutinizer-ci&style=flat-square)](https://scrutinizer-ci.com/g/Astrotomic/laravel-translatable/)
-[![Code Climate](https://img.shields.io/codeclimate/maintainability/Astrotomic/laravel-translatable.svg?label=CodeClimate&logoColor=white&logo=code-climate&style=flat-square)](https://codeclimate.com/github/Astrotomic/laravel-translatable)
-[![Codecov Coverage](https://img.shields.io/codecov/c/github/Astrotomic/laravel-translatable?logo=codecov&logoColor=white&label=Codecov&style=flat-square)](https://codecov.io/gh/Astrotomic/laravel-translatable)
-[![Total Downloads](https://img.shields.io/packagist/dt/astrotomic/laravel-translatable.svg?label=Downloads&style=flat-square)](https://packagist.org/packages/astrotomic/laravel-translatable)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/Astrotomic/laravel-translatable/run-tests?style=flat-square&logoColor=white&logo=github&label=Tests)](https://github.com/Astrotomic/laravel-translatable/actions?query=workflow%3Arun-tests) [![StyleCI](https://styleci.io/repos/192333549/shield)](https://styleci.io/repos/192333549) [![ScrutinizerCI](https://img.shields.io/scrutinizer/quality/g/Astrotomic/laravel-translatable/master.svg?label=Scrutinizer&logoColor=white&logo=scrutinizer-ci&style=flat-square)](https://scrutinizer-ci.com/g/Astrotomic/laravel-translatable/) [![Code Climate](https://img.shields.io/codeclimate/maintainability/Astrotomic/laravel-translatable.svg?label=CodeClimate&logoColor=white&logo=code-climate&style=flat-square)](https://codeclimate.com/github/Astrotomic/laravel-translatable) [![Codecov Coverage](https://img.shields.io/codecov/c/github/Astrotomic/laravel-translatable?logo=codecov&logoColor=white&label=Codecov&style=flat-square)](https://codecov.io/gh/Astrotomic/laravel-translatable) [![Total Downloads](https://img.shields.io/packagist/dt/astrotomic/laravel-translatable.svg?label=Downloads&style=flat-square)](https://packagist.org/packages/astrotomic/laravel-translatable)
 
-![Laravel Translatable](.gitbook/assets/laravel-translatable-2-1.png)
+![Laravel Translatable](.gitbook/assets/laravel-translatable-2-1%20%281%29.png)
 
 **If you want to store translations of your models into the database, this package is for you.**
 
@@ -72,10 +65,10 @@ echo $post->translate('fr')->title; // Mon premier post
 
 ## Credits
 
-- [Tom Witkowski](https://github.com/Gummibeer)
-- [Dimitrios Savvopoulos](https://github.com/dimsav)
-- [David Llop](https://github.com/Lloople)
-- [All Contributors](https://github.com/Astrotomic/laravel-translatable/graphs/contributors)
+* [Tom Witkowski](https://github.com/Gummibeer)
+* [Dimitrios Savvopoulos](https://github.com/dimsav)
+* [David Llop](https://github.com/Lloople)
+* [All Contributors](https://github.com/Astrotomic/laravel-translatable/graphs/contributors)
 
 ## Versions
 
@@ -93,4 +86,5 @@ It’s now common knowledge that one of the best tools to tackle the climate cri
 
 You can buy trees at [https://offset.earth/treeware](https://plant.treeware.earth/Astrotomic/laravel-translatable)
 
-Read more about Treeware at https://treeware.earth
+Read more about Treeware at [https://treeware.earth](https://treeware.earth)
+
