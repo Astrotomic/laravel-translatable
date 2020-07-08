@@ -2,6 +2,10 @@
 
 ## v11
 
+### v11.8.3
+
+* Fix `\Astrotomic\Translatable\Exception\LocalesNotDefinedException` exception message
+
 ### v11.8.1
 
 * Fix custom locale column name in `\Astrotomic\Translatable\Traits\Relationship::translation()` method - [\#146](https://github.com/Astrotomic/laravel-translatable/pull/146)
