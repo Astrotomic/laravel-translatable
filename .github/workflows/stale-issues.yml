@@ -24,8 +24,34 @@ jobs:
     - uses: actions/stale@v2.0.0
       with:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
-        stale-issue-message: 'This issue is stale because it has been labeled as invalid, duplicate or wontfix. Remove stale label or comment or this will be closed in 2 days'
+        stale-issue-message: 'This issue is stale because it has been labeled as invalid.'
         stale-issue-label: 'stale'
-        exempt-issue-labels: 'invalid,duplicate,wontfix'
+        only-labels: 'invalid'
+        days-before-stale: 1
+        days-before-close: 2
+
+  duplicate:
+    timeout-minutes: 1
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/stale@v2.0.0
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        stale-issue-message: 'This issue is stale because it has been labeled as duplicate.'
+        stale-issue-label: 'stale'
+        only-labels: 'duplicate'
+        days-before-stale: 1
+        days-before-close: 2
+
+  wontfix:
+    timeout-minutes: 1
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/stale@v2.0.0
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        stale-issue-message: 'This issue is stale because it has been labeled as wontfix.'
+        stale-issue-label: 'stale'
+        only-labels: 'wontfix'
         days-before-stale: 1
         days-before-close: 2
