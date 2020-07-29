@@ -367,7 +367,15 @@ trait Translatable
             return $saved;
         }
 
-        foreach ($this->translations as $translation) {
+        // For Laravel Nova: the translation is populated by Nova with the updated fields
+        if (isset($this->translation) && $this->isTranslationDirty($this->translation)) {
+            if (! empty($connectionName = $this->getConnectionName())) {
+                $this->translation->setConnection($connectionName);
+            }
+
+            $this->translation->setAttribute($this->getTranslationRelationKey(), $this->getKey());
+            $saved = $this->translation->save();
+        } else foreach ($this->translations as $translation) {
             if ($saved && $this->isTranslationDirty($translation)) {
                 if (! empty($connectionName = $this->getConnectionName())) {
                     $translation->setConnection($connectionName);
