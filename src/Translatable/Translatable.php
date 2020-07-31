@@ -112,9 +112,9 @@ trait Translatable
     public function deleteTranslations($locales = null): self
     {
         $this->translations()
-            ->when($locales !== null, fn(Builder $query) => $query->whereIn($this->getLocaleName(), Arr::wrap($locales)))
+            ->when($locales !== null, fn (Builder $query) => $query->whereIn($this->getLocaleName(), Arr::wrap($locales)))
             ->cursor()
-            ->each(fn(Model $translation) => $translation->delete());
+            ->each(fn (Model $translation) => $translation->delete());
 
         // we need to manually "reload" the collection built from the relationship
         // otherwise $this->translations()->get() would NOT be the same as $this->translations
@@ -423,6 +423,7 @@ trait Translatable
     {
         return $this->isTranslationAttribute($key) || parent::__isset($key);
     }
+
     protected function getTranslationModelName(): string
     {
         return $this->translationModel ?: $this->getTranslationModelNameDefault();
@@ -433,7 +434,7 @@ trait Translatable
         $modelName = get_class($this);
         $namespace = $this->getTranslationModelNamespace();
 
-        if (!empty($namespace)) {
+        if (! empty($namespace)) {
             $modelName = $namespace.'\\'.class_basename($modelName);
         }
 
@@ -468,7 +469,7 @@ trait Translatable
                 $this->getTranslationsTableName(),
                 fn (JoinClause $join) => $join
                     ->on($this->qualifyTranslationColumn($this->getTranslationRelationKey()), '=', $this->getQualifiedKeyName())
-                    ->when($locale, fn() => $join->where($this->getQualifiedLocaleName(), $locale))
+                    ->when($locale, fn () => $join->where($this->getQualifiedLocaleName(), $locale))
             )
             ->orderBy($this->qualifyTranslationColumn($translationField), $sortMethod);
     }
@@ -500,7 +501,7 @@ trait Translatable
             'translations',
             fn (Builder $q) => $q
                 ->where($this->qualifyTranslationColumn($translationField), $operator, $value)
-                ->when($locale, fn() => $q->where($this->getQualifiedLocaleName(), $operator, $locale))
+                ->when($locale, fn () => $q->where($this->getQualifiedLocaleName(), $operator, $locale))
         );
     }
 
