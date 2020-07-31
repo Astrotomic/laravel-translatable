@@ -4,15 +4,14 @@ namespace Astrotomic\Translatable;
 
 use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 use Astrotomic\Translatable\Contracts\TranslationResolver;
-use Astrotomic\Translatable\Traits\Relationship;
-use Astrotomic\Translatable\Traits\Scopes;
 use Astrotomic\Translatable\TranslationResolvers\GivenLocale;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Query\JoinClause;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
 /**
@@ -26,8 +25,6 @@ use Illuminate\Support\Str;
  */
 trait Translatable
 {
-    use Scopes, Relationship;
-
     protected static $autoloadTranslations = null;
 
     protected static $deleteTranslationsCascade = false;
@@ -41,10 +38,10 @@ trait Translatable
             return $model->saveTranslations();
         });
 
-        static::deleting(function (Model $model) {
+        static::deleting(function (Model $model): void {
             /* @var Translatable $model */
             if (self::$deleteTranslationsCascade === true) {
-                return $model->deleteTranslations();
+                $model->deleteTranslations();
             }
         });
     }
@@ -416,5 +413,114 @@ trait Translatable
     public function __isset($key)
     {
         return $this->isTranslationAttribute($key) || parent::__isset($key);
+    }
+    protected function getTranslationModelName(): string
+    {
+        return $this->translationModel ?: $this->getTranslationModelNameDefault();
+    }
+
+    protected function getTranslationModelNameDefault(): string
+    {
+        $modelName = get_class($this);
+        $namespace = $this->getTranslationModelNamespace();
+
+        if (!empty($namespace)) {
+            $modelName = $namespace.'\\'.class_basename($modelName);
+        }
+
+        return $modelName.config('translatable.translation_suffix', 'Translation');
+    }
+
+    protected function getTranslationModelNamespace(): ?string
+    {
+        return config('translatable.translation_model_namespace');
+    }
+
+    protected function getTranslationRelationKey(): string
+    {
+        if ($this->translationForeignKey) {
+            return $this->translationForeignKey;
+        }
+
+        return $this->getForeignKey();
+    }
+
+    public function translations(): HasMany
+    {
+        return $this->hasMany($this->getTranslationModelName(), $this->getTranslationRelationKey());
+    }
+    public function scopeOrderByTranslation(Builder $query, string $translationField, ?string $locale = null, string $sortMethod = 'asc')
+    {
+        return $query
+            ->with('translations')
+            ->select($this->qualifyColumn('*'))
+            ->leftJoin(
+                $this->getTranslationsTableName(),
+                fn (JoinClause $join) => $join
+                    ->on($this->qualifyTranslationColumn($this->getTranslationRelationKey()), '=', $this->getQualifiedKeyName())
+                    ->when($locale, fn() => $join->where($this->getQualifiedLocaleName(), $locale))
+            )
+            ->orderBy($this->qualifyTranslationColumn($translationField), $sortMethod);
+    }
+
+    public function scopeTranslated(Builder $query)
+    {
+        return $query->has('translations');
+    }
+
+    public function scopeTranslatedIn(Builder $query, string $locale)
+    {
+        return $query->whereHas(
+            'translations',
+            fn (Builder $q) => $q->where($this->getQualifiedLocaleName(), '=', $locale)
+        );
+    }
+
+    public function scopeNotTranslatedIn(Builder $query, string $locale)
+    {
+        return $query->whereDoesntHave(
+            'translations',
+            fn (Builder $q) => $q->where($this->getQualifiedLocaleName(), '=', $locale)
+        );
+    }
+
+    public function scopeWhereTranslation(Builder $query, string $translationField, $value, ?string $locale = null, string $method = 'whereHas', string $operator = '=')
+    {
+        return $query->$method(
+            'translations',
+            fn (Builder $q) => $q
+                ->where($this->qualifyTranslationColumn($translationField), $operator, $value)
+                ->when($locale, fn() => $q->where($this->getQualifiedLocaleName(), $operator, $locale))
+        );
+    }
+
+    public function scopeWhereTranslationLike(Builder $query, string $translationField, $value, ?string $locale = null)
+    {
+        return $this->scopeWhereTranslation($query, $translationField, $value, $locale, 'whereHas', 'LIKE');
+    }
+
+    public function scopeOrWhereTranslation(Builder $query, string $translationField, $value, ?string $locale = null)
+    {
+        return $this->scopeWhereTranslation($query, $translationField, $value, $locale, 'orWhereHas');
+    }
+
+    public function scopeOrWhereTranslationLike(Builder $query, string $translationField, $value, ?string $locale = null)
+    {
+        return $this->scopeWhereTranslation($query, $translationField, $value, $locale, 'orWhereHas', 'LIKE');
+    }
+
+    protected function getTranslationsTableName(): string
+    {
+        return app($this->getTranslationModelName())->getTable();
+    }
+
+    protected function getQualifiedLocaleName(): string
+    {
+        return $this->qualifyTranslationColumn($this->getLocaleName());
+    }
+
+    protected function qualifyTranslationColumn(string $column): string
+    {
+        return app($this->getTranslationModelName())->qualifyColumn($column);
     }
 }
