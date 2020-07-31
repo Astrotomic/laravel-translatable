@@ -13,7 +13,7 @@ interface TranslationResolver
         string $locale,
         bool $withFallback,
         Collection $alreadyCheckedLocales
-    ): ?TranslatableContract;
+    ): ?Model;
 
     public function resolveWithAttribute(
         TranslatableContract $translatable,
@@ -21,5 +21,5 @@ interface TranslationResolver
         bool $withFallback,
         Collection $alreadyCheckedLocales,
         string $attribute
-    ): ?TranslatableContract;
+    ): ?Model;
 }

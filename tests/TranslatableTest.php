@@ -348,7 +348,7 @@ final class TranslatableTest extends TestCase
     {
         $vegetable = new Vegetable();
 
-        static::assertEquals('locale', $vegetable->getLocaleKey());
+        static::assertEquals('locale', $vegetable->getLocaleName());
     }
 
     /** @test */
@@ -357,7 +357,7 @@ final class TranslatableTest extends TestCase
         $this->app->make('config')->set('translatable.locale_key', 'language_id');
 
         $vegetable = new Vegetable();
-        static::assertEquals('language_id', $vegetable->getLocaleKey());
+        static::assertEquals('language_id', $vegetable->getLocaleName());
     }
 
     /** @test */
@@ -365,7 +365,7 @@ final class TranslatableTest extends TestCase
     {
         $vegetable = new Vegetable();
         $vegetable->localeKey = 'language_id';
-        static::assertEquals('language_id', $vegetable->getLocaleKey());
+        static::assertEquals('language_id', $vegetable->getLocaleName());
     }
 
     public function test_the_translation_model_can_be_customized(): void

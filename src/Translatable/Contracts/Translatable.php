@@ -37,6 +37,8 @@ interface Translatable
 
     public function getTranslationOrNew(?string $locale = null): Model;
 
+    public function getTranslationOrFail(string $locale): Model;
+
     public function getTranslationsArray(): array;
 
     public function hasTranslation(?string $locale = null): bool;
@@ -53,9 +55,13 @@ interface Translatable
 
     public function translateOrNew(?string $locale = null): Model;
 
+    public function translateOrFail(string $locale): Model;
+
     public function translations(): HasMany;
 
     public function isEmptyTranslatableAttribute(string $key, $value): bool;
 
-    public function getLocaleKey(): string;
+    public function getLocaleName(): string;
+
+    public function getQualifiedLocaleName(): string;
 }

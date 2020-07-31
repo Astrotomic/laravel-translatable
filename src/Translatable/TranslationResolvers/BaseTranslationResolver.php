@@ -13,14 +13,14 @@ abstract class BaseTranslationResolver implements TranslationResolver
         TranslatableContract $translatable,
         string $locale,
         Collection $alreadyCheckedLocales
-    ): ?TranslatableContract {
+    ): ?Model {
         if ($alreadyCheckedLocales->contains($locale)) {
             return null;
         }
 
         $alreadyCheckedLocales->push($locale);
 
-        return $translatable->translations->firstWhere($translatable->getLocaleKey(), $locale);
+        return $translatable->translations->firstWhere($translatable->getLocaleName(), $locale);
     }
 
     protected function resolveTranslationWithAttributeByLocale(
@@ -28,7 +28,7 @@ abstract class BaseTranslationResolver implements TranslationResolver
         string $locale,
         Collection $alreadyCheckedLocales,
         string $attribute
-    ): ?TranslatableContract {
+    ): ?Model {
         $translation = $this->resolveTranslationByLocale($translatable, $locale, $alreadyCheckedLocales);
 
         if ($translation === null) {

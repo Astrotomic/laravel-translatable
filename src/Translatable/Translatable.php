@@ -2,6 +2,7 @@
 
 namespace Astrotomic\Translatable;
 
+use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 use Astrotomic\Translatable\Contracts\TranslationResolver;
 use Astrotomic\Translatable\Traits\Relationship;
 use Astrotomic\Translatable\Traits\Scopes;
@@ -73,7 +74,7 @@ trait Translatable
         self::$deleteTranslationsCascade = true;
     }
 
-    public function attributesToArray()
+    public function attributesToArray(): array
     {
         $attributes = parent::attributesToArray();
 
@@ -105,7 +106,7 @@ trait Translatable
     public function deleteTranslations($locales = null): self
     {
         $this->translations()
-            ->when($locales !== null, fn(Builder $query) => $query->whereIn($this->getLocaleKey(), Arr::wrap($locales)))
+            ->when($locales !== null, fn(Builder $query) => $query->whereIn($this->getLocaleName(), Arr::wrap($locales)))
             ->cursor()
             ->each(fn(Model $translation) => $translation->delete());
 
@@ -114,7 +115,7 @@ trait Translatable
         return $this->load('translations');
     }
 
-    public function fill(array $attributes)
+    public function fill(array $attributes): self
     {
         foreach ($attributes as $key => $values) {
             if (
@@ -144,20 +145,10 @@ trait Translatable
         [$attribute, $locale] = $this->getAttributeAndLocale($key);
 
         if ($this->isTranslationAttribute($attribute)) {
-            if ($this->getTranslation($locale) === null) {
-                return $this->getAttributeValue($attribute);
-            }
-
-            // If the given $attribute has a mutator, we push it to $attributes and then call getAttributeValue
-            // on it. This way, we can use Eloquent's checking for Mutation, type casting, and
-            // Date fields.
-            if ($this->hasGetMutator($attribute)) {
-                $this->attributes[$attribute] = $this->getAttributeOrFallback($locale, $attribute);
-
-                return $this->getAttributeValue($attribute);
-            }
-
-            return $this->getAttributeOrFallback($locale, $attribute);
+            return $this->transformModelValue(
+                $attribute,
+                $this->getAttributeOrFallback($locale, $attribute)
+            );
         }
 
         return parent::getAttribute($key);
@@ -168,10 +159,7 @@ trait Translatable
         return $this->defaultLocale;
     }
 
-    /**
-     * @internal will change to protected
-     */
-    public function getLocaleKey(): string
+    public function getLocaleName(): string
     {
         return $this->localeKey ?: config('translatable.locale_key', 'locale');
     }
@@ -182,7 +170,7 @@ trait Translatable
 
         /** @var Model $translation */
         $translation = new $modelName();
-        $translation->setAttribute($this->getLocaleKey(), $locale);
+        $translation->setAttribute($this->getLocaleName(), $locale);
         $this->translations->add($translation);
 
         return $translation;
@@ -197,7 +185,7 @@ trait Translatable
         foreach ($this->getTranslationResolvers() as $resolver) {
             $translation = $resolver->resolve($this, $locale, $withFallback, $alreadyCheckedLocales);
 
-            if ($translation instanceof Translatable) {
+            if ($translation instanceof Model) {
                 return $translation;
             }
         }
@@ -231,7 +219,7 @@ trait Translatable
 
         foreach ($this->translations as $translation) {
             foreach ($this->translatedAttributes as $attr) {
-                $translations[$translation->{$this->getLocaleKey()}][$attr] = $translation->{$attr};
+                $translations[$translation->{$this->getLocaleName()}][$attr] = $translation->{$attr};
             }
         }
 
@@ -243,7 +231,7 @@ trait Translatable
         $locale = $locale ?: $this->locale();
 
         foreach ($this->translations as $translation) {
-            if ($translation->getAttribute($this->getLocaleKey()) == $locale) {
+            if ($translation->getAttribute($this->getLocaleName()) == $locale) {
                 return true;
             }
         }
@@ -256,7 +244,12 @@ trait Translatable
         return in_array($key, $this->translatedAttributes);
     }
 
-    public function replicateWithTranslations(array $except = null): Model
+    /**
+     * @param array|null $except
+     *
+     * @return static|TranslatableContract
+     */
+    public function replicateWithTranslations(?array $except = null): self
     {
         $newInstance = $this->replicate($except);
 
@@ -269,7 +262,7 @@ trait Translatable
         return $newInstance;
     }
 
-    public function setAttribute($key, $value)
+    public function setAttribute($key, $value): self
     {
         [$attribute, $locale] = $this->getAttributeAndLocale($key);
 
@@ -319,10 +312,10 @@ trait Translatable
         return empty($value);
     }
 
-    protected function isTranslationDirty(Model $translation): bool
+    protected function isTranslationDirty(TranslatableContract $translation): bool
     {
         $dirtyAttributes = $translation->getDirty();
-        unset($dirtyAttributes[$this->getLocaleKey()]);
+        unset($dirtyAttributes[$this->getLocaleName()]);
 
         return count($dirtyAttributes) > 0;
     }
@@ -358,7 +351,7 @@ trait Translatable
         return $saved;
     }
 
-    private function getAttributeAndLocale(string $key): array
+    protected function getAttributeAndLocale(string $key): array
     {
         if (Str::contains($key, ':')) {
             return explode(':', $key);
@@ -367,7 +360,7 @@ trait Translatable
         return [$key, $this->locale()];
     }
 
-    private function getAttributeOrFallback(?string $locale, string $attribute)
+    protected function getAttributeOrFallback(?string $locale, string $attribute)
     {
         $locale = $locale ?: $this->locale();
         $withFallback = $this->usePropertyFallback();
@@ -384,12 +377,12 @@ trait Translatable
         return null;
     }
 
-    private function toArrayAlwaysLoadsTranslations(): bool
+    protected function toArrayAlwaysLoadsTranslations(): bool
     {
         return config('translatable.to_array_always_loads_translations', true);
     }
 
-    private function useFallback(): bool
+    protected function useFallback(): bool
     {
         if (isset($this->useTranslationFallback) && is_bool($this->useTranslationFallback)) {
             return $this->useTranslationFallback;
@@ -398,7 +391,7 @@ trait Translatable
         return (bool) config('translatable.use_fallback', false);
     }
 
-    private function usePropertyFallback(): bool
+    protected function usePropertyFallback(): bool
     {
         return $this->useFallback() && config('translatable.use_property_fallback', false);
     }
