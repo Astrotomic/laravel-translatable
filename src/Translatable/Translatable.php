@@ -21,6 +21,15 @@ use Illuminate\Support\Str;
  * @property-read string $localeKey
  * @property-read bool $useTranslationFallback
  *
+ * @method static Builder|Translatable|static translated()
+ * @method static Builder|Translatable|static translatedIn(string $locale)
+ * @method static Builder|Translatable|static notTranslatedIn(string $locale)
+ * @method static Builder|Translatable|static whereTranslation(string $translationField, mixed $value, ?string $locale = null)
+ * @method static Builder|Translatable|static whereTranslationLike(string $translationField, mixed $value, ?string $locale = null)
+ * @method static Builder|Translatable|static orWhereTranslation(string $translationField, mixed $value, ?string $locale = null)
+ * @method static Builder|Translatable|static orWhereTranslationLike(string $translationField, mixed $value, ?string $locale = null)
+ * @method static Builder|Translatable|static orderByTranslation(string $translationField, ?string $locale = null, string $sortMethod = 'asc')
+ *
  * @mixin Model
  */
 trait Translatable
@@ -449,6 +458,7 @@ trait Translatable
     {
         return $this->hasMany($this->getTranslationModelName(), $this->getTranslationRelationKey());
     }
+
     public function scopeOrderByTranslation(Builder $query, string $translationField, ?string $locale = null, string $sortMethod = 'asc')
     {
         return $query
@@ -514,7 +524,7 @@ trait Translatable
         return app($this->getTranslationModelName())->getTable();
     }
 
-    protected function getQualifiedLocaleName(): string
+    public function getQualifiedLocaleName(): string
     {
         return $this->qualifyTranslationColumn($this->getLocaleName());
     }
