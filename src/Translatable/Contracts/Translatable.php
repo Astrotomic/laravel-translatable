@@ -56,4 +56,6 @@ interface Translatable
     public function translations(): HasMany;
 
     public function isEmptyTranslatableAttribute(string $key, $value): bool;
+
+    public function getLocaleKey(): string;
 }
