@@ -29,7 +29,7 @@ interface Translatable
 
     public function deleteTranslations($locales = null): void;
 
-    public function getDefaultLocale(): ?string;
+    public function getEnforcedLocale(): ?string;
 
     public function getNewTranslation(string $locale): Model;
 
@@ -47,7 +47,7 @@ interface Translatable
 
     public function replicateWithTranslations(array $except = null): Model;
 
-    public function setDefaultLocale(?string $locale);
+    public function setEnforcedLocale(?string $locale);
 
     public function translate(?string $locale = null, bool $withFallback = false): ?Model;
 

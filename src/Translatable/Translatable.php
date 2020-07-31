@@ -38,7 +38,7 @@ trait Translatable
 
     protected static $deleteTranslationsCascade = false;
 
-    protected $defaultLocale;
+    protected $enforcedLocale;
 
     public static function bootTranslatable(): void
     {
@@ -160,9 +160,9 @@ trait Translatable
         return parent::getAttribute($key);
     }
 
-    public function getDefaultLocale(): ?string
+    public function getEnforcedLocale(): ?string
     {
-        return $this->defaultLocale;
+        return $this->enforcedLocale;
     }
 
     public function getLocaleName(): string
@@ -281,9 +281,9 @@ trait Translatable
         return parent::setAttribute($key, $value);
     }
 
-    public function setDefaultLocale(?string $locale)
+    public function setEnforcedLocale(?string $locale)
     {
-        $this->defaultLocale = $locale;
+        $this->enforcedLocale = $locale;
 
         return $this;
     }
