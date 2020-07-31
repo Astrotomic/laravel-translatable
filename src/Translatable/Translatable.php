@@ -98,21 +98,19 @@ trait Translatable
 
     /**
      * @param string|array|null $locales The locales to be deleted
+     *
+     * @return static
      */
-    public function deleteTranslations($locales = null): void
+    public function deleteTranslations($locales = null): self
     {
-        if ($locales === null) {
-            $translations = $this->translations()->get();
-        } else {
-            $locales = (array) $locales;
-            $translations = $this->translations()->whereIn($this->getLocaleKey(), $locales)->get();
-        }
-
-        $translations->each->delete();
+        $this->translations()
+            ->when($locales !== null, fn(Builder $query) => $query->whereIn($this->getLocaleKey(), Arr::wrap($locales)))
+            ->cursor()
+            ->each(fn(Model $translation) => $translation->delete());
 
         // we need to manually "reload" the collection built from the relationship
         // otherwise $this->translations()->get() would NOT be the same as $this->translations
-        $this->load('translations');
+        return $this->load('translations');
     }
 
     public function fill(array $attributes)
