@@ -13,7 +13,7 @@ abstract class BaseTranslationResolver implements TranslationResolver
         TranslatableContract $translatable,
         string $locale,
         Collection $alreadyCheckedLocales
-    ): ?Model {
+    ): ?TranslatableContract {
         if ($alreadyCheckedLocales->contains($locale)) {
             return null;
         }
@@ -28,7 +28,7 @@ abstract class BaseTranslationResolver implements TranslationResolver
         string $locale,
         Collection $alreadyCheckedLocales,
         string $attribute
-    ): ?Model {
+    ): ?TranslatableContract {
         $translation = $this->resolveTranslationByLocale($translatable, $locale, $alreadyCheckedLocales);
 
         if ($translation === null) {

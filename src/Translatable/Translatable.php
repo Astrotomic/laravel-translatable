@@ -6,6 +6,7 @@ use Astrotomic\Translatable\Contracts\TranslationResolver;
 use Astrotomic\Translatable\Traits\Relationship;
 use Astrotomic\Translatable\Traits\Scopes;
 use Astrotomic\Translatable\TranslationResolvers\GivenLocale;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -196,7 +197,7 @@ trait Translatable
         foreach ($this->getTranslationResolvers() as $resolver) {
             $translation = $resolver->resolve($this, $locale, $withFallback, $alreadyCheckedLocales);
 
-            if ($translation instanceof Model) {
+            if ($translation instanceof Translatable) {
                 return $translation;
             }
         }
@@ -375,7 +376,7 @@ trait Translatable
         foreach ($this->getTranslationResolvers() as $resolver) {
             $translation = $resolver->resolveWithAttribute($this, $locale, $withFallback, $alreadyCheckedLocales, $attribute);
 
-            if ($translation instanceof Model) {
+            if ($translation instanceof Translatable) {
                 return $translation->$attribute;
             }
         }
@@ -405,7 +406,7 @@ trait Translatable
     /**
      * @return TranslationResolver[]
      */
-    private function getTranslationResolvers(): array
+    protected function getTranslationResolvers(): array
     {
         $resolvers = config('translatable.translation_resolvers', []);
 

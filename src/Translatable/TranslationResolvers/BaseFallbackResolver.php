@@ -20,7 +20,7 @@ abstract class BaseFallbackResolver extends BaseTranslationResolver
         string $locale,
         bool $withFallback,
         Collection $alreadyCheckedLocales
-    ): ?Model {
+    ): ?TranslatableContract {
         if (! $withFallback) {
             return null;
         }
@@ -46,7 +46,7 @@ abstract class BaseFallbackResolver extends BaseTranslationResolver
         bool $withFallback,
         Collection $alreadyCheckedLocales,
         string $attribute
-    ): ?Model {
+    ): ?TranslatableContract {
         if (! $withFallback) {
             return null;
         }

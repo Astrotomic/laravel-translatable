@@ -13,7 +13,7 @@ class GivenLocale extends BaseTranslationResolver
         string $locale,
         bool $withFallback,
         Collection $alreadyCheckedLocales
-    ): ?Model {
+    ): ?TranslatableContract {
         return $this->resolveTranslationByLocale(
             $translatable,
             $locale,
@@ -27,7 +27,7 @@ class GivenLocale extends BaseTranslationResolver
         bool $withFallback,
         Collection $alreadyCheckedLocales,
         string $attribute
-    ): ?Model {
+    ): ?TranslatableContract {
         return $this->resolveTranslationWithAttributeByLocale(
             $translatable,
             $locale,
