@@ -3,8 +3,11 @@
     "description": "A Laravel package for multilingual models",
     "keywords": [
         "laravel",
+        "eloquent",
         "translation",
+        "translations",
         "language",
+        "localization",
         "database"
     ],
     "homepage": "https://astrotomic.info",
@@ -56,9 +59,8 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "scripts": {
-        "csfix": "php-cs-fixer fix --using-cache=no",
         "test": "vendor/bin/phpunit",
-        "test-coverage": "vendor/bin/phpunit --coverage-html=build"
+        "test-coverage": "vendor/bin/phpunit --coverage-html=coverage"
     },
     "support": {
         "email": "dev@astrotomic.info",
