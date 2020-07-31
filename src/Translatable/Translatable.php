@@ -323,7 +323,7 @@ trait Translatable
         $dirtyAttributes = $translation->getDirty();
         unset($dirtyAttributes[$this->getLocaleName()]);
 
-        return count($dirtyAttributes) > 0;
+        return ! empty($dirtyAttributes);
     }
 
     protected function locale(): string
