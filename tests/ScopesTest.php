@@ -61,7 +61,7 @@ final class ScopesTest extends TestCase
         factory(Country::class)->create(['code' => 'en', 'name:en' => 'English']);
 
         static::assertEquals(1, Country::translated()->count());
-        static::assertEquals('English', Country::with('translations')->translated()->first()->{'name:en'});
+        static::assertEquals('English', Country::translated()->first()->{'name:en'});
     }
 
     /** @test */
