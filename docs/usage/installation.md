@@ -13,7 +13,7 @@ composer require astrotomic/laravel-translatable
 We copy the configuration file to our project.
 
 ```bash
-php artisan vendor:publish --tag=translatable 
+php artisan vendor:publish --provider="Astrotomic\Translatable\TranslatableServiceProvider" 
 ```
 
 {% hint style="info" %}

@@ -2,21 +2,25 @@ name: run-tests
 
 on:
   push:
+  pull_request:
   schedule:
     - cron: '0 0 * * *'
 
 jobs:
   test:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository
     runs-on: ${{ matrix.os }}
 
     strategy:
       fail-fast: true
       matrix:
         php: [7.4, 7.3, 7.2]
-        laravel: [6.*, 5.8.*]
+        laravel: [7.*, 6.*, 5.8.*]
         dependency-version: [prefer-lowest, prefer-stable]
         os: [ubuntu-latest, windows-latest, macos-latest]
         include:
+          - laravel: 7.*
+            testbench: 5.*
           - laravel: 6.*
             testbench: 4.*
           - laravel: 5.8.*
@@ -53,16 +57,8 @@ jobs:
           composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
           composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-suggest
 
-      - name: Configure matchers
-        uses: mheap/phpunit-matcher-action@master
-
       - name: Execute tests
-        run: vendor/bin/phpunit --teamcity --coverage-text --coverage-clover=coverage.clover
-
-      - name: Upload ScrutinizerCI coverage
-        run: |
-          php -r "copy('https://scrutinizer-ci.com/ocular.phar', 'ocular.phar');"
-          php ocular.phar code-coverage:upload --repository="g/Astrotomic/laravel-translatable" --revision="${{ github.sha }}" --format=php-clover coverage.clover
+        run: vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
 
       - name: Upload Codecov coverage
         uses: codecov/codecov-action@v1

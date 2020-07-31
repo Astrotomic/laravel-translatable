@@ -2,6 +2,22 @@
 
 ## v11
 
+### v11.8.3
+
+* Fix `\Astrotomic\Translatable\Exception\LocalesNotDefinedException` exception message
+
+### v11.8.1
+
+* Fix custom locale column name in `\Astrotomic\Translatable\Traits\Relationship::translation()` method - [\#146](https://github.com/Astrotomic/laravel-translatable/pull/146)
+
+### v11.8.0
+
+* Add Laravel 7 support - [\#128](https://github.com/Astrotomic/laravel-translatable/pull/128)
+
+### v11.7.1
+
+* Add `.gitattributes` to exclude files from archive - [\#126](https://github.com/Astrotomic/laravel-translatable/pull/126)
+
 ### v11.7.0
 
 * Add `translateOrFail()` method - [\#114](https://github.com/Astrotomic/laravel-translatable/pull/114)
@@ -14,7 +30,7 @@
 
 * Drop PHP 7.1 support
 * Drop Laravel 5.6 & 5.7 support
-* Add PHP side translation cascade deletion - [\#98](https://github.com/Astrotomic/laravel-translatable/pull/98) (_disabled by default_)
+* Add PHP side translation cascade deletion - [\#98](https://github.com/Astrotomic/laravel-translatable/pull/98) \(_disabled by default_\)
 
 ### v11.5.2
 
