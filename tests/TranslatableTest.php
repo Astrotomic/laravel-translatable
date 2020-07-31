@@ -619,10 +619,10 @@ final class TranslatableTest extends TestCase
             'name:fr' => 'Pois',
         ]);
         static::assertEquals('Peas', $vegetable->name);
-        $vegetable->setDefaultLocale('fr');
+        $vegetable->setEnforcedLocale('fr');
         static::assertEquals('Pois', $vegetable->name);
 
-        $vegetable->setDefaultLocale(null);
+        $vegetable->setEnforcedLocale(null);
 
         $vegetable->save();
         $vegetable = Vegetable::first();
