@@ -27,7 +27,7 @@ interface Translatable
 
     public static function enableDeleteTranslationsCascade(): void;
 
-    public function deleteTranslations($locales = null): void;
+    public function deleteTranslations($locales = null): self;
 
     public function getEnforcedLocale(): ?string;
 
