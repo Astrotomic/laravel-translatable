@@ -22,8 +22,8 @@ use Illuminate\Support\Str;
  * @property-read bool $useTranslationFallback
  *
  * @method static Builder|Translatable|static translated()
- * @method static Builder|Translatable|static translatedIn(string $locale)
- * @method static Builder|Translatable|static notTranslatedIn(string $locale)
+ * @method static Builder|Translatable|static translatedIn(?string $locale = null)
+ * @method static Builder|Translatable|static notTranslatedIn(?string $locale = null)
  * @method static Builder|Translatable|static whereTranslation(string $translationField, mixed $value, ?string $locale = null)
  * @method static Builder|Translatable|static whereTranslationLike(string $translationField, mixed $value, ?string $locale = null)
  * @method static Builder|Translatable|static orWhereTranslation(string $translationField, mixed $value, ?string $locale = null)
@@ -105,7 +105,7 @@ trait Translatable
     }
 
     /**
-     * @param string|array|null $locales The locales to be deleted
+     * @param string|string[]|null $locales The locales to be deleted
      *
      * @return static
      */
@@ -482,7 +482,7 @@ trait Translatable
     {
         return $query->whereHas(
             'translations',
-            fn (Builder $q) => $q->where($this->getQualifiedLocaleName(), '=', $locale)
+            fn (Builder $q) => $q->where($this->getQualifiedLocaleName(), '=', $locale ?? $this->locale())
         );
     }
 
@@ -490,7 +490,7 @@ trait Translatable
     {
         return $query->whereDoesntHave(
             'translations',
-            fn (Builder $q) => $q->where($this->getQualifiedLocaleName(), '=', $locale)
+            fn (Builder $q) => $q->where($this->getQualifiedLocaleName(), '=', $locale ?? $this->locale())
         );
     }
 
