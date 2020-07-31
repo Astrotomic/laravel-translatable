@@ -413,6 +413,16 @@ trait Translatable
             $resolvers = Arr::prepend($resolvers, GivenLocale::class);
         }
 
+        return $this->makeTranslationResolvers($resolvers);
+    }
+
+    /**
+     * @param string[] $resolvers
+     *
+     * @return TranslationResolver[]
+     */
+    protected function makeTranslationResolvers(array $resolvers): array
+    {
         return array_map(
             fn (string $resolver): TranslationResolver => app($resolver),
             $resolvers
