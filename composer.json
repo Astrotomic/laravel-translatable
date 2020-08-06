@@ -3,8 +3,11 @@
     "description": "A Laravel package for multilingual models",
     "keywords": [
         "laravel",
+        "eloquent",
         "translation",
+        "translations",
         "language",
+        "localization",
         "database"
     ],
     "homepage": "https://astrotomic.info",
@@ -24,14 +27,14 @@
         }
     ],
     "require": {
-        "php": ">=7.2",
-        "illuminate/contracts": "5.8.* || ^6.0 || ^7.0",
-        "illuminate/database": "5.8.* || ^6.0 || ^7.0",
-        "illuminate/support": "5.8.* || ^6.0 || ^7.0"
+        "php": ">=7.4",
+        "illuminate/contracts": "^7.0",
+        "illuminate/database": "^7.0",
+        "illuminate/support": "^7.0"
     },
     "require-dev": {
-        "orchestra/testbench": "3.8.* || ^4.0 || ^5.0",
-        "phpunit/phpunit": "^8.0 || ^9.0"
+        "orchestra/testbench": "^5.0",
+        "phpunit/phpunit": "^9.0"
     },
     "config": {
         "sort-packages": true
@@ -56,9 +59,8 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "scripts": {
-        "csfix": "php-cs-fixer fix --using-cache=no",
         "test": "vendor/bin/phpunit",
-        "test-coverage": "vendor/bin/phpunit --coverage-html=build"
+        "test-coverage": "vendor/bin/phpunit --coverage-html=coverage"
     },
     "support": {
         "email": "dev@astrotomic.info",

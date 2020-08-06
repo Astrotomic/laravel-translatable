@@ -2,10 +2,19 @@
 
 namespace Astrotomic\Translatable\Contracts;
 
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 
+/**
+ * @property-read EloquentCollection|Model[] $translations
+ * @property-read string $translationModel
+ * @property-read string $translationForeignKey
+ * @property-read string $localeKey
+ * @property-read bool $useTranslationFallback
+ *
+ * @mixin Model
+ */
 interface Translatable
 {
     public static function defaultAutoloadTranslations(): void;
@@ -18,15 +27,17 @@ interface Translatable
 
     public static function enableDeleteTranslationsCascade(): void;
 
-    public function deleteTranslations($locales = null): void;
+    public function deleteTranslations($locales = null): self;
 
-    public function getDefaultLocale(): ?string;
+    public function getEnforcedLocale(): ?string;
 
     public function getNewTranslation(string $locale): Model;
 
     public function getTranslation(?string $locale = null, bool $withFallback = null): ?Model;
 
     public function getTranslationOrNew(?string $locale = null): Model;
+
+    public function getTranslationOrFail(string $locale): Model;
 
     public function getTranslationsArray(): array;
 
@@ -36,7 +47,7 @@ interface Translatable
 
     public function replicateWithTranslations(array $except = null): Model;
 
-    public function setDefaultLocale(?string $locale);
+    public function setEnforcedLocale(?string $locale);
 
     public function translate(?string $locale = null, bool $withFallback = false): ?Model;
 
@@ -44,7 +55,13 @@ interface Translatable
 
     public function translateOrNew(?string $locale = null): Model;
 
-    public function translation(): HasOne;
+    public function translateOrFail(string $locale): Model;
 
     public function translations(): HasMany;
+
+    public function isEmptyTranslatableAttribute(string $key, $value): bool;
+
+    public function getLocaleName(): string;
+
+    public function getQualifiedLocaleName(): string;
 }
