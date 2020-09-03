@@ -7,6 +7,8 @@ use Illuminate\Support\Str;
 /**
  * @property-read string $translatableModel
  * @property-read string $translatableForeignKey
+ *
+ * @mixin Model
  */
 trait Translation
 {
