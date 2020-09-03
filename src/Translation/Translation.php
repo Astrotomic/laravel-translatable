@@ -8,7 +8,8 @@ use Illuminate\Support\Str;
  * @property-read string $translatableModel
  * @property-read string $translatableForeignKey
  */
-trait Translation {
+trait Translation
+{
     public function getTranslatableModelName(): string
     {
         return $this->translatableModel ?: $this->getTranslatableModelNameDefault();
@@ -36,7 +37,7 @@ trait Translation {
             return $this->translatableForeignKey;
         }
 
-        return Str::replaceFirst(Str::lower(config('translatable.translation_suffix', 'Translation')) . '_', '', $this->getForeignKey());
+        return Str::replaceFirst(Str::lower(config('translatable.translation_suffix', 'Translation')).'_', '', $this->getForeignKey());
     }
 
     public function translatable()
