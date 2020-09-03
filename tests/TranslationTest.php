@@ -23,7 +23,7 @@ final class TranslationTest extends TestCase
 
         static::assertEquals(
             'App\Models\Translatables\Vegetable',
-            (new Vegetable())->getTranslatableModelNameDefault()
+            (new VegetableTranslation())->getTranslatableModelNameDefault()
         );
     }
 
