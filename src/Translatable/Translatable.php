@@ -166,10 +166,7 @@ trait Translatable
         return $this->defaultLocale;
     }
 
-    /**
-     * @internal will change to protected
-     */
-    public function getLocaleKey(): string
+    protected function getLocaleKey(): string
     {
         return $this->localeKey ?: config('translatable.locale_key', 'locale');
     }

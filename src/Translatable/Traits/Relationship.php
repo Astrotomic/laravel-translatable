@@ -11,26 +11,12 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  */
 trait Relationship
 {
-    /**
-     * @deprecated
-     */
-    public function getRelationKey(): string
-    {
-        return $this->getTranslationRelationKey();
-    }
-
-    /**
-     * @internal will change to protected
-     */
-    public function getTranslationModelName(): string
+    protected function getTranslationModelName(): string
     {
         return $this->translationModel ?: $this->getTranslationModelNameDefault();
     }
 
-    /**
-     * @internal will change to private
-     */
-    public function getTranslationModelNameDefault(): string
+    protected function getTranslationModelNameDefault(): string
     {
         $modelName = get_class($this);
 
@@ -41,18 +27,12 @@ trait Relationship
         return $modelName.config('translatable.translation_suffix', 'Translation');
     }
 
-    /**
-     * @internal will change to private
-     */
-    public function getTranslationModelNamespace(): ?string
+    protected function getTranslationModelNamespace(): ?string
     {
         return config('translatable.translation_model_namespace');
     }
 
-    /**
-     * @internal will change to protected
-     */
-    public function getTranslationRelationKey(): string
+    protected function getTranslationRelationKey(): string
     {
         if ($this->translationForeignKey) {
             return $this->translationForeignKey;
