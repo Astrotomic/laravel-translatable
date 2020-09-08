@@ -17,8 +17,6 @@ abstract class TestCase extends OrchestraTestCase
         parent::setUp();
 
         $this->createTables();
-
-        $this->withFactories(realpath(__DIR__.'/factories'));
     }
 
     protected function getEnvironmentSetUp($app)

@@ -2,17 +2,18 @@
 
 namespace Astrotomic\Translatable\Tests;
 
-use Astrotomic\Translatable\Locales;
-use Astrotomic\Translatable\Tests\Eloquent\Country;
-use Astrotomic\Translatable\Tests\Eloquent\CountryStrict;
-use Astrotomic\Translatable\Tests\Eloquent\CountryTranslation;
-use Astrotomic\Translatable\Tests\Eloquent\Person;
-use Astrotomic\Translatable\Tests\Eloquent\Vegetable;
-use Astrotomic\Translatable\Tests\Eloquent\VegetableTranslation;
-use Illuminate\Database\Eloquent\MassAssignmentException;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\App;
+use Astrotomic\Translatable\Locales;
+use Astrotomic\Translatable\Tests\Eloquent\Person;
+use Astrotomic\Translatable\Tests\Eloquent\Country;
+use Astrotomic\Translatable\Tests\Eloquent\Vegetable;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Astrotomic\Translatable\Tests\Eloquent\CountryStrict;
+use Illuminate\Database\Eloquent\MassAssignmentException;
+use Astrotomic\Translatable\Tests\Factories\VegetableFactory;
+use Astrotomic\Translatable\Tests\Eloquent\CountryTranslation;
+use Astrotomic\Translatable\Tests\Eloquent\VegetableTranslation;
 
 final class TranslatableTest extends TestCase
 {
@@ -77,7 +78,7 @@ final class TranslatableTest extends TestCase
     /** @test */
     public function it_returns_the_translation(): void
     {
-        $vegetable = factory(Vegetable::class)->create(['name:el' => 'Αρακάς', 'name:en' => 'Peas']);
+        $vegetable = VegetableFactory::new()->create(['name:el' => 'Αρακάς', 'name:en' => 'Peas']);
 
         static::assertEquals('Αρακάς', $vegetable->translate('el')->name);
 
@@ -93,7 +94,7 @@ final class TranslatableTest extends TestCase
     /** @test */
     public function it_returns_the_translation_with_accessor(): void
     {
-        $vegetable = factory(Vegetable::class)->create(['name:el' => 'Αρακάς', 'name:en' => 'Peas']);
+        $vegetable = VegetableFactory::new()->create(['name:el' => 'Αρακάς', 'name:en' => 'Peas']);
 
         static::assertEquals('Αρακάς', $vegetable->{'name:el'});
         static::assertEquals('Peas', $vegetable->{'name:en'});
@@ -102,7 +103,7 @@ final class TranslatableTest extends TestCase
     /** @test */
     public function it_returns_null_when_the_locale_doesnt_exist(): void
     {
-        $vegetable = factory(Vegetable::class)->create(['name:el' => 'Αρακάς']);
+        $vegetable = VegetableFactory::new()->create(['name:el' => 'Αρακάς']);
 
         static::assertSame(null, $vegetable->{'name:unknown-locale'});
     }
@@ -110,7 +111,7 @@ final class TranslatableTest extends TestCase
     /** @test */
     public function it_saves_translations(): void
     {
-        $vegetable = factory(Vegetable::class)->create(['name:el' => 'Αρακάς', 'name:en' => 'Peas']);
+        $vegetable = VegetableFactory::new()->create(['name:el' => 'Αρακάς', 'name:en' => 'Peas']);
 
         static::assertEquals('Peas', $vegetable->name);
 
@@ -124,7 +125,7 @@ final class TranslatableTest extends TestCase
     /** @test */
     public function it_saves_translations_with_mutator(): void
     {
-        $vegetable = factory(Vegetable::class)->create(['name:el' => 'Αρακάς', 'name:en' => 'Peas']);
+        $vegetable = VegetableFactory::new()->create(['name:el' => 'Αρακάς', 'name:en' => 'Peas']);
 
         $vegetable->{'name:en'} = 'Pea';
         $vegetable->{'name:el'} = 'Μπιζέλι';
@@ -143,7 +144,7 @@ final class TranslatableTest extends TestCase
     {
         DB::enableQueryLog();
 
-        $vegetable = factory(Vegetable::class)->create();
+        $vegetable = VegetableFactory::new()->create();
         static::assertFalse($vegetable->relationLoaded('translations'));
         static::assertCount(1, DB::getQueryLog());
 
@@ -164,7 +165,7 @@ final class TranslatableTest extends TestCase
     /** @test */
     public function it_uses_default_locale_to_return_translations(): void
     {
-        $vegetable = factory(Vegetable::class)->create(['name:el' => 'Αρακάς']);
+        $vegetable = VegetableFactory::new()->create(['name:el' => 'Αρακάς']);
 
         $vegetable->translate('el')->name = 'Μπιζέλι';
 
@@ -179,7 +180,7 @@ final class TranslatableTest extends TestCase
     /** @test */
     public function it_creates_translations_using_the_shortcut(): void
     {
-        $vegetable = factory(Vegetable::class)->create();
+        $vegetable = VegetableFactory::new()->create();
 
         $vegetable->name = 'Peas';
         $vegetable->save();
@@ -241,7 +242,7 @@ final class TranslatableTest extends TestCase
     /** @test */
     public function it_returns_if_object_has_translation(): void
     {
-        $vegetable = factory(Vegetable::class)->create(['name:en' => 'Peas']);
+        $vegetable = VegetableFactory::new()->create(['name:en' => 'Peas']);
 
         static::assertTrue($vegetable->hasTranslation('en'));
         static::assertFalse($vegetable->hasTranslation('some-code'));
@@ -252,7 +253,7 @@ final class TranslatableTest extends TestCase
     {
         $this->app->make('config')->set('translatable.fallback_locale', 'de');
 
-        $vegetable = factory(Vegetable::class)->create(['name:de' => 'Erbsen']);
+        $vegetable = VegetableFactory::new()->create(['name:de' => 'Erbsen']);
 
         static::assertEquals('Erbsen', $vegetable->getTranslation('ch', true)->name);
         static::assertEquals('Erbsen', $vegetable->translateOrDefault('ch')->name);
@@ -267,7 +268,7 @@ final class TranslatableTest extends TestCase
     {
         $this->app->make('config')->set('translatable.fallback_locale', 'de');
 
-        $vegetable = factory(Vegetable::class)->create(['name:de' => 'Erbsen']);
+        $vegetable = VegetableFactory::new()->create(['name:de' => 'Erbsen']);
         static::assertEquals('de', $vegetable->getTranslation('ch', true)->locale);
 
         $vegetable->useTranslationFallback = false;
@@ -286,7 +287,7 @@ final class TranslatableTest extends TestCase
         $this->app->make('config')->set('translatable.fallback_locale', 'de');
         $this->app->make('config')->set('translatable.use_fallback', true);
 
-        $vegetable = factory(Vegetable::class)->create(['name:de' => 'Erbsen']);
+        $vegetable = VegetableFactory::new()->create(['name:de' => 'Erbsen']);
 
         static::assertEquals('de', $vegetable->getTranslation('ch')->locale);
     }
@@ -297,7 +298,7 @@ final class TranslatableTest extends TestCase
         $this->app->make('config')->set('translatable.fallback_locale', 'de');
         $this->app->make('config')->set('translatable.use_fallback', true);
 
-        $vegetable = factory(Vegetable::class)->create(['name:en' => 'Peas']);
+        $vegetable = VegetableFactory::new()->create(['name:en' => 'Peas']);
         $vegetable->useTranslationFallback = false;
 
         static::assertNull($vegetable->getTranslation('ch'));
@@ -308,7 +309,7 @@ final class TranslatableTest extends TestCase
     {
         $this->app->make('config')->set('translatable.fallback_locale', 'ch');
 
-        $vegetable = factory(Vegetable::class)->create(['name:en' => 'Peas']);
+        $vegetable = VegetableFactory::new()->create(['name:en' => 'Peas']);
 
         static::assertNull($vegetable->getTranslation('pl', true));
     }
@@ -333,7 +334,7 @@ final class TranslatableTest extends TestCase
     {
         $this->app->make('config')->set('translatable.fallback_locale', 'en');
 
-        $vegetable = factory(Vegetable::class)->create();
+        $vegetable = VegetableFactory::new()->create();
         $vegetable->getNewTranslation('en')->name = 'Peas';
         $vegetable->save();
 
@@ -388,7 +389,7 @@ final class TranslatableTest extends TestCase
     /** @test */
     public function getting_translation_does_not_create_translation(): void
     {
-        $vegetable = factory(Vegetable::class)->create();
+        $vegetable = VegetableFactory::new()->create();
 
         static::assertNull($vegetable->getTranslation('en', false));
     }
@@ -397,7 +398,7 @@ final class TranslatableTest extends TestCase
     public function getting_translated_field_does_not_create_translation(): void
     {
         $this->app->setLocale('en');
-        $vegetable = factory(Vegetable::class)->create();
+        $vegetable = VegetableFactory::new()->create();
 
         static::assertNull($vegetable->getTranslation('en'));
     }
@@ -405,7 +406,7 @@ final class TranslatableTest extends TestCase
     /** @test */
     public function it_has_methods_that_return_always_a_translation(): void
     {
-        $vegetable = factory(Vegetable::class)->create();
+        $vegetable = VegetableFactory::new()->create();
         static::assertEquals('abc', $vegetable->translateOrNew('abc')->locale);
 
         $this->app->setLocale('xyz');
@@ -438,7 +439,7 @@ final class TranslatableTest extends TestCase
     /** @test */
     public function config_overrides_apps_locale(): void
     {
-        $veegtable = factory(Vegetable::class)->create(['name:de' => 'Erbsen']);
+        $veegtable = VegetableFactory::new()->create(['name:de' => 'Erbsen']);
         App::make('config')->set('translatable.locale', 'de');
 
         static::assertEquals('Erbsen', $veegtable->name);
@@ -482,7 +483,7 @@ final class TranslatableTest extends TestCase
         $this->app->make('config')->set('translatable.locale_separator', '-');
         $this->app->make('translatable.locales')->load();
 
-        $vegetable = factory(Vegetable::class)->create([
+        $vegetable = VegetableFactory::new()->create([
             'fr'    => ['name' => 'Frites'],
             'en-GB' => ['name' => 'Chips'],
             'en'    => ['name' => 'French fries'],
@@ -500,7 +501,7 @@ final class TranslatableTest extends TestCase
         $this->app->make('config')->set('translatable.locale_separator', '-');
         $this->app->make('translatable.locales')->load();
 
-        $vegetable = factory(Vegetable::class)->create([
+        $vegetable = VegetableFactory::new()->create([
             'en'    => ['name' => 'Chips'],
             'pt-PT' => ['name' => 'Batatas fritas'],
         ]);
@@ -518,7 +519,7 @@ final class TranslatableTest extends TestCase
         $this->app->make('config')->set('translatable.locale_separator', '-');
         $this->app->make('translatable.locales')->load();
 
-        $vegetable = factory(Vegetable::class)->create(['name:fr' => 'Frites']);
+        $vegetable = VegetableFactory::new()->create(['name:fr' => 'Frites']);
 
         static::assertEquals('Frites', $vegetable['name']);
     }
@@ -528,7 +529,7 @@ final class TranslatableTest extends TestCase
     {
         $this->app->make('config')->set('translatable.to_array_always_loads_translations', false);
 
-        factory(Vegetable::class)->create(['name' => 'Peas']);
+        VegetableFactory::new()->create(['name' => 'Peas']);
 
         $vegetable = Vegetable::first()->toArray();
         static::assertFalse(isset($vegetable['name']));
@@ -538,7 +539,7 @@ final class TranslatableTest extends TestCase
     public function it_returns_translations_in_to_array_when_config_is_set_but_translations_are_loaded(): void
     {
         $this->app->make('config')->set('translatable.to_array_always_loads_translations', false);
-        factory(Vegetable::class)->create(['name' => 'Peas']);
+        VegetableFactory::new()->create(['name' => 'Peas']);
 
         $vegetable = Vegetable::with('translations')->first()->toArray();
 
@@ -557,7 +558,7 @@ final class TranslatableTest extends TestCase
     /** @test */
     public function it_deletes_all_translations(): void
     {
-        $vegetable = factory(Vegetable::class)->create(['name:es' => 'Guisantes', 'name:en' => 'Peas']);
+        $vegetable = VegetableFactory::new()->create(['name:es' => 'Guisantes', 'name:en' => 'Peas']);
 
         static::assertEquals(2, count($vegetable->translations));
 
@@ -569,7 +570,7 @@ final class TranslatableTest extends TestCase
     /** @test */
     public function it_deletes_translations_for_given_locales(): void
     {
-        $vegetable = factory(Vegetable::class)->create(['name:es' => 'Guisantes', 'name:en' => 'Peas']);
+        $vegetable = VegetableFactory::new()->create(['name:es' => 'Guisantes', 'name:en' => 'Peas']);
 
         static::assertEquals(2, count($vegetable->translations));
 
@@ -581,7 +582,7 @@ final class TranslatableTest extends TestCase
     /** @test */
     public function passing_an_empty_array_should_not_delete_translations(): void
     {
-        $vegetable = factory(Vegetable::class)->create(['name:es' => 'Guisantes', 'name:en' => 'Peas']);
+        $vegetable = VegetableFactory::new()->create(['name:es' => 'Guisantes', 'name:en' => 'Peas']);
 
         static::assertEquals(2, count($vegetable->translations));
 
@@ -661,7 +662,7 @@ final class TranslatableTest extends TestCase
     /** @test */
     public function can_get_translations_as_array(): void
     {
-        $vegetable = factory(Vegetable::class)->create([
+        $vegetable = VegetableFactory::new()->create([
             'name:en' => 'Peas',
             'name:fr' => 'Pois',
             'name:de' => 'Erbsen',
@@ -757,7 +758,7 @@ final class TranslatableTest extends TestCase
     public function empty_translated_attribute(): void
     {
         $this->app->setLocale('invalid');
-        $vegetable = factory(Vegetable::class)->create();
+        $vegetable = VegetableFactory::new()->create();
 
         static::assertNull($vegetable->name);
     }
@@ -803,7 +804,7 @@ final class TranslatableTest extends TestCase
         $this->app->make('config')->set('translatable.use_fallback', true);
         $this->app->setLocale('en');
 
-        $peas = factory(Vegetable::class)->create(['name:en' => 'Peas']);
+        $peas = VegetableFactory::new()->create(['name:en' => 'Peas']);
 
         static::assertInstanceOf(VegetableTranslation::class, $peas->translation);
         static::assertEquals('en', $peas->translation->locale);
@@ -816,7 +817,7 @@ final class TranslatableTest extends TestCase
         $this->app->make('config')->set('translatable.use_fallback', true);
         $this->app->setLocale('en');
 
-        $peas = factory(Vegetable::class)->create(['name:fr' => 'Pois']);
+        $peas = VegetableFactory::new()->create(['name:fr' => 'Pois']);
 
         static::assertEquals('fr', $peas->translation->locale);
     }
@@ -828,7 +829,7 @@ final class TranslatableTest extends TestCase
         $this->app->make('config')->set('translatable.use_fallback', true);
         $this->app->setLocale('xyz');
 
-        $peas = factory(Vegetable::class)->create(['name:en' => 'Peas']);
+        $peas = VegetableFactory::new()->create(['name:en' => 'Peas']);
 
         static::assertNull($peas->translation);
     }
@@ -1000,7 +1001,7 @@ final class TranslatableTest extends TestCase
     /** @test */
     public function it_does_not_delete_translations_on_cascade_by_default()
     {
-        $vegetable = factory(Vegetable::class)->create(['name:en' => 'Peas']);
+        $vegetable = VegetableFactory::new()->create(['name:en' => 'Peas']);
 
         $this->assertDatabaseHas('vegetables', ['identity' => $vegetable->identity]);
         $this->assertDatabaseHas('vegetable_translations', ['vegetable_identity' => $vegetable->identity]);
@@ -1015,7 +1016,7 @@ final class TranslatableTest extends TestCase
     public function it_deletes_translations_on_cascade()
     {
         Vegetable::enableDeleteTranslationsCascade();
-        $vegetable = factory(Vegetable::class)->create(['name:en' => 'Peas']);
+        $vegetable = VegetableFactory::new()->create(['name:en' => 'Peas']);
 
         $this->assertDatabaseHas('vegetables', ['identity' => $vegetable->identity]);
         $this->assertDatabaseHas('vegetable_translations', ['vegetable_identity' => $vegetable->identity]);
@@ -1030,7 +1031,7 @@ final class TranslatableTest extends TestCase
     public function it_does_not_delete_on_cascade_after_retrieving_a_model()
     {
         Vegetable::enableDeleteTranslationsCascade();
-        $vegetable = factory(Vegetable::class)->create(['name:en' => 'Peas']);
+        $vegetable = VegetableFactory::new()->create(['name:en' => 'Peas']);
         Vegetable::disableDeleteTranslationsCascade();
 
         $this->assertDatabaseHas('vegetables', ['identity' => $vegetable->identity]);
@@ -1046,7 +1047,7 @@ final class TranslatableTest extends TestCase
     public function it_can_restore_translations_in_a_transaction()
     {
         Vegetable::enableDeleteTranslationsCascade();
-        $vegetable = factory(Vegetable::class)->create(['name:en' => 'Peas']);
+        $vegetable = VegetableFactory::new()->create(['name:en' => 'Peas']);
 
         $this->assertDatabaseHas('vegetables', ['identity' => $vegetable->identity]);
         $this->assertDatabaseHas('vegetable_translations', ['vegetable_identity' => $vegetable->identity]);
