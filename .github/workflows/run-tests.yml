@@ -21,6 +21,7 @@ jobs:
         include:
           - laravel: 8.*
             testbench: 6.*
+            legacy: laravel/legacy-factories
           - laravel: 7.*
             testbench: 5.*
           - laravel: 6.*
@@ -58,7 +59,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
+          composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" ${{ matrix.legacy }} --no-interaction --no-update
           composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-suggest
 
       - name: Execute tests
