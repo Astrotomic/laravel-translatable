@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 class CountryFactory extends Factory
 {
     /**
-     * The name of the factory's corresponding model
+     * The name of the factory's corresponding model.
      *
      * @var string
      */

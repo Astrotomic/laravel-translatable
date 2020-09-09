@@ -50,7 +50,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Astrotomic\\Translatable\\Tests\\": "tests/"
+            "Astrotomic\\Translatable\\Tests\\": "tests/",
+            "Astrotomic\\Translatable\\Tests\\Factories": "tests/factories"
         }
     },
     "minimum-stability": "dev",
