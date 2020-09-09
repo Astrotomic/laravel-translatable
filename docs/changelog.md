@@ -2,6 +2,10 @@
 
 ## v11
 
+### v11.9.0
+
+* Add Laravel 8 support - [\#180](https://github.com/Astrotomic/laravel-translatable/pull/180)
+
 ### v11.8.3
 
 * Fix `\Astrotomic\Translatable\Exception\LocalesNotDefinedException` exception message
