@@ -21,7 +21,7 @@ jobs:
         include:
           - laravel: 8.*
             testbench: 6.*
-            legacy: laravel/legacy-factories
+            legacy: "laravel/legacy-factories:^1.0.4"
           - laravel: 7.*
             testbench: 5.*
           - laravel: 6.*
