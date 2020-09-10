@@ -39,7 +39,7 @@ trait Translation
             return $this->translatableForeignKey;
         }
 
-        return Str::replaceFirst(Str::lower(config('translatable.translation_suffix', 'Translation')) . '_', '', Str::snake(class_basename($this)).'_'.$this->getKeyName());
+        return Str::replaceFirst(Str::lower(config('translatable.translation_suffix', 'Translation')).'_', '', Str::snake(class_basename($this)).'_'.$this->getKeyName());
     }
 
     public function translatable()
