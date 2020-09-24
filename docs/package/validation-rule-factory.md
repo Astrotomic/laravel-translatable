@@ -3,12 +3,12 @@
 If you want to validate translated attributes it could get quite complex to list all rules with corresponding attributes their own. To simplify this we've added a `RuleFactory` class. It get's a list of rules and you can mark the key you want to get locale aware. The factory will take the rules assigned to this "placeholder" and copy it to all corresponding locale aware keys.
 
 ```php
-$rules = [
+$rules = RuleFactory::make([
     'translations.%title%' => 'sometimes|string',
     'translations.%content%' => ['required_with:translations.%title%', 'string'],
-];
+]);
 
-RuleFactory::make($rules);
+$validatedData = $request->validate($rules);
 ```
 
 This will return an array which adjusted the placeholder in key and string value or array with strings to match your configured key format. The result will be:
@@ -20,10 +20,10 @@ This will return an array which adjusted the placeholder in key and string value
     'translations.de-DE.title' => 'sometimes|string',
     'translations.de-AT.title' => 'sometimes|string',
 
-    'en.content' => ['required_with:translations.en.title', 'string'],
-    'de.content' => ['required_with:translations.de.title', 'string'],
-    'de-DE.content' => ['required_with:translations.de-DE.title', 'string'],
-    'de-AT.content' => ['required_with:translations.de-AT.title', 'string'],
+    'translations.en.content' => ['required_with:translations.en.title', 'string'],
+    'translations.de.content' => ['required_with:translations.de.title', 'string'],
+    'translations.de-DE.content' => ['required_with:translations.de-DE.title', 'string'],
+    'translations.de-AT.content' => ['required_with:translations.de-AT.title', 'string'],
 ]
 ```
 
