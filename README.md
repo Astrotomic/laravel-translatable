@@ -12,7 +12,7 @@
 [![GitBook](https://img.shields.io/badge/GitBook-Astrotomic-7e57c2.svg?style=flat-square)](https://docs.astrotomic.info/laravel-translatable)
 
 <p align="center">
-    <img src="/art/logo.png" alt="laravel-translatable logo">
+    <img src="/art/socialcard.png" alt="laravel-translatable socialcard">
 </p>
 
 **If you want to store translations of your models into the database, this package is for you.**
