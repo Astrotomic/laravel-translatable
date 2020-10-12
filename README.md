@@ -11,7 +11,9 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/astrotomic/laravel-translatable.svg?label=Downloads&style=flat-square)](https://packagist.org/packages/astrotomic/laravel-translatable)
 [![GitBook](https://img.shields.io/badge/GitBook-Astrotomic-7e57c2.svg?style=flat-square)](https://docs.astrotomic.info/laravel-translatable)
 
-![Laravel Translatable](docs/.gitbook/assets/laravel-translatable.png)
+<p align="center">
+    <img src="/art/socialcard.png" alt="laravel-translatable socialcard">
+</p>
 
 **If you want to store translations of your models into the database, this package is for you.**
 
@@ -89,6 +91,7 @@ If you discover any security related issues, please check [SECURITY](https://git
 - [Tom Witkowski](https://github.com/Gummibeer)
 - [Dimitrios Savvopoulos](https://github.com/dimsav)
 - [David Llop](https://github.com/Lloople)
+- [Caneco](https://github.com/caneco)
 - [All Contributors](https://github.com/Astrotomic/laravel-translatable/graphs/contributors)
 
 ## Versions
