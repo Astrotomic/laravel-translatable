@@ -89,10 +89,10 @@ If you discover any security related issues, please check [SECURITY](https://git
 ## Credits
 
 - [Tom Witkowski](https://github.com/Gummibeer)
-- [Dimitrios Savvopoulos](https://github.com/dimsav)
-- [David Llop](https://github.com/Lloople)
-- [Caneco](https://github.com/caneco)
-- [All Contributors](https://github.com/Astrotomic/laravel-translatable/graphs/contributors)
+- [Dimitrios Savvopoulos](https://github.com/dimsav) *original author*
+- [David Llop](https://github.com/Lloople) *refactoring testsuite*
+- [Caneco](https://github.com/caneco) *artwork*
+- [All Contributors](../../contributors)
 
 ## Versions
 
