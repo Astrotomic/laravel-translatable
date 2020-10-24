@@ -88,7 +88,7 @@ If you discover any security related issues, please check [SECURITY](https://git
 
 ## Credits
 
-- [Tom Witkowski](https://github.com/Gummibeer)
+- [Tom Witkowski](https://github.com/Gummibeer) *current maintainer*
 - [Dimitrios Savvopoulos](https://github.com/dimsav) *original author*
 - [David Llop](https://github.com/Lloople) *refactoring testsuite*
 - [Caneco](https://github.com/caneco) *artwork*
