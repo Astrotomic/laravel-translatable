@@ -65,9 +65,10 @@ echo $post->translate('fr')->title; // Mon premier post
 
 ## Credits
 
-* [Tom Witkowski](https://github.com/Gummibeer)
-* [Dimitrios Savvopoulos](https://github.com/dimsav)
-* [David Llop](https://github.com/Lloople)
+- [Tom Witkowski](https://github.com/Gummibeer) *current maintainer*
+- [Dimitrios Savvopoulos](https://github.com/dimsav) *original author*
+- [David Llop](https://github.com/Lloople) *refactoring testsuite*
+- [Caneco](https://github.com/caneco) *artwork*
 * [All Contributors](https://github.com/Astrotomic/laravel-translatable/graphs/contributors)
 
 ## Versions
