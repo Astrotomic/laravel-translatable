@@ -123,7 +123,7 @@ trait Scopes
         ]);
     }
 
-    private function getTranslationsTable(): string
+    protected function getTranslationsTable(): string
     {
         return app()->make($this->getTranslationModelName())->getTable();
     }

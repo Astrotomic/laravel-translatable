@@ -68,7 +68,7 @@ trait Relationship
             ->where($this->getLocaleKey(), $this->localeOrFallback());
     }
 
-    private function localeOrFallback()
+    protected function localeOrFallback()
     {
         return $this->useFallback() && ! $this->translations()->where($this->getLocaleKey(), $this->locale())->exists()
             ? $this->getFallbackLocale()
