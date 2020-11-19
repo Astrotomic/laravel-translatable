@@ -2,6 +2,10 @@
 
 ## v11
 
+### v11.9.1
+
+* Fix all methods visibility to allow customization - [\#198](https://github.com/Astrotomic/laravel-translatable/pull/198)
+
 ### v11.9.0
 
 * Add Laravel 8 support - [\#180](https://github.com/Astrotomic/laravel-translatable/pull/180)
