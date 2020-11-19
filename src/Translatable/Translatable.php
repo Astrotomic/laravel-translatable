@@ -381,7 +381,7 @@ trait Translatable
         return $saved;
     }
 
-    private function getAttributeAndLocale(string $key): array
+    protected function getAttributeAndLocale(string $key): array
     {
         if (Str::contains($key, ':')) {
             return explode(':', $key);
@@ -390,7 +390,7 @@ trait Translatable
         return [$key, $this->locale()];
     }
 
-    private function getAttributeOrFallback(?string $locale, string $attribute)
+    protected function getAttributeOrFallback(?string $locale, string $attribute)
     {
         $translation = $this->getTranslation($locale);
 
@@ -411,7 +411,7 @@ trait Translatable
         return null;
     }
 
-    private function getFallbackLocale(?string $locale = null): ?string
+    protected function getFallbackLocale(?string $locale = null): ?string
     {
         if ($locale && $this->getLocalesHelper()->isLocaleCountryBased($locale)) {
             if ($fallback = $this->getLocalesHelper()->getLanguageFromCountryBasedLocale($locale)) {
@@ -422,7 +422,7 @@ trait Translatable
         return config('translatable.fallback_locale');
     }
 
-    private function getTranslationByLocaleKey(string $key): ?Model
+    protected function getTranslationByLocaleKey(string $key): ?Model
     {
         if (
             $this->relationLoaded('translation')
@@ -435,12 +435,12 @@ trait Translatable
         return $this->translations->firstWhere($this->getLocaleKey(), $key);
     }
 
-    private function toArrayAlwaysLoadsTranslations(): bool
+    protected function toArrayAlwaysLoadsTranslations(): bool
     {
         return config('translatable.to_array_always_loads_translations', true);
     }
 
-    private function useFallback(): bool
+    protected function useFallback(): bool
     {
         if (isset($this->useTranslationFallback) && is_bool($this->useTranslationFallback)) {
             return $this->useTranslationFallback;
@@ -449,7 +449,7 @@ trait Translatable
         return (bool) config('translatable.use_fallback');
     }
 
-    private function usePropertyFallback(): bool
+    protected function usePropertyFallback(): bool
     {
         return $this->useFallback() && config('translatable.use_property_fallback', false);
     }
