@@ -86,3 +86,42 @@ class PostTranslation extends Model
 {% endcode-tabs-item %}
 {% endcode-tabs %}
 
+You may also define a custom foreign key, e.g. for single table inheritance, in the post_translations table that does not comply with the naming convention.
+Going with the example above, it may be something like this
+{% code-tabs %}
+{% code-tabs-item title="create\_post\_translations\_table" %}
+```php
+Schema::create('post_translations', function(Blueprint $table) {
+    // ...
+    // other columns
+    // ...
+    
+    
+    
+    $table->unique(['foo_id', 'locale']);
+    $table->foreign('foo_id')->references('id')->on('posts')->onDelete('cascade');
+});
+```
+{% endcode-tabs-item %}
+{% endcode-tabs %}
+In this case, you will have to change the property `$translationForeignKey` to your `'foo_id'`
+{% code-tabs %}
+{% code-tabs-item title="Post.php" %}
+```php
+use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
+use Astrotomic\Translatable\Translatable;
+
+class Post extends Model implements TranslatableContract
+{
+    use Translatable;
+    
+    public $translatedAttributes = ['title', 'content'];
+    protected $fillable = ['author'];
+    // will be used first in case of custom foreign key name, or
+    // in case of single table inheritance, children classes will use it 
+    // instead of using the naming convention which will not work
+    public $trasnlationForeignKey = 'foo_id';
+}
+```
+{% endcode-tabs-item %}
+{% endcode-tabs %}
