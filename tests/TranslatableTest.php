@@ -6,6 +6,7 @@ use Astrotomic\Translatable\Locales;
 use Astrotomic\Translatable\Tests\Eloquent\Country;
 use Astrotomic\Translatable\Tests\Eloquent\CountryStrict;
 use Astrotomic\Translatable\Tests\Eloquent\CountryTranslation;
+use Astrotomic\Translatable\Tests\Eloquent\CountryWithEarlyLoad;
 use Astrotomic\Translatable\Tests\Eloquent\Person;
 use Astrotomic\Translatable\Tests\Eloquent\Vegetable;
 use Astrotomic\Translatable\Tests\Eloquent\VegetableTranslation;
@@ -955,6 +956,45 @@ final class TranslatableTest extends TestCase
         static::assertInstanceOf(CountryTranslation::class, $translation);
         static::assertEquals('de', $translation->locale);
         static::assertFalse($country->relationLoaded('translations'));
+    }
+
+    /** @test */
+    public function it_update_all_translated_locales_when_translation_relation_is_loaded(): void
+    {
+        $this->app->make('config')->set('translatable.locales', ['de', 'en']);
+        $this->app->setLocale('de');
+        $this->app->make(Locales::class)->load();
+
+        // First create country
+        CountryWithEarlyLoad::create([
+            'id' => 100,
+            'code' => 'my',
+            'de' => [
+                'name' => 'Deutschland',
+            ],
+            'en' => [
+                'name' => 'Germany',
+            ],
+        ]);
+
+        $country = CountryWithEarlyLoad::find(100);
+
+        // try mass update
+        $country->update([
+            'code' => 'my',
+            'de' => [
+                'name' => 'New Deutschland',
+            ],
+            'en' => [
+                'name' => 'New Germany',
+            ],
+        ]);
+
+        $country = CountryWithEarlyLoad::find(100);
+
+        static::assertEquals(100, $country->getKey());
+        static::assertEquals('New Deutschland', $country->getTranslation('de', false)->name);
+        static::assertEquals('New Germany', $country->getTranslation('en', false)->name);
     }
 
     /** @test */
