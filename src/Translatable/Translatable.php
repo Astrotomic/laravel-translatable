@@ -378,6 +378,11 @@ trait Translatable
             }
         }
 
+        // Fresh "translation" relation if loaded
+        if ($saved && $this->relationLoaded('translation')) {
+            $this->load('translation');
+        }
+
         return $saved;
     }
 

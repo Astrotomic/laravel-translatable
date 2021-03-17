@@ -998,6 +998,41 @@ final class TranslatableTest extends TestCase
     }
 
     /** @test */
+    public function it_fresh_translation_relation_after_successful_save_translations()
+    {
+        $this->app->make('config')->set('translatable.locales', ['de', 'en']);
+        $this->app->setLocale('de');
+        $this->app->make(Locales::class)->load();
+
+        // First create country
+        CountryWithEarlyLoad::create([
+            'id' => 100,
+            'code' => 'my',
+            'de' => [
+                'name' => 'Deutschland',
+            ],
+            'en' => [
+                'name' => 'Germany',
+            ],
+        ]);
+
+        $country = CountryWithEarlyLoad::find(100);
+
+        // try mass update
+        $country->update([
+            'code' => 'my',
+            'de' => [
+                'name' => 'New Deutschland',
+            ],
+            'en' => [
+                'name' => 'New Germany',
+            ],
+        ]);
+
+        static::assertEquals('New Deutschland', $country->translation->name);
+    }
+
+    /** @test */
     public function it_uses_translations_relation_if_locale_does_not_match(): void
     {
         $this->app->make('config')->set('translatable.use_fallback', false);
