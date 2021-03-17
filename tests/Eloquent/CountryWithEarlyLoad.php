@@ -21,7 +21,6 @@ class CountryWithEarlyLoad extends Eloquent implements TranslatableContract
 
     protected $translationForeignKey = 'country_id';
 
-
     /**
      * Set $translationModel if you want to overwrite the convention
      * for the name of the translation Model. Use full namespace if applied.
