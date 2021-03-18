@@ -93,3 +93,43 @@ class PostTranslation extends Model
 ```
 {% endcode %}
 
+#### Custom foreign key
+
+You may also define a custom foreign key for the package to use, e.g. in case of single table inheritance. So, you have a child class `ChildPost` that inherits from `Post` class, but has the same database table as its parent.
+
+{% code title="ChildPost.php" %}
+```php
+class ChildPost extends Post 
+{
+    protected $table = 'posts';
+}
+```
+{% endcode %}
+
+You will have to create a Translation Class for it.
+
+{% code title="ChildPostTranslation.php" %}
+```php
+use Illuminate\Database\Eloquent\Model;
+
+class ChildPostTranslation extends Model 
+{
+    protected $table = 'post_translations';
+    public $timestamps = false;
+    protected $fillable = ['title', 'content'];  
+}
+```
+{% endcode %}
+
+This will try to get data from `post_translations` table using foreign key `child_post_id` according to Laravel. So, in this case, you will have to change the property `$translationForeignKey` to your `'post_id'`.
+
+{% code title="ChildPost.php" %}
+```php
+class ChildPost extends Post 
+{
+    protected $table = 'posts';
+    protected $translationForeignKey = 'post_id';
+}
+```
+{% endcode %}
+
