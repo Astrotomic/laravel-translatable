@@ -35,7 +35,7 @@ Schema::table('posts', function ($table) {
 
 ## **How do I sort by translations?**
 
-We provide a [scope](https://github.com/Astrotomic/laravel-translatable/blob/826fb909eb81f80cccc947a7b66cb9ef35a6e5ef/src/Translatable/Translatable.php#L448-L464) to order the main model entries by it's translation values.
+We provide a [scope](https://github.com/Astrotomic/laravel-translatable/blob/826fb909eb81f80cccc947a7b66cb9ef35a6e5ef/src/Translatable/Translatable.php#L448-L464) to order the main model entries by its translation values.
 
 ## How can I select a model by translated field?
 
