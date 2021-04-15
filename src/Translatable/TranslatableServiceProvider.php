@@ -2,8 +2,8 @@
 
 namespace Astrotomic\Translatable;
 
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\ServiceProvider;
 
 class TranslatableServiceProvider extends ServiceProvider
 {
@@ -29,7 +29,7 @@ class TranslatableServiceProvider extends ServiceProvider
         $this->app->singleton('translatable.locales', Locales::class);
         $this->app->singleton(Locales::class);
     }
-    
+
     protected function registerTranslatesMacro()
     {
         Blueprint::macro('translates', function ($table, $relationColumn = null) {
@@ -42,6 +42,6 @@ class TranslatableServiceProvider extends ServiceProvider
             $this->string('locale')->index();
             $this->unique([$relationColumn, 'locale']);
             $this->foreign($relationColumn)->references('id')->on($table)->onDelete('cascade');
-        });   
+        });
     }
 }
