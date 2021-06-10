@@ -4,6 +4,7 @@ namespace Astrotomic\Translatable;
 
 use Astrotomic\Translatable\Traits\Relationship;
 use Astrotomic\Translatable\Traits\Scopes;
+use Astrotomic\Translatable\Validation\RuleFactory;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -457,5 +458,36 @@ trait Translatable
     public function __isset($key)
     {
         return $this->isTranslationAttribute($key) || parent::__isset($key);
+    }
+
+    public function getTranslationChanges(): array
+    {
+        switch (config('translatable.rule_factory.format')) {
+            case RuleFactory::FORMAT_KEY:
+                $replacementFunc = function (string $key, string $locale): string {
+                    return $key . ':' . $locale;
+                };
+                break;
+            default:
+                $replacementFunc = function (string $key, string $locale): string {
+                    return $locale . '.' . $key;
+                };
+        }
+        $translationChanges = array();
+        foreach ($this->translations as $translation) {
+            $locale = $translation->locale;
+            foreach ($translation->getChanges() as $attribute => $value) {
+                $translationChanges[$replacementFunc($attribute, $locale)] = $value;
+            }
+        }
+        return $translationChanges;
+    }
+
+    public function wasTranslationChanged($attributes = null): bool
+    {
+        return $this->hasChanges(
+            $this->getTranslationChanges(),
+            is_array($attributes) ? $attributes : func_get_args()
+        );
     }
 }
