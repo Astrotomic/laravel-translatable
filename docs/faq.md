@@ -23,10 +23,10 @@ Please see the installation steps to understand how your database should be stru
 If your properties are written in english, we recommend using these commands in your migrations:
 
 ```php
-// We insert the old attributes into the fresh translation table: 
+// We insert the old attributes into the fresh translation table:
 \DB::statement("insert into country_translations (country_id, name, locale) select id, name, 'en' from countries");
 
-// We drop the translation attributes in our main table: 
+// We drop the translation attributes in our main table:
 Schema::table('posts', function ($table) {
     $table->dropColumn('title');
     $table->dropColumn('content');
@@ -58,8 +58,8 @@ If you see the following mysql error:
 ```text
 [Illuminate\Database\QueryException]
 SQLSTATE[HY000]: General error: 1005 Can't create table 'my_database.#sql-455_63'
-  (errno: 150) (SQL: alter table `country_translations` 
-  add constraint country_translations_country_id_foreign foreign key (`country_id`) 
+  (errno: 150) (SQL: alter table `country_translations`
+  add constraint country_translations_country_id_foreign foreign key (`country_id`)
   references `countries` (`id`) on delete cascade)
 ```
 
@@ -92,4 +92,3 @@ Schema::create('language_translations', function(Blueprint $table){
 ```
 
 The best solution though would be to update your mysql version. And **always make sure you have the same version both in development and production environment!**
-
