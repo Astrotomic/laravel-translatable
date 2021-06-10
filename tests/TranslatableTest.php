@@ -9,6 +9,7 @@ use Astrotomic\Translatable\Tests\Eloquent\CountryTranslation;
 use Astrotomic\Translatable\Tests\Eloquent\Person;
 use Astrotomic\Translatable\Tests\Eloquent\Vegetable;
 use Astrotomic\Translatable\Tests\Eloquent\VegetableTranslation;
+use Astrotomic\Translatable\Validation\RuleFactory;
 use Illuminate\Database\Eloquent\MassAssignmentException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\App;
@@ -1057,5 +1058,50 @@ final class TranslatableTest extends TestCase
 
         $this->assertDatabaseHas('vegetables', ['identity' => $vegetable->identity]);
         $this->assertDatabaseHas('vegetable_translations', ['vegetable_identity' => $vegetable->identity]);
+    }
+
+    /** @test */
+    public function it_returns_no_translation_changes_for_unchanged_model()
+    {
+        $vegetable = factory(Vegetable::class)->create([
+            'en' => ['name' => 'Peas'],
+            'de' => ['name' => 'Erbsen']
+        ]);
+        $changes = $vegetable->getTranslationChanges();
+        static::assertIsArray($changes);
+        static::assertEmpty($changes);
+        static::assertFalse($vegetable->wasTranslationChanged());
+    }
+
+    /** @test */
+    public function it_returns_translation_changes_for_changed_model()
+    {
+        $vegetable = factory(Vegetable::class)->create([
+            'en' => ['name' => 'Peas'],
+            'de' => ['name' => 'Birnen']
+        ]);
+        $vegetable->fill(['de' => ['name' => 'Erbsen']]);
+        $vegetable->save();
+
+        static::assertEquals(['de.name' => 'Erbsen'], $vegetable->getTranslationChanges());
+        static::assertTrue($vegetable->wasTranslationChanged());
+        static::assertTrue($vegetable->wasTranslationChanged('de.name'));
+        static::assertFalse($vegetable->wasTranslationChanged('en.name'));
+    }
+
+    /** @test */
+    public function it_returns_translation_changes_in_format_array()
+    {
+        $this->app->make('config')->set('translatable.rule_factory.format', RuleFactory::FORMAT_KEY);
+        $vegetable = factory(Vegetable::class)->create([
+            'en' => ['name' => 'Peas'],
+            'de' => ['name' => 'Birnen']
+        ]);
+        $vegetable->fill(['de' => ['name' => 'Erbsen']]);
+        $vegetable->save();
+
+        static::assertEquals(['name:de' => 'Erbsen'], $vegetable->getTranslationChanges());
+        static::assertTrue($vegetable->wasTranslationChanged('name:de'));
+        static::assertFalse($vegetable->wasTranslationChanged('de.name'));
     }
 }
