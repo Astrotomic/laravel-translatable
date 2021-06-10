@@ -438,10 +438,10 @@ final class TranslatableTest extends TestCase
     /** @test */
     public function config_overrides_apps_locale(): void
     {
-        $veegtable = factory(Vegetable::class)->create(['name:de' => 'Erbsen']);
+        $vegetable = factory(Vegetable::class)->create(['name:de' => 'Erbsen']);
         App::make('config')->set('translatable.locale', 'de');
 
-        static::assertEquals('Erbsen', $veegtable->name);
+        static::assertEquals('Erbsen', $vegetable->name);
     }
 
     /** @test */
