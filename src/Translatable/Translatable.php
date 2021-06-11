@@ -378,6 +378,11 @@ trait Translatable
             }
         }
 
+        // Fresh "translation" relation if loaded
+        if ($saved && $this->relationLoaded('translation')) {
+            $this->load('translation');
+        }
+
         return $saved;
     }
 
@@ -428,6 +433,8 @@ trait Translatable
             $this->relationLoaded('translation')
             && $this->translation
             && $this->translation->getAttribute($this->getLocaleKey()) == $key
+            // skip when called from fill method
+            && (debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)[3]['function'] ?? null) !== 'fill'
         ) {
             return $this->translation;
         }
