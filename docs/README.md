@@ -59,25 +59,25 @@ echo $post->translate('fr')->title; // Mon premier post
 
 ## Tutorials
 
-* [How To Add Multilingual Support to Eloquent](https://laravel-news.com/how-to-add-multilingual-support-to-eloquent)
-* [How To Build An Efficient and SEO Friendly Multilingual Architecture For Your Laravel Application](https://mydnic.be/post/how-to-build-an-efficient-and-seo-friendly-multilingual-architecture-for-your-laravel-application)
-* [How to Add Multi-Language Models to Laravel QuickAdminPanel](https://quickadminpanel.com/blog/how-to-add-multi-language-models-to-laravel-quickadminpanel/)
+- [How To Add Multilingual Support to Eloquent](https://laravel-news.com/how-to-add-multilingual-support-to-eloquent)
+- [How To Build An Efficient and SEO Friendly Multilingual Architecture For Your Laravel Application](https://mydnic.be/post/how-to-build-an-efficient-and-seo-friendly-multilingual-architecture-for-your-laravel-application)
+- [How to Add Multi-Language Models to Laravel QuickAdminPanel](https://quickadminpanel.com/blog/how-to-add-multi-language-models-to-laravel-quickadminpanel/)
 
 ## Credits
 
-* [Tom Witkowski](https://github.com/Gummibeer) _current maintainer_
-* [Dimitrios Savvopoulos](https://github.com/dimsav) _original author_
-* [David Llop](https://github.com/Lloople) _refactoring testsuite_
-* [Caneco](https://github.com/caneco) _artwork_
-* [All Contributors](https://github.com/Astrotomic/laravel-translatable/graphs/contributors)
+- [Tom Witkowski](https://github.com/Gummibeer) _current maintainer_
+- [Dimitrios Savvopoulos](https://github.com/dimsav) _original author_
+- [David Llop](https://github.com/Lloople) _refactoring testsuite_
+- [Caneco](https://github.com/caneco) _artwork_
+- [All Contributors](https://github.com/Astrotomic/laravel-translatable/graphs/contributors)
 
 ## Versions
 
-| Package | Laravel | PHP |
-| :--- | :--- | :--- |
-| **v11.6 - v11.9** | `5.8.* / 6.* / 7.* / 8.*` | `>=7.2` |
+| Package           | Laravel                       | PHP       |
+| :---------------- | :---------------------------- | :-------- |
+| **v11.6 - v11.9** | `5.8.* / 6.* / 7.* / 8.*`     | `>=7.2`   |
 | **v11.4 - v11.5** | `5.6.* / 5.7.* / 5.8.* / 6.*` | `>=7.1.3` |
-| **v11.0 - v11.3** | `5.6.* / 5.7.* / 5.8.*` | `>=7.1.3` |
+| **v11.0 - v11.3** | `5.6.* / 5.7.* / 5.8.*`       | `>=7.1.3` |
 
 ## Treeware
 
@@ -88,4 +88,3 @@ It’s now common knowledge that one of the best tools to tackle the climate cri
 You can buy trees at [https://offset.earth/treeware](https://plant.treeware.earth/Astrotomic/laravel-translatable)
 
 Read more about Treeware at [https://treeware.earth](https://treeware.earth)
-
