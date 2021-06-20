@@ -367,7 +367,9 @@ trait Translatable
             return $saved;
         }
 
-        foreach ($this->translations as $translation) {
+        // Nova populates the translation with the updated fields
+        $translations = isset($this->translation) && $this->isTranslationDirty($this->translation) ? [$this->translation] : $this->translations;
+        foreach ($translations as $translation) {
             if ($saved && $this->isTranslationDirty($translation)) {
                 if (! empty($connectionName = $this->getConnectionName())) {
                     $translation->setConnection($connectionName);
