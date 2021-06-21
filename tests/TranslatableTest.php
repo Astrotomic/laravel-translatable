@@ -1066,7 +1066,7 @@ final class TranslatableTest extends TestCase
     {
         $vegetable = factory(Vegetable::class)->create([
             'en' => ['name' => 'Peas'],
-            'de' => ['name' => 'Erbsen']
+            'de' => ['name' => 'Erbsen'],
         ]);
         $changes = $vegetable->getTranslationChanges();
         static::assertIsArray($changes);

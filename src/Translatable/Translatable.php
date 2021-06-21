@@ -482,13 +482,13 @@ trait Translatable
         if (empty($attributes)) {
             return true;
         }
-        if (! is_array($attributes)){
+        if (! is_array($attributes)) {
             $attributes = [$attributes];
         }
         if (config('translatable.rule_factory.format') === RuleFactory::FORMAT_KEY) {
             $attributes = array_map(function ($attribute) {
                 return implode('.', array_reverse( explode(':', $attribute)));
-            }, $attributes );
+            }, $attributes);
         }
 
         $attributesWithoutLocale = [];
@@ -500,7 +500,7 @@ trait Translatable
                 $attributesWithoutLocale[] = $attribute;
             }
         }
-        if (! empty($locale)){
+        if (! empty($locale)) {
             $localeChanges = Arr::get($translationChanges, $locale);
             if (empty($localeChanges)) {
                 return false;
