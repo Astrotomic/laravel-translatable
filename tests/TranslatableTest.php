@@ -9,6 +9,7 @@ use Astrotomic\Translatable\Tests\Eloquent\CountryTranslation;
 use Astrotomic\Translatable\Tests\Eloquent\Person;
 use Astrotomic\Translatable\Tests\Eloquent\Vegetable;
 use Astrotomic\Translatable\Tests\Eloquent\VegetableTranslation;
+use Astrotomic\Translatable\Validation\RuleFactory;
 use Illuminate\Database\Eloquent\MassAssignmentException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\App;
@@ -438,10 +439,10 @@ final class TranslatableTest extends TestCase
     /** @test */
     public function config_overrides_apps_locale(): void
     {
-        $veegtable = factory(Vegetable::class)->create(['name:de' => 'Erbsen']);
+        $vegetable = factory(Vegetable::class)->create(['name:de' => 'Erbsen']);
         App::make('config')->set('translatable.locale', 'de');
 
-        static::assertEquals('Erbsen', $veegtable->name);
+        static::assertEquals('Erbsen', $vegetable->name);
     }
 
     /** @test */
@@ -768,7 +769,8 @@ final class TranslatableTest extends TestCase
         $this->app->make('config')->set('translatable.fallback_locale', 'de');
         $this->app->make('config')->set('translatable.use_fallback', true);
 
-        $vegetable = new class extends Vegetable {
+        $vegetable = new class extends Vegetable
+        {
             protected $table = 'vegetables';
             public $translationModel = VegetableTranslation::class;
 
@@ -1057,5 +1059,63 @@ final class TranslatableTest extends TestCase
 
         $this->assertDatabaseHas('vegetables', ['identity' => $vegetable->identity]);
         $this->assertDatabaseHas('vegetable_translations', ['vegetable_identity' => $vegetable->identity]);
+    }
+
+    /** @test */
+    public function it_returns_no_translation_changes_for_unchanged_model()
+    {
+        $vegetable = factory(Vegetable::class)->create([
+            'en' => ['name' => 'Peas'],
+            'de' => ['name' => 'Erbsen'],
+        ]);
+        $changes = $vegetable->getTranslationChanges();
+        static::assertIsArray($changes);
+        static::assertEmpty($changes);
+    }
+
+    /** @test */
+    public function it_returns_translation_changes_for_changed_model()
+    {
+        $vegetable = factory(Vegetable::class)->create([
+            'en' => ['name' => 'Peas'],
+            'de' => ['name' => 'Birnen'],
+        ]);
+        $vegetable->fill(['de' => ['name' => 'Erbsen']]);
+        $vegetable->save();
+
+        static::assertEquals(['de' => ['name' => 'Erbsen']], $vegetable->getTranslationChanges());
+
+        $this->app->make('config')->set('translatable.rule_factory.format', RuleFactory::FORMAT_KEY);
+        static::assertEquals(['de' => ['name' => 'Erbsen']], $vegetable->getTranslationChanges());
+    }
+
+    /** @test */
+    public function it_returns_whether_any_translation_has_changed()
+    {
+        $vegetable = factory(Vegetable::class)->create([
+            'en' => ['name' => 'Peas'],
+            'de' => ['name' => 'Birnen'],
+        ]);
+        static::assertFalse($vegetable->wasTranslationChanged());
+        $vegetable->fill(['de' => ['name' => 'Erbsen']]);
+        $vegetable->save();
+        static::assertTrue($vegetable->wasTranslationChanged());
+        static::assertTrue($vegetable->wasTranslationChanged(['name']));
+        static::assertTrue($vegetable->wasTranslationChanged('name'));
+        static::assertTrue($vegetable->wasTranslationChanged('name', 'de'));
+        static::assertFalse($vegetable->wasTranslationChanged('name', 'en'));
+        static::assertTrue($vegetable->wasTranslationChanged('de.name'));
+        static::assertTrue($vegetable->wasTranslationChanged('de.name'), 'en');
+        static::assertFalse($vegetable->wasTranslationChanged('en.name'));
+        static::assertFalse($vegetable->wasTranslationChanged('name:de'));
+
+        $this->app->make('config')->set('translatable.rule_factory.format', RuleFactory::FORMAT_KEY);
+        static::assertTrue($vegetable->wasTranslationChanged('name'));
+        static::assertTrue($vegetable->wasTranslationChanged('name', 'de'));
+        static::assertFalse($vegetable->wasTranslationChanged('name', 'en'));
+        static::assertTrue($vegetable->wasTranslationChanged('name:de'));
+        static::assertFalse($vegetable->wasTranslationChanged('name:en'));
+        static::assertTrue($vegetable->wasTranslationChanged('de.name'));
+        static::assertFalse($vegetable->wasTranslationChanged('en.name'));
     }
 }
