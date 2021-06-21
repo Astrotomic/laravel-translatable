@@ -463,10 +463,10 @@ trait Translatable
 
     public function getTranslationChanges(): array
     {
-        $translationChanges = array();
+        $translationChanges = [];
         foreach ($this->translations as $translation) {
             $changes = $translation->getChanges();
-            if (!empty($changes)) {
+            if (! empty($changes)) {
                 $translationChanges[$translation->locale] = $changes;
             }
         }
@@ -476,17 +476,19 @@ trait Translatable
     public function wasTranslationChanged($attributes = null, $locale = null): bool
     {
         $translationChanges = $this->getTranslationChanges();
-        if (empty($translationChanges)){
+        if (empty($translationChanges)) {
             return false;
         }
-        if (empty($attributes)){
+        if (empty($attributes)) {
             return true;
         }
-        if (!is_array($attributes)){
+        if (! is_array($attributes)){
             $attributes = [$attributes];
         }
         if (config('translatable.rule_factory.format') === RuleFactory::FORMAT_KEY) {
-            $attributes = array_map(function ($attribute) { return implode('.', array_reverse( explode(':', $attribute)));}, $attributes );
+            $attributes = array_map(function ($attribute) {
+                return implode('.', array_reverse( explode(':', $attribute)));
+            }, $attributes );
         }
 
         $attributesWithoutLocale = [];
@@ -494,11 +496,11 @@ trait Translatable
             if (Arr::get($translationChanges, $attribute)) {
                 return true;
             }
-            if (!Str::contains($attribute, '.')) {
+            if (! Str::contains($attribute, '.')) {
                 $attributesWithoutLocale[] = $attribute;
             }
         }
-        if (!empty($locale)){
+        if (! empty($locale)){
             $localeChanges = Arr::get($translationChanges, $locale);
             if (empty($localeChanges)) {
                 return false;

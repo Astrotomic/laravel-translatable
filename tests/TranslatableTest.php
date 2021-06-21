@@ -769,7 +769,8 @@ final class TranslatableTest extends TestCase
         $this->app->make('config')->set('translatable.fallback_locale', 'de');
         $this->app->make('config')->set('translatable.use_fallback', true);
 
-        $vegetable = new class extends Vegetable {
+        $vegetable = new class extends Vegetable
+        {
             protected $table = 'vegetables';
             public $translationModel = VegetableTranslation::class;
 
@@ -1077,7 +1078,7 @@ final class TranslatableTest extends TestCase
     {
         $vegetable = factory(Vegetable::class)->create([
             'en' => ['name' => 'Peas'],
-            'de' => ['name' => 'Birnen']
+            'de' => ['name' => 'Birnen'],
         ]);
         $vegetable->fill(['de' => ['name' => 'Erbsen']]);
         $vegetable->save();
@@ -1093,16 +1094,16 @@ final class TranslatableTest extends TestCase
     {
         $vegetable = factory(Vegetable::class)->create([
             'en' => ['name' => 'Peas'],
-            'de' => ['name' => 'Birnen']
+            'de' => ['name' => 'Birnen'],
         ]);
-        static::assertFalse($vegetable-> wasTranslationChanged());
+        static::assertFalse($vegetable->wasTranslationChanged());
         $vegetable->fill(['de' => ['name' => 'Erbsen']]);
         $vegetable->save();
         static::assertTrue($vegetable->wasTranslationChanged());
         static::assertTrue($vegetable->wasTranslationChanged(['name']));
         static::assertTrue($vegetable->wasTranslationChanged('name'));
-        static::assertTrue($vegetable->wasTranslationChanged('name','de'));
-        static::assertFalse($vegetable->wasTranslationChanged('name','en'));
+        static::assertTrue($vegetable->wasTranslationChanged('name', 'de'));
+        static::assertFalse($vegetable->wasTranslationChanged('name', 'en'));
         static::assertTrue($vegetable->wasTranslationChanged('de.name'));
         static::assertTrue($vegetable->wasTranslationChanged('de.name'), 'en');
         static::assertFalse($vegetable->wasTranslationChanged('en.name'));
@@ -1110,8 +1111,8 @@ final class TranslatableTest extends TestCase
 
         $this->app->make('config')->set('translatable.rule_factory.format', RuleFactory::FORMAT_KEY);
         static::assertTrue($vegetable->wasTranslationChanged('name'));
-        static::assertTrue($vegetable->wasTranslationChanged('name','de'));
-        static::assertFalse($vegetable->wasTranslationChanged('name','en'));
+        static::assertTrue($vegetable->wasTranslationChanged('name', 'de'));
+        static::assertFalse($vegetable->wasTranslationChanged('name', 'en'));
         static::assertTrue($vegetable->wasTranslationChanged('name:de'));
         static::assertFalse($vegetable->wasTranslationChanged('name:en'));
         static::assertTrue($vegetable->wasTranslationChanged('de.name'));
