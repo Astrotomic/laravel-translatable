@@ -472,4 +472,52 @@ trait Translatable
         }
         return $translationChanges;
     }
+
+    public function wasTranslationChanged($attributes = null, $locale = null): bool
+    {
+        $translationChanges = $this->getTranslationChanges();
+        if (empty($translationChanges)){
+            return false;
+        }
+        if (empty($attributes)){
+            return true;
+        }
+        if (!is_array($attributes)){
+            $attributes = [$attributes];
+        }
+        if (config('translatable.rule_factory.format') === RuleFactory::FORMAT_KEY) {
+            $attributes = array_map(function ($attribute) { return implode('.', array_reverse( explode(':', $attribute)));}, $attributes );
+        }
+
+        $attributesWithoutLocale = [];
+        foreach ($attributes as $attribute) {
+            if (Arr::get($translationChanges, $attribute)) {
+                return true;
+            }
+            if (!Str::contains($attribute, '.')) {
+                $attributesWithoutLocale[] = $attribute;
+            }
+        }
+        if (!empty($locale)){
+            $localeChanges = Arr::get($translationChanges, $locale);
+            if (empty($localeChanges)) {
+                return false;
+            }
+            foreach ($attributesWithoutLocale as $attribute) {
+                if (isset($localeChanges[$attribute])) {
+                    return true;
+                }
+            }
+        } else {
+            foreach ($attributesWithoutLocale as $attribute) {
+                foreach ($translationChanges as $localeChanges) {
+                    if (isset($localeChanges[$attribute])) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
 }
