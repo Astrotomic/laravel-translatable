@@ -470,6 +470,7 @@ trait Translatable
                 $translationChanges[$translation->locale] = $changes;
             }
         }
+
         return $translationChanges;
     }
 
