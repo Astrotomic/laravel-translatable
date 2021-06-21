@@ -487,7 +487,7 @@ trait Translatable
         }
         if (config('translatable.rule_factory.format') === RuleFactory::FORMAT_KEY) {
             $attributes = array_map(function ($attribute) {
-                return implode('.', array_reverse( explode(':', $attribute)));
+                return implode('.', array_reverse(explode(':', $attribute)));
             }, $attributes);
         }
 
