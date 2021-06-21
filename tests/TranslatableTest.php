@@ -1070,7 +1070,6 @@ final class TranslatableTest extends TestCase
         $changes = $vegetable->getTranslationChanges();
         static::assertIsArray($changes);
         static::assertEmpty($changes);
-        static::assertFalse($vegetable->wasTranslationChanged());
     }
 
     /** @test */
@@ -1083,25 +1082,9 @@ final class TranslatableTest extends TestCase
         $vegetable->fill(['de' => ['name' => 'Erbsen']]);
         $vegetable->save();
 
-        static::assertEquals(['de.name' => 'Erbsen'], $vegetable->getTranslationChanges());
-        static::assertTrue($vegetable->wasTranslationChanged());
-        static::assertTrue($vegetable->wasTranslationChanged('de.name'));
-        static::assertFalse($vegetable->wasTranslationChanged('en.name'));
-    }
+        static::assertEquals(['de' => ['name' => 'Erbsen']], $vegetable->getTranslationChanges());
 
-    /** @test */
-    public function it_returns_translation_changes_in_format_array()
-    {
         $this->app->make('config')->set('translatable.rule_factory.format', RuleFactory::FORMAT_KEY);
-        $vegetable = factory(Vegetable::class)->create([
-            'en' => ['name' => 'Peas'],
-            'de' => ['name' => 'Birnen']
-        ]);
-        $vegetable->fill(['de' => ['name' => 'Erbsen']]);
-        $vegetable->save();
-
-        static::assertEquals(['name:de' => 'Erbsen'], $vegetable->getTranslationChanges());
-        static::assertTrue($vegetable->wasTranslationChanged('name:de'));
-        static::assertFalse($vegetable->wasTranslationChanged('de.name'));
+        static::assertEquals(['de' => ['name' => 'Erbsen']], $vegetable->getTranslationChanges());
     }
 }

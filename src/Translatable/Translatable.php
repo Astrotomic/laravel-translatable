@@ -8,6 +8,7 @@ use Astrotomic\Translatable\Validation\RuleFactory;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 /**
@@ -462,32 +463,13 @@ trait Translatable
 
     public function getTranslationChanges(): array
     {
-        switch (config('translatable.rule_factory.format')) {
-            case RuleFactory::FORMAT_KEY:
-                $replacementFunc = function (string $key, string $locale): string {
-                    return $key . ':' . $locale;
-                };
-                break;
-            default:
-                $replacementFunc = function (string $key, string $locale): string {
-                    return $locale . '.' . $key;
-                };
-        }
         $translationChanges = array();
         foreach ($this->translations as $translation) {
-            $locale = $translation->locale;
-            foreach ($translation->getChanges() as $attribute => $value) {
-                $translationChanges[$replacementFunc($attribute, $locale)] = $value;
+            $changes = $translation->getChanges();
+            if (!empty($changes)) {
+                $translationChanges[$translation->locale] = $changes;
             }
         }
         return $translationChanges;
-    }
-
-    public function wasTranslationChanged($attributes = null): bool
-    {
-        return $this->hasChanges(
-            $this->getTranslationChanges(),
-            is_array($attributes) ? $attributes : func_get_args()
-        );
     }
 }
