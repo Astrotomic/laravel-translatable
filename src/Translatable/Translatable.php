@@ -297,7 +297,7 @@ trait Translatable
         [$attribute, $locale] = $this->getAttributeAndLocale($key);
 
         if ($this->isTranslationAttribute($attribute)) {
-            $this->getTranslationOrNew($locale)->$attribute = $value;
+            $this->getTranslationOrNew($locale)->setAttribute($attribute, $value);
 
             return $this;
         }
