@@ -2,7 +2,7 @@
 
 ## **Do you have any example code?**
 
-Examples for all the package features can be found [in the code](https://github.com/Astrotomic/laravel-translatable/tree/master/tests/models) used for the [tests](https://github.com/Astrotomic/laravel-translatable/tree/master/tests).
+Examples for all the package features can be found [in the code](https://github.com/Astrotomic/laravel-translatable/tree/main/tests/Eloquent) used for the [tests](https://github.com/Astrotomic/laravel-translatable/tree/main/tests).
 
 ## **Can I ask you some questions?**
 
