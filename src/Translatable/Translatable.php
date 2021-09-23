@@ -474,7 +474,11 @@ trait Translatable
         return $translationChanges;
     }
 
-    public function wasTranslationChanged($attributes = null, $locale = null): bool
+    /**
+     * @param string[]|string|null $attributes
+     * @param string|null $locale
+     */
+    public function wasTranslationChanged($attributes = null, ?string $locale = null): bool
     {
         $translationChanges = $this->getTranslationChanges();
         if (empty($translationChanges)) {
@@ -483,9 +487,7 @@ trait Translatable
         if (empty($attributes)) {
             return true;
         }
-        if (! is_array($attributes)) {
-            $attributes = [$attributes];
-        }
+        $attributes = is_array($attributes) ? $attributes : [$attributes];
         if (config('translatable.rule_factory.format') === RuleFactory::FORMAT_KEY) {
             $attributes = array_map(function ($attribute) {
                 return implode('.', array_reverse(explode(':', $attribute)));
