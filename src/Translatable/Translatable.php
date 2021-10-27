@@ -408,7 +408,7 @@ trait Translatable
             return $translation->$attribute;
         }
 
-        return null;
+        return isset($this->$attribute) ? $this->$attribute : null;
     }
 
     protected function getFallbackLocale(?string $locale = null): ?string
