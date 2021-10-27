@@ -407,7 +407,8 @@ trait Translatable
         if ($translation instanceof Model) {
             return $translation->$attribute;
         }
-
+    
+        // use Model default attribute
         return isset($this->$attribute) ? $this->$attribute : null;
     }
 
