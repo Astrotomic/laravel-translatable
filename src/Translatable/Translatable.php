@@ -283,7 +283,7 @@ trait Translatable
     {
         $newInstance = $this->replicate($except);
 
-        unset($newInstance->translations);
+        // unset($newInstance->translations);
         foreach ($this->translations as $translation) {
             $newTranslation = $translation->replicate();
             $newInstance->translations->add($newTranslation);
