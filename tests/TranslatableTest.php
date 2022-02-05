@@ -768,7 +768,8 @@ final class TranslatableTest extends TestCase
         $this->app->make('config')->set('translatable.fallback_locale', 'de');
         $this->app->make('config')->set('translatable.use_fallback', true);
 
-        $vegetable = new class extends Vegetable {
+        $vegetable = new class extends Vegetable
+        {
             protected $table = 'vegetables';
             public $translationModel = VegetableTranslation::class;
 

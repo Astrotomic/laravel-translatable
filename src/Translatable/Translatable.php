@@ -94,7 +94,7 @@ trait Translatable
     }
 
     /**
-     * @param string|array|null $locales The locales to be deleted
+     * @param  string|array|null  $locales  The locales to be deleted
      */
     public function deleteTranslations($locales = null): void
     {

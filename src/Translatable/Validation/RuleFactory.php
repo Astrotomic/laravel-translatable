@@ -94,9 +94,8 @@ class RuleFactory
     }
 
     /**
-     * @param string $locale
-     * @param string|string[]|mixed $rule
-     *
+     * @param  string  $locale
+     * @param  string|string[]|mixed  $rule
      * @return string|string[]|mixed
      */
     protected function formatRule(string $locale, $rule)

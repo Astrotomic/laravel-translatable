@@ -48,7 +48,6 @@ class Person extends Eloquent implements TranslatableContract
      * Mutate name attribute into upper-case.
      *
      * @param $value
-     *
      * @return string
      */
     public function getNameAttribute($value)
