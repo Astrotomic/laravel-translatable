@@ -15,17 +15,16 @@ jobs:
       fail-fast: true
       matrix:
         php: [8.0, 8.1]
-        laravel: [7.*, 8.*, 9.*]
+        laravel: [8.*, 9.*]
         dependency-version: [prefer-lowest, prefer-stable]
         os: [ubuntu-latest]
         include:
           - laravel: 9.*
             testbench: 7.*
+            legacy: "laravel/legacy-factories:^1.0.4"
           - laravel: 8.*
             testbench: 6.*
             legacy: "laravel/legacy-factories:^1.0.4"
-          - laravel: 7.*
-            testbench: 5.*
 
     name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.dependency-version }} - ${{ matrix.os }}
 
