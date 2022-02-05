@@ -1,14 +1,13 @@
 {
     "name": "astrotomic/laravel-translatable",
     "description": "A Laravel package for multilingual models",
+    "license": "MIT",
     "keywords": [
         "laravel",
         "translation",
         "language",
         "database"
     ],
-    "homepage": "https://astrotomic.info",
-    "license": "MIT",
     "authors": [
         {
             "name": "Tom Witkowski",
@@ -23,6 +22,13 @@
             "role": "Developer"
         }
     ],
+    "homepage": "https://astrotomic.info",
+    "support": {
+        "email": "dev@astrotomic.info",
+        "issues": "https://github.com/Astrotomic/laravel-translatable/issues",
+        "source": "https://github.com/Astrotomic/laravel-translatable",
+        "docs": "https://docs.astrotomic.info/laravel-translatable"
+    },
     "require": {
         "php": "^8.0",
         "illuminate/contracts": "^8.0 || ^9.0",
@@ -35,16 +41,8 @@
         "orchestra/testbench": "^6.0 || ^7.0",
         "phpunit/phpunit": "^9.0"
     },
-    "config": {
-        "sort-packages": true
-    },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "Astrotomic\\Translatable\\TranslatableServiceProvider"
-            ]
-        }
-    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "Astrotomic\\Translatable\\": "src/Translatable/"
@@ -55,17 +53,19 @@
             "Astrotomic\\Translatable\\Tests\\": "tests/"
         }
     },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Astrotomic\\Translatable\\TranslatableServiceProvider"
+            ]
+        }
+    },
     "scripts": {
         "csfix": "php-cs-fixer fix --using-cache=no",
         "test": "vendor/bin/phpunit",
         "test-coverage": "vendor/bin/phpunit --coverage-html=build"
-    },
-    "support": {
-        "email": "dev@astrotomic.info",
-        "issues": "https://github.com/Astrotomic/laravel-translatable/issues",
-        "source": "https://github.com/Astrotomic/laravel-translatable",
-        "docs": "https://docs.astrotomic.info/laravel-translatable"
     }
 }
