@@ -2,6 +2,13 @@
 
 ## v11
 
+### v11.10.0
+
+- Drop PHP7 support
+- Drop Laravel 5.8 and 6 and 7 support
+- Add Laravel 9 support
+- Add PHP8.1 support
+
 ### v11.9.1
 
 - Fix all methods visibility to allow customization - [\#198](https://github.com/Astrotomic/laravel-translatable/pull/198)
