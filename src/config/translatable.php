@@ -100,6 +100,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Translatable Model Namespace
+    |--------------------------------------------------------------------------
+    |
+    | Defines the default 'Translatable' class namespace. For example, if
+    | you want to use App\Translatable\Country instead of App\Country
+    | set this to 'App\Translatable'.
+    |
+    */
+    'translatable_model_namespace' => null,
+
+    /*
+    |--------------------------------------------------------------------------
     | Translation Suffix
     |--------------------------------------------------------------------------
     |

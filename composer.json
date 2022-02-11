@@ -45,7 +45,8 @@
     "prefer-stable": true,
     "autoload": {
         "psr-4": {
-            "Astrotomic\\Translatable\\": "src/Translatable/"
+            "Astrotomic\\Translatable\\": "src/Translatable/",
+            "Astrotomic\\Translation\\": "src/Translation/"
         }
     },
     "autoload-dev": {
