@@ -24,7 +24,7 @@ The full documentation can be found at [GitBook](https://docs.astrotomic.info/la
 ## Installation
 
 ```bash
-composer require astrotomic/laravel-translatable
+composer require mohammadadibi1365/laravel-translatable
 ```
 
 ## Quick Example

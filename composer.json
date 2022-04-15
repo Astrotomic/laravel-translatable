@@ -1,5 +1,5 @@
 {
-    "name": "astrotomic/laravel-translatable",
+    "name": "mohammadadibi1365/laravel-translatable",
     "description": "A Laravel package for multilingual models",
     "license": "MIT",
     "keywords": [
@@ -20,7 +20,14 @@
             "email": "ds@dimsav.com",
             "homepage": "http://dimsav.com",
             "role": "Developer"
-        }
+        },
+        {
+            "name": "Mohammad adibi",
+            "email": "mohammadadibi1365@gmmail.com",
+            "shardenroom.ir",
+            "role": "Developer"
+        },
+        
     ],
     "homepage": "https://astrotomic.info",
     "support": {
