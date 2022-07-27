@@ -91,6 +91,12 @@ trait Relationship
         if (!in_array($translationRelationKey, $translatedAttributes, true)) {
             $translatedAttributes[] = $translationRelationKey;
         }
+        if (!in_array($this->getLocaleKey(), $translatedAttributes, true)) {
+            $translatedAttributes[] = $this->getLocaleKey();
+        }
+        if (!in_array($this->getKeyName(), $translatedAttributes, true)) {
+            $translatedAttributes[] = $this->getKeyName();
+        }
         $hasMany->getQuery()->select($translatedAttributes);
         return $hasMany;
     }
