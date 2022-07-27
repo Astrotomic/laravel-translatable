@@ -146,4 +146,13 @@ return [
         'prefix' => '%',
         'suffix' => '%',
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | When querying the relational model, only the translation field is queried
+    |--------------------------------------------------------------------------
+    | Setting this to true will have a performance improvement
+    | Otherwise the select * query will be executed by default
+     */
+    'eloquent_relationship_only_translated_attributes' => false
 ];

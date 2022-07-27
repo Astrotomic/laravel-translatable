@@ -49,6 +49,11 @@ trait Relationship
         return config('translatable.translation_model_namespace');
     }
 
+    protected function eloquentRelationshipOnlyTranslatedAttributes(): bool
+    {
+        return config('translatable.eloquent_relationship_only_translated_attributes', false);
+    }
+
     /**
      * @internal will change to protected
      */
@@ -77,6 +82,16 @@ trait Relationship
 
     public function translations(): HasMany
     {
-        return $this->hasMany($this->getTranslationModelName(), $this->getTranslationRelationKey());
+        $translationRelationKey = $this->getTranslationRelationKey();
+        $hasMany =  $this->hasMany($this->getTranslationModelName(), $translationRelationKey);
+        if (false === $this->eloquentRelationshipOnlyTranslatedAttributes()) {
+            return $hasMany;
+        }
+        $translatedAttributes = $this->translatedAttributes;
+        if (!in_array($translationRelationKey, $translatedAttributes, true)) {
+            $translatedAttributes[] = $translationRelationKey;
+        }
+        $hasMany->getQuery()->select($translatedAttributes);
+        return $hasMany;
     }
 }
