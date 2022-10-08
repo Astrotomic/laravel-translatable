@@ -65,7 +65,11 @@ trait Relationship
     {
         return $this
             ->hasOne($this->getTranslationModelName(), $this->getTranslationRelationKey())
-            ->where($this->getLocaleKey(), $this->localeOrFallback());
+            ->ofMany([
+                $this->getTranslationRelationKey() => 'max',
+            ], function ($query) {
+                $query->where($this->getLocaleKey(), $this->localeOrFallback());
+            });
     }
 
     protected function localeOrFallback()
