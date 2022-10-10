@@ -2,6 +2,10 @@
 
 ## v11
 
+### v11.11.0
+
+- Change `\Astrotomic\Translatable\Traits\Relationship::translation()` relation to use the new `ofMany` - [#297](https://github.com/Astrotomic/laravel-translatable/pull/297)
+
 ### v11.10.0
 
 - Drop PHP7 support
