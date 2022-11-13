@@ -1,11 +1,10 @@
-/.github export-ignore
-/docs export-ignore
-/.codeclimate.yml export-ignore
-/.gitattributes export-ignore
-/.gitbook.yaml export-ignore
-/.php_cs export-ignore
-/.scrutinizer.yml export-ignore
-/.styleci.yml export-ignore
-
-# phpunit.xml.dist and tests are not excluded so tests can be run
-# this is usefull if this package ends up one day in Debian
+/.github                   export-ignore
+/art                       export-ignore
+/docs                      export-ignore
+/tests                     export-ignore
+/.gitattributes            export-ignore
+/.gitignore                export-ignore
+/.gitbook.yaml             export-ignore
+/.php_cs                   export-ignore
+/.styleci.yml              export-ignore
+/.phpunit.xml.dist         export-ignore
