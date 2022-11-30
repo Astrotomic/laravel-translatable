@@ -339,7 +339,7 @@ trait Translatable
 
     protected function isEmptyTranslatableAttribute(string $key, $value): bool
     {
-        return empty($value);
+        return $value != '0' && empty($value);
     }
 
     protected function isTranslationDirty(Model $translation): bool
