@@ -25,7 +25,7 @@ trait Relationship
      */
     public function getTranslationModelName(): string
     {
-        return $this->translationModel ?: $this->getTranslationModelNameDefault();
+        return isset($this->translationModel) ? $this->translationModel : $this->getTranslationModelNameDefault();
     }
 
     /**
