@@ -12,4 +12,3 @@ echo $post->{'title:de'}; // Mein erster Beitrag
 $post->title = 'My first edited post';
 echo $post->title; // My first edited post
 ```
-
