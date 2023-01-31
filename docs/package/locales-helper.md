@@ -78,4 +78,3 @@ Checks if the given locale is a country specific locale.
 ### getLanguageFromCountryBasedLocale\(string $locale\)
 
 Returns the language locale from given country based locale.
-

@@ -25,7 +25,7 @@ If you do not want to define the default fallback locale but just get the first 
         'de' => [
             'DE',
             'AT',
-            'CH',        
+            'CH',
         ],
     ]
     // ...
@@ -93,15 +93,15 @@ protected function isEmptyTranslatableAttribute(string $key, $value): bool
 
 Since version v5.3 it is possible to use country based locales. For example, you can have the following locales:
 
-* English: `en`
-* Spanish: `es`
-* Mexican Spanish: `es-MX`
-* Colombian Spanish: `es-CO`
+- English: `en`
+- Spanish: `es`
+- Mexican Spanish: `es-MX`
+- Colombian Spanish: `es-CO`
 
 To configuration for these locales looks like this:
 
 ```php
-    'locales' => [ 
+    'locales' => [
         'en',
         'es' => [
             'MX',
@@ -119,4 +119,3 @@ We can also configure the "glue" between the language and country. If for instan
 What applies for the fallback of the locales using the `en-MX` format?
 
 Let's say our fallback locale is `en`. Now, when we try to fetch from the database the translation for the locale `es-MX`but it doesn't exist, we won't get as fallback the translation for `en`. Translatable will use as a fallback `es` \(the first part of `es-MX`\) and only if nothing is found, the translation for `en` is returned.
-

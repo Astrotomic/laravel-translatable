@@ -32,6 +32,7 @@ This will return an array which adjusted the placeholder in key and string value
 To adjust the default `format` , `prefix` or `suffix` used by the factory you can change them in the package configuration file.
 
 {% code title="config/translatable.php" %}
+
 ```php
 'rule_factory' => [
     'format' => \Astrotomic\Translatable\Validation\RuleFactory::FORMAT_ARRAY,
@@ -39,15 +40,16 @@ To adjust the default `format` , `prefix` or `suffix` used by the factory you ca
     'suffix' => '%',
 ]
 ```
+
 {% endcode %}
 
 As `format` we support the two possible variants the `fill()` method supports.
 
-#### RuleFactory::FORMAT\_ARRAY
+#### RuleFactory::FORMAT_ARRAY
 
 This will create the dot-notation to support locale sub-arrays. `en.content`.
 
-#### RuleFactory::FORMAT\_KEY
+#### RuleFactory::FORMAT_KEY
 
 This will create the colon separated style. `content:en`
 
@@ -71,4 +73,3 @@ This will use the colon style, use `{` and `}` as delimiter and use only `de` an
 {% hint style="info" %}
 You can only use defined locales. Every locale that's not in `Locales::all()`will throw an `InvalidArgumentException`.
 {% endhint %}
-

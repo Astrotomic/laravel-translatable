@@ -55,4 +55,3 @@ $post->title = 'My first post'; // Will update the English translatable model
 ```php
 $post->fill(['title' => 'My first post']); // Will update the English translatable model
 ```
-
