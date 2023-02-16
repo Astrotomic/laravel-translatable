@@ -106,7 +106,6 @@ trait Scopes
         return $this->scopeWhereTranslation($query, $translationField, $value, $locale, 'whereHas', 'LIKE');
     }
     
-    //Added By Mouhammad Alali | mouhammad.alali@gmail.com | Full text search
     public function scopeWhereTranslationFullText(Builder $query, array $translationFields, $value, ?array $mode = [])
     {
         return $query->whereHas('translations', function (Builder $query) use ($translationFields, $value,$mode) {
@@ -120,7 +119,6 @@ trait Scopes
             $query->whereFullText(array_map(function($filed){return $this->getTranslationsTable().'.'.$filed;},$translationFields), $value,$mode);
         });
     }
-    //End adding
 
     public function scopeWithTranslation(Builder $query)
     {
