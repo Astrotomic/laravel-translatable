@@ -105,18 +105,22 @@ trait Scopes
     {
         return $this->scopeWhereTranslation($query, $translationField, $value, $locale, 'whereHas', 'LIKE');
     }
-    
+
     public function scopeWhereTranslationFullText(Builder $query, array $translationFields, $value, ?array $mode = [])
     {
-        return $query->whereHas('translations', function (Builder $query) use ($translationFields, $value,$mode) {
-            $query->whereFullText(array_map(function($filed){return $this->getTranslationsTable().'.'.$filed;},$translationFields), $value,$mode);
+        return $query->whereHas('translations', function (Builder $query) use ($translationFields, $value, $mode) {
+            $query->whereFullText(array_map(function ($filed) {
+                return $this->getTranslationsTable().'.'.$filed;
+            }, $translationFields), $value, $mode);
         });
     }
 
     public function scopeOrWhereTranslationFullText(Builder $query, array $translationFields, $value, ?array $mode = [])
     {
-        return $query->orWhereHas('translations', function (Builder $query) use ($translationFields, $value,$mode) {
-            $query->whereFullText(array_map(function($filed){return $this->getTranslationsTable().'.'.$filed;},$translationFields), $value,$mode);
+        return $query->orWhereHas('translations', function (Builder $query) use ($translationFields, $value, $mode) {
+            $query->whereFullText(array_map(function ($filed) {
+                return $this->getTranslationsTable().'.'.$filed;
+            }, $translationFields), $value, $mode);
         });
     }
 
