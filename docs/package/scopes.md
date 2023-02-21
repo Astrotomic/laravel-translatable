@@ -86,4 +86,3 @@ Sorts the model by a given translation column value
 ```php
 Post::orderByTranslation('title')->get()
 ```
-
