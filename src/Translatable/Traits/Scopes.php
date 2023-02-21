@@ -106,12 +106,11 @@ trait Scopes
         return $this->scopeWhereTranslation($query, $translationField, $value, $locale, 'whereHas', 'LIKE');
     }
 
-    //Added By Mouhammad Alali | mouhammad.alali@gmail.com | Full text search
     public function scopeWhereTranslationFullText(Builder $query, array $translationFields, $value, ?array $mode = [])
     {
         return $query->whereHas('translations', function (Builder $query) use ($translationFields, $value, $mode) {
-            $query->whereFullText(array_map(function ($filed) {
-                return $this->getTranslationsTable().'.'.$filed;
+            $query->whereFullText(array_map(function ($field) {
+                return $this->getTranslationsTable().'.'.$field;
             }, $translationFields), $value, $mode);
         });
     }
@@ -119,12 +118,11 @@ trait Scopes
     public function scopeOrWhereTranslationFullText(Builder $query, array $translationFields, $value, ?array $mode = [])
     {
         return $query->orWhereHas('translations', function (Builder $query) use ($translationFields, $value, $mode) {
-            $query->whereFullText(array_map(function ($filed) {
-                return $this->getTranslationsTable().'.'.$filed;
+            $query->whereFullText(array_map(function ($field) {
+                return $this->getTranslationsTable().'.'.$field;
             }, $translationFields), $value, $mode);
         });
     }
-    //End Adding By Mouhammad Alali | mouhammad.alali@gmail.com | Full text search
 
     public function scopeWithTranslation(Builder $query)
     {
