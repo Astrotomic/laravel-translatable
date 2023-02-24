@@ -82,5 +82,21 @@ abstract class TestCase extends OrchestraTestCase
             $table->unique(['person_id', 'locale']);
             $table->foreign('person_id')->references('id')->on('persons')->onDelete('cascade');
         });
+
+        Schema::create('cities', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('category')->nullable();
+            $table->timestamps();
+        });
+
+        Schema::create('city_translations', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('city_id')->unsigned();
+            $table->string('name')->nullable();
+            $table->string('locale')->index();
+
+            $table->unique(['city_id', 'locale']);
+            $table->foreign('city_id')->references('id')->on('cities');
+        });
     }
 }

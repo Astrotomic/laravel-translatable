@@ -2,6 +2,7 @@
 
 namespace Astrotomic\Translatable\Tests;
 
+use Astrotomic\Translatable\Tests\Eloquent\City;
 use Astrotomic\Translatable\Tests\Eloquent\Vegetable;
 
 final class EloquentOverrideTest extends TestCase
@@ -58,5 +59,15 @@ final class EloquentOverrideTest extends TestCase
         $vegetable = new Vegetable();
 
         static::assertSame($vegetable, $vegetable->setAttribute('name', 'China'));
+    }
+
+    /** @test */
+    public function getDirty_dont_return_translated_attributes_for_model_with_guarded_attributes_after_getting_translate(): void
+    {
+        $city = factory(City::class)->create(['category' => 'capital', 'name:en' => 'Oslo']);
+        $name = $city->name;
+        $city->category = 'some_category';
+
+        static::assertEquals(['category' => 'some_category'], $city->getDirty());
     }
 }

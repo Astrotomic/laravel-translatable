@@ -344,10 +344,22 @@ trait Translatable
 
     protected function isTranslationDirty(Model $translation): bool
     {
-        $dirtyAttributes = $translation->getDirty();
-        unset($dirtyAttributes[$this->getLocaleKey()]);
+        $dirtyAttributes = $this->getTranslationDirty($translation);
 
         return count($dirtyAttributes) > 0;
+    }
+
+    protected function getTranslationDirty(Model $translation): array
+    {
+        $translationDirty = [];
+
+        foreach ($translation->getAttributes() as $key => $value) {
+            if (!$this->originalIsEquivalent($key) && $this->isTranslationAttribute($key)) {
+                $translationDirty[$key] = $value;
+            }
+        }
+
+        return $translationDirty;
     }
 
     protected function locale(): string
@@ -457,5 +469,19 @@ trait Translatable
     public function __isset($key)
     {
         return $this->isTranslationAttribute($key) || parent::__isset($key);
+    }
+
+    public function getDirty()
+    {
+        $dirty = [];
+
+        foreach ($this->getAttributes() as $key => $value) {
+            if (!$this->originalIsEquivalent($key) && !$this->isTranslationAttribute($key)
+                && $key !== $this->getLocaleKey()) {
+                $dirty[$key] = $value;
+            }
+        }
+
+        return $dirty;
     }
 }

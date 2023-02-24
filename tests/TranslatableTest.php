@@ -3,6 +3,7 @@
 namespace Astrotomic\Translatable\Tests;
 
 use Astrotomic\Translatable\Locales;
+use Astrotomic\Translatable\Tests\Eloquent\City;
 use Astrotomic\Translatable\Tests\Eloquent\Country;
 use Astrotomic\Translatable\Tests\Eloquent\CountryStrict;
 use Astrotomic\Translatable\Tests\Eloquent\CountryTranslation;
@@ -1062,5 +1063,35 @@ final class TranslatableTest extends TestCase
 
         $this->assertDatabaseHas('vegetables', ['identity' => $vegetable->identity]);
         $this->assertDatabaseHas('vegetable_translations', ['vegetable_identity' => $vegetable->identity]);
+    }
+
+    /** @test */
+    public function it_saves_translations_of_model_with_guarded_attributes(): void
+    {
+        $city = factory(City::class)->create(['name:en' => 'Oslo']);
+
+        static::assertEquals('Oslo', $city->name);
+
+        $city->name = 'Brussels';
+        $city->save();
+        $city->refresh();
+
+        static::assertEquals('Brussels', $city->name);
+    }
+
+    /** @test */
+    public function it_saves_base_model_changes_after_getting_translations_from_model_with_guarded_attributes(): void
+    {
+        $city = factory(City::class)->create(['category' => 'capital', 'name:en' => 'Oslo']);
+
+        static::assertSame('Oslo', $city->name);
+
+        $city->category = 'some_category';
+
+        try {
+            $city->save();
+        } catch (\Throwable $e) {
+            $this->fail("Can't save base model. Exception message: {$e->getMessage()}");
+        }
     }
 }
