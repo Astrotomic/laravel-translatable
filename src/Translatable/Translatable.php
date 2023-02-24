@@ -354,7 +354,7 @@ trait Translatable
         $translationDirty = [];
 
         foreach ($translation->getAttributes() as $key => $value) {
-            if (!$this->originalIsEquivalent($key) && $this->isTranslationAttribute($key)) {
+            if (! $this->originalIsEquivalent($key) && $this->isTranslationAttribute($key)) {
                 $translationDirty[$key] = $value;
             }
         }
@@ -476,7 +476,7 @@ trait Translatable
         $dirty = [];
 
         foreach ($this->getAttributes() as $key => $value) {
-            if (!$this->originalIsEquivalent($key) && !$this->isTranslationAttribute($key)
+            if (! $this->originalIsEquivalent($key) && ! $this->isTranslationAttribute($key)
                 && $key !== $this->getLocaleKey()) {
                 $dirty[$key] = $value;
             }
