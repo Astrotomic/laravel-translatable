@@ -88,17 +88,18 @@ If you discover any security related issues, please check [SECURITY](https://git
 
 ## Credits
 
-- [Tom Witkowski](https://github.com/Gummibeer) *current maintainer*
-- [Dimitrios Savvopoulos](https://github.com/dimsav) *original author*
-- [David Llop](https://github.com/Lloople) *refactoring testsuite*
-- [Caneco](https://github.com/caneco) *artwork*
+- [Tom Witkowski](https://github.com/Gummibeer) _current maintainer_
+- [Dimitrios Savvopoulos](https://github.com/dimsav) _original author_
+- [David Llop](https://github.com/Lloople) _refactoring testsuite_
+- [Caneco](https://github.com/caneco) _artwork_
 - [All Contributors](../../contributors)
 
 ## Versions
 
 | Package             | Laravel                       | PHP       |
-|:--------------------|:------------------------------|:----------|
-| **v11.10 - v11.10** | `8.* / 9.*`                   | `^8.0`    |
+|:--------------------|:------------------------------| :-------- |
+| **v11.12 - v11.12** | `8.* / 9.* / 10.*`            | `^8.0`    |
+| **v11.10 - v11.11** | `8.* / 9.*`                   | `^8.0`    |
 | **v11.6 - v11.9**   | `5.8.* / 6.* / 7.* / 8.*`     | `>=7.2`   |
 | **v11.4 - v11.5**   | `5.6.* / 5.7.* / 5.8.* / 6.*` | `>=7.1.3` |
 | **v11.0 - v11.3**   | `5.6.* / 5.7.* / 5.8.*`       | `>=7.1.3` |

@@ -2,10 +2,10 @@
 
 ## Preconditions
 
-* the `locale` is set to `de`
-* the `fallback_locale` is set to `en`
-* our main model instance is `$post = Post::first()`
-* translations are available for `en`, `de` and `fr`
+- the `locale` is set to `de`
+- the `fallback_locale` is set to `en`
+- our main model instance is `$post = Post::first()`
+- translations are available for `en`, `de` and `fr`
 
 ## Get an instance of the translation model
 
@@ -124,4 +124,3 @@ disables autoload and returns parent attributes
 ### static defaultAutoloadTranslations\(\)
 
 does not change the default behavior logic
-

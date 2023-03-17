@@ -11,11 +11,8 @@ interface TranslatableProtected
 {
     // detect if a given translation attribute value is empty or not
     protected function isEmptyTranslatableAttribute(string $key, $value): bool;
-    
+
     // save all attached translations
     protected function saveTranslations(): bool;
 }
 ```
-
-
-
