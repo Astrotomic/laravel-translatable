@@ -662,15 +662,15 @@ final class TranslatableTest extends TestCase
     public function can_get_translations_as_array(): void
     {
         $vegetable = factory(Vegetable::class)->create([
-            'name:en' => 'Peas',
-            'name:fr' => 'Pois',
-            'name:de' => 'Erbsen',
+            'en' => ['name' => 'Peas', 'details' => 'Peas are cool'],
+            'fr' => ['name' => 'Pois', 'details' => 'Pois sont cool'],
+            'de' => ['name' => 'Erbsen', 'details' => 'Erbsen sind cool'],
         ]);
 
         static::assertEquals([
-            'de' => ['name' => 'Erbsen'],
-            'en' => ['name' => 'Peas'],
-            'fr' => ['name' => 'Pois'],
+            'de' => ['name' => 'Erbsen', 'details' => 'Erbsen sind cool'],
+            'en' => ['name' => 'Peas', 'details' => 'Peas are cool'],
+            'fr' => ['name' => 'Pois', 'details' => 'Pois sont cool'],
         ], $vegetable->getTranslationsArray());
     }
 
@@ -731,6 +731,62 @@ final class TranslatableTest extends TestCase
         static::assertEquals('Peas', $vegetable->name);
         $this->app->setLocale('fr');
         static::assertEquals('Peas', $vegetable->name);
+    }
+
+    /** @test */
+    public function it_uses_attribute_fallback_if_default_set_and_attribute_is_empty(): void
+    {
+        $this->app->make('config')->set('translatable.use_fallback', true);
+        $this->app->make('config')->set('translatable.use_property_fallback', true);
+        $this->app->make('config')->set('translatable.use_attribute_fallback', true);
+        $this->app->make('config')->set('translatable.fallback_locale', 'fr');
+        $vegetable = new Vegetable();
+        $vegetable->fill([
+            'en' => ['name' => 'Peas', 'details' => 'Peas are cool'],
+            'fr' => ['name' => '', 'details' => 'Pois sont cool'],
+            'de' => ['name' => '', 'details' => 'Erbsen sind cool'],
+        ]);
+
+        $this->app->setLocale('en');
+        static::assertEquals('Peas', $vegetable->name);
+        $this->app->setLocale('fr');
+        static::assertEquals('Peas', $vegetable->name);
+        $this->app->setLocale('fr');
+        static::assertEquals('Peas', $vegetable->name);
+        $this->app->setLocale('en');
+        static::assertEquals('Peas are cool', $vegetable->details);
+        $this->app->setLocale('fr');
+        static::assertEquals('Pois sont cool', $vegetable->details);
+        $this->app->setLocale('de');
+        static::assertEquals('Erbsen sind cool', $vegetable->details);
+    }
+
+    public function it_uses_attribute_fallback_locales_order_if_default_null_and_attribute_is_empty(): void
+    {
+        $this->app->make('config')->set('translatable.use_fallback', true);
+        $this->app->make('config')->set('translatable.use_property_fallback', true);
+        $this->app->make('config')->set('translatable.use_attribute_fallback', true);
+        $this->app->config->set('translatable.locales', ['en', 'fr', 'de']);
+        $this->app->make('config')->set('translatable.fallback_locale', null);
+        $vegetable = new Vegetable();
+        $vegetable->fill([
+            'en' => ['name' => 'Peas', 'details' => 'Peas are cool'],
+            'fr' => ['name' => '', 'details' => 'Pois sont cool'],
+            'de' => ['name' => '', 'details' => 'Erbsen sind cool'],
+        ]);
+
+        $this->app->setLocale('en');
+        static::assertEquals('Peas', $vegetable->name);
+        $this->app->setLocale('fr');
+        static::assertEquals('Peas', $vegetable->name);
+        $this->app->setLocale('fr');
+        static::assertEquals('Peas', $vegetable->name);
+        $this->app->setLocale('en');
+        static::assertEquals('Peas are cool', $vegetable->details);
+        $this->app->setLocale('fr');
+        static::assertEquals('Pois sont cool', $vegetable->details);
+        $this->app->setLocale('de');
+        static::assertEquals('Erbsen sind cool', $vegetable->details);
     }
 
     /** @test */

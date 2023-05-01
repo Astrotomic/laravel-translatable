@@ -72,6 +72,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Use fallback per attribute
+    |--------------------------------------------------------------------------
+    |
+    | The attribute fallback feature will return the translated value of
+    | the fallback locale if the attribute is empty for the selected
+    | locale. Note that 'use_fallback' and 'use_property_fallback' must be enabled.
+    |
+     */
+    'use_attribute_fallback' => false,
+
+    /*
+    |--------------------------------------------------------------------------
     | Fallback Locale
     |--------------------------------------------------------------------------
     |

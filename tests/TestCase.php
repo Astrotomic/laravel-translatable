@@ -62,6 +62,7 @@ abstract class TestCase extends OrchestraTestCase
             $table->increments('id');
             $table->integer('vegetable_identity')->unsigned();
             $table->string('name')->nullable();
+            $table->string('details')->nullable();
             $table->string('locale')->index();
 
             $table->unique(['vegetable_identity', 'locale']);

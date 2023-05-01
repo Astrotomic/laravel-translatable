@@ -12,5 +12,6 @@ class VegetableTranslation extends Eloquent
         'vegetable_identity',
         'locale',
         'name',
+        'details',
     ];
 }
