@@ -402,6 +402,19 @@ trait Translatable
             && $this->usePropertyFallback()
         ) {
             $translation = $this->getTranslation($this->getFallbackLocale(), false);
+
+            if ($this->useAttributeFallback()) {
+                foreach ($this->getLocalesHelper()->all() as $locale) {
+                    $translation_temp = $this->getTranslationByLocaleKey($locale);
+                    if (
+                        $translation_temp instanceof Model
+                        && ! $this->isEmptyTranslatableAttribute($attribute, $translation_temp->$attribute)
+                    ) {
+                        $translation = $translation_temp;
+                        break;
+                    }
+                }
+            }
         }
 
         if ($translation instanceof Model) {
@@ -452,6 +465,11 @@ trait Translatable
     protected function usePropertyFallback(): bool
     {
         return $this->useFallback() && config('translatable.use_property_fallback', false);
+    }
+
+    protected function useAttributeFallback(): bool
+    {
+        return $this->useFallback() && config('translatable.use_attribute_fallback', false);
     }
 
     public function __isset($key)
