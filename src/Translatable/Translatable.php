@@ -174,6 +174,7 @@ trait Translatable
         if (property_exists($this, 'localeKey') && $this->localeKey) {
             return $this->localeKey;
         }
+
         return config('translatable.locale_key', 'locale');
     }
 

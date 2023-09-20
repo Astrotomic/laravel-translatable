@@ -28,6 +28,7 @@ trait Relationship
         if (property_exists($this, 'translationModel') && $this->translationModel) {
             return $this->translationModel;
         }
+
         return $this->getTranslationModelNameDefault();
     }
 
