@@ -171,7 +171,10 @@ trait Translatable
      */
     public function getLocaleKey(): string
     {
-        return $this->localeKey ?: config('translatable.locale_key', 'locale');
+        if (property_exists($this, 'localeKey') && $this->localeKey) {
+            return $this->localeKey;
+        }
+        return config('translatable.locale_key', 'locale');
     }
 
     public function getNewTranslation(string $locale): Model
