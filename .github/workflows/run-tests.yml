@@ -1,26 +1,31 @@
 name: run-tests
 
 on:
-  push:
-  pull_request:
+  push: null
+  pull_request: null
   schedule:
-    - cron: '0 0 * * *'
+    - cron: 0 0 * * *
 
 jobs:
   test:
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository
+
     runs-on: ${{ matrix.os }}
 
     strategy:
       fail-fast: true
       matrix:
-        php: [8.0, 8.1]
-        laravel: [8.*, 9.*, 10.*]
+        php: [8.0, 8.1, '8.2']
+        laravel: ['8.*', '9.*', '10.*', '11.*']
         dependency-version: [prefer-stable]
         os: [ubuntu-latest]
         exclude:
           - laravel: 10.*
             php: 8.0
+          - laravel: 11.*
+            php: 8.0
+          - laravel: 11.*
+            php: 8.1
 
     name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.dependency-version }} - ${{ matrix.os }}
 
@@ -34,11 +39,7 @@ jobs:
           path: ~/.composer/cache/files
           key: dependencies-laravel-${{ matrix.laravel }}-php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}
           restore-keys: |
-            dependencies-laravel-${{ matrix.laravel }}-php-${{ matrix.php }}-composer-
-            dependencies-laravel-${{ matrix.laravel }}-php-
-            dependencies-laravel-
-
-      - name: Setup PHP
+            dependencies-laravel-${{ matrix.laravel }}-php-${{ matrix.php }}-composer- dependencies-laravel-${{ matrix.laravel }}-php- dependencies-laravel- - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
