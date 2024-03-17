@@ -2,6 +2,7 @@
 
 namespace Astrotomic\Translatable\Tests;
 
+use PHPUnit\Framework\Attributes\Test;
 use Astrotomic\Translatable\Locales;
 use Astrotomic\Translatable\Tests\Eloquent\Country;
 use Astrotomic\Translatable\Tests\Eloquent\CountryStrict;
@@ -16,7 +17,7 @@ use Illuminate\Support\Facades\DB;
 
 final class TranslatableTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_finds_the_default_translation_class(): void
     {
         static::assertEquals(
@@ -25,7 +26,7 @@ final class TranslatableTest extends TestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_finds_the_translation_class_with_namespace_set(): void
     {
         $this->app->make('config')->set('translatable.translation_model_namespace', 'App\Models\Translations');
@@ -36,7 +37,7 @@ final class TranslatableTest extends TestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_finds_the_translation_class_with_suffix_set(): void
     {
         $this->app->make('config')->set('translatable.translation_suffix', 'Trans');
@@ -47,7 +48,7 @@ final class TranslatableTest extends TestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_custom_TranslationModelName(): void
     {
         $vegetable = new Vegetable();
@@ -64,7 +65,7 @@ final class TranslatableTest extends TestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_relation_key(): void
     {
         $vegetable = new Vegetable();
@@ -74,7 +75,7 @@ final class TranslatableTest extends TestCase
         static::assertEquals('my_awesome_key', $vegetable->getRelationKey());
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_the_translation(): void
     {
         $vegetable = factory(Vegetable::class)->create(['name:el' => 'Αρακάς', 'name:en' => 'Peas']);
@@ -90,7 +91,7 @@ final class TranslatableTest extends TestCase
         static::assertEquals('Peas', $vegetable->translate()->name);
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_the_translation_with_accessor(): void
     {
         $vegetable = factory(Vegetable::class)->create(['name:el' => 'Αρακάς', 'name:en' => 'Peas']);
@@ -99,7 +100,7 @@ final class TranslatableTest extends TestCase
         static::assertEquals('Peas', $vegetable->{'name:en'});
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_null_when_the_locale_doesnt_exist(): void
     {
         $vegetable = factory(Vegetable::class)->create(['name:el' => 'Αρακάς']);
@@ -107,7 +108,7 @@ final class TranslatableTest extends TestCase
         static::assertSame(null, $vegetable->{'name:unknown-locale'});
     }
 
-    /** @test */
+    #[Test]
     public function it_saves_translations(): void
     {
         $vegetable = factory(Vegetable::class)->create(['name:el' => 'Αρακάς', 'name:en' => 'Peas']);
@@ -121,7 +122,7 @@ final class TranslatableTest extends TestCase
         static::assertEquals('Pea', $vegetable->name);
     }
 
-    /** @test */
+    #[Test]
     public function it_saves_translations_with_mutator(): void
     {
         $vegetable = factory(Vegetable::class)->create(['name:el' => 'Αρακάς', 'name:en' => 'Peas']);
@@ -138,7 +139,7 @@ final class TranslatableTest extends TestCase
         static::assertEquals('Μπιζέλι', $vegetable->translate()->name);
     }
 
-    /** @test */
+    #[Test]
     public function it_does_not_lazy_load_translations_when_updating_non_translated_attributes(): void
     {
         DB::enableQueryLog();
@@ -161,7 +162,7 @@ final class TranslatableTest extends TestCase
         DB::disableQueryLog();
     }
 
-    /** @test */
+    #[Test]
     public function it_uses_default_locale_to_return_translations(): void
     {
         $vegetable = factory(Vegetable::class)->create(['name:el' => 'Αρακάς']);
@@ -176,7 +177,7 @@ final class TranslatableTest extends TestCase
         static::assertEquals('Μπιζέλι', $vegetable->translate('el')->name);
     }
 
-    /** @test */
+    #[Test]
     public function it_creates_translations_using_the_shortcut(): void
     {
         $vegetable = factory(Vegetable::class)->create();
@@ -193,7 +194,7 @@ final class TranslatableTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function it_creates_translations_using_mass_assignment(): void
     {
         $vegetable = Vegetable::create([
@@ -205,7 +206,7 @@ final class TranslatableTest extends TestCase
         static::assertEquals('Peas', $vegetable->name);
     }
 
-    /** @test */
+    #[Test]
     public function it_creates_translations_using_mass_assignment_and_locales(): void
     {
         $vegetable = Vegetable::create([
@@ -223,7 +224,7 @@ final class TranslatableTest extends TestCase
         static::assertEquals('Pois', $vegetable->translate('fr')->name);
     }
 
-    /** @test */
+    #[Test]
     public function it_skips_mass_assignment_if_attributes_non_fillable(): void
     {
         $this->expectException(MassAssignmentException::class);
@@ -238,7 +239,7 @@ final class TranslatableTest extends TestCase
         static::assertNull($country->translate('fr'));
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_if_object_has_translation(): void
     {
         $vegetable = factory(Vegetable::class)->create(['name:en' => 'Peas']);
@@ -247,7 +248,7 @@ final class TranslatableTest extends TestCase
         static::assertFalse($vegetable->hasTranslation('some-code'));
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_default_translation(): void
     {
         $this->app->make('config')->set('translatable.fallback_locale', 'de');
@@ -262,7 +263,7 @@ final class TranslatableTest extends TestCase
         static::assertSame('Erbsen', $vegetable->translateOrDefault()->name);
     }
 
-    /** @test */
+    #[Test]
     public function fallback_option_in_config_overrides_models_fallback_option(): void
     {
         $this->app->make('config')->set('translatable.fallback_locale', 'de');
@@ -280,7 +281,7 @@ final class TranslatableTest extends TestCase
         static::assertNull($vegetable->getTranslation('ch'));
     }
 
-    /** @test */
+    #[Test]
     public function configuration_defines_if_fallback_is_used(): void
     {
         $this->app->make('config')->set('translatable.fallback_locale', 'de');
@@ -291,7 +292,7 @@ final class TranslatableTest extends TestCase
         static::assertEquals('de', $vegetable->getTranslation('ch')->locale);
     }
 
-    /** @test */
+    #[Test]
     public function useTranslationFallback_overrides_configuration(): void
     {
         $this->app->make('config')->set('translatable.fallback_locale', 'de');
@@ -303,7 +304,7 @@ final class TranslatableTest extends TestCase
         static::assertNull($vegetable->getTranslation('ch'));
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_null_if_fallback_is_not_defined(): void
     {
         $this->app->make('config')->set('translatable.fallback_locale', 'ch');
@@ -313,7 +314,7 @@ final class TranslatableTest extends TestCase
         static::assertNull($vegetable->getTranslation('pl', true));
     }
 
-    /** @test */
+    #[Test]
     public function it_fills_a_non_default_language_with_fallback_set(): void
     {
         $this->app->make('config')->set('translatable.fallback_locale', 'en');
@@ -328,7 +329,7 @@ final class TranslatableTest extends TestCase
         static::assertEquals('Peas', $vegetable->translate('en')->name);
     }
 
-    /** @test */
+    #[Test]
     public function it_creates_a_new_translation(): void
     {
         $this->app->make('config')->set('translatable.fallback_locale', 'en');
@@ -340,7 +341,7 @@ final class TranslatableTest extends TestCase
         static::assertEquals('Peas', $vegetable->translate('en')->name);
     }
 
-    /** @test */
+    #[Test]
     public function the_locale_key_is_locale_by_default(): void
     {
         $vegetable = new Vegetable();
@@ -348,7 +349,7 @@ final class TranslatableTest extends TestCase
         static::assertEquals('locale', $vegetable->getLocaleKey());
     }
 
-    /** @test */
+    #[Test]
     public function the_locale_key_can_be_overridden_in_configuration(): void
     {
         $this->app->make('config')->set('translatable.locale_key', 'language_id');
@@ -357,7 +358,7 @@ final class TranslatableTest extends TestCase
         static::assertEquals('language_id', $vegetable->getLocaleKey());
     }
 
-    /** @test */
+    #[Test]
     public function the_locale_key_can_be_customized_per_model(): void
     {
         $vegetable = new Vegetable();
@@ -379,13 +380,13 @@ final class TranslatableTest extends TestCase
         CountryStrict::reguard();
     }
 
-    /** @test */
+    #[Test]
     public function it_reads_the_configuration(): void
     {
         static::assertEquals('Translation', $this->app->make('config')->get('translatable.translation_suffix'));
     }
 
-    /** @test */
+    #[Test]
     public function getting_translation_does_not_create_translation(): void
     {
         $vegetable = factory(Vegetable::class)->create();
@@ -393,7 +394,7 @@ final class TranslatableTest extends TestCase
         static::assertNull($vegetable->getTranslation('en', false));
     }
 
-    /** @test */
+    #[Test]
     public function getting_translated_field_does_not_create_translation(): void
     {
         $this->app->setLocale('en');
@@ -402,7 +403,7 @@ final class TranslatableTest extends TestCase
         static::assertNull($vegetable->getTranslation('en'));
     }
 
-    /** @test */
+    #[Test]
     public function it_has_methods_that_return_always_a_translation(): void
     {
         $vegetable = factory(Vegetable::class)->create();
@@ -412,7 +413,7 @@ final class TranslatableTest extends TestCase
         static::assertEquals('xyz', $vegetable->translateOrNew()->locale);
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_an_exception_if_translation_does_not_exist(): void
     {
         $this->expectException(ModelNotFoundException::class);
@@ -426,7 +427,7 @@ final class TranslatableTest extends TestCase
         $vegetable->translateOrFail('xyz');
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_if_attribute_is_translated(): void
     {
         $vegetable = new Vegetable();
@@ -435,7 +436,7 @@ final class TranslatableTest extends TestCase
         static::assertFalse($vegetable->isTranslationAttribute('some-field'));
     }
 
-    /** @test */
+    #[Test]
     public function config_overrides_apps_locale(): void
     {
         $veegtable = factory(Vegetable::class)->create(['name:de' => 'Erbsen']);
@@ -444,7 +445,7 @@ final class TranslatableTest extends TestCase
         static::assertEquals('Erbsen', $veegtable->name);
     }
 
-    /** @test */
+    #[Test]
     public function locales_as_array_keys_are_properly_detected(): void
     {
         $this->app->config->set('translatable.locales', ['en' => ['US', 'GB']]);
@@ -460,7 +461,7 @@ final class TranslatableTest extends TestCase
         static::assertEquals('US Peas', $vegetable->getTranslation('en-US')->name);
     }
 
-    /** @test */
+    #[Test]
     public function locale_separator_can_be_configured(): void
     {
         $this->app->make('config')->set('translatable.locales', ['en' => ['GB']]);
@@ -473,7 +474,7 @@ final class TranslatableTest extends TestCase
         static::assertEquals('Peas', $vegetable->getTranslation('en_GB')->name);
     }
 
-    /** @test */
+    #[Test]
     public function fallback_for_country_based_locales(): void
     {
         $this->app->make('config')->set('translatable.use_fallback', true);
@@ -491,7 +492,7 @@ final class TranslatableTest extends TestCase
         static::assertEquals('French fries', $vegetable->getTranslation('en-US')->name);
     }
 
-    /** @test */
+    #[Test]
     public function fallback_for_country_based_locales_with_no_base_locale(): void
     {
         $this->app->make('config')->set('translatable.use_fallback', true);
@@ -508,7 +509,7 @@ final class TranslatableTest extends TestCase
         static::assertEquals('Chips', $vegetable->getTranslation('pt-BR')->name);
     }
 
-    /** @test */
+    #[Test]
     public function to_array_and_fallback_with_country_based_locales_enabled(): void
     {
         $this->app->make('config')->set('translatable.locale', 'en-GB');
@@ -523,7 +524,7 @@ final class TranslatableTest extends TestCase
         static::assertEquals('Frites', $vegetable['name']);
     }
 
-    /** @test */
+    #[Test]
     public function it_skips_translations_in_to_array_when_config_is_set(): void
     {
         $this->app->make('config')->set('translatable.to_array_always_loads_translations', false);
@@ -534,7 +535,7 @@ final class TranslatableTest extends TestCase
         static::assertFalse(isset($vegetable['name']));
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_translations_in_to_array_when_config_is_set_but_translations_are_loaded(): void
     {
         $this->app->make('config')->set('translatable.to_array_always_loads_translations', false);
@@ -545,7 +546,7 @@ final class TranslatableTest extends TestCase
         static::assertTrue(isset($vegetable['name']));
     }
 
-    /** @test */
+    #[Test]
     public function it_should_mutate_the_translated_attribute_if_a_mutator_is_set_on_model(): void
     {
         $person = new Person(['name' => 'john doe']);
@@ -554,7 +555,7 @@ final class TranslatableTest extends TestCase
         static::assertEquals('John Doe', $person->name);
     }
 
-    /** @test */
+    #[Test]
     public function it_deletes_all_translations(): void
     {
         $vegetable = factory(Vegetable::class)->create(['name:es' => 'Guisantes', 'name:en' => 'Peas']);
@@ -566,7 +567,7 @@ final class TranslatableTest extends TestCase
         static::assertEquals(0, count($vegetable->translations));
     }
 
-    /** @test */
+    #[Test]
     public function it_deletes_translations_for_given_locales(): void
     {
         $vegetable = factory(Vegetable::class)->create(['name:es' => 'Guisantes', 'name:en' => 'Peas']);
@@ -578,7 +579,7 @@ final class TranslatableTest extends TestCase
         static::assertEquals(1, count($vegetable->translations));
     }
 
-    /** @test */
+    #[Test]
     public function passing_an_empty_array_should_not_delete_translations(): void
     {
         $vegetable = factory(Vegetable::class)->create(['name:es' => 'Guisantes', 'name:en' => 'Peas']);
@@ -590,7 +591,7 @@ final class TranslatableTest extends TestCase
         static::assertEquals(2, count($vegetable->translations));
     }
 
-    /** @test */
+    #[Test]
     public function fill_with_translation_key(): void
     {
         $vegetable = new Vegetable();
@@ -607,7 +608,7 @@ final class TranslatableTest extends TestCase
         static::assertEquals('Erbsen', $vegetable->translate('de')->name);
     }
 
-    /** @test */
+    #[Test]
     public function it_uses_the_default_locale_from_the_model(): void
     {
         $vegetable = new Vegetable();
@@ -629,7 +630,7 @@ final class TranslatableTest extends TestCase
         static::assertEquals('Pois', $vegetable->name);
     }
 
-    /** @test */
+    #[Test]
     public function replicate_entity(): void
     {
         $vegetable = new Vegetable();
@@ -658,7 +659,7 @@ final class TranslatableTest extends TestCase
         static::assertEquals($replicated->translate('de')->vegetable_identity, $replicated->identity);
     }
 
-    /** @test */
+    #[Test]
     public function can_get_translations_as_array(): void
     {
         $vegetable = factory(Vegetable::class)->create([
@@ -674,7 +675,7 @@ final class TranslatableTest extends TestCase
         ], $vegetable->getTranslationsArray());
     }
 
-    /** @test */
+    #[Test]
     public function fill_will_ignore_unkown_locales(): void
     {
         config(['translatable.locales' => ['en']]);
@@ -694,7 +695,7 @@ final class TranslatableTest extends TestCase
         static::assertDatabaseMissing('vegetable_translations', ['locale' => 'ua']);
     }
 
-    /** @test */
+    #[Test]
     public function fill_will_ignore_unkown_locales_with_translations(): void
     {
         config(['translatable.locales' => ['en']]);
@@ -715,7 +716,7 @@ final class TranslatableTest extends TestCase
         static::assertDatabaseMissing('vegetable_translations', ['locale' => 'ua']);
     }
 
-    /** @test */
+    #[Test]
     public function it_uses_fallback_locale_if_default_is_empty(): void
     {
         $this->app->make('config')->set('translatable.use_fallback', true);
@@ -733,7 +734,7 @@ final class TranslatableTest extends TestCase
         static::assertEquals('Peas', $vegetable->name);
     }
 
-    /** @test */
+    #[Test]
     public function it_uses_value_when_fallback_is_not_available(): void
     {
         $this->app->make('config')->set('translatable.fallback_locale', 'it');
@@ -753,7 +754,7 @@ final class TranslatableTest extends TestCase
         static::assertEquals('Erbsen', $vegetable->getAttribute('name'));
     }
 
-    /** @test */
+    #[Test]
     public function empty_translated_attribute(): void
     {
         $this->app->setLocale('invalid');
@@ -762,7 +763,7 @@ final class TranslatableTest extends TestCase
         static::assertNull($vegetable->name);
     }
 
-    /** @test */
+    #[Test]
     public function numeric_translated_attribute(): void
     {
         $this->app->make('config')->set('translatable.fallback_locale', 'de');
@@ -797,7 +798,7 @@ final class TranslatableTest extends TestCase
         static::assertSame('1', $vegetable->name);
     }
 
-    /** @test */
+    #[Test]
     public function translation_relation(): void
     {
         $this->app->make('config')->set('translatable.fallback_locale', 'fr');
@@ -813,7 +814,7 @@ final class TranslatableTest extends TestCase
         static::assertEquals('en', $peas->translation->locale);
     }
 
-    /** @test */
+    #[Test]
     public function translation_relation_can_use_fallback_locale(): void
     {
         $this->app->make('config')->set('translatable.fallback_locale', 'fr');
@@ -826,7 +827,7 @@ final class TranslatableTest extends TestCase
         static::assertEquals('fr', $peas->translation->locale);
     }
 
-    /** @test */
+    #[Test]
     public function translation_relation_returns_null_if_no_available_locale_was_found(): void
     {
         $this->app->make('config')->set('translatable.fallback_locale', 'xyz');
@@ -838,7 +839,7 @@ final class TranslatableTest extends TestCase
         static::assertNull($peas->translation);
     }
 
-    /** @test */
+    #[Test]
     public function can_fill_conflicting_attribute_locale(): void
     {
         $this->app->make('config')->set('translatable.locales', ['en', 'id']);
@@ -865,7 +866,7 @@ final class TranslatableTest extends TestCase
         static::assertEquals('en:my country', $country->getTranslation('en', false)->name);
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_first_existing_translation_as_fallback(): void
     {
         /** @var Locales $helper */
@@ -942,7 +943,7 @@ final class TranslatableTest extends TestCase
         static::assertEquals($helper->getCountryLocale('de', 'DE'), $translation->locale);
     }
 
-    /** @test */
+    #[Test]
     public function it_uses_translation_relation_if_locale_matches(): void
     {
         $this->app->make('config')->set('translatable.use_fallback', false);
@@ -962,7 +963,7 @@ final class TranslatableTest extends TestCase
         static::assertFalse($country->relationLoaded('translations'));
     }
 
-    /** @test */
+    #[Test]
     public function it_uses_translations_relation_if_locale_does_not_match(): void
     {
         $this->app->make('config')->set('translatable.use_fallback', false);
@@ -983,7 +984,7 @@ final class TranslatableTest extends TestCase
         static::assertTrue($country->relationLoaded('translations'));
     }
 
-    /** @test */
+    #[Test]
     public function it_does_not_load_translation_relation_if_not_already_loaded(): void
     {
         $this->app->make('config')->set('translatable.use_fallback', false);
@@ -1002,7 +1003,7 @@ final class TranslatableTest extends TestCase
         static::assertTrue($country->relationLoaded('translations'));
     }
 
-    /** @test */
+    #[Test]
     public function it_does_not_delete_translations_on_cascade_by_default()
     {
         $vegetable = factory(Vegetable::class)->create(['name:en' => 'Peas']);
@@ -1016,7 +1017,7 @@ final class TranslatableTest extends TestCase
         $this->assertDatabaseHas('vegetable_translations', ['vegetable_identity' => $vegetable->identity]);
     }
 
-    /** @test */
+    #[Test]
     public function it_deletes_translations_on_cascade()
     {
         Vegetable::enableDeleteTranslationsCascade();
@@ -1031,7 +1032,7 @@ final class TranslatableTest extends TestCase
         $this->assertDatabaseMissing('vegetable_translations', ['vegetable_identity' => $vegetable->identity]);
     }
 
-    /** @test */
+    #[Test]
     public function it_does_not_delete_on_cascade_after_retrieving_a_model()
     {
         Vegetable::enableDeleteTranslationsCascade();
@@ -1047,7 +1048,7 @@ final class TranslatableTest extends TestCase
         $this->assertDatabaseHas('vegetable_translations', ['vegetable_identity' => $vegetable->identity]);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_restore_translations_in_a_transaction()
     {
         Vegetable::enableDeleteTranslationsCascade();
