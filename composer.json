@@ -65,7 +65,7 @@
         }
     },
     "scripts": {
-        "csfix": "php-cs-fixer fix --using-cache=no",
+        "lint": "pint src/Translatable",
         "test": "vendor/bin/phpunit",
         "test-coverage": "vendor/bin/phpunit --coverage-html=build"
     }
