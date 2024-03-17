@@ -32,8 +32,6 @@ jobs:
           - php: '8.3'
             laravel: '9.*'
 
-    name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.dependency-version }} - ${{ matrix.os }}
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4.1.2
