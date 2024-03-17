@@ -2,9 +2,9 @@
 
 namespace Tests;
 
-use PHPUnit\Framework\Attributes\Test;
 use Astrotomic\Translatable\Exception\LocalesNotDefinedException;
 use Astrotomic\Translatable\Locales;
+use PHPUnit\Framework\Attributes\Test;
 
 final class LocalesTest extends TestCase
 {

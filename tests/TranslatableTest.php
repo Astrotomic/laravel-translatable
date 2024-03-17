@@ -2,7 +2,6 @@
 
 namespace Tests;
 
-use PHPUnit\Framework\Attributes\Test;
 use Astrotomic\Translatable\Locales;
 use Tests\Eloquent\Country;
 use Tests\Eloquent\CountryStrict;
@@ -14,6 +13,7 @@ use Illuminate\Database\Eloquent\MassAssignmentException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
+use PHPUnit\Framework\Attributes\Test;
 
 final class TranslatableTest extends TestCase
 {
