@@ -21,7 +21,7 @@ use Illuminate\Support\Str;
  */
 trait Translatable
 {
-    use Scopes, Relationship;
+    use Relationship, Scopes;
 
     protected static $autoloadTranslations = null;
 
@@ -186,7 +186,7 @@ trait Translatable
         return $translation;
     }
 
-    public function getTranslation(?string $locale = null, bool $withFallback = null): ?Model
+    public function getTranslation(?string $locale = null, ?bool $withFallback = null): ?Model
     {
         $configFallbackLocale = $this->getFallbackLocale();
         $locale = $locale ?: $this->locale();
@@ -279,7 +279,7 @@ trait Translatable
         return in_array($key, $this->translatedAttributes);
     }
 
-    public function replicateWithTranslations(array $except = null): Model
+    public function replicateWithTranslations(?array $except = null): Model
     {
         $newInstance = $this->replicate($except);
 
