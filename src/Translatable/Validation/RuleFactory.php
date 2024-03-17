@@ -9,6 +9,7 @@ use InvalidArgumentException;
 class RuleFactory
 {
     const FORMAT_ARRAY = 1;
+
     const FORMAT_KEY = 2;
 
     /**
@@ -77,6 +78,7 @@ class RuleFactory
         foreach ($input as $key => $value) {
             if (! $this->isTranslatable($key)) {
                 $rules[$key] = $value;
+
                 continue;
             }
 
@@ -94,7 +96,6 @@ class RuleFactory
     }
 
     /**
-     * @param  string  $locale
      * @param  string|string[]|mixed  $rule
      * @return string|string[]|mixed
      */
