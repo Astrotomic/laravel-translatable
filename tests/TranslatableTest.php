@@ -1004,7 +1004,7 @@ final class TranslatableTest extends TestCase
     }
 
     #[Test]
-    public function it_does_not_delete_translations_on_cascade_by_default()
+    public function it_does_not_delete_translations_on_cascade_by_default(): void
     {
         $vegetable = factory(Vegetable::class)->create(['name:en' => 'Peas']);
 
@@ -1018,7 +1018,7 @@ final class TranslatableTest extends TestCase
     }
 
     #[Test]
-    public function it_deletes_translations_on_cascade()
+    public function it_deletes_translations_on_cascade(): void
     {
         Vegetable::enableDeleteTranslationsCascade();
         $vegetable = factory(Vegetable::class)->create(['name:en' => 'Peas']);
@@ -1033,7 +1033,7 @@ final class TranslatableTest extends TestCase
     }
 
     #[Test]
-    public function it_does_not_delete_on_cascade_after_retrieving_a_model()
+    public function it_does_not_delete_on_cascade_after_retrieving_a_model(): void
     {
         Vegetable::enableDeleteTranslationsCascade();
         $vegetable = factory(Vegetable::class)->create(['name:en' => 'Peas']);
@@ -1049,7 +1049,7 @@ final class TranslatableTest extends TestCase
     }
 
     #[Test]
-    public function it_can_restore_translations_in_a_transaction()
+    public function it_can_restore_translations_in_a_transaction(): void
     {
         Vegetable::enableDeleteTranslationsCascade();
         $vegetable = factory(Vegetable::class)->create(['name:en' => 'Peas']);
