@@ -2,12 +2,13 @@
 
 namespace Tests;
 
+use PHPUnit\Framework\Attributes\Test;
 use Tests\Eloquent\Country;
 use Tests\Eloquent\Vegetable;
 
 final class ScopesTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function translated_in_scope_returns_only_translated_records_for_this_locale(): void
     {
         factory(Country::class)->create(['code' => 'ca', 'name:ca' => 'Català']);
@@ -16,7 +17,7 @@ final class ScopesTest extends TestCase
         self::assertEquals(1, Country::translatedIn('fr')->count());
     }
 
-    /** @test */
+    #[Test]
     public function translated_in_scope_works_with_default_locale(): void
     {
         app()->setLocale('de');
@@ -27,7 +28,7 @@ final class ScopesTest extends TestCase
         self::assertEquals('Griechenland', Country::translatedIn()->first()->name);
     }
 
-    /** @test */
+    #[Test]
     public function not_translated_in_scope_returns_only_not_translated_records_for_this_locale(): void
     {
         factory(Country::class)->create(['code' => 'ca', 'name:ca' => 'Català']);
@@ -41,7 +42,7 @@ final class ScopesTest extends TestCase
         self::assertFalse($notTranslated->last()->hasTranslation('en'));
     }
 
-    /** @test */
+    #[Test]
     public function not_translated_in_scope_works_with_default_locale(): void
     {
         app()->setLocale('en');
@@ -54,7 +55,7 @@ final class ScopesTest extends TestCase
         self::assertFalse($notTranslated->first()->hasTranslation('en'));
     }
 
-    /** @test */
+    #[Test]
     public function translated_scope_returns_records_with_at_least_one_translation(): void
     {
         factory(Country::class)->create(['code' => 'ca']);
@@ -64,7 +65,7 @@ final class ScopesTest extends TestCase
         self::assertEquals('English', Country::with('translations')->translated()->first()->{'name:en'});
     }
 
-    /** @test */
+    #[Test]
     public function lists_of_translated_fields(): void
     {
         app()->setLocale('de');
@@ -80,7 +81,7 @@ final class ScopesTest extends TestCase
         self::assertEquals('Griechenland', $countries->first()->name);
     }
 
-    /** @test */
+    #[Test]
     public function lists_of_translated_fields_with_fallback(): void
     {
         app('config')->set('translatable.fallback_locale', 'en');
@@ -102,7 +103,7 @@ final class ScopesTest extends TestCase
         self::assertEquals('France', $countries->last()->name);
     }
 
-    /** @test */
+    #[Test]
     public function lists_of_translated_fields_disable_autoload_translations(): void
     {
         app()->setLocale('de');
@@ -116,7 +117,7 @@ final class ScopesTest extends TestCase
         Country::defaultAutoloadTranslations();
     }
 
-    /** @test */
+    #[Test]
     public function lists_of_translated_fields_enable_autoload_translations(): void
     {
         app()->setLocale('de');
@@ -139,7 +140,7 @@ final class ScopesTest extends TestCase
         Country::defaultAutoloadTranslations();
     }
 
-    /** @test */
+    #[Test]
     public function scope_withTranslation_without_fallback(): void
     {
         factory(Country::class)->create(['code' => 'el', 'name:en' => 'Greece']);
@@ -150,7 +151,7 @@ final class ScopesTest extends TestCase
         self::assertSame('Greece', $result->translations->first()->name);
     }
 
-    /** @test */
+    #[Test]
     public function scope_withTranslation_with_fallback(): void
     {
         app('config')->set('translatable.fallback_locale', 'de');
@@ -164,7 +165,7 @@ final class ScopesTest extends TestCase
         self::assertEquals('Griechenland', $result->translations->where('locale', 'de')->first()->name);
     }
 
-    /** @test */
+    #[Test]
     public function scope_withTranslation_with_country_based_fallback(): void
     {
         app('config')->set('translatable.fallback_locale', 'en');
@@ -196,7 +197,7 @@ final class ScopesTest extends TestCase
         self::assertEquals('Zucchini', $translations[2]->name);
     }
 
-    /** @test */
+    #[Test]
     public function whereTranslation_filters_by_translation(): void
     {
         factory(Country::class)->create(['code' => 'gr', 'name:en' => 'Greece']);
@@ -204,7 +205,7 @@ final class ScopesTest extends TestCase
         self::assertSame('gr', Country::whereTranslation('name', 'Greece')->first()->code);
     }
 
-    /** @test */
+    #[Test]
     public function orWhereTranslation_filters_by_translation(): void
     {
         factory(Country::class)->create(['code' => 'gr', 'name:en' => 'Greece']);
@@ -217,7 +218,7 @@ final class ScopesTest extends TestCase
         self::assertSame('France', $result->last()->name);
     }
 
-    /** @test */
+    #[Test]
     public function whereTranslation_filters_by_translation_and_locale(): void
     {
         factory(Country::class)->create(['code' => 'gr', 'name:de' => 'Griechenland']);
@@ -230,7 +231,7 @@ final class ScopesTest extends TestCase
         self::assertSame('gr', $result->first()->code);
     }
 
-    /** @test */
+    #[Test]
     public function whereTranslationLike_filters_by_translation(): void
     {
         factory(Country::class)->create(['code' => 'gr', 'name:en' => 'Greece']);
@@ -238,7 +239,7 @@ final class ScopesTest extends TestCase
         self::assertSame('gr', Country::whereTranslationLike('name', '%Greec%')->first()->code);
     }
 
-    /** @test */
+    #[Test]
     public function orWhereTranslationLike_filters_by_translation(): void
     {
         factory(Country::class)->create(['code' => 'gr', 'name:en' => 'Greece']);
@@ -251,7 +252,7 @@ final class ScopesTest extends TestCase
         self::assertSame('France', $result->last()->name);
     }
 
-    /** @test */
+    #[Test]
     public function whereTranslationLike_filters_by_translation_and_locale(): void
     {
         factory(Country::class)->create(['code' => 'gr', 'name:de' => 'Griechenland']);
@@ -264,7 +265,7 @@ final class ScopesTest extends TestCase
         self::assertEquals('gr', $result->first()->code);
     }
 
-    /** @test */
+    #[Test]
     public function orderByTranslation_sorts_by_key_asc(): void
     {
         factory(Country::class)->create(['code' => 'el', 'name' => 'Greece']);
@@ -273,7 +274,7 @@ final class ScopesTest extends TestCase
         self::assertEquals('fr', Country::orderByTranslation('name')->get()->first()->code);
     }
 
-    /** @test */
+    #[Test]
     public function orderByTranslation_sorts_by_key_desc(): void
     {
         factory(Country::class)->create(['code' => 'el', 'name' => 'Greece']);
@@ -282,7 +283,7 @@ final class ScopesTest extends TestCase
         self::assertEquals('el', Country::orderByTranslation('name', 'desc')->get()->first()->code);
     }
 
-    /** @test */
+    #[Test]
     public function test_orderByTranslation_sorts_by_key_asc_even_if_locale_is_missing(): void
     {
         factory(Vegetable::class)->create(['en' => ['name' => 'Potatoes'], 'fr' => ['name' => 'Pommes de Terre']]);

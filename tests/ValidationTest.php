@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use PHPUnit\Framework\Attributes\Test;
 use Astrotomic\Translatable\Locales;
 use Astrotomic\Translatable\Validation\RuleFactory;
 use Illuminate\Validation\Rule;
@@ -10,7 +11,7 @@ use InvalidArgumentException;
 
 final class ValidationTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_does_not_touch_untranslated_keys(): void
     {
         $rules = [
@@ -24,7 +25,7 @@ final class ValidationTest extends TestCase
         self::assertEquals($rules, RuleFactory::make($rules));
     }
 
-    /** @test */
+    #[Test]
     public function format_array_it_replaces_single_key(): void
     {
         $rules = [
@@ -41,7 +42,7 @@ final class ValidationTest extends TestCase
         ], RuleFactory::make($rules, RuleFactory::FORMAT_ARRAY));
     }
 
-    /** @test */
+    #[Test]
     public function format_array_it_replaces_sub_key(): void
     {
         $rules = [
@@ -58,7 +59,7 @@ final class ValidationTest extends TestCase
         ], RuleFactory::make($rules, RuleFactory::FORMAT_ARRAY));
     }
 
-    /** @test */
+    #[Test]
     public function format_array_it_replaces_middle_key(): void
     {
         $rules = [
@@ -75,7 +76,7 @@ final class ValidationTest extends TestCase
         ], RuleFactory::make($rules, RuleFactory::FORMAT_ARRAY));
     }
 
-    /** @test */
+    #[Test]
     public function format_array_it_replaces_middle_key_with_custom_prefix(): void
     {
         $rules = [
@@ -92,7 +93,7 @@ final class ValidationTest extends TestCase
         ], RuleFactory::make($rules, RuleFactory::FORMAT_ARRAY, '{'));
     }
 
-    /** @test */
+    #[Test]
     public function format_array_it_replaces_middle_key_with_custom_suffix(): void
     {
         $rules = [
@@ -109,7 +110,7 @@ final class ValidationTest extends TestCase
         ], RuleFactory::make($rules, RuleFactory::FORMAT_ARRAY, '%', '}'));
     }
 
-    /** @test */
+    #[Test]
     public function format_array_it_replaces_middle_key_with_custom_delimiters(): void
     {
         $rules = [
@@ -126,7 +127,7 @@ final class ValidationTest extends TestCase
         ], RuleFactory::make($rules, RuleFactory::FORMAT_ARRAY, '{', '}'));
     }
 
-    /** @test */
+    #[Test]
     public function format_array_it_replaces_middle_key_with_custom_regex_delimiters(): void
     {
         $rules = [
@@ -143,7 +144,7 @@ final class ValidationTest extends TestCase
         ], RuleFactory::make($rules, RuleFactory::FORMAT_ARRAY, '$', '$'));
     }
 
-    /** @test */
+    #[Test]
     public function format_array_it_uses_config_as_default(): void
     {
         app('config')->set('translatable.rule_factory', [
@@ -168,7 +169,7 @@ final class ValidationTest extends TestCase
         ], RuleFactory::make($rules));
     }
 
-    /** @test */
+    #[Test]
     public function format_key_it_replaces_single_key(): void
     {
         $rules = [
@@ -185,7 +186,7 @@ final class ValidationTest extends TestCase
         ], RuleFactory::make($rules, RuleFactory::FORMAT_KEY));
     }
 
-    /** @test */
+    #[Test]
     public function format_key_it_replaces_sub_key(): void
     {
         $rules = [
@@ -202,7 +203,7 @@ final class ValidationTest extends TestCase
         ], RuleFactory::make($rules, RuleFactory::FORMAT_KEY));
     }
 
-    /** @test */
+    #[Test]
     public function format_key_it_replaces_middle_key(): void
     {
         $rules = [
@@ -219,7 +220,7 @@ final class ValidationTest extends TestCase
         ], RuleFactory::make($rules, RuleFactory::FORMAT_KEY));
     }
 
-    /** @test */
+    #[Test]
     public function format_key_it_uses_config_as_default(): void
     {
         app('config')->set('translatable.rule_factory', [
@@ -244,7 +245,7 @@ final class ValidationTest extends TestCase
         ], RuleFactory::make($rules));
     }
 
-    /** @test */
+    #[Test]
     public function it_replaces_key_with_custom_locales(): void
     {
         $rules = [
@@ -262,7 +263,7 @@ final class ValidationTest extends TestCase
         ]));
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_exception_with_undefined_locales(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -279,7 +280,7 @@ final class ValidationTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function format_array_it_replaces_single_rule(): void
     {
         $rules = [
@@ -300,7 +301,7 @@ final class ValidationTest extends TestCase
         ], RuleFactory::make($rules, RuleFactory::FORMAT_ARRAY));
     }
 
-    /** @test */
+    #[Test]
     public function format_array_it_replaces_imploded_rules(): void
     {
         $rules = [
@@ -321,7 +322,7 @@ final class ValidationTest extends TestCase
         ], RuleFactory::make($rules, RuleFactory::FORMAT_ARRAY));
     }
 
-    /** @test */
+    #[Test]
     public function format_array_it_replaces_array_of_rules(): void
     {
         $rules = [
@@ -342,7 +343,7 @@ final class ValidationTest extends TestCase
         ], RuleFactory::make($rules, RuleFactory::FORMAT_ARRAY));
     }
 
-    /** @test */
+    #[Test]
     public function format_array_it_does_not_touch_non_string_rule(): void
     {
         $rules = [
@@ -361,7 +362,7 @@ final class ValidationTest extends TestCase
         self::assertInstanceOf(RequiredIf::class, $formattedRules['de-AT.content']);
     }
 
-    /** @test */
+    #[Test]
     public function format_array_it_does_not_touch_non_string_rule_in_array(): void
     {
         $rules = [
@@ -387,7 +388,7 @@ final class ValidationTest extends TestCase
         self::assertInstanceOf(RequiredIf::class, $formattedRules['de-AT.content'][1]);
     }
 
-    /** @test */
+    #[Test]
     public function format_key_it_replaces_single_rule(): void
     {
         $rules = [
@@ -408,7 +409,7 @@ final class ValidationTest extends TestCase
         ], RuleFactory::make($rules, RuleFactory::FORMAT_KEY));
     }
 
-    /** @test */
+    #[Test]
     public function format_key_it_replaces_imploded_rules(): void
     {
         $rules = [
@@ -429,7 +430,7 @@ final class ValidationTest extends TestCase
         ], RuleFactory::make($rules, RuleFactory::FORMAT_KEY));
     }
 
-    /** @test */
+    #[Test]
     public function format_key_it_replaces_array_of_rules(): void
     {
         $rules = [
@@ -450,7 +451,7 @@ final class ValidationTest extends TestCase
         ], RuleFactory::make($rules, RuleFactory::FORMAT_KEY));
     }
 
-    /** @test */
+    #[Test]
     public function format_key_it_does_not_touch_non_string_rule(): void
     {
         $rules = [
@@ -469,7 +470,7 @@ final class ValidationTest extends TestCase
         self::assertInstanceOf(RequiredIf::class, $formattedRules['content:de-AT']);
     }
 
-    /** @test */
+    #[Test]
     public function format_key_it_does_not_touch_non_string_rule_in_array(): void
     {
         $rules = [
