@@ -2,7 +2,6 @@
 
 namespace Astrotomic\Translatable\Tests;
 
-use PHPUnit\Framework\Attributes\Test;
 use Astrotomic\Translatable\Locales;
 use Astrotomic\Translatable\Tests\Eloquent\Country;
 use Astrotomic\Translatable\Tests\Eloquent\CountryStrict;
@@ -14,6 +13,7 @@ use Illuminate\Database\Eloquent\MassAssignmentException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
+use PHPUnit\Framework\Attributes\Test;
 
 final class TranslatableTest extends TestCase
 {
@@ -211,8 +211,8 @@ final class TranslatableTest extends TestCase
     {
         $vegetable = Vegetable::create([
             'quantity' => 5,
-            'en'   => ['name' => 'Peas'],
-            'fr'   => ['name' => 'Pois'],
+            'en' => ['name' => 'Peas'],
+            'fr' => ['name' => 'Pois'],
         ]);
 
         static::assertEquals(5, $vegetable->quantity);
@@ -230,8 +230,8 @@ final class TranslatableTest extends TestCase
         $this->expectException(MassAssignmentException::class);
         $country = CountryStrict::create([
             'code' => 'be',
-            'en'   => ['name' => 'Belgium'],
-            'fr'   => ['name' => 'Belgique'],
+            'en' => ['name' => 'Belgium'],
+            'fr' => ['name' => 'Belgique'],
         ]);
 
         static::assertEquals('be', $country->code);
@@ -322,8 +322,8 @@ final class TranslatableTest extends TestCase
         $vegetable = new Vegetable();
         $vegetable->fill([
             'quantity' => 5,
-            'en'   => ['name' => 'Peas'],
-            'de'   => ['name' => 'Erbsen'],
+            'en' => ['name' => 'Peas'],
+            'de' => ['name' => 'Erbsen'],
         ]);
 
         static::assertEquals('Peas', $vegetable->translate('en')->name);
@@ -451,7 +451,7 @@ final class TranslatableTest extends TestCase
         $this->app->config->set('translatable.locales', ['en' => ['US', 'GB']]);
 
         $vegetable = Vegetable::create([
-            'en'    => ['name' => 'Peas'],
+            'en' => ['name' => 'Peas'],
             'en-US' => ['name' => 'US Peas'],
             'en-GB' => ['name' => 'GB Peas'],
         ]);
@@ -484,9 +484,9 @@ final class TranslatableTest extends TestCase
         $this->app->make('translatable.locales')->load();
 
         $vegetable = factory(Vegetable::class)->create([
-            'fr'    => ['name' => 'Frites'],
+            'fr' => ['name' => 'Frites'],
             'en-GB' => ['name' => 'Chips'],
-            'en'    => ['name' => 'French fries'],
+            'en' => ['name' => 'French fries'],
         ]);
 
         static::assertEquals('French fries', $vegetable->getTranslation('en-US')->name);
@@ -502,7 +502,7 @@ final class TranslatableTest extends TestCase
         $this->app->make('translatable.locales')->load();
 
         $vegetable = factory(Vegetable::class)->create([
-            'en'    => ['name' => 'Chips'],
+            'en' => ['name' => 'Chips'],
             'pt-PT' => ['name' => 'Batatas fritas'],
         ]);
 
@@ -682,8 +682,8 @@ final class TranslatableTest extends TestCase
 
         $vegetable = new Vegetable();
         $vegetable->fill([
-            'en'   => ['name' => 'Peas'],
-            'ua'   => ['name' => 'Unkown'],
+            'en' => ['name' => 'Peas'],
+            'ua' => ['name' => 'Unkown'],
         ]);
         $vegetable->save();
 

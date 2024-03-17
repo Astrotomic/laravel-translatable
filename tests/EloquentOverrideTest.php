@@ -2,8 +2,8 @@
 
 namespace Astrotomic\Translatable\Tests;
 
-use PHPUnit\Framework\Attributes\Test;
 use Astrotomic\Translatable\Tests\Eloquent\Vegetable;
+use PHPUnit\Framework\Attributes\Test;
 
 final class EloquentOverrideTest extends TestCase
 {

@@ -2,12 +2,12 @@
 
 namespace Astrotomic\Translatable\Tests;
 
-use PHPUnit\Framework\Attributes\Test;
 use Astrotomic\Translatable\Locales;
 use Astrotomic\Translatable\Validation\RuleFactory;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\RequiredIf;
 use InvalidArgumentException;
+use PHPUnit\Framework\Attributes\Test;
 
 final class ValidationTest extends TestCase
 {
