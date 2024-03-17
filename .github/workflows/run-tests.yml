@@ -15,22 +15,22 @@ jobs:
       fail-fast: true
       matrix:
         php: [8.0, 8.1, 8.2, 8.3]
-        laravel: [8.*, 9.*, 10.*, 11.*]
+        laravel: ['8.*', '9.*', '10.*', '11.*']
         dependency-version: [prefer-stable]
         os: [ubuntu-latest]
         exclude:
           - php: '8.0'
-            laravel: '10'
+            laravel: '10.*'
           - php: '8.0'
-            laravel: '11'
+            laravel: '11.*'
           - php: '8.1'
-            laravel: '11'
+            laravel: '11.*'
           - php: '8.2'
-            laravel: '8'
+            laravel: '8.*'
           - php: '8.3'
-            laravel: '8'
+            laravel: '8.*'
           - php: '8.3'
-            laravel: '9'
+            laravel: '9.*'
 
     name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.dependency-version }} - ${{ matrix.os }}
 
@@ -62,7 +62,7 @@ jobs:
           timeout_minutes: 5
           max_attempts: 5
           command: composer require "laravel/framework:^8.83.27" "phpunit/phpunit:^9.6.15" --no-update --no-interaction
-        if: "matrix.laravel == '8'"
+        if: "matrix.laravel == '8.*'"
 
       - name: Select Laravel 9
         uses: nick-invision/retry@v2
@@ -70,7 +70,7 @@ jobs:
           timeout_minutes: 5
           max_attempts: 5
           command: composer require "laravel/framework:^9.52.16" "phpunit/phpunit:^9.6.15" --no-update --no-interaction
-        if: "matrix.laravel == '9'"
+        if: "matrix.laravel == '9.*'"
 
       - name: Select Laravel 10
         uses: nick-invision/retry@v2
@@ -78,7 +78,7 @@ jobs:
           timeout_minutes: 5
           max_attempts: 5
           command: composer require "laravel/framework:^10.34.2" "phpunit/phpunit:^10.4.2" --no-update --no-interaction
-        if: "matrix.laravel == '10'"
+        if: "matrix.laravel == '10.*'"
 
       - name: Select Laravel 11
         uses: nick-invision/retry@v2
@@ -86,7 +86,7 @@ jobs:
           timeout_minutes: 5
           max_attempts: 5
           command: composer require "laravel/framework:^11.0" "phpunit/phpunit:^10.4.2" --no-update --no-interaction
-        if: "matrix.laravel == '11'"
+        if: "matrix.laravel == '11.*'"
 
       - name: Install PHP Dependencies
         uses: nick-invision/retry@v2
