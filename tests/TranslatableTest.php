@@ -3,17 +3,17 @@
 namespace Tests;
 
 use Astrotomic\Translatable\Locales;
+use Illuminate\Database\Eloquent\MassAssignmentException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\DB;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\Eloquent\Country;
 use Tests\Eloquent\CountryStrict;
 use Tests\Eloquent\CountryTranslation;
 use Tests\Eloquent\Person;
 use Tests\Eloquent\Vegetable;
 use Tests\Eloquent\VegetableTranslation;
-use Illuminate\Database\Eloquent\MassAssignmentException;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\DB;
-use PHPUnit\Framework\Attributes\Test;
 
 final class TranslatableTest extends TestCase
 {

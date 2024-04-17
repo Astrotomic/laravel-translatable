@@ -2,8 +2,8 @@
 
 namespace Tests;
 
-use Tests\Eloquent\Vegetable;
 use PHPUnit\Framework\Attributes\Test;
+use Tests\Eloquent\Vegetable;
 
 final class EloquentOverrideTest extends TestCase
 {

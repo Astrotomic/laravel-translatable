@@ -8,8 +8,6 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
 
 class Person extends Eloquent implements TranslatableContract
 {
-    protected $table = 'people';
-
     use Translatable;
 
     /**
@@ -41,6 +39,8 @@ class Person extends Eloquent implements TranslatableContract
      * @var string
      */
     public $localeKey;
+
+    protected $table = 'people';
 
     /**
      * Mutate name attribute into upper-case.
