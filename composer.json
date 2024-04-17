@@ -64,8 +64,8 @@
         }
     },
     "scripts": {
-        "csfix": "php-cs-fixer fix --using-cache=no",
-        "test": "vendor/bin/phpunit",
-        "test-coverage": "vendor/bin/phpunit --coverage-html=build"
+        "fix": "@php vendor/bin/pint",
+        "test": "@php vendor/bin/phpunit",
+        "test-coverage": "@php vendor/bin/phpunit --coverage-html=build"
     }
 }
