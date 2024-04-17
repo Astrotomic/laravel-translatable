@@ -11,8 +11,8 @@ final class EloquentOverrideTest extends TestCase
     {
         $vegetable = factory(Vegetable::class)->make(['name:en' => 'Peas']);
 
-        static::assertArrayHasKey('name', $vegetable->toArray());
-        static::assertEquals('Peas', $vegetable->toArray()['name']);
+        self::assertArrayHasKey('name', $vegetable->toArray());
+        self::assertEquals('Peas', $vegetable->toArray()['name']);
     }
 
     /** @test */
@@ -20,7 +20,7 @@ final class EloquentOverrideTest extends TestCase
     {
         $vegetable = factory(Vegetable::class)->make();
 
-        static::assertIsArray($vegetable->toArray());
+        self::assertIsArray($vegetable->toArray());
     }
 
     /** @test */
@@ -28,8 +28,8 @@ final class EloquentOverrideTest extends TestCase
     {
         $vegetable = factory(Vegetable::class)->make(['name:en' => 'Peas']);
 
-        static::assertTrue(isset($vegetable->name));
-        static::assertEquals('Peas', $vegetable->name);
+        self::assertTrue(isset($vegetable->name));
+        self::assertEquals('Peas', $vegetable->name);
     }
 
     /** @test */
@@ -37,11 +37,11 @@ final class EloquentOverrideTest extends TestCase
     {
         $vegetable = factory(Vegetable::class)->make(['name:en' => 'Peas']);
 
-        static::assertTrue(isset($vegetable->toArray()['name']));
+        self::assertTrue(isset($vegetable->toArray()['name']));
 
         $vegetable->setHidden(['name']);
 
-        static::assertFalse(isset($vegetable->toArray()['name']));
+        self::assertFalse(isset($vegetable->toArray()['name']));
     }
 
     /** @test */
@@ -49,7 +49,7 @@ final class EloquentOverrideTest extends TestCase
     {
         $vegetable = new Vegetable();
 
-        static::assertEquals('vegetable_identity', $vegetable->getTranslationRelationKey());
+        self::assertEquals('vegetable_identity', $vegetable->getTranslationRelationKey());
     }
 
     /** @test */
@@ -57,6 +57,6 @@ final class EloquentOverrideTest extends TestCase
     {
         $vegetable = new Vegetable();
 
-        static::assertSame($vegetable, $vegetable->setAttribute('name', 'China'));
+        self::assertSame($vegetable, $vegetable->setAttribute('name', 'China'));
     }
 }

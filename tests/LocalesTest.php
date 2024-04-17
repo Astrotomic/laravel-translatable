@@ -12,8 +12,8 @@ final class LocalesTest extends TestCase
     {
         $singletonHash = spl_object_hash(app(Locales::class));
 
-        static::assertEquals($singletonHash, spl_object_hash($this->app->make('translatable.locales')));
-        static::assertEquals($singletonHash, spl_object_hash($this->app->make(Locales::class)));
+        self::assertEquals($singletonHash, spl_object_hash($this->app->make('translatable.locales')));
+        self::assertEquals($singletonHash, spl_object_hash($this->app->make(Locales::class)));
     }
 
     /** @test */
@@ -23,15 +23,15 @@ final class LocalesTest extends TestCase
             'de',
         ]);
         $this->app->make('translatable.locales')->load();
-        static::assertEquals(['de'], $this->app->make('translatable.locales')->all());
+        self::assertEquals(['de'], $this->app->make('translatable.locales')->all());
 
         $this->app['config']->set('translatable.locales', [
             'de',
             'en',
         ]);
-        static::assertEquals(['de'], $this->app->make('translatable.locales')->all());
+        self::assertEquals(['de'], $this->app->make('translatable.locales')->all());
         $this->app->make('translatable.locales')->load();
-        static::assertEquals(['de', 'en'], $this->app->make('translatable.locales')->all());
+        self::assertEquals(['de', 'en'], $this->app->make('translatable.locales')->all());
     }
 
     /** @test */
@@ -55,7 +55,7 @@ final class LocalesTest extends TestCase
         ]);
         $this->app->make('translatable.locales')->load();
 
-        static::assertEquals(['el', 'en', 'fr', 'de', 'id'], $this->app->make('translatable.locales')->all());
+        self::assertEquals(['el', 'en', 'fr', 'de', 'id'], $this->app->make('translatable.locales')->all());
     }
 
     /** @test */
@@ -73,7 +73,7 @@ final class LocalesTest extends TestCase
         ]);
         $this->app->make('translatable.locales')->load();
 
-        static::assertEquals(['en', 'en-GB', 'en-US', 'de', 'de-DE', 'de-CH'], $this->app->make('translatable.locales')->all());
+        self::assertEquals(['en', 'en-GB', 'en-US', 'de', 'de-DE', 'de-CH'], $this->app->make('translatable.locales')->all());
     }
 
     /** @test */
@@ -88,7 +88,7 @@ final class LocalesTest extends TestCase
         ]);
         $this->app->make('translatable.locales')->load();
 
-        static::assertEquals(['el', 'en', 'fr', 'de', 'id'], $this->app->make('translatable.locales')->toArray());
+        self::assertEquals(['el', 'en', 'fr', 'de', 'id'], $this->app->make('translatable.locales')->toArray());
     }
 
     /** @test */
@@ -96,7 +96,7 @@ final class LocalesTest extends TestCase
     {
         $this->app['config']->set('translatable.locale', 'de');
 
-        static::assertEquals('de', $this->app->make('translatable.locales')->current());
+        self::assertEquals('de', $this->app->make('translatable.locales')->current());
     }
 
     /** @test */
@@ -105,7 +105,7 @@ final class LocalesTest extends TestCase
         $this->app['config']->set('translatable.locale', null);
         $this->app['translator']->setLocale('en');
 
-        static::assertEquals('en', $this->app->make('translatable.locales')->current());
+        self::assertEquals('en', $this->app->make('translatable.locales')->current());
     }
 
     /** @test */
@@ -120,8 +120,8 @@ final class LocalesTest extends TestCase
         ]);
         $this->app->make('translatable.locales')->load();
 
-        static::assertTrue($this->app->make('translatable.locales')->has('de'));
-        static::assertFalse($this->app->make('translatable.locales')->has('jp'));
+        self::assertTrue($this->app->make('translatable.locales')->has('de'));
+        self::assertFalse($this->app->make('translatable.locales')->has('jp'));
     }
 
     /** @test */
@@ -136,8 +136,8 @@ final class LocalesTest extends TestCase
         ]);
         $this->app->make('translatable.locales')->load();
 
-        static::assertTrue(isset($this->app->make('translatable.locales')['de']));
-        static::assertFalse(isset($this->app->make('translatable.locales')['jp']));
+        self::assertTrue(isset($this->app->make('translatable.locales')['de']));
+        self::assertFalse(isset($this->app->make('translatable.locales')['jp']));
     }
 
     /** @test */
@@ -152,8 +152,8 @@ final class LocalesTest extends TestCase
         ]);
         $this->app->make('translatable.locales')->load();
 
-        static::assertEquals('de', $this->app->make('translatable.locales')->get('de'));
-        static::assertNull($this->app->make('translatable.locales')->get('jp'));
+        self::assertEquals('de', $this->app->make('translatable.locales')->get('de'));
+        self::assertNull($this->app->make('translatable.locales')->get('jp'));
     }
 
     /** @test */
@@ -168,8 +168,8 @@ final class LocalesTest extends TestCase
         ]);
         $this->app->make('translatable.locales')->load();
 
-        static::assertEquals('de', $this->app->make('translatable.locales')['de']);
-        static::assertNull($this->app->make('translatable.locales')['jp']);
+        self::assertEquals('de', $this->app->make('translatable.locales')['de']);
+        self::assertNull($this->app->make('translatable.locales')['jp']);
     }
 
     /** @test */
@@ -180,10 +180,10 @@ final class LocalesTest extends TestCase
         ]);
         $this->app->make('translatable.locales')->load();
 
-        static::assertTrue($this->app->make('translatable.locales')->has('de'));
-        static::assertFalse($this->app->make('translatable.locales')->has('en'));
+        self::assertTrue($this->app->make('translatable.locales')->has('de'));
+        self::assertFalse($this->app->make('translatable.locales')->has('en'));
         $this->app->make('translatable.locales')->add('en');
-        static::assertTrue($this->app->make('translatable.locales')->has('en'));
+        self::assertTrue($this->app->make('translatable.locales')->has('en'));
     }
 
     /** @test */
@@ -194,10 +194,10 @@ final class LocalesTest extends TestCase
         ]);
         $this->app->make('translatable.locales')->load();
 
-        static::assertTrue($this->app->make('translatable.locales')->has('de'));
-        static::assertFalse($this->app->make('translatable.locales')->has('en'));
+        self::assertTrue($this->app->make('translatable.locales')->has('de'));
+        self::assertFalse($this->app->make('translatable.locales')->has('en'));
         $this->app->make('translatable.locales')[] = 'en';
-        static::assertTrue($this->app->make('translatable.locales')->has('en'));
+        self::assertTrue($this->app->make('translatable.locales')->has('en'));
     }
 
     /** @test */
@@ -208,10 +208,10 @@ final class LocalesTest extends TestCase
         ]);
         $this->app->make('translatable.locales')->load();
 
-        static::assertTrue($this->app->make('translatable.locales')->has('de'));
-        static::assertFalse($this->app->make('translatable.locales')->has('de-AT'));
+        self::assertTrue($this->app->make('translatable.locales')->has('de'));
+        self::assertFalse($this->app->make('translatable.locales')->has('de-AT'));
         $this->app->make('translatable.locales')['de'] = 'AT';
-        static::assertTrue($this->app->make('translatable.locales')->has('de-AT'));
+        self::assertTrue($this->app->make('translatable.locales')->has('de-AT'));
     }
 
     /** @test */
@@ -223,10 +223,10 @@ final class LocalesTest extends TestCase
         ]);
         $this->app->make('translatable.locales')->load();
 
-        static::assertTrue($this->app->make('translatable.locales')->has('de'));
-        static::assertTrue($this->app->make('translatable.locales')->has('en'));
+        self::assertTrue($this->app->make('translatable.locales')->has('de'));
+        self::assertTrue($this->app->make('translatable.locales')->has('en'));
         $this->app->make('translatable.locales')->forget('en');
-        static::assertFalse($this->app->make('translatable.locales')->has('en'));
+        self::assertFalse($this->app->make('translatable.locales')->has('en'));
     }
 
     /** @test */
@@ -238,10 +238,10 @@ final class LocalesTest extends TestCase
         ]);
         $this->app->make('translatable.locales')->load();
 
-        static::assertTrue($this->app->make('translatable.locales')->has('de'));
-        static::assertTrue($this->app->make('translatable.locales')->has('en'));
+        self::assertTrue($this->app->make('translatable.locales')->has('de'));
+        self::assertTrue($this->app->make('translatable.locales')->has('en'));
         unset($this->app->make('translatable.locales')['en']);
-        static::assertFalse($this->app->make('translatable.locales')->has('en'));
+        self::assertFalse($this->app->make('translatable.locales')->has('en'));
     }
 
     /** @test */
@@ -249,7 +249,7 @@ final class LocalesTest extends TestCase
     {
         $this->app['config']->set('translatable.locale_separator', '_');
 
-        static::assertEquals('_', $this->app->make('translatable.locales')->getLocaleSeparator());
+        self::assertEquals('_', $this->app->make('translatable.locales')->getLocaleSeparator());
     }
 
     /** @test */
@@ -257,26 +257,26 @@ final class LocalesTest extends TestCase
     {
         $this->app['config']->set('translatable.locale_separator', null);
 
-        static::assertEquals('-', $this->app->make('translatable.locales')->getLocaleSeparator());
+        self::assertEquals('-', $this->app->make('translatable.locales')->getLocaleSeparator());
     }
 
     /** @test */
     public function can_get_a_country_locale_formatted_with_separator(): void
     {
-        static::assertEquals('de-AT', $this->app->make('translatable.locales')->getCountryLocale('de', 'AT'));
+        self::assertEquals('de-AT', $this->app->make('translatable.locales')->getCountryLocale('de', 'AT'));
     }
 
     /** @test */
     public function can_determine_if_a_locale_is_country_based(): void
     {
-        static::assertTrue($this->app->make('translatable.locales')->isLocaleCountryBased('de-AT'));
-        static::assertFalse($this->app->make('translatable.locales')->isLocaleCountryBased('de'));
+        self::assertTrue($this->app->make('translatable.locales')->isLocaleCountryBased('de-AT'));
+        self::assertFalse($this->app->make('translatable.locales')->isLocaleCountryBased('de'));
     }
 
     /** @test */
     public function can_get_a_locale_from_the_country_locale(): void
     {
-        static::assertEquals('de', $this->app->make('translatable.locales')->getLanguageFromCountryBasedLocale('de-AT'));
-        static::assertEquals('de', $this->app->make('translatable.locales')->getLanguageFromCountryBasedLocale('de'));
+        self::assertEquals('de', $this->app->make('translatable.locales')->getLanguageFromCountryBasedLocale('de-AT'));
+        self::assertEquals('de', $this->app->make('translatable.locales')->getLanguageFromCountryBasedLocale('de'));
     }
 }
