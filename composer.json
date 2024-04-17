@@ -51,7 +51,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Astrotomic\\Translatable\\Tests\\": "tests/"
+            "Tests\\": "tests/"
         }
     },
     "config": {

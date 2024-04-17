@@ -1,6 +1,6 @@
 <?php
 
-use Astrotomic\Translatable\Tests\Eloquent\Country;
+use Tests\Eloquent\Country;
 use Faker\Generator as Faker;
 use Illuminate\Database\Eloquent\Factory as ModelFactory;
 

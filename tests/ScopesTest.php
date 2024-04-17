@@ -1,9 +1,9 @@
 <?php
 
-namespace Astrotomic\Translatable\Tests;
+namespace Tests;
 
-use Astrotomic\Translatable\Tests\Eloquent\Country;
-use Astrotomic\Translatable\Tests\Eloquent\Vegetable;
+use Tests\Eloquent\Country;
+use Tests\Eloquent\Vegetable;
 
 final class ScopesTest extends TestCase
 {

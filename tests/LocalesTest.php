@@ -1,6 +1,6 @@
 <?php
 
-namespace Astrotomic\Translatable\Tests;
+namespace Tests;
 
 use Astrotomic\Translatable\Exception\LocalesNotDefinedException;
 use Astrotomic\Translatable\Locales;
