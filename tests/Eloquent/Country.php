@@ -1,6 +1,6 @@
 <?php
 
-namespace Astrotomic\Translatable\Tests\Eloquent;
+namespace Tests\Eloquent;
 
 use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 use Astrotomic\Translatable\Translatable;
@@ -29,8 +29,6 @@ class Country extends Eloquent implements TranslatableContract
     /**
      * This is the foreign key used to define the translation relationship.
      * Set this if you want to overwrite the laravel default for foreign keys.
-     *
-     * @var
      */
     public $translationForeignKey;
 
@@ -41,6 +39,7 @@ class Country extends Eloquent implements TranslatableContract
      * @var array
      */
     public $fillable = [];
+
     public $guarded = [];
 
     /**

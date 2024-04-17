@@ -1,6 +1,6 @@
 <?php
 
-namespace Astrotomic\Translatable\Tests\Eloquent;
+namespace Tests\Eloquent;
 
 use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 use Astrotomic\Translatable\Translatable;
@@ -8,8 +8,6 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
 
 class Person extends Eloquent implements TranslatableContract
 {
-    protected $table = 'people';
-
     use Translatable;
 
     /**
@@ -31,8 +29,6 @@ class Person extends Eloquent implements TranslatableContract
     /**
      * This is the foreign key used to define the translation relationship.
      * Set this if you want to overwrite the laravel default for foreign keys.
-     *
-     * @var
      */
     public $translationForeignKey;
 
@@ -44,10 +40,11 @@ class Person extends Eloquent implements TranslatableContract
      */
     public $localeKey;
 
+    protected $table = 'people';
+
     /**
      * Mutate name attribute into upper-case.
      *
-     * @param $value
      * @return string
      */
     public function getNameAttribute($value)

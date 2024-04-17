@@ -1,6 +1,6 @@
 /vendor/
 /composer.lock
 /coverage/
-/.phpunit.result.cache
+/.phpunit.cache
 /build/
 /coverage.clover
