@@ -4,6 +4,3 @@
 /.phpunit.cache
 /build/
 /coverage.clover
-/.idea
-/.vscode
-/.fleet
