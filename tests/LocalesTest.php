@@ -4,10 +4,11 @@ namespace Tests;
 
 use Astrotomic\Translatable\Exception\LocalesNotDefinedException;
 use Astrotomic\Translatable\Locales;
+use PHPUnit\Framework\Attributes\Test;
 
 final class LocalesTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function locales_is_declared_as_a_singleton_instance(): void
     {
         $singletonHash = spl_object_hash(app(Locales::class));
@@ -16,7 +17,7 @@ final class LocalesTest extends TestCase
         self::assertEquals($singletonHash, spl_object_hash($this->app->make(Locales::class)));
     }
 
-    /** @test */
+    #[Test]
     public function it_loads_the_locales_from_the_configuration(): void
     {
         $this->app['config']->set('translatable.locales', [
@@ -34,7 +35,7 @@ final class LocalesTest extends TestCase
         self::assertEquals(['de', 'en'], $this->app->make('translatable.locales')->all());
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_an_exception_if_there_are_no_locales(): void
     {
         $this->expectException(LocalesNotDefinedException::class);
@@ -43,7 +44,7 @@ final class LocalesTest extends TestCase
         $this->app->make('translatable.locales')->load();
     }
 
-    /** @test */
+    #[Test]
     public function all_language_locales_are_loaded_from_the_configuration(): void
     {
         $this->app['config']->set('translatable.locales', [
@@ -58,7 +59,7 @@ final class LocalesTest extends TestCase
         self::assertEquals(['el', 'en', 'fr', 'de', 'id'], $this->app->make('translatable.locales')->all());
     }
 
-    /** @test */
+    #[Test]
     public function it_loads_locales_and_countries(): void
     {
         $this->app['config']->set('translatable.locales', [
@@ -76,7 +77,7 @@ final class LocalesTest extends TestCase
         self::assertEquals(['en', 'en-GB', 'en-US', 'de', 'de-DE', 'de-CH'], $this->app->make('translatable.locales')->all());
     }
 
-    /** @test */
+    #[Test]
     public function can_return_locales_as_array(): void
     {
         $this->app['config']->set('translatable.locales', [
@@ -91,7 +92,7 @@ final class LocalesTest extends TestCase
         self::assertEquals(['el', 'en', 'fr', 'de', 'id'], $this->app->make('translatable.locales')->toArray());
     }
 
-    /** @test */
+    #[Test]
     public function can_retrieve_current_configuration(): void
     {
         $this->app['config']->set('translatable.locale', 'de');
@@ -99,7 +100,7 @@ final class LocalesTest extends TestCase
         self::assertEquals('de', $this->app->make('translatable.locales')->current());
     }
 
-    /** @test */
+    #[Test]
     public function current_can_return_the_translator_locale_if_configuration_is_empty(): void
     {
         $this->app['config']->set('translatable.locale', null);
@@ -108,7 +109,7 @@ final class LocalesTest extends TestCase
         self::assertEquals('en', $this->app->make('translatable.locales')->current());
     }
 
-    /** @test */
+    #[Test]
     public function it_checks_if_it_has_a_locale(): void
     {
         $this->app['config']->set('translatable.locales', [
@@ -124,7 +125,7 @@ final class LocalesTest extends TestCase
         self::assertFalse($this->app->make('translatable.locales')->has('jp'));
     }
 
-    /** @test */
+    #[Test]
     public function can_access_as_an_array(): void
     {
         $this->app['config']->set('translatable.locales', [
@@ -140,7 +141,7 @@ final class LocalesTest extends TestCase
         self::assertFalse(isset($this->app->make('translatable.locales')['jp']));
     }
 
-    /** @test */
+    #[Test]
     public function can_retrieve_a_specific_locale_by_get(): void
     {
         $this->app['config']->set('translatable.locales', [
@@ -156,7 +157,7 @@ final class LocalesTest extends TestCase
         self::assertNull($this->app->make('translatable.locales')->get('jp'));
     }
 
-    /** @test */
+    #[Test]
     public function missing_locale_returns_null_by_get(): void
     {
         $this->app['config']->set('translatable.locales', [
@@ -172,7 +173,7 @@ final class LocalesTest extends TestCase
         self::assertNull($this->app->make('translatable.locales')['jp']);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_add_a_locale(): void
     {
         $this->app['config']->set('translatable.locales', [
@@ -186,7 +187,7 @@ final class LocalesTest extends TestCase
         self::assertTrue($this->app->make('translatable.locales')->has('en'));
     }
 
-    /** @test */
+    #[Test]
     public function locale_can_be_added_by_accessing_as_an_array(): void
     {
         $this->app['config']->set('translatable.locales', [
@@ -200,7 +201,7 @@ final class LocalesTest extends TestCase
         self::assertTrue($this->app->make('translatable.locales')->has('en'));
     }
 
-    /** @test */
+    #[Test]
     public function locale_country_can_be_added_by_accessing_as_an_array(): void
     {
         $this->app['config']->set('translatable.locales', [
@@ -214,7 +215,7 @@ final class LocalesTest extends TestCase
         self::assertTrue($this->app->make('translatable.locales')->has('de-AT'));
     }
 
-    /** @test */
+    #[Test]
     public function can_forget_a_locale(): void
     {
         $this->app['config']->set('translatable.locales', [
@@ -229,7 +230,7 @@ final class LocalesTest extends TestCase
         self::assertFalse($this->app->make('translatable.locales')->has('en'));
     }
 
-    /** @test */
+    #[Test]
     public function can_forget_a_locale_using_unset_as_an_array(): void
     {
         $this->app['config']->set('translatable.locales', [
@@ -244,7 +245,7 @@ final class LocalesTest extends TestCase
         self::assertFalse($this->app->make('translatable.locales')->has('en'));
     }
 
-    /** @test */
+    #[Test]
     public function can_retrieve_the_locale_country_separator(): void
     {
         $this->app['config']->set('translatable.locale_separator', '_');
@@ -252,7 +253,7 @@ final class LocalesTest extends TestCase
         self::assertEquals('_', $this->app->make('translatable.locales')->getLocaleSeparator());
     }
 
-    /** @test */
+    #[Test]
     public function can_set_a_default_locale_country_separator_if_configuration_is_missing(): void
     {
         $this->app['config']->set('translatable.locale_separator', null);
@@ -260,20 +261,20 @@ final class LocalesTest extends TestCase
         self::assertEquals('-', $this->app->make('translatable.locales')->getLocaleSeparator());
     }
 
-    /** @test */
+    #[Test]
     public function can_get_a_country_locale_formatted_with_separator(): void
     {
         self::assertEquals('de-AT', $this->app->make('translatable.locales')->getCountryLocale('de', 'AT'));
     }
 
-    /** @test */
+    #[Test]
     public function can_determine_if_a_locale_is_country_based(): void
     {
         self::assertTrue($this->app->make('translatable.locales')->isLocaleCountryBased('de-AT'));
         self::assertFalse($this->app->make('translatable.locales')->isLocaleCountryBased('de'));
     }
 
-    /** @test */
+    #[Test]
     public function can_get_a_locale_from_the_country_locale(): void
     {
         self::assertEquals('de', $this->app->make('translatable.locales')->getLanguageFromCountryBasedLocale('de-AT'));
