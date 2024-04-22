@@ -9,7 +9,7 @@ use Illuminate\Validation\Rule;
 
 class TranslatableServiceProvider extends ServiceProvider
 {
-    public function boot()
+    public function boot(): void
     {
         $this->publishes([
             __DIR__ . '/../config/translatable.php' => config_path('translatable.php'),
@@ -21,7 +21,7 @@ class TranslatableServiceProvider extends ServiceProvider
         ], 'translatable-lang');
     }
 
-    public function register()
+    public function register(): void
     {
         $this->mergeConfigFrom(
             __DIR__ . '/../config/translatable.php',
@@ -38,7 +38,7 @@ class TranslatableServiceProvider extends ServiceProvider
         $this->registerTranslatableHelper();
     }
 
-    protected function registerTranslatableHelper()
+    protected function registerTranslatableHelper(): void
     {
         $this->app->singleton('translatable.locales', Locales::class);
         $this->app->singleton(Locales::class);
