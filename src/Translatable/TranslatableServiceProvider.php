@@ -12,19 +12,19 @@ class TranslatableServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->publishes([
-            __DIR__ . '/../config/translatable.php' => config_path('translatable.php'),
+            __DIR__.'/../config/translatable.php' => config_path('translatable.php'),
         ], 'translatable');
 
-        $this->loadTranslationsFrom(__DIR__ . '/../lang', 'translatable');
+        $this->loadTranslationsFrom(__DIR__.'/../lang', 'translatable');
         $this->publishes([
-            __DIR__ . '/../lang' => $this->app->langPath('vendor/translatable'),
+            __DIR__.'/../lang' => $this->app->langPath('vendor/translatable'),
         ], 'translatable-lang');
     }
 
     public function register(): void
     {
         $this->mergeConfigFrom(
-            __DIR__ . '/../config/translatable.php',
+            __DIR__.'/../config/translatable.php',
             'translatable'
         );
 

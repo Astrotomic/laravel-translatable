@@ -4,3 +4,4 @@
 /.phpunit.cache
 /build/
 /coverage.clover
+.history

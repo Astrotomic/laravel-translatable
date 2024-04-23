@@ -19,7 +19,7 @@ interface Translatable
     public static function enableDeleteTranslationsCascade(): void;
 
     /**
-     * @param string|array<string>|null $locales
+     * @param  string|array<string>|null  $locales
      */
     public function deleteTranslations(string|array|null $locales = null): void;
 
@@ -31,7 +31,7 @@ interface Translatable
 
     public function getTranslationOrNew(?string $locale = null): Model;
 
-    /** 
+    /**
      * @return array<string,array<string,mixed>>
      */
     public function getTranslationsArray(): array;
@@ -41,7 +41,7 @@ interface Translatable
     public function isTranslationAttribute(string $key): bool;
 
     /**
-     * @param null|array<string> $except
+     * @param  null|array<string>  $except
      */
     public function replicateWithTranslations(?array $except = null): Model;
 

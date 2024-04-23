@@ -6,60 +6,60 @@ namespace Astrotomic\Translatable\Validation\Rules;
 
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
 /**
  * Custom exists validation for translatable attributes
- * 
+ *
  * @author Amjad BaniMattar <amjad.banimattar@gmail.com>
  */
 class TranslatableExists implements ValidationRule
 {
     /**
      * The ID that should be ignored.
-     *
-     * @var mixed
      */
-    protected mixed $ignore = null;
+    protected null|int|string $ignore = null;
 
     /**
-     * The name of the ID column.
-     *
-     * @var string
+     * The name of the ID column of ignored model.
      */
     protected string $idColumn = 'id';
 
     /**
      * The default locale
-     * 
-     * @var string
      */
     protected ?string $locale = null;
 
-    public function __construct(private string $model, private string $field)
+    /**
+     * @param  class-string<Model>  $model
+     * @param  string  $field  The field to check for existents
+     */
+    public function __construct(protected string $model, protected string $field)
     {
+        if (! class_exists($model)) {
+            throw new \Exception("Class '$model' does not exist.");
+        }
+
         if (Str::contains($field, ':')) {
             [$this->field, $this->locale] = explode(':', $field);
         }
-        //
     }
 
     /**
      * Ignore the given ID during the unique check.
      *
-     * @param  mixed  $id
-     * @param  string|null  $idColumn
      * @return $this
      */
-    public function ignore(mixed $id, ?string $idColumn = null): self
+    public function ignore(int|string|Model $id, ?string $idColumn = null): self
     {
         if ($id instanceof Model) {
             return $this->ignoreModel($id, $idColumn);
         }
 
         $this->ignore = $id;
-        $this->idColumn = $idColumn ?? 'id';
+        $this->idColumn = $idColumn ?? ((new $this->model())->getKeyName());
 
         return $this;
     }
@@ -67,8 +67,6 @@ class TranslatableExists implements ValidationRule
     /**
      * Ignore the given model during the unique check.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
-     * @param  string|null  $idColumn
      * @return $this
      */
     public function ignoreModel(Model $model, ?string $idColumn = null): self
@@ -80,18 +78,24 @@ class TranslatableExists implements ValidationRule
     }
 
     /**
-     * Run the validation rule.
+     * Validate the given attribute against the exists constraint, or throw ValidationException.
      *
+     * @param  string  $attribute  attribute name
+     * @param  mixed  $value  attribute value
      * @param  \Closure(string): \Illuminate\Translation\PotentiallyTranslatedString  $fail
+     *
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         if (! empty($value)) {
-            $query = $this->model::whereTranslation($this->field, $value, $this->locale);
-            if ($this->ignore) {
-                $query->whereNot($this->idColumn, $this->ignore);
-            }
-            $exists = $query->exists();
+            $exists = $this->model::query()
+                ->whereTranslation($this->field, $value, $this->locale)
+                ->when(
+                    $this->ignore,
+                    fn (Builder $query) => $query->whereNot($this->idColumn, $this->ignore)
+                )
+                ->exists();
 
             if (! $exists) {
                 $fail('translatable::validation.translatableExist')->translate();

@@ -2,6 +2,7 @@
 
 namespace Astrotomic\Translatable;
 
+use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 use Astrotomic\Translatable\Traits\Relationship;
 use Astrotomic\Translatable\Traits\Scopes;
 use Illuminate\Database\Eloquent\Collection;
@@ -305,7 +306,7 @@ trait Translatable
         return parent::setAttribute($key, $value);
     }
 
-    public function setDefaultLocale(?string $locale)
+    public function setDefaultLocale(?string $locale): TranslatableContract
     {
         $this->defaultLocale = $locale;
 
