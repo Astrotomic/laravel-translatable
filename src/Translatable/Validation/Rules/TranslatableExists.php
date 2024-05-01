@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Astrotomic\Translatable\Validation\Rules;
 
 use Closure;
-use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Contracts\Validation\InvokableRule;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -14,8 +14,11 @@ use Illuminate\Support\Str;
  * Custom exists validation for translatable attributes
  *
  * @author Amjad BaniMattar <amjad.banimattar@gmail.com>
+ *
+ * @TODO should be updated to use use Illuminate\Contracts\Validation\ValidationRule; when this package drop of Laravel 9 support
+ * instead using detracted interface InvokableRule
  */
-class TranslatableExists implements ValidationRule
+class TranslatableExists implements InvokableRule
 {
     /**
      * The ID that should be ignored.
@@ -101,5 +104,17 @@ class TranslatableExists implements ValidationRule
                 $fail('translatable::validation.translatableExist')->translate();
             }
         }
+    }
+
+    /**
+     * Laravel 9 compatibility (InvokableRule interface)
+     *
+     * @param  string  $attribute
+     * @param  mixed  $value
+     * @param  Closure(string): \Illuminate\Translation\PotentiallyTranslatedString  $fail
+     */
+    public function __invoke($attribute, $value, $fail): void
+    {
+        $this->validate($attribute, $value, $fail);
     }
 }
