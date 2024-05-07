@@ -225,6 +225,28 @@ final class TranslatableTest extends TestCase
     }
 
     #[Test]
+    public function it_creates_translations_using_wrapped_mass_assignment_and_locales(): void
+    {
+        $this->app->make('config')->set('translatable.translations_wrapper', 'translations');
+
+        $vegetable = Vegetable::create([
+            'quantity' => 5,
+            'translations' => [
+                'en' => ['name' => 'Peas'],
+                'fr' => ['name' => 'Pois'],
+            ],
+        ]);
+
+        self::assertEquals(5, $vegetable->quantity);
+        self::assertEquals('Peas', $vegetable->translate('en')->name);
+        self::assertEquals('Pois', $vegetable->translate('fr')->name);
+
+        $vegetable = Vegetable::first();
+        self::assertEquals('Peas', $vegetable->translate('en')->name);
+        self::assertEquals('Pois', $vegetable->translate('fr')->name);
+    }
+
+    #[Test]
     public function it_skips_mass_assignment_if_attributes_non_fillable(): void
     {
         $this->expectException(MassAssignmentException::class);
