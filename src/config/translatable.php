@@ -134,6 +134,16 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Unload translations after they were auto loaded for to array
+    |--------------------------------------------------------------------------
+    | Setting this to true will remove the translations relationship
+    | from the model after it was auto loadeded by toArray().
+    |
+     */
+    'unload_translations_after_to_array' => false,
+
+    /*
+    |--------------------------------------------------------------------------
     | Configure the default behavior of the rule factory
     |--------------------------------------------------------------------------
     | The default values used to control the behavior of the RuleFactory.

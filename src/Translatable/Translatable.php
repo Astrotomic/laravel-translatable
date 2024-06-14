@@ -72,9 +72,10 @@ trait Translatable
     public function attributesToArray()
     {
         $attributes = parent::attributesToArray();
+        $alreadyLoaded = $this->relationLoaded('translations');
 
         if (
-            (! $this->relationLoaded('translations') && ! $this->toArrayAlwaysLoadsTranslations() && is_null(self::$autoloadTranslations))
+            (! $alreadyLoaded && ! $this->toArrayAlwaysLoadsTranslations() && is_null(self::$autoloadTranslations))
             || self::$autoloadTranslations === false
         ) {
             return $attributes;
@@ -88,6 +89,10 @@ trait Translatable
             }
 
             $attributes[$field] = $this->getAttributeOrFallback(null, $field);
+        }
+
+        if (! $alreadyLoaded && $this->unloadTranslationsAfterToArray()) {
+            $this->unsetRelation('translations');
         }
 
         return $attributes;
@@ -433,6 +438,11 @@ trait Translatable
         }
 
         return $this->translations->firstWhere($this->getLocaleKey(), $key);
+    }
+
+    protected function unloadTranslationsAfterToArray(): bool
+    {
+        return config('translatable.unload_translations_after_to_array', false);
     }
 
     protected function toArrayAlwaysLoadsTranslations(): bool
