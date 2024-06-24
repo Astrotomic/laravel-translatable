@@ -106,19 +106,20 @@ trait Scopes
         return $this->scopeWhereTranslation($query, $translationField, $value, $locale, 'whereHas', 'LIKE');
     }
 
-    public function scopeWithTranslation(Builder $query)
+    public function scopeWithTranslation(Builder $query, ?string $locale = null)
     {
+        $locale = $locale ?: $this->locale();
+
         $query->with([
-            'translations' => function (Relation $query) {
+            'translations' => function (Relation $query) use ($locale) {
                 if ($this->useFallback()) {
-                    $locale = $this->locale();
                     $countryFallbackLocale = $this->getFallbackLocale($locale); // e.g. de-DE => de
                     $locales = array_unique([$locale, $countryFallbackLocale, $this->getFallbackLocale()]);
 
                     return $query->whereIn($this->getTranslationsTable().'.'.$this->getLocaleKey(), $locales);
                 }
 
-                return $query->where($this->getTranslationsTable().'.'.$this->getLocaleKey(), $this->locale());
+                return $query->where($this->getTranslationsTable().'.'.$this->getLocaleKey(), $locale);
             },
         ]);
     }
