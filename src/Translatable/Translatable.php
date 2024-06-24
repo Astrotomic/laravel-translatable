@@ -115,6 +115,9 @@ trait Translatable
     public function fill(array $attributes)
     {
         foreach ($attributes as $key => $values) {
+            if ($this->isWrapperAttribute($key)) {
+                $this->fill($values);
+            }
             if (
                 $this->getLocalesHelper()->has($key)
                 && is_array($values)
@@ -277,6 +280,11 @@ trait Translatable
     public function isTranslationAttribute(string $key): bool
     {
         return in_array($key, $this->translatedAttributes);
+    }
+
+    public function isWrapperAttribute(string $key): bool
+    {
+        return $key === config('translatable.translations_wrapper');
     }
 
     public function replicateWithTranslations(?array $except = null): Model
