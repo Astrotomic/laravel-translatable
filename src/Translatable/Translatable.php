@@ -181,7 +181,8 @@ trait Translatable
         /** @var Model $translation */
         $translation = new $modelName();
         $translation->setAttribute($this->getLocaleKey(), $locale);
-        $translation->setAttribute($this->translations()->getForeignKeyName(), $this->getKey());
+        $relation = $this->translations();
+        $translation->setAttribute($relation->getForeignKeyName(), $relation->getParentKey());
         $this->translations->add($translation);
 
         return $translation;
