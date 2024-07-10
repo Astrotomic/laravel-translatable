@@ -676,14 +676,14 @@ final class TranslatableTest extends TestCase
     }
 
     #[Test]
-    public function fill_will_ignore_unkown_locales(): void
+    public function fill_will_ignore_unknown_locales(): void
     {
         config(['translatable.locales' => ['en']]);
 
         $vegetable = new Vegetable();
         $vegetable->fill([
             'en' => ['name' => 'Peas'],
-            'ua' => ['name' => 'Unkown'],
+            'ua' => ['name' => 'unknown'],
         ]);
         $vegetable->save();
 
@@ -696,14 +696,14 @@ final class TranslatableTest extends TestCase
     }
 
     #[Test]
-    public function fill_will_ignore_unkown_locales_with_translations(): void
+    public function fill_will_ignore_unknown_locales_with_translations(): void
     {
         config(['translatable.locales' => ['en']]);
 
         $vegetable = new Vegetable();
         $vegetable->fill([
             'name:en' => 'Peas',
-            'name:ua' => 'Unkown',
+            'name:ua' => 'unknown',
         ]);
 
         $vegetable->save();
