@@ -8,6 +8,10 @@ use Illuminate\Contracts\Config\Repository as ConfigContract;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Translation\Translator as TranslatorContract;
 
+/**
+ * @implements Arrayable<string, string>
+ * @implements ArrayAccess<string, string>
+ */
 class Locales implements Arrayable, ArrayAccess
 {
     /**
@@ -16,7 +20,7 @@ class Locales implements Arrayable, ArrayAccess
     protected $config;
 
     /**
-     * @var array
+     * @var array<string,string>
      */
     protected $locales = [];
 
@@ -38,6 +42,9 @@ class Locales implements Arrayable, ArrayAccess
         $this->locales[$locale] = $locale;
     }
 
+    /**
+     * @return array<string>
+     */
     public function all(): array
     {
         return array_values($this->locales);

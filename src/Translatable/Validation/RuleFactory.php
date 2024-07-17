@@ -28,7 +28,7 @@ class RuleFactory
     protected $suffix;
 
     /**
-     * @var null|array
+     * @var null|array<string>
      */
     protected $locales = null;
 
@@ -39,6 +39,16 @@ class RuleFactory
         $this->suffix = $suffix ?? $config->get('translatable.rule_factory.suffix');
     }
 
+    /**
+     * Create a set of validation rules.
+     *
+     * @param  array<mixed>  $rules  The validation rules to be parsed.
+     * @param  int|null  $format  The format to be used for parsing (e.g., 'dot' or 'bracket').
+     * @param  string|null  $prefix  The prefix to be applied to each rule key.
+     * @param  string|null  $suffix  The suffix to be applied to each rule key.
+     * @param  array<string>|null  $locales  The locales to be used for translating rule attributes.
+     * @return array<string,mixed> The parsed validation rules.
+     */
     public static function make(array $rules, ?int $format = null, ?string $prefix = null, ?string $suffix = null, ?array $locales = null): array
     {
         /** @var RuleFactory $factory */
@@ -49,6 +59,13 @@ class RuleFactory
         return $factory->parse($rules);
     }
 
+    /**
+     * Set the locales to be used for translating rule attributes.
+     *
+     * @param  array<string>|null  $locales  The locales to be set. If null, all available locales will be used.
+     *
+     * @throws \InvalidArgumentException If a provided locale is not defined in the available locales.
+     */
     public function setLocales(?array $locales = null): self
     {
         /** @var Locales */
@@ -71,6 +88,12 @@ class RuleFactory
         return $this;
     }
 
+    /**
+     * Parse the input array of rules, applying format and translation to translatable attributes.
+     *
+     * @param  array<mixed>  $input  The input array of rules to be parsed.
+     * @return array<mixed> The parsed array of rules.
+     */
     public function parse(array $input): array
     {
         $rules = [];
