@@ -48,7 +48,7 @@ $validator = Validator::make($data, [
 ##### Option 2
 
 ```php
-use Astrotomic\Translatable\Validation\Rules\TranslatableUnique;
+use Illuminate\Validation\Rule;
 ...
 
 $person = new Person(['name' => 'john doe']);
@@ -90,7 +90,7 @@ $validator = Validator::make($data, [
 
 ##### Option 2
 ```php
-use Astrotomic\Translatable\Validation\Rules\TranslatableExists;
+use Illuminate\Validation\Rule;
 ...
 
 $person = new Person(['name' => 'john doe']);

@@ -20,7 +20,7 @@ class Locales implements Arrayable, ArrayAccess
     protected $config;
 
     /**
-     * @var array<string>
+     * @var array<string,string>
      */
     protected $locales = [];
 
