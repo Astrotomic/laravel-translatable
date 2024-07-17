@@ -68,7 +68,7 @@ $post = Post::create($data);
 echo $post->translate('fr')->title; // Mon premier post
 ```
 
-### Filling multiple translations wrapped
+#### Filling multiple translations wrapped
 
 You may define a wrapper property when creating new translations. Set the `translations_wrapper` property in translatable config file:
 ```php

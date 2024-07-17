@@ -227,11 +227,11 @@ final class TranslatableTest extends TestCase
     #[Test]
     public function it_creates_translations_using_wrapped_mass_assignment_and_locales(): void
     {
-        $this->app->make('config')->set('translatable.translations_wrapper', 'translations');
+        $this->app->make('config')->set('translatable.translations_wrapper', '_translation_wrapper');
 
         $vegetable = Vegetable::create([
             'quantity' => 5,
-            'translations' => [
+            '_translation_wrapper' => [
                 'en' => ['name' => 'Peas'],
                 'fr' => ['name' => 'Pois'],
             ],
