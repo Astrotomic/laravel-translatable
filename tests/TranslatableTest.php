@@ -781,7 +781,7 @@ final class TranslatableTest extends TestCase
                     return is_null($value);
                 }
 
-                return empty($value);
+                return parent::isEmptyTranslatableAttribute($key, $value);
             }
         };
 
