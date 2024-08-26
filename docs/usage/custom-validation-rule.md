@@ -65,13 +65,12 @@ $validator = Validator::make($data, [
 
 ```
 
-
 #### TranslatableExists
 
 Verify if the attribute value exists by confirming its presence in the database; if the value does not exist, raise a validation exception.
 
-
 ##### Option 1
+
 ```php
 use Astrotomic\Translatable\Validation\Rules\TranslatableExists;
 ...
@@ -89,6 +88,7 @@ $validator = Validator::make($data, [
 ```
 
 ##### Option 2
+
 ```php
 use Illuminate\Validation\Rule;
 ...
