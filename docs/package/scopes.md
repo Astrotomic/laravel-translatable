@@ -18,7 +18,7 @@ Post::notTranslatedIn('en')->get();
 
 ## translated\(\)
 
-Returns all posts not being translated in any locale
+Returns all posts with existing translations
 
 ```php
 Post::translated()->get();
