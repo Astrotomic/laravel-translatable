@@ -347,6 +347,7 @@ trait Translatable
     {
         $dirtyAttributes = $translation->getDirty();
         unset($dirtyAttributes[$this->getLocaleKey()]);
+        unset($dirtyAttributes[$this->getTranslationRelationKey()]);
 
         return count($dirtyAttributes) > 0;
     }

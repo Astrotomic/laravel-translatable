@@ -779,6 +779,25 @@ final class TranslatableTest extends TestCase
     }
 
     #[Test]
+    public function empty_translations_are_not_saved(): void
+    {
+        $vegetable = new Vegetable();
+        $vegetable->fill([
+            'en' => [],
+            'de' => ['name' => 'Erbsen'],
+        ]);
+
+        $vegetable->save();
+
+        self::assertDatabaseHas('vegetable_translations', [
+            'locale' => 'de',
+            'name' => 'Erbsen',
+        ]);
+
+        self::assertDatabaseMissing('vegetable_translations', ['locale' => 'en']);
+    }
+
+    #[Test]
     public function numeric_translated_attribute(): void
     {
         $this->app->make('config')->set('translatable.fallback_locale', 'de');
