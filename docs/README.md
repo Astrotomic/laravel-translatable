@@ -60,11 +60,13 @@ echo $post->translate('fr')->title; // Mon premier post
 #### Filling multiple translations wrapped
 
 You may define a wrapper property when creating new translations. Set the `translations_wrapper` property in translatable config file:
+
 ```php
 'translations_wrapper' => 'translations',
 ```
 
 Then just wrap multiple locales using that property:
+
 ```php
 $data = [
   'author' => 'Gummibeer',
