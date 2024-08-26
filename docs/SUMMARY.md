@@ -20,3 +20,4 @@
 - [Attributes](usage/attributes.md)
 - [Forms](usage/forms.md)
 - [Pivot Model](usage/pivot-model.md)
+- [Custom Validation Rules](usage/custom-validation-rule.md)
