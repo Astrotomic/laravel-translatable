@@ -342,6 +342,21 @@ final class TranslatableTest extends TestCase
     }
 
     #[Test]
+    public function new_translation_can_be_saved_directly(): void
+    {
+        $vegetable = factory(Vegetable::class)->create();
+
+        $translation = $vegetable->getNewTranslation('en');
+        $translation->name = 'Peas';
+        $translation->save();
+
+        self::assertDatabaseHas('vegetable_translations', [
+            'locale' => 'en',
+            'name' => 'Peas',
+        ]);
+    }
+
+    #[Test]
     public function the_locale_key_is_locale_by_default(): void
     {
         $vegetable = new Vegetable();
