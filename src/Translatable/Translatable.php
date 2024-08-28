@@ -2,7 +2,6 @@
 
 namespace Astrotomic\Translatable;
 
-use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 use Astrotomic\Translatable\Traits\Relationship;
 use Astrotomic\Translatable\Traits\Scopes;
 use Illuminate\Database\Eloquent\Collection;
