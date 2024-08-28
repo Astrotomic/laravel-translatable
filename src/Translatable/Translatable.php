@@ -315,9 +315,6 @@ trait Translatable
         return parent::setAttribute($key, $value);
     }
 
-    /**
-     * @return TranslatableContract
-     */
     public function setDefaultLocale(?string $locale)
     {
         $this->defaultLocale = $locale;
