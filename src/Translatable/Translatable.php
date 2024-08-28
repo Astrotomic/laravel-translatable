@@ -183,7 +183,7 @@ trait Translatable
         $modelName = $this->getTranslationModelName();
 
         /** @var Model $translation */
-        $translation = new $modelName();
+        $translation = new $modelName;
         $translation->setAttribute($this->getLocaleKey(), $locale);
         $translation->setAttribute($this->getTranslationRelationKey(), $this->getKey());
         $this->translations->add($translation);
@@ -315,7 +315,10 @@ trait Translatable
         return parent::setAttribute($key, $value);
     }
 
-    public function setDefaultLocale(?string $locale): TranslatableContract
+    /**
+     * @return TranslatableContract
+     */
+    public function setDefaultLocale(?string $locale)
     {
         $this->defaultLocale = $locale;
 

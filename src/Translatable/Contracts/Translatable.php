@@ -45,7 +45,10 @@ interface Translatable
      */
     public function replicateWithTranslations(?array $except = null): Model;
 
-    public function setDefaultLocale(?string $locale): self;
+    /**
+     * @return self
+     */
+    public function setDefaultLocale(?string $locale);
 
     public function translate(?string $locale = null, bool $withFallback = false): ?Model;
 

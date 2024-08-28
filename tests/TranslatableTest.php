@@ -22,7 +22,7 @@ final class TranslatableTest extends TestCase
     {
         self::assertEquals(
             VegetableTranslation::class,
-            (new Vegetable())->getTranslationModelNameDefault()
+            (new Vegetable)->getTranslationModelNameDefault()
         );
     }
 
@@ -33,7 +33,7 @@ final class TranslatableTest extends TestCase
 
         self::assertEquals(
             'App\Models\Translations\VegetableTranslation',
-            (new Vegetable())->getTranslationModelNameDefault()
+            (new Vegetable)->getTranslationModelNameDefault()
         );
     }
 
@@ -44,14 +44,14 @@ final class TranslatableTest extends TestCase
 
         self::assertEquals(
             'Tests\Eloquent\VegetableTrans',
-            (new Vegetable())->getTranslationModelName()
+            (new Vegetable)->getTranslationModelName()
         );
     }
 
     #[Test]
     public function it_returns_custom_TranslationModelName(): void
     {
-        $vegetable = new Vegetable();
+        $vegetable = new Vegetable;
 
         self::assertEquals(
             $vegetable->getTranslationModelNameDefault(),
@@ -68,7 +68,7 @@ final class TranslatableTest extends TestCase
     #[Test]
     public function it_returns_relation_key(): void
     {
-        $vegetable = new Vegetable();
+        $vegetable = new Vegetable;
         self::assertEquals('vegetable_identity', $vegetable->getRelationKey());
 
         $vegetable->translationForeignKey = 'my_awesome_key';
@@ -341,7 +341,7 @@ final class TranslatableTest extends TestCase
     {
         $this->app->make('config')->set('translatable.fallback_locale', 'en');
 
-        $vegetable = new Vegetable();
+        $vegetable = new Vegetable;
         $vegetable->fill([
             'quantity' => 5,
             'en' => ['name' => 'Peas'],
@@ -381,7 +381,7 @@ final class TranslatableTest extends TestCase
     #[Test]
     public function the_locale_key_is_locale_by_default(): void
     {
-        $vegetable = new Vegetable();
+        $vegetable = new Vegetable;
 
         self::assertEquals('locale', $vegetable->getLocaleKey());
     }
@@ -391,14 +391,14 @@ final class TranslatableTest extends TestCase
     {
         $this->app->make('config')->set('translatable.locale_key', 'language_id');
 
-        $vegetable = new Vegetable();
+        $vegetable = new Vegetable;
         self::assertEquals('language_id', $vegetable->getLocaleKey());
     }
 
     #[Test]
     public function the_locale_key_can_be_customized_per_model(): void
     {
-        $vegetable = new Vegetable();
+        $vegetable = new Vegetable;
         $vegetable->localeKey = 'language_id';
         self::assertEquals('language_id', $vegetable->getLocaleKey());
     }
@@ -467,7 +467,7 @@ final class TranslatableTest extends TestCase
     #[Test]
     public function it_returns_if_attribute_is_translated(): void
     {
-        $vegetable = new Vegetable();
+        $vegetable = new Vegetable;
 
         self::assertTrue($vegetable->isTranslationAttribute('name'));
         self::assertFalse($vegetable->isTranslationAttribute('some-field'));
@@ -631,7 +631,7 @@ final class TranslatableTest extends TestCase
     #[Test]
     public function fill_with_translation_key(): void
     {
-        $vegetable = new Vegetable();
+        $vegetable = new Vegetable;
         $vegetable->fill([
             'name:en' => 'Peas',
             'name:de' => 'Erbsen',
@@ -648,7 +648,7 @@ final class TranslatableTest extends TestCase
     #[Test]
     public function it_uses_the_default_locale_from_the_model(): void
     {
-        $vegetable = new Vegetable();
+        $vegetable = new Vegetable;
         $vegetable->fill([
             'name:en' => 'Peas',
             'name:fr' => 'Pois',
@@ -670,7 +670,7 @@ final class TranslatableTest extends TestCase
     #[Test]
     public function replicate_entity(): void
     {
-        $vegetable = new Vegetable();
+        $vegetable = new Vegetable;
         $vegetable->fill([
             'name:fr' => 'Pomme',
             'name:en' => 'Apple',
@@ -717,7 +717,7 @@ final class TranslatableTest extends TestCase
     {
         config(['translatable.locales' => ['en']]);
 
-        $vegetable = new Vegetable();
+        $vegetable = new Vegetable;
         $vegetable->fill([
             'en' => ['name' => 'Peas'],
             'ua' => ['name' => 'unknown'],
@@ -737,7 +737,7 @@ final class TranslatableTest extends TestCase
     {
         config(['translatable.locales' => ['en']]);
 
-        $vegetable = new Vegetable();
+        $vegetable = new Vegetable;
         $vegetable->fill([
             'name:en' => 'Peas',
             'name:ua' => 'unknown',
@@ -759,7 +759,7 @@ final class TranslatableTest extends TestCase
         $this->app->make('config')->set('translatable.use_fallback', true);
         $this->app->make('config')->set('translatable.use_property_fallback', true);
         $this->app->make('config')->set('translatable.fallback_locale', 'en');
-        $vegetable = new Vegetable();
+        $vegetable = new Vegetable;
         $vegetable->fill([
             'name:en' => 'Peas',
             'name:fr' => '',
@@ -777,7 +777,7 @@ final class TranslatableTest extends TestCase
         $this->app->make('config')->set('translatable.fallback_locale', 'it');
         $this->app->make('config')->set('translatable.use_fallback', true);
 
-        $vegetable = new Vegetable();
+        $vegetable = new Vegetable;
         $vegetable->fill([
             'en' => ['name' => ''],
             'de' => ['name' => 'Erbsen'],
@@ -803,7 +803,7 @@ final class TranslatableTest extends TestCase
     #[Test]
     public function empty_translations_are_not_saved(): void
     {
-        $vegetable = new Vegetable();
+        $vegetable = new Vegetable;
         $vegetable->fill([
             'en' => [],
             'de' => ['name' => 'Erbsen'],

@@ -62,7 +62,7 @@ class TranslatableExists implements InvokableRule
         }
 
         $this->ignore = $id;
-        $this->idColumn = $idColumn ?? ((new $this->model())->getKeyName());
+        $this->idColumn = $idColumn ?? ((new $this->model)->getKeyName());
 
         return $this;
     }

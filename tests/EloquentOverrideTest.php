@@ -48,7 +48,7 @@ final class EloquentOverrideTest extends TestCase
     #[Test]
     public function it_finds_custom_primary_keys(): void
     {
-        $vegetable = new Vegetable();
+        $vegetable = new Vegetable;
 
         self::assertEquals('vegetable_identity', $vegetable->getTranslationRelationKey());
     }
@@ -56,7 +56,7 @@ final class EloquentOverrideTest extends TestCase
     #[Test]
     public function setAttribute_returns_parent_setAttribute(): void
     {
-        $vegetable = new Vegetable();
+        $vegetable = new Vegetable;
 
         self::assertSame($vegetable, $vegetable->setAttribute('name', 'China'));
     }

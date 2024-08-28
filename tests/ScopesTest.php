@@ -91,7 +91,7 @@ final class ScopesTest extends TestCase
         factory(Country::class)->create(['code' => 'el', 'name:de' => 'Griechenland']);
         factory(Country::class)->create(['code' => 'fr', 'name:en' => 'France']);
 
-        $country = new Country();
+        $country = new Country;
         $country->useTranslationFallback = true;
 
         $countries = $country->listsTranslations('name')->get();
