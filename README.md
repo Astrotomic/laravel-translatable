@@ -5,8 +5,8 @@
 [![Offset Earth](https://img.shields.io/badge/Treeware-%F0%9F%8C%B3-green?style=for-the-badge)](https://plant.treeware.earth/Astrotomic/laravel-translatable)
 [![Larabelles](https://img.shields.io/badge/Larabelles-%F0%9F%A6%84-lightpink?style=for-the-badge)](https://www.larabelles.com/)
 
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/Astrotomic/laravel-translatable/phpunit?style=flat-square&logoColor=white&logo=github&label=PHPunit)](https://github.com/Astrotomic/laravel-translatable/actions?query=workflow%3Aphpunit)
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/Astrotomic/laravel-translatable/pint?style=flat-square&logoColor=white&logo=github&label=Pint)](https://github.com/Astrotomic/laravel-translatable/actions?query=workflow%3Apint)
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/Astrotomic/laravel-translatable/phpunit.yml?style=flat-square&logoColor=white&logo=github&label=PHPunit)](https://github.com/Astrotomic/laravel-translatable/actions?query=workflow%3Aphpunit)
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/Astrotomic/laravel-translatable/pint.yml?style=flat-square&logoColor=white&logo=github&label=Pint)](https://github.com/Astrotomic/laravel-translatable/actions?query=workflow%3Apint)
 [![Codecov Coverage](https://img.shields.io/codecov/c/github/Astrotomic/laravel-translatable?logo=codecov&logoColor=white&label=Codecov&style=flat-square)](https://codecov.io/gh/Astrotomic/laravel-translatable)
 [![Total Downloads](https://img.shields.io/packagist/dt/astrotomic/laravel-translatable.svg?label=Downloads&style=flat-square)](https://packagist.org/packages/astrotomic/laravel-translatable)
 [![GitBook](https://img.shields.io/badge/GitBook-Astrotomic-7e57c2.svg?style=flat-square)](https://docs.astrotomic.info/laravel-translatable)
