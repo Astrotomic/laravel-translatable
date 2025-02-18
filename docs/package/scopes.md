@@ -18,7 +18,7 @@ Post::notTranslatedIn('en')->get();
 
 ## translated\(\)
 
-Returns all posts not being translated in any locale
+Returns all posts with existing translations
 
 ```php
 Post::translated()->get();
@@ -32,7 +32,7 @@ Eager loads translation relationship only for the default and fallback \(if enab
 Post::withTranslation()->get();
 ```
 
-## listTranslations\(string $translationField\)
+## listsTranslations\(string $translationField\)
 
 Returns an array containing pairs of post ids and the translated title attribute
 

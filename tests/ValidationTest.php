@@ -1,16 +1,17 @@
 <?php
 
-namespace Astrotomic\Translatable\Tests;
+namespace Tests;
 
 use Astrotomic\Translatable\Locales;
 use Astrotomic\Translatable\Validation\RuleFactory;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\RequiredIf;
 use InvalidArgumentException;
+use PHPUnit\Framework\Attributes\Test;
 
 final class ValidationTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_does_not_touch_untranslated_keys(): void
     {
         $rules = [
@@ -21,10 +22,10 @@ final class ValidationTest extends TestCase
             ],
         ];
 
-        static::assertEquals($rules, RuleFactory::make($rules));
+        self::assertEquals($rules, RuleFactory::make($rules));
     }
 
-    /** @test */
+    #[Test]
     public function format_array_it_replaces_single_key(): void
     {
         $rules = [
@@ -32,7 +33,7 @@ final class ValidationTest extends TestCase
             '%content%' => 'required',
         ];
 
-        static::assertEquals([
+        self::assertEquals([
             'title' => 'required',
             'en.content' => 'required',
             'de.content' => 'required',
@@ -41,7 +42,7 @@ final class ValidationTest extends TestCase
         ], RuleFactory::make($rules, RuleFactory::FORMAT_ARRAY));
     }
 
-    /** @test */
+    #[Test]
     public function format_array_it_replaces_sub_key(): void
     {
         $rules = [
@@ -49,7 +50,7 @@ final class ValidationTest extends TestCase
             'translations.%content%' => 'required',
         ];
 
-        static::assertEquals([
+        self::assertEquals([
             'title' => 'required',
             'translations.en.content' => 'required',
             'translations.de.content' => 'required',
@@ -58,7 +59,7 @@ final class ValidationTest extends TestCase
         ], RuleFactory::make($rules, RuleFactory::FORMAT_ARRAY));
     }
 
-    /** @test */
+    #[Test]
     public function format_array_it_replaces_middle_key(): void
     {
         $rules = [
@@ -66,7 +67,7 @@ final class ValidationTest extends TestCase
             'translations.%content%.body' => 'required',
         ];
 
-        static::assertEquals([
+        self::assertEquals([
             'title' => 'required',
             'translations.en.content.body' => 'required',
             'translations.de.content.body' => 'required',
@@ -75,7 +76,7 @@ final class ValidationTest extends TestCase
         ], RuleFactory::make($rules, RuleFactory::FORMAT_ARRAY));
     }
 
-    /** @test */
+    #[Test]
     public function format_array_it_replaces_middle_key_with_custom_prefix(): void
     {
         $rules = [
@@ -83,7 +84,7 @@ final class ValidationTest extends TestCase
             'translations.{content%.body' => 'required',
         ];
 
-        static::assertEquals([
+        self::assertEquals([
             'title' => 'required',
             'translations.en.content.body' => 'required',
             'translations.de.content.body' => 'required',
@@ -92,7 +93,7 @@ final class ValidationTest extends TestCase
         ], RuleFactory::make($rules, RuleFactory::FORMAT_ARRAY, '{'));
     }
 
-    /** @test */
+    #[Test]
     public function format_array_it_replaces_middle_key_with_custom_suffix(): void
     {
         $rules = [
@@ -100,7 +101,7 @@ final class ValidationTest extends TestCase
             'translations.%content}.body' => 'required',
         ];
 
-        static::assertEquals([
+        self::assertEquals([
             'title' => 'required',
             'translations.en.content.body' => 'required',
             'translations.de.content.body' => 'required',
@@ -109,7 +110,7 @@ final class ValidationTest extends TestCase
         ], RuleFactory::make($rules, RuleFactory::FORMAT_ARRAY, '%', '}'));
     }
 
-    /** @test */
+    #[Test]
     public function format_array_it_replaces_middle_key_with_custom_delimiters(): void
     {
         $rules = [
@@ -117,7 +118,7 @@ final class ValidationTest extends TestCase
             'translations.{content}.body' => 'required',
         ];
 
-        static::assertEquals([
+        self::assertEquals([
             'title' => 'required',
             'translations.en.content.body' => 'required',
             'translations.de.content.body' => 'required',
@@ -126,7 +127,7 @@ final class ValidationTest extends TestCase
         ], RuleFactory::make($rules, RuleFactory::FORMAT_ARRAY, '{', '}'));
     }
 
-    /** @test */
+    #[Test]
     public function format_array_it_replaces_middle_key_with_custom_regex_delimiters(): void
     {
         $rules = [
@@ -134,7 +135,7 @@ final class ValidationTest extends TestCase
             'translations.$content$.body' => 'required',
         ];
 
-        static::assertEquals([
+        self::assertEquals([
             'title' => 'required',
             'translations.en.content.body' => 'required',
             'translations.de.content.body' => 'required',
@@ -143,7 +144,7 @@ final class ValidationTest extends TestCase
         ], RuleFactory::make($rules, RuleFactory::FORMAT_ARRAY, '$', '$'));
     }
 
-    /** @test */
+    #[Test]
     public function format_array_it_uses_config_as_default(): void
     {
         app('config')->set('translatable.rule_factory', [
@@ -158,7 +159,7 @@ final class ValidationTest extends TestCase
             '%content%' => 'required',
         ];
 
-        static::assertEquals([
+        self::assertEquals([
             'title' => 'required',
             '%content%' => 'required',
             'en.content' => 'required',
@@ -168,7 +169,7 @@ final class ValidationTest extends TestCase
         ], RuleFactory::make($rules));
     }
 
-    /** @test */
+    #[Test]
     public function format_key_it_replaces_single_key(): void
     {
         $rules = [
@@ -176,7 +177,7 @@ final class ValidationTest extends TestCase
             '%content%' => 'required',
         ];
 
-        static::assertEquals([
+        self::assertEquals([
             'title' => 'required',
             'content:en' => 'required',
             'content:de' => 'required',
@@ -185,7 +186,7 @@ final class ValidationTest extends TestCase
         ], RuleFactory::make($rules, RuleFactory::FORMAT_KEY));
     }
 
-    /** @test */
+    #[Test]
     public function format_key_it_replaces_sub_key(): void
     {
         $rules = [
@@ -193,7 +194,7 @@ final class ValidationTest extends TestCase
             'translations.%content%' => 'required',
         ];
 
-        static::assertEquals([
+        self::assertEquals([
             'title' => 'required',
             'translations.content:en' => 'required',
             'translations.content:de' => 'required',
@@ -202,7 +203,7 @@ final class ValidationTest extends TestCase
         ], RuleFactory::make($rules, RuleFactory::FORMAT_KEY));
     }
 
-    /** @test */
+    #[Test]
     public function format_key_it_replaces_middle_key(): void
     {
         $rules = [
@@ -210,7 +211,7 @@ final class ValidationTest extends TestCase
             'translations.%content%.body' => 'required',
         ];
 
-        static::assertEquals([
+        self::assertEquals([
             'title' => 'required',
             'translations.content:en.body' => 'required',
             'translations.content:de.body' => 'required',
@@ -219,7 +220,7 @@ final class ValidationTest extends TestCase
         ], RuleFactory::make($rules, RuleFactory::FORMAT_KEY));
     }
 
-    /** @test */
+    #[Test]
     public function format_key_it_uses_config_as_default(): void
     {
         app('config')->set('translatable.rule_factory', [
@@ -234,7 +235,7 @@ final class ValidationTest extends TestCase
             '%content%' => 'required',
         ];
 
-        static::assertEquals([
+        self::assertEquals([
             'title' => 'required',
             '%content%' => 'required',
             'content:en' => 'required',
@@ -244,7 +245,7 @@ final class ValidationTest extends TestCase
         ], RuleFactory::make($rules));
     }
 
-    /** @test */
+    #[Test]
     public function it_replaces_key_with_custom_locales(): void
     {
         $rules = [
@@ -252,7 +253,7 @@ final class ValidationTest extends TestCase
             'translations.%content%.body' => 'required',
         ];
 
-        static::assertEquals([
+        self::assertEquals([
             'title' => 'required',
             'translations.en.content.body' => 'required',
             'translations.de.content.body' => 'required',
@@ -262,7 +263,7 @@ final class ValidationTest extends TestCase
         ]));
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_exception_with_undefined_locales(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -279,7 +280,7 @@ final class ValidationTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function format_array_it_replaces_single_rule(): void
     {
         $rules = [
@@ -287,7 +288,7 @@ final class ValidationTest extends TestCase
             '%content%' => 'required_with:%title%',
         ];
 
-        static::assertEquals([
+        self::assertEquals([
             'en.title' => 'sometimes|string',
             'de.title' => 'sometimes|string',
             'de-DE.title' => 'sometimes|string',
@@ -300,7 +301,7 @@ final class ValidationTest extends TestCase
         ], RuleFactory::make($rules, RuleFactory::FORMAT_ARRAY));
     }
 
-    /** @test */
+    #[Test]
     public function format_array_it_replaces_imploded_rules(): void
     {
         $rules = [
@@ -308,7 +309,7 @@ final class ValidationTest extends TestCase
             '%content%' => 'required_with:%title%|string',
         ];
 
-        static::assertEquals([
+        self::assertEquals([
             'en.title' => 'sometimes|string',
             'de.title' => 'sometimes|string',
             'de-DE.title' => 'sometimes|string',
@@ -321,7 +322,7 @@ final class ValidationTest extends TestCase
         ], RuleFactory::make($rules, RuleFactory::FORMAT_ARRAY));
     }
 
-    /** @test */
+    #[Test]
     public function format_array_it_replaces_array_of_rules(): void
     {
         $rules = [
@@ -329,7 +330,7 @@ final class ValidationTest extends TestCase
             '%content%' => ['required_with:%title%', 'string'],
         ];
 
-        static::assertEquals([
+        self::assertEquals([
             'en.title' => 'sometimes|string',
             'de.title' => 'sometimes|string',
             'de-DE.title' => 'sometimes|string',
@@ -342,7 +343,7 @@ final class ValidationTest extends TestCase
         ], RuleFactory::make($rules, RuleFactory::FORMAT_ARRAY));
     }
 
-    /** @test */
+    #[Test]
     public function format_array_it_does_not_touch_non_string_rule(): void
     {
         $rules = [
@@ -354,14 +355,14 @@ final class ValidationTest extends TestCase
 
         $formattedRules = RuleFactory::make($rules, RuleFactory::FORMAT_ARRAY);
 
-        static::assertEquals('required', $formattedRules['title']);
-        static::assertInstanceOf(RequiredIf::class, $formattedRules['en.content']);
-        static::assertInstanceOf(RequiredIf::class, $formattedRules['de.content']);
-        static::assertInstanceOf(RequiredIf::class, $formattedRules['de-DE.content']);
-        static::assertInstanceOf(RequiredIf::class, $formattedRules['de-AT.content']);
+        self::assertEquals('required', $formattedRules['title']);
+        self::assertInstanceOf(RequiredIf::class, $formattedRules['en.content']);
+        self::assertInstanceOf(RequiredIf::class, $formattedRules['de.content']);
+        self::assertInstanceOf(RequiredIf::class, $formattedRules['de-DE.content']);
+        self::assertInstanceOf(RequiredIf::class, $formattedRules['de-AT.content']);
     }
 
-    /** @test */
+    #[Test]
     public function format_array_it_does_not_touch_non_string_rule_in_array(): void
     {
         $rules = [
@@ -376,18 +377,18 @@ final class ValidationTest extends TestCase
 
         $formattedRules = RuleFactory::make($rules, RuleFactory::FORMAT_ARRAY);
 
-        static::assertEquals('required', $formattedRules['title']);
-        static::assertEquals('required_with:en.title', $formattedRules['en.content'][0]);
-        static::assertEquals('required_with:de.title', $formattedRules['de.content'][0]);
-        static::assertEquals('required_with:de-DE.title', $formattedRules['de-DE.content'][0]);
-        static::assertEquals('required_with:de-AT.title', $formattedRules['de-AT.content'][0]);
-        static::assertInstanceOf(RequiredIf::class, $formattedRules['en.content'][1]);
-        static::assertInstanceOf(RequiredIf::class, $formattedRules['de.content'][1]);
-        static::assertInstanceOf(RequiredIf::class, $formattedRules['de-DE.content'][1]);
-        static::assertInstanceOf(RequiredIf::class, $formattedRules['de-AT.content'][1]);
+        self::assertEquals('required', $formattedRules['title']);
+        self::assertEquals('required_with:en.title', $formattedRules['en.content'][0]);
+        self::assertEquals('required_with:de.title', $formattedRules['de.content'][0]);
+        self::assertEquals('required_with:de-DE.title', $formattedRules['de-DE.content'][0]);
+        self::assertEquals('required_with:de-AT.title', $formattedRules['de-AT.content'][0]);
+        self::assertInstanceOf(RequiredIf::class, $formattedRules['en.content'][1]);
+        self::assertInstanceOf(RequiredIf::class, $formattedRules['de.content'][1]);
+        self::assertInstanceOf(RequiredIf::class, $formattedRules['de-DE.content'][1]);
+        self::assertInstanceOf(RequiredIf::class, $formattedRules['de-AT.content'][1]);
     }
 
-    /** @test */
+    #[Test]
     public function format_key_it_replaces_single_rule(): void
     {
         $rules = [
@@ -395,7 +396,7 @@ final class ValidationTest extends TestCase
             '%content%' => 'required_with:"%title%"',
         ];
 
-        static::assertEquals([
+        self::assertEquals([
             'title:en' => 'sometimes|string',
             'title:de' => 'sometimes|string',
             'title:de-DE' => 'sometimes|string',
@@ -408,7 +409,7 @@ final class ValidationTest extends TestCase
         ], RuleFactory::make($rules, RuleFactory::FORMAT_KEY));
     }
 
-    /** @test */
+    #[Test]
     public function format_key_it_replaces_imploded_rules(): void
     {
         $rules = [
@@ -416,7 +417,7 @@ final class ValidationTest extends TestCase
             '%content%' => 'required_with:"%title%"|string',
         ];
 
-        static::assertEquals([
+        self::assertEquals([
             'title:en' => 'sometimes|string',
             'title:de' => 'sometimes|string',
             'title:de-DE' => 'sometimes|string',
@@ -429,7 +430,7 @@ final class ValidationTest extends TestCase
         ], RuleFactory::make($rules, RuleFactory::FORMAT_KEY));
     }
 
-    /** @test */
+    #[Test]
     public function format_key_it_replaces_array_of_rules(): void
     {
         $rules = [
@@ -437,7 +438,7 @@ final class ValidationTest extends TestCase
             '%content%' => ['required_with:"%title%"', 'string'],
         ];
 
-        static::assertEquals([
+        self::assertEquals([
             'title:en' => 'sometimes|string',
             'title:de' => 'sometimes|string',
             'title:de-DE' => 'sometimes|string',
@@ -450,7 +451,7 @@ final class ValidationTest extends TestCase
         ], RuleFactory::make($rules, RuleFactory::FORMAT_KEY));
     }
 
-    /** @test */
+    #[Test]
     public function format_key_it_does_not_touch_non_string_rule(): void
     {
         $rules = [
@@ -462,14 +463,14 @@ final class ValidationTest extends TestCase
 
         $formattedRules = RuleFactory::make($rules, RuleFactory::FORMAT_KEY);
 
-        static::assertEquals('required', $formattedRules['title']);
-        static::assertInstanceOf(RequiredIf::class, $formattedRules['content:en']);
-        static::assertInstanceOf(RequiredIf::class, $formattedRules['content:de']);
-        static::assertInstanceOf(RequiredIf::class, $formattedRules['content:de-DE']);
-        static::assertInstanceOf(RequiredIf::class, $formattedRules['content:de-AT']);
+        self::assertEquals('required', $formattedRules['title']);
+        self::assertInstanceOf(RequiredIf::class, $formattedRules['content:en']);
+        self::assertInstanceOf(RequiredIf::class, $formattedRules['content:de']);
+        self::assertInstanceOf(RequiredIf::class, $formattedRules['content:de-DE']);
+        self::assertInstanceOf(RequiredIf::class, $formattedRules['content:de-AT']);
     }
 
-    /** @test */
+    #[Test]
     public function format_key_it_does_not_touch_non_string_rule_in_array(): void
     {
         $rules = [
@@ -484,15 +485,15 @@ final class ValidationTest extends TestCase
 
         $formattedRules = RuleFactory::make($rules, RuleFactory::FORMAT_KEY);
 
-        static::assertEquals('required', $formattedRules['title']);
-        static::assertEquals('required_with:"title:en"', $formattedRules['content:en'][0]);
-        static::assertEquals('required_with:"title:de"', $formattedRules['content:de'][0]);
-        static::assertEquals('required_with:"title:de-DE"', $formattedRules['content:de-DE'][0]);
-        static::assertEquals('required_with:"title:de-AT"', $formattedRules['content:de-AT'][0]);
-        static::assertInstanceOf(RequiredIf::class, $formattedRules['content:en'][1]);
-        static::assertInstanceOf(RequiredIf::class, $formattedRules['content:de'][1]);
-        static::assertInstanceOf(RequiredIf::class, $formattedRules['content:de-DE'][1]);
-        static::assertInstanceOf(RequiredIf::class, $formattedRules['content:de-AT'][1]);
+        self::assertEquals('required', $formattedRules['title']);
+        self::assertEquals('required_with:"title:en"', $formattedRules['content:en'][0]);
+        self::assertEquals('required_with:"title:de"', $formattedRules['content:de'][0]);
+        self::assertEquals('required_with:"title:de-DE"', $formattedRules['content:de-DE'][0]);
+        self::assertEquals('required_with:"title:de-AT"', $formattedRules['content:de-AT'][0]);
+        self::assertInstanceOf(RequiredIf::class, $formattedRules['content:en'][1]);
+        self::assertInstanceOf(RequiredIf::class, $formattedRules['content:de'][1]);
+        self::assertInstanceOf(RequiredIf::class, $formattedRules['content:de-DE'][1]);
+        self::assertInstanceOf(RequiredIf::class, $formattedRules['content:de-AT'][1]);
     }
 
     protected function setUp(): void

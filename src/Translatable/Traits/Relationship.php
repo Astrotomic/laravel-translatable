@@ -69,15 +69,15 @@ trait Relationship
             });
     }
 
+    public function translations(): HasMany
+    {
+        return $this->hasMany($this->getTranslationModelName(), $this->getTranslationRelationKey());
+    }
+
     protected function localeOrFallback()
     {
         return $this->useFallback() && ! $this->translations()->where($this->getLocaleKey(), $this->locale())->exists()
             ? $this->getFallbackLocale()
             : $this->locale();
-    }
-
-    public function translations(): HasMany
-    {
-        return $this->hasMany($this->getTranslationModelName(), $this->getTranslationRelationKey());
     }
 }

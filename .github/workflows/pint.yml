@@ -1,0 +1,16 @@
+name: pint
+
+on:
+  push:
+
+jobs:
+  pint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+      - run: composer install --prefer-dist --no-interaction --no-suggest
+      - run: vendor/bin/pint --test

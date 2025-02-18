@@ -5,8 +5,8 @@
 [![Offset Earth](https://img.shields.io/badge/Treeware-%F0%9F%8C%B3-green?style=for-the-badge)](https://plant.treeware.earth/Astrotomic/laravel-translatable)
 [![Larabelles](https://img.shields.io/badge/Larabelles-%F0%9F%A6%84-lightpink?style=for-the-badge)](https://www.larabelles.com/)
 
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/Astrotomic/laravel-translatable/run-tests?style=flat-square&logoColor=white&logo=github&label=Tests)](https://github.com/Astrotomic/laravel-translatable/actions?query=workflow%3Arun-tests)
-[![StyleCI](https://styleci.io/repos/192333549/shield)](https://styleci.io/repos/192333549)
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/Astrotomic/laravel-translatable/phpunit.yml?style=flat-square&logoColor=white&logo=github&label=PHPunit)](https://github.com/Astrotomic/laravel-translatable/actions?query=workflow%3Aphpunit)
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/Astrotomic/laravel-translatable/pint.yml?style=flat-square&logoColor=white&logo=github&label=Pint)](https://github.com/Astrotomic/laravel-translatable/actions?query=workflow%3Apint)
 [![Codecov Coverage](https://img.shields.io/codecov/c/github/Astrotomic/laravel-translatable?logo=codecov&logoColor=white&label=Codecov&style=flat-square)](https://codecov.io/gh/Astrotomic/laravel-translatable)
 [![Total Downloads](https://img.shields.io/packagist/dt/astrotomic/laravel-translatable.svg?label=Downloads&style=flat-square)](https://packagist.org/packages/astrotomic/laravel-translatable)
 [![GitBook](https://img.shields.io/badge/GitBook-Astrotomic-7e57c2.svg?style=flat-square)](https://docs.astrotomic.info/laravel-translatable)
@@ -68,6 +68,29 @@ $post = Post::create($data);
 echo $post->translate('fr')->title; // Mon premier post
 ```
 
+#### Filling multiple translations wrapped
+
+You may define a wrapper property when creating new translations. Set the `translations_wrapper` property in translatable config file:
+
+```php
+'translations_wrapper' => 'translations',
+```
+
+Then just wrap multiple locales using that property:
+
+```php
+$data = [
+  'author' => 'Gummibeer',
+  'translations' => [
+      'en' => ['title' => 'My first post'],
+      'fr' => ['title' => 'Mon premier post'],
+  ],
+];
+$post = Post::create($data);
+
+echo $post->translate('fr')->title; // Mon premier post
+```
+
 ## Tutorials
 
 - [How To Add Multilingual Support to Eloquent](https://laravel-news.com/how-to-add-multilingual-support-to-eloquent)
@@ -97,7 +120,8 @@ If you discover any security related issues, please check [SECURITY](https://git
 ## Versions
 
 | Package             | Laravel                       | PHP       |
-|:--------------------|:------------------------------| :-------- |
+| :------------------ | :---------------------------- | :-------- |
+| **v11.13 - v11.15** | `9.* / 10.* / 11.*`           | `^8.0`    |
 | **v11.12 - v11.12** | `8.* / 9.* / 10.*`            | `^8.0`    |
 | **v11.10 - v11.11** | `8.* / 9.*`                   | `^8.0`    |
 | **v11.6 - v11.9**   | `5.8.* / 6.* / 7.* / 8.*`     | `>=7.2`   |

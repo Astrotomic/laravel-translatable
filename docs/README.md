@@ -2,7 +2,7 @@
 
 [![Latest Version](http://img.shields.io/packagist/v/astrotomic/laravel-translatable.svg?label=Release&style=for-the-badge)](https://packagist.org/packages/astrotomic/laravel-translatable) [![MIT License](https://img.shields.io/github/license/Astrotomic/laravel-translatable.svg?label=License&color=blue&style=for-the-badge)](https://github.com/Astrotomic/laravel-translatable/blob/master/LICENSE) [![Offset Earth](https://img.shields.io/badge/Treeware-%F0%9F%8C%B3-green?style=for-the-badge)](https://plant.treeware.earth/Astrotomic/laravel-translatable)
 
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/Astrotomic/laravel-translatable/run-tests?style=flat-square&logoColor=white&logo=github&label=Tests)](https://github.com/Astrotomic/laravel-translatable/actions?query=workflow%3Arun-tests) [![StyleCI](https://styleci.io/repos/192333549/shield)](https://styleci.io/repos/192333549) [![Codecov Coverage](https://img.shields.io/codecov/c/github/Astrotomic/laravel-translatable?logo=codecov&logoColor=white&label=Codecov&style=flat-square)](https://codecov.io/gh/Astrotomic/laravel-translatable) [![Total Downloads](https://img.shields.io/packagist/dt/astrotomic/laravel-translatable.svg?label=Downloads&style=flat-square)](https://packagist.org/packages/astrotomic/laravel-translatable)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/Astrotomic/laravel-translatable/phpunit?style=flat-square&logoColor=white&logo=github&label=PHPunit)](https://github.com/Astrotomic/laravel-translatable/actions?query=workflow%3Aphpunit) [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/Astrotomic/laravel-translatable/pint?style=flat-square&logoColor=white&logo=github&label=Pint)](https://github.com/Astrotomic/laravel-translatable/actions?query=workflow%3Apint) [![Codecov Coverage](https://img.shields.io/codecov/c/github/Astrotomic/laravel-translatable?logo=codecov&logoColor=white&label=Codecov&style=flat-square)](https://codecov.io/gh/Astrotomic/laravel-translatable) [![Total Downloads](https://img.shields.io/packagist/dt/astrotomic/laravel-translatable.svg?label=Downloads&style=flat-square)](https://packagist.org/packages/astrotomic/laravel-translatable)
 
 ![Laravel Translatable](.gitbook/assets/socialcard.png)
 
@@ -57,6 +57,29 @@ $post = Post::create($data);
 echo $post->translate('fr')->title; // Mon premier post
 ```
 
+#### Filling multiple translations wrapped
+
+You may define a wrapper property when creating new translations. Set the `translations_wrapper` property in translatable config file:
+
+```php
+'translations_wrapper' => 'translations',
+```
+
+Then just wrap multiple locales using that property:
+
+```php
+$data = [
+  'author' => 'Gummibeer',
+  'translations' => [
+      'en' => ['title' => 'My first post'],
+      'fr' => ['title' => 'Mon premier post'],
+  ],
+];
+$post = Post::create($data);
+
+echo $post->translate('fr')->title; // Mon premier post
+```
+
 ## Tutorials
 
 - [How To Add Multilingual Support to Eloquent](https://laravel-news.com/how-to-add-multilingual-support-to-eloquent)
@@ -74,7 +97,8 @@ echo $post->translate('fr')->title; // Mon premier post
 ## Versions
 
 | Package             | Laravel                       | PHP       |
-|:--------------------|:------------------------------| :-------- |
+| :------------------ | :---------------------------- | :-------- |
+| **v11.13 - v11.15** | `9.* / 10.* / 11.*`           | `^8.0`    |
 | **v11.12 - v11.12** | `8.* / 9.* / 10.*`            | `^8.0`    |
 | **v11.10 - v11.11** | `8.* / 9.*`                   | `^8.0`    |
 | **v11.6 - v11.9**   | `5.8.* / 6.* / 7.* / 8.*`     | `>=7.2`   |
