@@ -25,7 +25,7 @@ jobs:
           - laravel: 11.*
             phpunit: 10.*
           - laravel: 12.*
-            phpunit: '11.*'
+            phpunit: 11.*
         exclude:
           - php: '8.0'
             laravel: 10.*
