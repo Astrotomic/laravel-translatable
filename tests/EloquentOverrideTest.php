@@ -54,7 +54,7 @@ final class EloquentOverrideTest extends TestCase
     }
 
     #[Test]
-    public function setAttribute_returns_parent_setAttribute(): void
+    public function set_attribute_returns_parent_set_attribute(): void
     {
         $vegetable = new Vegetable;
 

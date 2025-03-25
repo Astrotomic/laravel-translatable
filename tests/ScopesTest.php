@@ -141,7 +141,7 @@ final class ScopesTest extends TestCase
     }
 
     #[Test]
-    public function scope_withTranslation_without_fallback(): void
+    public function scope_with_translation_without_fallback(): void
     {
         factory(Country::class)->create(['code' => 'el', 'name:en' => 'Greece']);
 
@@ -152,7 +152,7 @@ final class ScopesTest extends TestCase
     }
 
     #[Test]
-    public function scope_withTranslation_with_fallback(): void
+    public function scope_with_translation_with_fallback(): void
     {
         app('config')->set('translatable.fallback_locale', 'de');
         app('config')->set('translatable.use_fallback', true);
@@ -166,7 +166,7 @@ final class ScopesTest extends TestCase
     }
 
     #[Test]
-    public function scope_withTranslation_with_country_based_fallback(): void
+    public function scope_with_translation_with_country_based_fallback(): void
     {
         app('config')->set('translatable.fallback_locale', 'en');
         app('config')->set('translatable.use_fallback', true);
@@ -198,7 +198,7 @@ final class ScopesTest extends TestCase
     }
 
     #[Test]
-    public function whereTranslation_filters_by_translation(): void
+    public function where_translation_filters_by_translation(): void
     {
         factory(Country::class)->create(['code' => 'gr', 'name:en' => 'Greece']);
 
@@ -206,7 +206,7 @@ final class ScopesTest extends TestCase
     }
 
     #[Test]
-    public function orWhereTranslation_filters_by_translation(): void
+    public function or_where_translation_filters_by_translation(): void
     {
         factory(Country::class)->create(['code' => 'gr', 'name:en' => 'Greece']);
         factory(Country::class)->create(['code' => 'fr', 'name:en' => 'France']);
@@ -219,7 +219,7 @@ final class ScopesTest extends TestCase
     }
 
     #[Test]
-    public function whereTranslation_filters_by_translation_and_locale(): void
+    public function where_translation_filters_by_translation_and_locale(): void
     {
         factory(Country::class)->create(['code' => 'gr', 'name:de' => 'Griechenland']);
         factory(Country::class)->create(['code' => 'some-code', 'name' => 'Griechenland']);
@@ -232,7 +232,7 @@ final class ScopesTest extends TestCase
     }
 
     #[Test]
-    public function whereTranslationLike_filters_by_translation(): void
+    public function where_translation_like_filters_by_translation(): void
     {
         factory(Country::class)->create(['code' => 'gr', 'name:en' => 'Greece']);
 
@@ -240,7 +240,7 @@ final class ScopesTest extends TestCase
     }
 
     #[Test]
-    public function orWhereTranslationLike_filters_by_translation(): void
+    public function or_where_translation_like_filters_by_translation(): void
     {
         factory(Country::class)->create(['code' => 'gr', 'name:en' => 'Greece']);
         factory(Country::class)->create(['code' => 'fr', 'name:en' => 'France']);
@@ -253,7 +253,7 @@ final class ScopesTest extends TestCase
     }
 
     #[Test]
-    public function whereTranslationLike_filters_by_translation_and_locale(): void
+    public function where_translation_like_filters_by_translation_and_locale(): void
     {
         factory(Country::class)->create(['code' => 'gr', 'name:de' => 'Griechenland']);
         factory(Country::class)->create(['code' => 'some-code', 'name:en' => 'Griechenland']);
@@ -266,7 +266,7 @@ final class ScopesTest extends TestCase
     }
 
     #[Test]
-    public function orderByTranslation_sorts_by_key_asc(): void
+    public function order_by_translation_sorts_by_key_asc(): void
     {
         factory(Country::class)->create(['code' => 'el', 'name' => 'Greece']);
         factory(Country::class)->create(['code' => 'fr', 'name' => 'France']);
@@ -275,7 +275,7 @@ final class ScopesTest extends TestCase
     }
 
     #[Test]
-    public function orderByTranslation_sorts_by_key_desc(): void
+    public function order_by_translation_sorts_by_key_desc(): void
     {
         factory(Country::class)->create(['code' => 'el', 'name' => 'Greece']);
         factory(Country::class)->create(['code' => 'fr', 'name' => 'France']);
@@ -284,7 +284,7 @@ final class ScopesTest extends TestCase
     }
 
     #[Test]
-    public function test_orderByTranslation_sorts_by_key_asc_even_if_locale_is_missing(): void
+    public function test_order_by_translation_sorts_by_key_asc_even_if_locale_is_missing(): void
     {
         factory(Vegetable::class)->create(['en' => ['name' => 'Potatoes'], 'fr' => ['name' => 'Pommes de Terre']]);
         factory(Vegetable::class)->create(['en' => ['name' => 'Strawberries'], 'fr' => ['name' => 'Fraises']]);
