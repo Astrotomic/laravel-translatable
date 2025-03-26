@@ -265,13 +265,13 @@ final class TranslatableTest extends TestCase
 
         Vegetable::reguard();
 
-        self::assertEquals(5, $vegetable->quantity);
-        self::assertEquals('Peas', $vegetable->translate('en')->name);
-        self::assertEquals('Pois', $vegetable->translate('fr')->name);
+        Assert::assertSame(5, $vegetable->quantity);
+        Assert::assertSame('Peas', $vegetable->translate('en')->name);
+        Assert::assertSame('Pois', $vegetable->translate('fr')->name);
 
         $vegetable = Vegetable::first();
-        self::assertEquals('Peas', $vegetable->translate('en')->name);
-        self::assertEquals('Pois', $vegetable->translate('fr')->name);
+        Assert::assertSame('Peas', $vegetable->translate('en')->name);
+        Assert::assertSame('Pois', $vegetable->translate('fr')->name);
     }
 
     #[Test]
