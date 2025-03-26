@@ -43,7 +43,7 @@ interface Translatable
     /**
      * @param  null|array<string>  $except
      */
-    public function replicateWithTranslations(?array $except = null): Model;
+    public function replicateWithTranslations(?array $except = null): static;
 
     public function setDefaultLocale(?string $locale);
 

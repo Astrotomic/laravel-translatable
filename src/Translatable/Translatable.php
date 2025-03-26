@@ -288,7 +288,7 @@ trait Translatable
         return $key === config('translatable.translations_wrapper');
     }
 
-    public function replicateWithTranslations(?array $except = null): Model
+    public function replicateWithTranslations(?array $except = null): static
     {
         $newInstance = $this->replicate($except);
 

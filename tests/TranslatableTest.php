@@ -7,12 +7,14 @@ use Illuminate\Database\Eloquent\MassAssignmentException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\Eloquent\Country;
 use Tests\Eloquent\CountryStrict;
 use Tests\Eloquent\CountryTranslation;
 use Tests\Eloquent\Person;
 use Tests\Eloquent\Vegetable;
+use Tests\Eloquent\VegetableNumeric;
 use Tests\Eloquent\VegetableTranslation;
 
 final class TranslatableTest extends TestCase
@@ -20,7 +22,7 @@ final class TranslatableTest extends TestCase
     #[Test]
     public function it_finds_the_default_translation_class(): void
     {
-        self::assertEquals(
+        Assert::assertSame(
             VegetableTranslation::class,
             (new Vegetable)->getTranslationModelNameDefault()
         );
@@ -31,7 +33,7 @@ final class TranslatableTest extends TestCase
     {
         $this->app->make('config')->set('translatable.translation_model_namespace', 'App\Models\Translations');
 
-        self::assertEquals(
+        Assert::assertSame(
             'App\Models\Translations\VegetableTranslation',
             (new Vegetable)->getTranslationModelNameDefault()
         );
@@ -42,7 +44,7 @@ final class TranslatableTest extends TestCase
     {
         $this->app->make('config')->set('translatable.translation_suffix', 'Trans');
 
-        self::assertEquals(
+        Assert::assertSame(
             'Tests\Eloquent\VegetableTrans',
             (new Vegetable)->getTranslationModelName()
         );
@@ -53,13 +55,13 @@ final class TranslatableTest extends TestCase
     {
         $vegetable = new Vegetable;
 
-        self::assertEquals(
+        Assert::assertSame(
             $vegetable->getTranslationModelNameDefault(),
             $vegetable->getTranslationModelName()
         );
 
         $vegetable->translationModel = 'MyAwesomeVegetableTranslation';
-        self::assertEquals(
+        Assert::assertSame(
             'MyAwesomeVegetableTranslation',
             $vegetable->getTranslationModelName()
         );
@@ -69,10 +71,10 @@ final class TranslatableTest extends TestCase
     public function it_returns_relation_key(): void
     {
         $vegetable = new Vegetable;
-        self::assertEquals('vegetable_identity', $vegetable->getRelationKey());
+        Assert::assertSame('vegetable_identity', $vegetable->getTranslationRelationKey());
 
         $vegetable->translationForeignKey = 'my_awesome_key';
-        self::assertEquals('my_awesome_key', $vegetable->getRelationKey());
+        Assert::assertSame('my_awesome_key', $vegetable->getTranslationRelationKey());
     }
 
     #[Test]
@@ -80,15 +82,15 @@ final class TranslatableTest extends TestCase
     {
         $vegetable = factory(Vegetable::class)->create(['name:el' => 'Αρακάς', 'name:en' => 'Peas']);
 
-        self::assertEquals('Αρακάς', $vegetable->translate('el')->name);
+        Assert::assertSame('Αρακάς', $vegetable->translate('el')->name);
 
-        self::assertEquals('Peas', $vegetable->translate('en')->name);
+        Assert::assertSame('Peas', $vegetable->translate('en')->name);
 
         $this->app->setLocale('el');
-        self::assertEquals('Αρακάς', $vegetable->translate()->name);
+        Assert::assertSame('Αρακάς', $vegetable->translate()->name);
 
         $this->app->setLocale('en');
-        self::assertEquals('Peas', $vegetable->translate()->name);
+        Assert::assertSame('Peas', $vegetable->translate()->name);
     }
 
     #[Test]
@@ -96,8 +98,8 @@ final class TranslatableTest extends TestCase
     {
         $vegetable = factory(Vegetable::class)->create(['name:el' => 'Αρακάς', 'name:en' => 'Peas']);
 
-        self::assertEquals('Αρακάς', $vegetable->{'name:el'});
-        self::assertEquals('Peas', $vegetable->{'name:en'});
+        Assert::assertSame('Αρακάς', $vegetable->{'name:el'});
+        Assert::assertSame('Peas', $vegetable->{'name:en'});
     }
 
     #[Test]
@@ -105,7 +107,7 @@ final class TranslatableTest extends TestCase
     {
         $vegetable = factory(Vegetable::class)->create(['name:el' => 'Αρακάς']);
 
-        self::assertSame(null, $vegetable->{'name:unknown-locale'});
+        Assert::assertNull($vegetable->{'name:unknown-locale'});
     }
 
     #[Test]
@@ -113,13 +115,13 @@ final class TranslatableTest extends TestCase
     {
         $vegetable = factory(Vegetable::class)->create(['name:el' => 'Αρακάς', 'name:en' => 'Peas']);
 
-        self::assertEquals('Peas', $vegetable->name);
+        Assert::assertSame('Peas', $vegetable->name);
 
         $vegetable->name = 'Pea';
         $vegetable->save();
         $vegetable->refresh();
 
-        self::assertEquals('Pea', $vegetable->name);
+        Assert::assertSame('Pea', $vegetable->name);
     }
 
     #[Test]
@@ -133,10 +135,10 @@ final class TranslatableTest extends TestCase
         $vegetable->refresh();
 
         $this->app->setLocale('en');
-        self::assertEquals('Pea', $vegetable->translate()->name);
+        Assert::assertSame('Pea', $vegetable->translate()->name);
 
         $this->app->setLocale('el');
-        self::assertEquals('Μπιζέλι', $vegetable->translate()->name);
+        Assert::assertSame('Μπιζέλι', $vegetable->translate()->name);
     }
 
     #[Test]
@@ -145,20 +147,20 @@ final class TranslatableTest extends TestCase
         DB::enableQueryLog();
 
         $vegetable = factory(Vegetable::class)->create();
-        self::assertFalse($vegetable->relationLoaded('translations'));
-        self::assertCount(1, DB::getQueryLog());
+        Assert::assertFalse($vegetable->relationLoaded('translations'));
+        Assert::assertCount(1, DB::getQueryLog());
 
         DB::flushQueryLog();
 
         $vegetable->update(['quantity' => 5]);
-        self::assertFalse($vegetable->relationLoaded('translations'));
-        self::assertCount(1, DB::getQueryLog());
+        Assert::assertFalse($vegetable->relationLoaded('translations'));
+        Assert::assertCount(1, DB::getQueryLog());
 
         DB::flushQueryLog();
 
         $vegetable->update(['name' => 'Germany']);
-        self::assertTrue($vegetable->relationLoaded('translations'));
-        self::assertCount(2, DB::getQueryLog());
+        Assert::assertTrue($vegetable->relationLoaded('translations'));
+        Assert::assertCount(2, DB::getQueryLog());
         DB::disableQueryLog();
     }
 
@@ -170,11 +172,11 @@ final class TranslatableTest extends TestCase
         $vegetable->translate('el')->name = 'Μπιζέλι';
 
         $this->app->setLocale('el');
-        self::assertEquals('Μπιζέλι', $vegetable->name);
+        Assert::assertSame('Μπιζέλι', $vegetable->name);
         $vegetable->save();
 
         $vegetable->refresh();
-        self::assertEquals('Μπιζέλι', $vegetable->translate('el')->name);
+        Assert::assertSame('Μπιζέλι', $vegetable->translate('el')->name);
     }
 
     #[Test]
@@ -185,9 +187,9 @@ final class TranslatableTest extends TestCase
         $vegetable->name = 'Peas';
         $vegetable->save();
 
-        $vegetable = Vegetable::first();
-        self::assertEquals('Peas', $vegetable->name);
-        self::assertDatabaseHas('vegetable_translations', [
+        $vegetable = Vegetable::query()->first();
+        Assert::assertSame('Peas', $vegetable->name);
+        $this->assertDatabaseHas('vegetable_translations', [
             'vegetable_identity' => $vegetable->identity,
             'locale' => 'en',
             'name' => 'Peas',
@@ -197,31 +199,31 @@ final class TranslatableTest extends TestCase
     #[Test]
     public function it_creates_translations_using_mass_assignment(): void
     {
-        $vegetable = Vegetable::create([
+        $vegetable = Vegetable::query()->create([
             'quantity' => 5,
             'name' => 'Peas',
         ]);
 
-        self::assertEquals(5, $vegetable->quantity);
-        self::assertEquals('Peas', $vegetable->name);
+        Assert::assertSame(5, $vegetable->quantity);
+        Assert::assertSame('Peas', $vegetable->name);
     }
 
     #[Test]
     public function it_creates_translations_using_mass_assignment_and_locales(): void
     {
-        $vegetable = Vegetable::create([
+        $vegetable = Vegetable::query()->create([
             'quantity' => 5,
             'en' => ['name' => 'Peas'],
             'fr' => ['name' => 'Pois'],
         ]);
 
-        self::assertEquals(5, $vegetable->quantity);
-        self::assertEquals('Peas', $vegetable->translate('en')->name);
-        self::assertEquals('Pois', $vegetable->translate('fr')->name);
+        Assert::assertSame(5, $vegetable->quantity);
+        Assert::assertSame('Peas', $vegetable->translate('en')->name);
+        Assert::assertSame('Pois', $vegetable->translate('fr')->name);
 
-        $vegetable = Vegetable::first();
-        self::assertEquals('Peas', $vegetable->translate('en')->name);
-        self::assertEquals('Pois', $vegetable->translate('fr')->name);
+        $vegetable = Vegetable::query()->first();
+        Assert::assertSame('Peas', $vegetable->translate('en')->name);
+        Assert::assertSame('Pois', $vegetable->translate('fr')->name);
     }
 
     #[Test]
@@ -229,7 +231,7 @@ final class TranslatableTest extends TestCase
     {
         $this->app->make('config')->set('translatable.translations_wrapper', '_translation_wrapper');
 
-        $vegetable = Vegetable::create([
+        $vegetable = Vegetable::query()->create([
             'quantity' => 5,
             '_translation_wrapper' => [
                 'en' => ['name' => 'Peas'],
@@ -237,28 +239,28 @@ final class TranslatableTest extends TestCase
             ],
         ]);
 
-        self::assertEquals(5, $vegetable->quantity);
-        self::assertEquals('Peas', $vegetable->translate('en')->name);
-        self::assertEquals('Pois', $vegetable->translate('fr')->name);
+        Assert::assertSame(5, $vegetable->quantity);
+        Assert::assertSame('Peas', $vegetable->translate('en')->name);
+        Assert::assertSame('Pois', $vegetable->translate('fr')->name);
 
-        $vegetable = Vegetable::first();
-        self::assertEquals('Peas', $vegetable->translate('en')->name);
-        self::assertEquals('Pois', $vegetable->translate('fr')->name);
+        $vegetable = Vegetable::query()->first();
+        Assert::assertSame('Peas', $vegetable->translate('en')->name);
+        Assert::assertSame('Pois', $vegetable->translate('fr')->name);
     }
 
     #[Test]
     public function it_skips_mass_assignment_if_attributes_non_fillable(): void
     {
         $this->expectException(MassAssignmentException::class);
-        $country = CountryStrict::create([
+        $country = CountryStrict::query()->create([
             'code' => 'be',
             'en' => ['name' => 'Belgium'],
             'fr' => ['name' => 'Belgique'],
         ]);
 
-        self::assertEquals('be', $country->code);
-        self::assertNull($country->translate('en'));
-        self::assertNull($country->translate('fr'));
+        Assert::assertSame('be', $country->code);
+        Assert::assertNull($country->translate('en'));
+        Assert::assertNull($country->translate('fr'));
     }
 
     #[Test]
@@ -266,8 +268,8 @@ final class TranslatableTest extends TestCase
     {
         $vegetable = factory(Vegetable::class)->create(['name:en' => 'Peas']);
 
-        self::assertTrue($vegetable->hasTranslation('en'));
-        self::assertFalse($vegetable->hasTranslation('some-code'));
+        Assert::assertTrue($vegetable->hasTranslation('en'));
+        Assert::assertFalse($vegetable->hasTranslation('some-code'));
     }
 
     #[Test]
@@ -277,12 +279,12 @@ final class TranslatableTest extends TestCase
 
         $vegetable = factory(Vegetable::class)->create(['name:de' => 'Erbsen']);
 
-        self::assertEquals('Erbsen', $vegetable->getTranslation('ch', true)->name);
-        self::assertEquals('Erbsen', $vegetable->translateOrDefault('ch')->name);
-        self::assertNull($vegetable->getTranslation('ch', false));
+        Assert::assertSame('Erbsen', $vegetable->getTranslation('ch', true)->name);
+        Assert::assertSame('Erbsen', $vegetable->translateOrDefault('ch')->name);
+        Assert::assertNull($vegetable->getTranslation('ch', false));
 
         $this->app->setLocale('ch');
-        self::assertSame('Erbsen', $vegetable->translateOrDefault()->name);
+        Assert::assertSame('Erbsen', $vegetable->translateOrDefault()->name);
     }
 
     #[Test]
@@ -291,16 +293,16 @@ final class TranslatableTest extends TestCase
         $this->app->make('config')->set('translatable.fallback_locale', 'de');
 
         $vegetable = factory(Vegetable::class)->create(['name:de' => 'Erbsen']);
-        self::assertEquals('de', $vegetable->getTranslation('ch', true)->locale);
+        Assert::assertSame('de', $vegetable->getTranslation('ch', true)->locale);
 
         $vegetable->useTranslationFallback = false;
-        self::assertEquals('de', $vegetable->getTranslation('ch', true)->locale);
+        Assert::assertSame('de', $vegetable->getTranslation('ch', true)->locale);
 
         $vegetable->useTranslationFallback = true;
-        self::assertEquals('de', $vegetable->getTranslation('ch')->locale);
+        Assert::assertSame('de', $vegetable->getTranslation('ch')->locale);
 
         $vegetable->useTranslationFallback = false;
-        self::assertNull($vegetable->getTranslation('ch'));
+        Assert::assertNull($vegetable->getTranslation('ch'));
     }
 
     #[Test]
@@ -311,7 +313,7 @@ final class TranslatableTest extends TestCase
 
         $vegetable = factory(Vegetable::class)->create(['name:de' => 'Erbsen']);
 
-        self::assertEquals('de', $vegetable->getTranslation('ch')->locale);
+        Assert::assertSame('de', $vegetable->getTranslation('ch')->locale);
     }
 
     #[Test]
@@ -323,7 +325,7 @@ final class TranslatableTest extends TestCase
         $vegetable = factory(Vegetable::class)->create(['name:en' => 'Peas']);
         $vegetable->useTranslationFallback = false;
 
-        self::assertNull($vegetable->getTranslation('ch'));
+        Assert::assertNull($vegetable->getTranslation('ch'));
     }
 
     #[Test]
@@ -333,7 +335,7 @@ final class TranslatableTest extends TestCase
 
         $vegetable = factory(Vegetable::class)->create(['name:en' => 'Peas']);
 
-        self::assertNull($vegetable->getTranslation('pl', true));
+        Assert::assertNull($vegetable->getTranslation('pl', true));
     }
 
     #[Test]
@@ -348,7 +350,7 @@ final class TranslatableTest extends TestCase
             'de' => ['name' => 'Erbsen'],
         ]);
 
-        self::assertEquals('Peas', $vegetable->translate('en')->name);
+        Assert::assertSame('Peas', $vegetable->translate('en')->name);
     }
 
     #[Test]
@@ -360,7 +362,7 @@ final class TranslatableTest extends TestCase
         $vegetable->getNewTranslation('en')->name = 'Peas';
         $vegetable->save();
 
-        self::assertEquals('Peas', $vegetable->translate('en')->name);
+        Assert::assertSame('Peas', $vegetable->translate('en')->name);
     }
 
     #[Test]
@@ -372,7 +374,7 @@ final class TranslatableTest extends TestCase
         $translation->name = 'Peas';
         $translation->save();
 
-        self::assertDatabaseHas('vegetable_translations', [
+        $this->assertDatabaseHas('vegetable_translations', [
             'locale' => 'en',
             'name' => 'Peas',
         ]);
@@ -383,7 +385,7 @@ final class TranslatableTest extends TestCase
     {
         $vegetable = new Vegetable;
 
-        self::assertEquals('locale', $vegetable->getLocaleKey());
+        Assert::assertSame('locale', $vegetable->getLocaleKey());
     }
 
     #[Test]
@@ -392,7 +394,7 @@ final class TranslatableTest extends TestCase
         $this->app->make('config')->set('translatable.locale_key', 'language_id');
 
         $vegetable = new Vegetable;
-        self::assertEquals('language_id', $vegetable->getLocaleKey());
+        Assert::assertSame('language_id', $vegetable->getLocaleKey());
     }
 
     #[Test]
@@ -400,27 +402,27 @@ final class TranslatableTest extends TestCase
     {
         $vegetable = new Vegetable;
         $vegetable->localeKey = 'language_id';
-        self::assertEquals('language_id', $vegetable->getLocaleKey());
+        Assert::assertSame('language_id', $vegetable->getLocaleKey());
     }
 
     public function test_the_translation_model_can_be_customized(): void
     {
         CountryStrict::unguard();
-        $country = CountryStrict::create([
+        $country = CountryStrict::query()->create([
             'code' => 'es',
             'name:en' => 'Spain',
             'name:de' => 'Spanien',
         ]);
-        self::assertTrue($country->exists());
-        self::assertEquals($country->translate('en')->name, 'Spain');
-        self::assertEquals($country->translate('de')->name, 'Spanien');
+        Assert::assertTrue($country->exists);
+        Assert::assertSame('Spain', $country->translate('en')->name);
+        Assert::assertSame('Spanien', $country->translate('de')->name);
         CountryStrict::reguard();
     }
 
     #[Test]
     public function it_reads_the_configuration(): void
     {
-        self::assertEquals('Translation', $this->app->make('config')->get('translatable.translation_suffix'));
+        Assert::assertSame('Translation', $this->app->make('config')->get('translatable.translation_suffix'));
     }
 
     #[Test]
@@ -428,7 +430,7 @@ final class TranslatableTest extends TestCase
     {
         $vegetable = factory(Vegetable::class)->create();
 
-        self::assertNull($vegetable->getTranslation('en', false));
+        Assert::assertNull($vegetable->getTranslation('en', false));
     }
 
     #[Test]
@@ -437,17 +439,17 @@ final class TranslatableTest extends TestCase
         $this->app->setLocale('en');
         $vegetable = factory(Vegetable::class)->create();
 
-        self::assertNull($vegetable->getTranslation('en'));
+        Assert::assertNull($vegetable->getTranslation('en'));
     }
 
     #[Test]
     public function it_has_methods_that_return_always_a_translation(): void
     {
         $vegetable = factory(Vegetable::class)->create();
-        self::assertEquals('abc', $vegetable->translateOrNew('abc')->locale);
+        Assert::assertSame('abc', $vegetable->translateOrNew('abc')->locale);
 
         $this->app->setLocale('xyz');
-        self::assertEquals('xyz', $vegetable->translateOrNew()->locale);
+        Assert::assertSame('xyz', $vegetable->translateOrNew()->locale);
     }
 
     #[Test]
@@ -456,10 +458,10 @@ final class TranslatableTest extends TestCase
         $this->expectException(ModelNotFoundException::class);
         $this->expectExceptionMessage(sprintf('No query results for model [%s] %s', VegetableTranslation::class, 'xyz'));
 
-        $vegetable = Vegetable::create([
+        $vegetable = Vegetable::query()->create([
             'en' => ['name' => 'Peas'],
         ]);
-        self::assertEquals('en', $vegetable->translateOrFail('en')->locale);
+        Assert::assertSame('en', $vegetable->translateOrFail('en')->locale);
 
         $vegetable->translateOrFail('xyz');
     }
@@ -469,8 +471,8 @@ final class TranslatableTest extends TestCase
     {
         $vegetable = new Vegetable;
 
-        self::assertTrue($vegetable->isTranslationAttribute('name'));
-        self::assertFalse($vegetable->isTranslationAttribute('some-field'));
+        Assert::assertTrue($vegetable->isTranslationAttribute('name'));
+        Assert::assertFalse($vegetable->isTranslationAttribute('some-field'));
     }
 
     #[Test]
@@ -479,7 +481,7 @@ final class TranslatableTest extends TestCase
         $veegtable = factory(Vegetable::class)->create(['name:de' => 'Erbsen']);
         App::make('config')->set('translatable.locale', 'de');
 
-        self::assertEquals('Erbsen', $veegtable->name);
+        Assert::assertSame('Erbsen', $veegtable->name);
     }
 
     #[Test]
@@ -487,15 +489,15 @@ final class TranslatableTest extends TestCase
     {
         $this->app->config->set('translatable.locales', ['en' => ['US', 'GB']]);
 
-        $vegetable = Vegetable::create([
+        $vegetable = Vegetable::query()->create([
             'en' => ['name' => 'Peas'],
             'en-US' => ['name' => 'US Peas'],
             'en-GB' => ['name' => 'GB Peas'],
         ]);
 
-        self::assertEquals('Peas', $vegetable->getTranslation('en')->name);
-        self::assertEquals('GB Peas', $vegetable->getTranslation('en-GB')->name);
-        self::assertEquals('US Peas', $vegetable->getTranslation('en-US')->name);
+        Assert::assertSame('Peas', $vegetable->getTranslation('en')->name);
+        Assert::assertSame('GB Peas', $vegetable->getTranslation('en-GB')->name);
+        Assert::assertSame('US Peas', $vegetable->getTranslation('en-US')->name);
     }
 
     #[Test]
@@ -504,11 +506,11 @@ final class TranslatableTest extends TestCase
         $this->app->make('config')->set('translatable.locales', ['en' => ['GB']]);
         $this->app->make('config')->set('translatable.locale_separator', '_');
         $this->app->make('translatable.locales')->load();
-        $vegetable = Vegetable::create([
+        $vegetable = Vegetable::query()->create([
             'en_GB' => ['name' => 'Peas'],
         ]);
 
-        self::assertEquals('Peas', $vegetable->getTranslation('en_GB')->name);
+        Assert::assertSame('Peas', $vegetable->getTranslation('en_GB')->name);
     }
 
     #[Test]
@@ -526,7 +528,7 @@ final class TranslatableTest extends TestCase
             'en' => ['name' => 'French fries'],
         ]);
 
-        self::assertEquals('French fries', $vegetable->getTranslation('en-US')->name);
+        Assert::assertSame('French fries', $vegetable->getTranslation('en-US')->name);
     }
 
     #[Test]
@@ -543,7 +545,7 @@ final class TranslatableTest extends TestCase
             'pt-PT' => ['name' => 'Batatas fritas'],
         ]);
 
-        self::assertEquals('Chips', $vegetable->getTranslation('pt-BR')->name);
+        Assert::assertSame('Chips', $vegetable->getTranslation('pt-BR')->name);
     }
 
     #[Test]
@@ -558,7 +560,7 @@ final class TranslatableTest extends TestCase
 
         $vegetable = factory(Vegetable::class)->create(['name:fr' => 'Frites']);
 
-        self::assertEquals('Frites', $vegetable['name']);
+        Assert::assertSame('Frites', $vegetable['name']);
     }
 
     #[Test]
@@ -568,8 +570,8 @@ final class TranslatableTest extends TestCase
 
         factory(Vegetable::class)->create(['name' => 'Peas']);
 
-        $vegetable = Vegetable::first()->toArray();
-        self::assertFalse(isset($vegetable['name']));
+        $vegetable = Vegetable::query()->first()->toArray();
+        Assert::assertFalse(isset($vegetable['name']));
     }
 
     #[Test]
@@ -580,7 +582,7 @@ final class TranslatableTest extends TestCase
 
         $vegetable = Vegetable::with('translations')->first()->toArray();
 
-        self::assertTrue(isset($vegetable['name']));
+        Assert::assertTrue(isset($vegetable['name']));
     }
 
     #[Test]
@@ -588,8 +590,8 @@ final class TranslatableTest extends TestCase
     {
         $person = new Person(['name' => 'john doe']);
         $person->save();
-        $person = Person::find(1);
-        self::assertEquals('John Doe', $person->name);
+        $person = Person::query()->find(1);
+        Assert::assertSame('John Doe', $person->name);
     }
 
     #[Test]
@@ -597,11 +599,11 @@ final class TranslatableTest extends TestCase
     {
         $vegetable = factory(Vegetable::class)->create(['name:es' => 'Guisantes', 'name:en' => 'Peas']);
 
-        self::assertEquals(2, count($vegetable->translations));
+        Assert::assertCount(2, $vegetable->translations);
 
         $vegetable->deleteTranslations();
 
-        self::assertEquals(0, count($vegetable->translations));
+        Assert::assertCount(0, $vegetable->translations);
     }
 
     #[Test]
@@ -609,11 +611,11 @@ final class TranslatableTest extends TestCase
     {
         $vegetable = factory(Vegetable::class)->create(['name:es' => 'Guisantes', 'name:en' => 'Peas']);
 
-        self::assertEquals(2, count($vegetable->translations));
+        Assert::assertCount(2, $vegetable->translations);
 
         $vegetable->deleteTranslations('es');
 
-        self::assertEquals(1, count($vegetable->translations));
+        Assert::assertCount(1, $vegetable->translations);
     }
 
     #[Test]
@@ -621,11 +623,11 @@ final class TranslatableTest extends TestCase
     {
         $vegetable = factory(Vegetable::class)->create(['name:es' => 'Guisantes', 'name:en' => 'Peas']);
 
-        self::assertEquals(2, count($vegetable->translations));
+        Assert::assertCount(2, $vegetable->translations);
 
         $vegetable->deleteTranslations([]);
 
-        self::assertEquals(2, count($vegetable->translations));
+        Assert::assertCount(2, $vegetable->translations);
     }
 
     #[Test]
@@ -636,13 +638,13 @@ final class TranslatableTest extends TestCase
             'name:en' => 'Peas',
             'name:de' => 'Erbsen',
         ]);
-        self::assertEquals('Peas', $vegetable->translate('en')->name);
-        self::assertEquals('Erbsen', $vegetable->translate('de')->name);
+        Assert::assertSame('Peas', $vegetable->translate('en')->name);
+        Assert::assertSame('Erbsen', $vegetable->translate('de')->name);
 
         $vegetable->save();
-        $vegetable = Vegetable::first();
-        self::assertEquals('Peas', $vegetable->translate('en')->name);
-        self::assertEquals('Erbsen', $vegetable->translate('de')->name);
+        $vegetable = Vegetable::query()->first();
+        Assert::assertSame('Peas', $vegetable->translate('en')->name);
+        Assert::assertSame('Erbsen', $vegetable->translate('de')->name);
     }
 
     #[Test]
@@ -653,18 +655,18 @@ final class TranslatableTest extends TestCase
             'name:en' => 'Peas',
             'name:fr' => 'Pois',
         ]);
-        self::assertEquals('Peas', $vegetable->name);
+        Assert::assertSame('Peas', $vegetable->name);
         $vegetable->setDefaultLocale('fr');
-        self::assertEquals('Pois', $vegetable->name);
+        Assert::assertSame('Pois', $vegetable->name);
 
         $vegetable->setDefaultLocale(null);
 
         $vegetable->save();
-        $vegetable = Vegetable::first();
+        $vegetable = Vegetable::query()->first();
 
-        self::assertEquals('Peas', $vegetable->name);
+        Assert::assertSame('Peas', $vegetable->name);
         $vegetable->setDefaultLocale('fr');
-        self::assertEquals('Pois', $vegetable->name);
+        Assert::assertSame('Pois', $vegetable->name);
     }
 
     #[Test]
@@ -681,19 +683,19 @@ final class TranslatableTest extends TestCase
         $replicated = $vegetable->replicateWithTranslations();
         $replicated->save();
 
-        self::assertNotNull($replicated->identity);
-        self::assertNotEquals($replicated->identity, $vegetable->identity);
-        self::assertEquals($replicated->translate('fr')->name, $vegetable->translate('fr')->name);
-        self::assertEquals($replicated->translate('en')->name, $vegetable->translate('en')->name);
-        self::assertEquals($replicated->translate('de')->name, $vegetable->translate('de')->name);
+        Assert::assertNotNull($replicated->identity);
+        Assert::assertNotEquals($replicated->identity, $vegetable->identity);
+        Assert::assertSame($replicated->translate('fr')->name, $vegetable->translate('fr')->name);
+        Assert::assertSame($replicated->translate('en')->name, $vegetable->translate('en')->name);
+        Assert::assertSame($replicated->translate('de')->name, $vegetable->translate('de')->name);
 
-        self::assertNotNull($replicated->translate('fr')->vegetable_identity);
-        self::assertNotEquals($replicated->translate('fr')->vegetable_identity, $vegetable->identity);
-        self::assertEquals($replicated->translate('fr')->vegetable_identity, $replicated->identity);
-        self::assertNotEquals($replicated->translate('en')->vegetable_identity, $vegetable->identity);
-        self::assertEquals($replicated->translate('en')->vegetable_identity, $replicated->identity);
-        self::assertNotEquals($replicated->translate('de')->vegetable_identity, $vegetable->identity);
-        self::assertEquals($replicated->translate('de')->vegetable_identity, $replicated->identity);
+        Assert::assertNotNull($replicated->translate('fr')->vegetable_identity);
+        Assert::assertNotEquals($replicated->translate('fr')->vegetable_identity, $vegetable->identity);
+        Assert::assertSame($replicated->translate('fr')->vegetable_identity, $replicated->identity);
+        Assert::assertNotEquals($replicated->translate('en')->vegetable_identity, $vegetable->identity);
+        Assert::assertSame($replicated->translate('en')->vegetable_identity, $replicated->identity);
+        Assert::assertNotEquals($replicated->translate('de')->vegetable_identity, $vegetable->identity);
+        Assert::assertSame($replicated->translate('de')->vegetable_identity, $replicated->identity);
     }
 
     #[Test]
@@ -705,7 +707,7 @@ final class TranslatableTest extends TestCase
             'name:de' => 'Erbsen',
         ]);
 
-        self::assertEquals([
+        Assert::assertEquals([
             'de' => ['name' => 'Erbsen'],
             'en' => ['name' => 'Peas'],
             'fr' => ['name' => 'Pois'],
@@ -724,12 +726,12 @@ final class TranslatableTest extends TestCase
         ]);
         $vegetable->save();
 
-        self::assertDatabaseHas('vegetable_translations', [
+        $this->assertDatabaseHas('vegetable_translations', [
             'locale' => 'en',
             'name' => 'Peas',
         ]);
 
-        self::assertDatabaseMissing('vegetable_translations', ['locale' => 'ua']);
+        $this->assertDatabaseMissing('vegetable_translations', ['locale' => 'ua']);
     }
 
     #[Test]
@@ -745,12 +747,12 @@ final class TranslatableTest extends TestCase
 
         $vegetable->save();
 
-        self::assertDatabaseHas('vegetable_translations', [
+        $this->assertDatabaseHas('vegetable_translations', [
             'locale' => 'en',
             'name' => 'Peas',
         ]);
 
-        self::assertDatabaseMissing('vegetable_translations', ['locale' => 'ua']);
+        $this->assertDatabaseMissing('vegetable_translations', ['locale' => 'ua']);
     }
 
     #[Test]
@@ -766,9 +768,9 @@ final class TranslatableTest extends TestCase
         ]);
 
         $this->app->setLocale('en');
-        self::assertEquals('Peas', $vegetable->name);
+        Assert::assertSame('Peas', $vegetable->name);
         $this->app->setLocale('fr');
-        self::assertEquals('Peas', $vegetable->name);
+        Assert::assertSame('Peas', $vegetable->name);
     }
 
     #[Test]
@@ -785,10 +787,10 @@ final class TranslatableTest extends TestCase
 
         // verify translated attributed is correctly returned when empty (non-existing fallback is ignored)
         $this->app->setLocale('en');
-        self::assertEquals('', $vegetable->getAttribute('name'));
+        Assert::assertNull($vegetable->getAttribute('name'));
 
         $this->app->setLocale('de');
-        self::assertEquals('Erbsen', $vegetable->getAttribute('name'));
+        Assert::assertSame('Erbsen', $vegetable->getAttribute('name'));
     }
 
     #[Test]
@@ -797,7 +799,7 @@ final class TranslatableTest extends TestCase
         $this->app->setLocale('invalid');
         $vegetable = factory(Vegetable::class)->create();
 
-        self::assertNull($vegetable->name);
+        Assert::assertNull($vegetable->name);
     }
 
     #[Test]
@@ -811,12 +813,12 @@ final class TranslatableTest extends TestCase
 
         $vegetable->save();
 
-        self::assertDatabaseHas('vegetable_translations', [
+        $this->assertDatabaseHas('vegetable_translations', [
             'locale' => 'de',
             'name' => 'Erbsen',
         ]);
 
-        self::assertDatabaseMissing('vegetable_translations', ['locale' => 'en']);
+        $this->assertDatabaseMissing('vegetable_translations', ['locale' => 'en']);
     }
 
     #[Test]
@@ -825,21 +827,7 @@ final class TranslatableTest extends TestCase
         $this->app->make('config')->set('translatable.fallback_locale', 'de');
         $this->app->make('config')->set('translatable.use_fallback', true);
 
-        $vegetable = new class extends Vegetable
-        {
-            protected $table = 'vegetables';
-
-            public $translationModel = VegetableTranslation::class;
-
-            protected function isEmptyTranslatableAttribute(string $key, $value): bool
-            {
-                if ($key === 'name') {
-                    return is_null($value);
-                }
-
-                return parent::isEmptyTranslatableAttribute($key, $value);
-            }
-        };
+        $vegetable = new VegetableNumeric;
 
         $vegetable->fill([
             'en' => ['name' => '0'],
@@ -849,10 +837,10 @@ final class TranslatableTest extends TestCase
         $vegetable->save();
 
         $this->app->setLocale('en');
-        self::assertSame('0', $vegetable->name);
+        Assert::assertSame('0', $vegetable->name);
 
         $this->app->setLocale('fr');
-        self::assertSame('1', $vegetable->name);
+        Assert::assertSame('1', $vegetable->name);
     }
 
     #[Test]
@@ -867,8 +855,8 @@ final class TranslatableTest extends TestCase
             'name:fr' => 'Pois',
         ]);
 
-        self::assertInstanceOf(VegetableTranslation::class, $peas->translation);
-        self::assertEquals('en', $peas->translation->locale);
+        Assert::assertInstanceOf(VegetableTranslation::class, $peas->translation);
+        Assert::assertSame('en', $peas->translation->locale);
     }
 
     #[Test]
@@ -880,8 +868,8 @@ final class TranslatableTest extends TestCase
 
         $peas = factory(Vegetable::class)->create(['name:fr' => 'Pois']);
 
-        self::assertInstanceOf(VegetableTranslation::class, $peas->translation);
-        self::assertEquals('fr', $peas->translation->locale);
+        Assert::assertInstanceOf(VegetableTranslation::class, $peas->translation);
+        Assert::assertSame('fr', $peas->translation->locale);
     }
 
     #[Test]
@@ -893,7 +881,7 @@ final class TranslatableTest extends TestCase
 
         $peas = factory(Vegetable::class)->create(['name:en' => 'Peas']);
 
-        self::assertNull($peas->translation);
+        Assert::assertNull($peas->translation);
     }
 
     #[Test]
@@ -918,9 +906,9 @@ final class TranslatableTest extends TestCase
 
         $country->save();
 
-        self::assertEquals(100, $country->getKey());
-        self::assertEquals('id:my country', $country->getTranslation('id', false)->name);
-        self::assertEquals('en:my country', $country->getTranslation('en', false)->name);
+        Assert::assertSame(100, $country->getKey());
+        Assert::assertSame('id:my country', $country->getTranslation('id', false)->name);
+        Assert::assertSame('en:my country', $country->getTranslation('en', false)->name);
     }
 
     #[Test]
@@ -945,34 +933,34 @@ final class TranslatableTest extends TestCase
 
         $helper->load();
         /** @var Country $country */
-        $country = Country::create(['code' => 'gr']);
-        CountryTranslation::create([
+        $country = Country::query()->create(['code' => 'gr']);
+        CountryTranslation::query()->create([
             'country_id' => $country->id,
             'locale' => 'en',
             'name' => 'Greece',
         ]);
-        CountryTranslation::create([
+        CountryTranslation::query()->create([
             'country_id' => $country->id,
             'locale' => 'de',
             'name' => 'Griechenland',
         ]);
-        CountryTranslation::create([
+        CountryTranslation::query()->create([
             'country_id' => $country->id,
             'locale' => $helper->getCountryLocale('de', 'DE'),
             'name' => 'Griechenland',
         ]);
 
-        self::assertNull($country->getTranslation(null, false));
+        Assert::assertNull($country->getTranslation(null, false));
 
         // returns first existing locale
         $translation = $country->getTranslation();
-        self::assertInstanceOf(CountryTranslation::class, $translation);
-        self::assertEquals('en', $translation->locale);
+        Assert::assertInstanceOf(CountryTranslation::class, $translation);
+        Assert::assertSame('en', $translation->locale);
 
         // still returns simple locale for country based locale
         $translation = $country->getTranslation($helper->getCountryLocale('de', 'AT'));
-        self::assertInstanceOf(CountryTranslation::class, $translation);
-        self::assertEquals('de', $translation->locale);
+        Assert::assertInstanceOf(CountryTranslation::class, $translation);
+        Assert::assertSame('de', $translation->locale);
 
         $this->app->make('config')->set('translatable.locales', [
             'xyz',
@@ -988,16 +976,16 @@ final class TranslatableTest extends TestCase
 
         // returns simple locale before country based locale
         $translation = $country->getTranslation();
-        self::assertInstanceOf(CountryTranslation::class, $translation);
-        self::assertEquals('de', $translation->locale);
+        Assert::assertInstanceOf(CountryTranslation::class, $translation);
+        Assert::assertSame('de', $translation->locale);
 
         $country->translations()->where('locale', 'de')->delete();
         $country->unsetRelation('translations');
 
         // returns country based locale before next simple one
         $translation = $country->getTranslation();
-        self::assertInstanceOf(CountryTranslation::class, $translation);
-        self::assertEquals($helper->getCountryLocale('de', 'DE'), $translation->locale);
+        Assert::assertInstanceOf(CountryTranslation::class, $translation);
+        Assert::assertSame($helper->getCountryLocale('de', 'DE'), $translation->locale);
     }
 
     #[Test]
@@ -1005,19 +993,19 @@ final class TranslatableTest extends TestCase
     {
         $this->app->make('config')->set('translatable.use_fallback', false);
         $this->app->setLocale('de');
-        Country::create(['code' => 'gr', 'name:de' => 'Griechenland']);
+        Country::query()->create(['code' => 'gr', 'name:de' => 'Griechenland']);
 
         /** @var Country $country */
-        $country = Country::first();
+        $country = Country::query()->first();
         $country->load('translation');
 
-        self::assertTrue($country->relationLoaded('translation'));
-        self::assertFalse($country->relationLoaded('translations'));
+        Assert::assertTrue($country->relationLoaded('translation'));
+        Assert::assertFalse($country->relationLoaded('translations'));
 
         $translation = $country->getTranslation();
-        self::assertInstanceOf(CountryTranslation::class, $translation);
-        self::assertEquals('de', $translation->locale);
-        self::assertFalse($country->relationLoaded('translations'));
+        Assert::assertInstanceOf(CountryTranslation::class, $translation);
+        Assert::assertSame('de', $translation->locale);
+        Assert::assertFalse($country->relationLoaded('translations'));
     }
 
     #[Test]
@@ -1025,20 +1013,20 @@ final class TranslatableTest extends TestCase
     {
         $this->app->make('config')->set('translatable.use_fallback', false);
         $this->app->setLocale('de');
-        Country::create(['code' => 'gr', 'name:de' => 'Griechenland', 'name:en' => 'Greece']);
+        Country::query()->create(['code' => 'gr', 'name:de' => 'Griechenland', 'name:en' => 'Greece']);
 
         /** @var Country $country */
-        $country = Country::first();
+        $country = Country::query()->first();
         $country->load('translation');
 
-        self::assertTrue($country->relationLoaded('translation'));
-        self::assertFalse($country->relationLoaded('translations'));
+        Assert::assertTrue($country->relationLoaded('translation'));
+        Assert::assertFalse($country->relationLoaded('translations'));
         $this->app->setLocale('en');
 
         $translation = $country->getTranslation();
-        self::assertInstanceOf(CountryTranslation::class, $translation);
-        self::assertEquals('en', $translation->locale);
-        self::assertTrue($country->relationLoaded('translations'));
+        Assert::assertInstanceOf(CountryTranslation::class, $translation);
+        Assert::assertSame('en', $translation->locale);
+        Assert::assertTrue($country->relationLoaded('translations'));
     }
 
     #[Test]
@@ -1046,18 +1034,18 @@ final class TranslatableTest extends TestCase
     {
         $this->app->make('config')->set('translatable.use_fallback', false);
         $this->app->setLocale('de');
-        Country::create(['code' => 'gr', 'name:de' => 'Griechenland', 'name:en' => 'Greece']);
+        Country::query()->create(['code' => 'gr', 'name:de' => 'Griechenland', 'name:en' => 'Greece']);
 
         /** @var Country $country */
-        $country = Country::first();
-        self::assertFalse($country->relationLoaded('translation'));
-        self::assertFalse($country->relationLoaded('translations'));
+        $country = Country::query()->first();
+        Assert::assertFalse($country->relationLoaded('translation'));
+        Assert::assertFalse($country->relationLoaded('translations'));
 
         $translation = $country->getTranslation();
-        self::assertInstanceOf(CountryTranslation::class, $translation);
-        self::assertEquals('de', $translation->locale);
-        self::assertFalse($country->relationLoaded('translation'));
-        self::assertTrue($country->relationLoaded('translations'));
+        Assert::assertInstanceOf(CountryTranslation::class, $translation);
+        Assert::assertSame('de', $translation->locale);
+        Assert::assertFalse($country->relationLoaded('translation'));
+        Assert::assertTrue($country->relationLoaded('translations'));
     }
 
     #[Test]
