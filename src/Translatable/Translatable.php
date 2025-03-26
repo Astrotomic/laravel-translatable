@@ -117,6 +117,9 @@ trait Translatable
         foreach ($attributes as $key => $values) {
             if ($this->isWrapperAttribute($key)) {
                 $this->fill($values);
+
+                unset($attributes[$key]);
+                continue;
             }
             if (
                 $this->getLocalesHelper()->has($key)
