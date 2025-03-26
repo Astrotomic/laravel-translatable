@@ -49,7 +49,7 @@ final class TranslatableTest extends TestCase
     }
 
     #[Test]
-    public function it_returns_custom_TranslationModelName(): void
+    public function it_returns_custom_translation_model_name(): void
     {
         $vegetable = new Vegetable;
 
@@ -315,7 +315,7 @@ final class TranslatableTest extends TestCase
     }
 
     #[Test]
-    public function useTranslationFallback_overrides_configuration(): void
+    public function use_translation_fallback_overrides_configuration(): void
     {
         $this->app->make('config')->set('translatable.fallback_locale', 'de');
         $this->app->make('config')->set('translatable.use_fallback', true);

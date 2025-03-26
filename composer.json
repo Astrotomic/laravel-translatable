@@ -31,17 +31,17 @@
     },
     "require": {
         "php": "^8.0",
-        "illuminate/contracts": "^9.0 || ^10.0 || ^11.0",
-        "illuminate/database": "^9.0 || ^10.0 || ^11.0",
-        "illuminate/support": "^9.0 || ^10.0 || ^11.0"
+        "illuminate/contracts": "^9.0 || ^10.0 || ^11.0 || ^12.0",
+        "illuminate/database": "^9.0 || ^10.0 || ^11.0 || ^12.0",
+        "illuminate/support": "^9.0 || ^10.0 || ^11.0 || ^12.0"
     },
     "require-dev": {
-        "larastan/larastan": "^2.0",
+        "larastan/larastan": "^2.0 || ^3.0",
         "laravel/legacy-factories": "^1.0.4",
         "laravel/pint": "^1.0",
         "mockery/mockery": "^1.3.3",
-        "orchestra/testbench": "^7.0 || ^8.0 || ^9.0",
-        "phpunit/phpunit": "^10.0"
+        "orchestra/testbench": "^7.0 || ^8.0 || ^9.0 || ^10.0",
+        "phpunit/phpunit": "^10.0 || ^11.0"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
