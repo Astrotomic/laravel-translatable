@@ -68,7 +68,7 @@ jobs:
         run: vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
 
       - name: Upload Codecov coverage
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: ./coverage.clover
