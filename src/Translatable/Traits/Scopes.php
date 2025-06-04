@@ -54,16 +54,17 @@ trait Scopes
         $localeKey = $this->getLocaleKey();
         $table = $this->getTable();
         $keyName = $this->getKeyName();
-        
+
         $hasLeftJoin = collect($query->getQuery()->joins ?? [])
-            ->contains(fn($join) => $join instanceof JoinClause && $join->table === $translationTable);
-        if (!$hasLeftJoin) {
+            ->contains(fn ($join) => $join instanceof JoinClause && $join->table === $translationTable);
+        if (! $hasLeftJoin) {
             $query->leftJoin($translationTable, function (JoinClause $join) use ($translationTable, $localeKey, $table, $keyName) {
                 $join
                     ->on("{$translationTable}.{$this->getTranslationRelationKey()}", '=', "{$table}.{$keyName}")
                     ->where("{$translationTable}.{$localeKey}", $this->locale());
             });
         }
+
         return $query
             ->with('translations')
             ->select("{$table}.*")
