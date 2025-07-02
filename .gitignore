@@ -4,3 +4,5 @@
 /.phpunit.cache
 /build/
 /coverage.clover
+.DS_Store
+.idea/*
