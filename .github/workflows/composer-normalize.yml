@@ -22,6 +22,6 @@ jobs:
           composer global config --no-plugins allow-plugins.ergebnis/composer-normalize true
           composer normalize --indent-style=space --indent-size=4 --no-check-lock --no-update-lock --no-interaction --ansi
 
-      - uses: stefanzweifel/git-auto-commit-action@v5
+      - uses: stefanzweifel/git-auto-commit-action@v6
         with:
           commit_message: normalize composer.json

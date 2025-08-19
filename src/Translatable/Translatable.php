@@ -16,6 +16,7 @@ use Illuminate\Support\Str;
  * @property-read string $translationForeignKey
  * @property-read string $localeKey
  * @property-read bool $useTranslationFallback
+ * @property string[] $translatedAttributes
  *
  * @mixin Model
  */
