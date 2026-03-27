@@ -4,6 +4,7 @@ namespace Astrotomic\Translatable;
 
 use Astrotomic\Translatable\Validation\Rules\TranslatableExists;
 use Astrotomic\Translatable\Validation\Rules\TranslatableUnique;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rule;
 
@@ -29,9 +30,11 @@ class TranslatableServiceProvider extends ServiceProvider
         );
 
         Rule::macro('translatableUnique', function (string $model, string $field): TranslatableUnique {
+            /** @var class-string<Model> $model */
             return new TranslatableUnique($model, $field);
         });
         Rule::macro('translatableExists', function (string $model, string $field): TranslatableExists {
+            /** @var class-string<Model> $model */
             return new TranslatableExists($model, $field);
         });
 
