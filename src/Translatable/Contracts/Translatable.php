@@ -45,7 +45,7 @@ interface Translatable
      */
     public function replicateWithTranslations(?array $except = null): Model;
 
-    public function setDefaultLocale(?string $locale);
+    public function setDefaultLocale(?string $locale): static;
 
     public function translate(?string $locale = null, bool $withFallback = false): ?Model;
 
@@ -54,12 +54,12 @@ interface Translatable
     public function translateOrNew(?string $locale = null): Model;
 
     /**
-     * @return HasOne<Model>
+     * @return HasOne<Model, Model>
      */
     public function translation(): HasOne;
 
     /**
-     * @return HasMany<Model>
+     * @return HasMany<Model, Model>
      */
     public function translations(): HasMany;
 }
