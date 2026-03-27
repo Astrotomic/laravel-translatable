@@ -17,11 +17,7 @@ use Tests\Eloquent\Vegetable;
 
 final class CustomValidationTest extends TestCase
 {
-    /**
-     * Validate that the field is unique.
-     *
-     * @test
-     */
+    #[Test]
     public function validate_field_unique(): void
     {
         $person = new Person(['name' => 'john doe']);
@@ -39,11 +35,7 @@ final class CustomValidationTest extends TestCase
         self::assertFalse($validator->fails());
     }
 
-    /**
-     * Validate that the field is unique and fails.
-     *
-     * @test
-     */
+    #[Test]
     public function validate_field_unique_fails(): void
     {
         $person = new Person(['name' => 'john doe']);
@@ -61,11 +53,7 @@ final class CustomValidationTest extends TestCase
         ])->validate();
     }
 
-    /**
-     * Validate that the field rule for unique fails.
-     *
-     * @test
-     */
+    #[Test]
     public function validate_field_rule_unique_fails(): void
     {
         $person = new Person(['name' => 'john doe']);
@@ -85,11 +73,7 @@ final class CustomValidationTest extends TestCase
 
     }
 
-    /**
-     * Validate that the field rule for unique pass on update, ignoring model
-     *
-     * @test
-     */
+    #[Test]
     public function validate_field_rule_unique_pass_on_update_ignore_model(): void
     {
         $vegetable = new Vegetable(['name' => 'Potatoes', 'quantity' => '5']);
@@ -108,11 +92,7 @@ final class CustomValidationTest extends TestCase
 
     }
 
-    /**
-     * Validate that the field rule for unique pass on update.
-     *
-     * @test
-     */
+    #[Test]
     public function validate_field_rule_unique_pass_on_update_ignore_int(): void
     {
         $vegetable = new Vegetable(['name' => 'Potatoes', 'quantity' => '5']);
@@ -131,11 +111,7 @@ final class CustomValidationTest extends TestCase
 
     }
 
-    /**
-     * Validate that the field exists.
-     *
-     * @test
-     */
+    #[Test]
     public function validate_field_exists(): void
     {
         $person = new Person(['name' => 'john doe']);
@@ -154,11 +130,7 @@ final class CustomValidationTest extends TestCase
         ])->validate();
     }
 
-    /**
-     * Validate that the field exists and fails.
-     *
-     * @test
-     */
+    #[Test]
     public function validate_field_exists_fails(): void
     {
         $person = new Person(['name' => 'john doe']);
@@ -176,11 +148,7 @@ final class CustomValidationTest extends TestCase
         self::assertFalse($validator->fails());
     }
 
-    /**
-     * Validate that the field rule for exists fails.
-     *
-     * @test
-     */
+    #[Test]
     public function validate_field_rule_exists_fails(): void
     {
         $person = new Person(['name' => 'john doe']);
