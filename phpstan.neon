@@ -9,10 +9,14 @@ parameters:
     # Level 9 is the highest level
     level: 6
 
-#    ignoreErrors:
-#        - '#PHPDoc tag @var#'
-#
-#    excludePaths:
-#        - ./*/*/FileToBeExcluded.php
-#
-#    checkMissingIterableValueType: false
+    # This is a package: traits are intended to be used by consumers, so PHPStan
+    # can't always see their usages within this repository.
+    ignoreErrors:
+        - identifier: trait.unused
+        - identifier: generics.lessTypes
+          path: src/Translatable/Contracts/Translatable.php
+        - identifier: missingType.return
+          path: src/Translatable/Contracts/Translatable.php
+
+    # Avoid "always true/false" when the type comes from PHPDoc.
+    treatPhpDocTypesAsCertain: false

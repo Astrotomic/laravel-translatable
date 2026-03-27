@@ -64,7 +64,7 @@ class RuleFactory
      *
      * @param  array<string>|null  $locales  The locales to be set. If null, all available locales will be used.
      *
-     * @throws \InvalidArgumentException If a provided locale is not defined in the available locales.
+     * @throws InvalidArgumentException If a provided locale is not defined in the available locales.
      */
     public function setLocales(?array $locales = null): self
     {

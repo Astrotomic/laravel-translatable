@@ -6,6 +6,7 @@ namespace Astrotomic\Translatable\Validation\Rules;
 
 use Closure;
 use Illuminate\Contracts\Validation\InvokableRule;
+use Illuminate\Translation\PotentiallyTranslatedString;
 
 /**
  * Custom unique validation for translatable attributes
@@ -20,7 +21,7 @@ class TranslatableUnique extends TranslatableExists implements InvokableRule
     /**
      * Validate if the given attribute is unique.
      *
-     * @param  \Closure(string): \Illuminate\Translation\PotentiallyTranslatedString  $fail
+     * @param  Closure(string): PotentiallyTranslatedString  $fail
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
@@ -42,7 +43,7 @@ class TranslatableUnique extends TranslatableExists implements InvokableRule
      *
      * @param  string  $attribute
      * @param  mixed  $value
-     * @param  Closure(string): \Illuminate\Translation\PotentiallyTranslatedString  $fail
+     * @param  Closure(string): PotentiallyTranslatedString  $fail
      */
     public function __invoke($attribute, $value, $fail): void
     {
