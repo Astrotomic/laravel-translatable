@@ -1,0 +1,19 @@
+name: phpstan
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  phpstan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.5
+          tools: composer:v2
+      - run: composer install --prefer-dist --no-interaction --no-suggest
+      - run: composer phpstan
+
