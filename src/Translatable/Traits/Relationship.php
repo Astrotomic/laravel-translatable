@@ -25,7 +25,11 @@ trait Relationship
      */
     public function getTranslationModelName(): string
     {
-        return property_exists($this, 'translationModel') ? $this->translationModel : $this->getTranslationModelNameDefault();
+        if (property_exists($this, 'translationModel') && $this->translationModel !== null) {
+            return $this->translationModel;
+        }
+
+        return $this->getTranslationModelNameDefault();
     }
 
     /**
@@ -55,7 +59,11 @@ trait Relationship
      */
     public function getTranslationRelationKey(): string
     {
-        return property_exists($this, 'translationForeignKey') ? $this->translationForeignKey : $this->getForeignKey();
+        if (property_exists($this, 'translationForeignKey') && $this->translationForeignKey !== null) {
+            return $this->translationForeignKey;
+        }
+
+        return $this->getForeignKey();
     }
 
     public function translation(): HasOne
