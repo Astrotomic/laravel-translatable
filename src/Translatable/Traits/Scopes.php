@@ -51,7 +51,9 @@ trait Scopes
     public function scopeOrderByTranslation(Builder $query, string $translationField, string $sortMethod = 'asc')
     {
         $translationTable = $this->getTranslationsTable();
+        $localeKey = $this->getLocaleKey();
         $table = $this->getTable();
+        $keyName = $this->getKeyName();
 
         $hasLeftJoin = collect($query->getQuery()->joins ?? [])
             ->contains(fn ($join) => $join instanceof JoinClause && $join->table === $translationTable);
@@ -59,11 +61,11 @@ trait Scopes
         return $query
             ->with('translations')
             ->select("{$table}.*")
-            ->unless($hasLeftJoin, function (Builder $query) use ($translationTable, $table) {
-                $query->leftJoin($translationTable, function (JoinClause $join) use ($translationTable, $table) {
+            ->unless($hasLeftJoin, function (Builder $query) use ($translationTable, $localeKey, $table, $keyName) {
+                $query->leftJoin($translationTable, function (JoinClause $join) use ($translationTable, $localeKey, $table, $keyName) {
                     $join
-                        ->on("{$translationTable}.{$this->getTranslationRelationKey()}", '=', "{$table}.{$this->getKeyName()}")
-                        ->where("{$translationTable}.{$this->getLocaleKey()}", $this->locale());
+                        ->on("{$translationTable}.{$this->getTranslationRelationKey()}", '=', "{$table}.{$keyName}")
+                        ->where("{$translationTable}.{$localeKey}", $this->locale());
                 });
             })
             ->orderBy("{$translationTable}.{$translationField}", $sortMethod);
