@@ -5,6 +5,9 @@ on:
     paths:
       - '*.md'
 
+permissions:
+  contents: write
+
 jobs:
   normalize:
     timeout-minutes: 1
