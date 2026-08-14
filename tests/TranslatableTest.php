@@ -4,6 +4,7 @@ namespace Tests;
 
 use Astrotomic\Translatable\Locales;
 use Illuminate\Database\Eloquent\MassAssignmentException;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
@@ -13,6 +14,7 @@ use Tests\Eloquent\Country;
 use Tests\Eloquent\CountryStrict;
 use Tests\Eloquent\CountryTranslation;
 use Tests\Eloquent\Person;
+use Tests\Eloquent\TranslatableModelWithoutConfiguration;
 use Tests\Eloquent\Vegetable;
 use Tests\Eloquent\VegetableNumeric;
 use Tests\Eloquent\VegetableTranslation;
@@ -75,6 +77,22 @@ final class TranslatableTest extends TestCase
 
         $vegetable->translationForeignKey = 'my_awesome_key';
         Assert::assertSame('my_awesome_key', $vegetable->getTranslationRelationKey());
+    }
+
+    #[Test]
+    public function it_uses_default_configuration_when_accessing_missing_attributes_is_prevented(): void
+    {
+        Model::preventAccessingMissingAttributes();
+
+        try {
+            $model = new TranslatableModelWithoutConfiguration;
+
+            Assert::assertSame($model->getTranslationModelNameDefault(), $model->getTranslationModelName());
+            Assert::assertSame('translatable_model_without_configuration_id', $model->getTranslationRelationKey());
+            Assert::assertSame('locale', $model->getLocaleKey());
+        } finally {
+            Model::preventAccessingMissingAttributes(false);
+        }
     }
 
     #[Test]
