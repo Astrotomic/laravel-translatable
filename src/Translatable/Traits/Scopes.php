@@ -9,7 +9,11 @@ use Illuminate\Database\Query\JoinClause;
 
 trait Scopes
 {
-    public function scopeListsTranslations(Builder $query, string $translationField)
+    /**
+     * @param  Builder<static>  $query
+     * @return Builder<static>
+     */
+    public function scopeListsTranslations(Builder $query, string $translationField): Builder
     {
         $withFallback = $this->useFallback();
         $translationTable = $this->getTranslationsTable();
@@ -39,7 +43,11 @@ trait Scopes
         return $query;
     }
 
-    public function scopeNotTranslatedIn(Builder $query, ?string $locale = null)
+    /**
+     * @param  Builder<static>  $query
+     * @return Builder<static>
+     */
+    public function scopeNotTranslatedIn(Builder $query, ?string $locale = null): Builder
     {
         $locale = $locale ?: $this->locale();
 
@@ -48,7 +56,11 @@ trait Scopes
         });
     }
 
-    public function scopeOrderByTranslation(Builder $query, string $translationField, string $sortMethod = 'asc')
+    /**
+     * @param  Builder<static>  $query
+     * @return Builder<static>
+     */
+    public function scopeOrderByTranslation(Builder $query, string $translationField, string $sortMethod = 'asc'): Builder
     {
         $translationTable = $this->getTranslationsTable();
         $localeKey = $this->getLocaleKey();
@@ -66,22 +78,38 @@ trait Scopes
             ->orderBy("{$translationTable}.{$translationField}", $sortMethod);
     }
 
-    public function scopeOrWhereTranslation(Builder $query, string $translationField, $value, ?string $locale = null)
+    /**
+     * @param  Builder<static>  $query
+     * @return Builder<static>
+     */
+    public function scopeOrWhereTranslation(Builder $query, string $translationField, mixed $value, ?string $locale = null): Builder
     {
         return $this->scopeWhereTranslation($query, $translationField, $value, $locale, 'orWhereHas');
     }
 
-    public function scopeOrWhereTranslationLike(Builder $query, string $translationField, $value, ?string $locale = null)
+    /**
+     * @param  Builder<static>  $query
+     * @return Builder<static>
+     */
+    public function scopeOrWhereTranslationLike(Builder $query, string $translationField, mixed $value, ?string $locale = null): Builder
     {
         return $this->scopeWhereTranslation($query, $translationField, $value, $locale, 'orWhereHas', 'LIKE');
     }
 
-    public function scopeTranslated(Builder $query)
+    /**
+     * @param  Builder<static>  $query
+     * @return Builder<static>
+     */
+    public function scopeTranslated(Builder $query): Builder
     {
         return $query->has('translations');
     }
 
-    public function scopeTranslatedIn(Builder $query, ?string $locale = null)
+    /**
+     * @param  Builder<static>  $query
+     * @return Builder<static>
+     */
+    public function scopeTranslatedIn(Builder $query, ?string $locale = null): Builder
     {
         $locale = $locale ?: $this->locale();
 
@@ -90,7 +118,11 @@ trait Scopes
         });
     }
 
-    public function scopeWhereTranslation(Builder $query, string $translationField, $value, ?string $locale = null, string $method = 'whereHas', string $operator = '=')
+    /**
+     * @param  Builder<static>  $query
+     * @return Builder<static>
+     */
+    public function scopeWhereTranslation(Builder $query, string $translationField, mixed $value, ?string $locale = null, string $method = 'whereHas', string $operator = '='): Builder
     {
         return $query->$method('translations', function (Builder $query) use ($translationField, $value, $locale, $operator) {
             $query->where($this->getTranslationsTable().'.'.$translationField, $operator, $value);
@@ -101,12 +133,19 @@ trait Scopes
         });
     }
 
-    public function scopeWhereTranslationLike(Builder $query, string $translationField, $value, ?string $locale = null)
+    /**
+     * @param  Builder<static>  $query
+     * @return Builder<static>
+     */
+    public function scopeWhereTranslationLike(Builder $query, string $translationField, mixed $value, ?string $locale = null): Builder
     {
         return $this->scopeWhereTranslation($query, $translationField, $value, $locale, 'whereHas', 'LIKE');
     }
 
-    public function scopeWithTranslation(Builder $query, ?string $locale = null)
+    /**
+     * @param  Builder<static>  $query
+     */
+    public function scopeWithTranslation(Builder $query, ?string $locale = null): void
     {
         $locale = $locale ?: $this->locale();
 

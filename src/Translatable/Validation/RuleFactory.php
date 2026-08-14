@@ -105,7 +105,7 @@ class RuleFactory
                 continue;
             }
 
-            foreach ($this->locales as $locale) {
+            foreach (($this->locales ?? []) as $locale) {
                 $rules[$this->formatKey($locale, $key)] = $this->formatRule($locale, $value);
             }
         }
@@ -143,7 +143,13 @@ class RuleFactory
 
     protected function replacePlaceholder(string $locale, string $value): string
     {
-        return preg_replace($this->getPattern(), $this->getReplacement($locale), $value);
+        $result = preg_replace($this->getPattern(), $this->getReplacement($locale), $value);
+
+        if ($result === null) {
+            throw new InvalidArgumentException("The rule [{$value}] is not valid.");
+        }
+
+        return $result;
     }
 
     protected function getReplacement(string $locale): string

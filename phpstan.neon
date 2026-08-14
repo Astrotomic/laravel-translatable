@@ -7,16 +7,14 @@ parameters:
         - src/
 
     # Level 9 is the highest level
-    level: 6
+    level: 8
 
-    # This is a package: traits are intended to be used by consumers, so PHPStan
-    # can't always see their usages within this repository.
     ignoreErrors:
         - identifier: trait.unused
-        - identifier: generics.lessTypes
-          path: src/Translatable/Contracts/Translatable.php
-        - identifier: missingType.return
-          path: src/Translatable/Contracts/Translatable.php
+          paths:
+              - src/Translatable/Translatable.php
+              - src/Translatable/Traits/Relationship.php
+              - src/Translatable/Traits/Scopes.php
 
     # Avoid "always true/false" when the type comes from PHPDoc.
     treatPhpDocTypesAsCertain: false
