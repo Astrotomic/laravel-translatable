@@ -48,24 +48,25 @@ trait Scopes
         });
     }
 
-    public function scopeOrderByTranslation(Builder $query, string $translationField, string $sortMethod = 'asc', ?string $local = null)
+    public function scopeOrderByTranslation(Builder $query, string $translationField, string $sortMethod = 'asc', ?string $locale = null)
     {
         $translationTable = $this->getTranslationsTable();
         $table = $this->getTable();
-        $local ??= $this->locale();
+        $locale ??= $this->locale();
 
         $hasLeftJoin = collect($query->getQuery()->joins ?? [])
             ->contains(fn ($join) => $join instanceof JoinClause && $join->table === $translationTable);
-        if (! $hasLeftJoin) {
-            $query->leftJoin($translationTable, function (JoinClause $join) use ($translationTable, $table, $local) {
-                $join->on("{$translationTable}.{$this->getTranslationRelationKey()}", '=', "{$table}.{$this->getKeyName()}")
-                    ->where("{$translationTable}.{$this->getLocaleKey()}", $local);
-            });
-        }
 
         return $query
             ->with('translations')
             ->select("{$table}.*")
+            ->when(! $hasLeftJoin, function (Builder $query) use ($translationTable, $table, $locale) {
+                $query->leftJoin($translationTable, function (JoinClause $join) use ($translationTable, $table, $locale) {
+                    $join
+                        ->on("{$translationTable}.{$this->getTranslationRelationKey()}", '=', "{$table}.{$this->getKeyName()}")
+                        ->where("{$translationTable}.{$this->getLocaleKey()}", $locale);
+                });
+            })
             ->orderBy("{$translationTable}.{$translationField}", $sortMethod);
     }
 

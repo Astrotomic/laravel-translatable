@@ -284,6 +284,23 @@ final class ScopesTest extends TestCase
     }
 
     #[Test]
+    public function order_by_translation_sorts_by_key_in_the_given_locale(): void
+    {
+        factory(Country::class)->create(['code' => 'el', 'name:en' => 'Greece', 'name:fr' => 'Grèce']);
+        factory(Country::class)->create(['code' => 'fr', 'name:en' => 'France', 'name:fr' => 'France']);
+
+        self::assertEquals('fr', Country::orderByTranslation('name', 'asc', 'fr')->get()->first()->code);
+    }
+
+    #[Test]
+    public function order_by_translation_does_not_add_duplicate_joins(): void
+    {
+        $query = Country::orderByTranslation('name')->orderByTranslation('name');
+
+        self::assertCount(1, $query->getQuery()->joins);
+    }
+
+    #[Test]
     public function test_order_by_translation_sorts_by_key_asc_even_if_locale_is_missing(): void
     {
         factory(Vegetable::class)->create(['en' => ['name' => 'Potatoes'], 'fr' => ['name' => 'Pommes de Terre']]);
