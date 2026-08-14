@@ -5,6 +5,9 @@ on:
     paths:
       - 'composer.json'
 
+permissions:
+  contents: write
+
 jobs:
   normalize:
     timeout-minutes: 1
