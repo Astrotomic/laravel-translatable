@@ -84,15 +84,11 @@ final class TranslatableTest extends TestCase
     {
         Model::preventAccessingMissingAttributes();
 
-        try {
-            $model = new TranslatableModelWithoutConfiguration;
+        $model = new TranslatableModelWithoutConfiguration;
 
-            Assert::assertSame($model->getTranslationModelNameDefault(), $model->getTranslationModelName());
-            Assert::assertSame('translatable_model_without_configuration_id', $model->getTranslationRelationKey());
-            Assert::assertSame('locale', $model->getLocaleKey());
-        } finally {
-            Model::preventAccessingMissingAttributes(false);
-        }
+        Assert::assertSame($model->getTranslationModelNameDefault(), $model->getTranslationModelName());
+        Assert::assertSame('translatable_model_without_configuration_id', $model->getTranslationRelationKey());
+        Assert::assertSame('locale', $model->getLocaleKey());
     }
 
     #[Test]
