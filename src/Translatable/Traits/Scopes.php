@@ -7,6 +7,18 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Database\Query\JoinClause;
 
+/**
+ * @method static Builder<static> listsTranslations(string $translationField)
+ * @method static Builder<static> notTranslatedIn(?string $locale = null)
+ * @method static Builder<static> orderByTranslation(string $translationField, string $sortMethod = 'asc')
+ * @method static Builder<static> orWhereTranslation(string $translationField, mixed $value, ?string $locale = null)
+ * @method static Builder<static> orWhereTranslationLike(string $translationField, mixed $value, ?string $locale = null)
+ * @method static Builder<static> translated()
+ * @method static Builder<static> translatedIn(?string $locale = null)
+ * @method static Builder<static> whereTranslation(string $translationField, mixed $value, ?string $locale = null, string $method = 'whereHas', string $operator = '=')
+ * @method static Builder<static> whereTranslationLike(string $translationField, mixed $value, ?string $locale = null)
+ * @method static Builder<static> withTranslation(?string $locale = null)
+ */
 trait Scopes
 {
     public function scopeListsTranslations(Builder $query, string $translationField)
