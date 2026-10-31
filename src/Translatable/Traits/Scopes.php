@@ -113,7 +113,7 @@ trait Scopes
             $query->where($this->getTranslationsTable().'.'.$translationField, $operator, $value);
 
             if ($locale) {
-                $query->where($this->getTranslationsTable().'.'.$this->getLocaleKey(), $operator, $locale);
+                $query->where($this->getTranslationsTable().'.'.$this->getLocaleKey(), '=', $locale);
             }
         });
     }
