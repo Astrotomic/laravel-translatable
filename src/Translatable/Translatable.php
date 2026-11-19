@@ -24,23 +24,21 @@ trait Translatable
 {
     use Relationship, Scopes;
 
-    protected static $autoloadTranslations = null;
+    protected static ?bool $autoloadTranslations = null;
 
-    protected static $deleteTranslationsCascade = false;
+    protected static bool $deleteTranslationsCascade = false;
 
-    protected $defaultLocale;
+    protected ?string $defaultLocale = null;
 
     public static function bootTranslatable(): void
     {
-        static::saved(function (Model $model) {
-            /* @var Translatable $model */
-            return $model->saveTranslations();
+        static::saved(function (self $model): void {
+            $model->saveTranslations();
         });
 
-        static::deleting(function (Model $model) {
-            /* @var Translatable $model */
+        static::deleting(function (self $model): void {
             if (self::$deleteTranslationsCascade === true) {
-                return $model->deleteTranslations();
+                $model->deleteTranslations();
             }
         });
     }
@@ -95,9 +93,9 @@ trait Translatable
     }
 
     /**
-     * @param  string|array|null  $locales  The locales to be deleted
+     * @param  null|string|array<string>  $locales  The locales to be deleted
      */
-    public function deleteTranslations($locales = null): void
+    public function deleteTranslations(string|array|null $locales = null): void
     {
         if ($locales === null) {
             $translations = $this->translations()->get();
@@ -262,6 +260,9 @@ trait Translatable
         return $translation;
     }
 
+    /**
+     * @return array<string,array<string,mixed>>
+     */
     public function getTranslationsArray(): array
     {
         $translations = [];
@@ -298,6 +299,9 @@ trait Translatable
         return $key === config('translatable.translations_wrapper');
     }
 
+    /**
+     * @param  null|array<string>  $except
+     */
     public function replicateWithTranslations(?array $except = null): Model
     {
         $newInstance = $this->replicate($except);
@@ -324,7 +328,7 @@ trait Translatable
         return parent::setAttribute($key, $value);
     }
 
-    public function setDefaultLocale(?string $locale)
+    public function setDefaultLocale(?string $locale): static
     {
         $this->defaultLocale = $locale;
 
@@ -356,7 +360,7 @@ trait Translatable
         return app(Locales::class);
     }
 
-    protected function isEmptyTranslatableAttribute(string $key, $value): bool
+    protected function isEmptyTranslatableAttribute(string $key, mixed $value): bool
     {
         return empty($value);
     }
@@ -401,6 +405,9 @@ trait Translatable
         return $saved;
     }
 
+    /**
+     * @return array{0:string,1:string}
+     */
     protected function getAttributeAndLocale(string $key): array
     {
         if (Str::contains($key, ':')) {
@@ -410,7 +417,7 @@ trait Translatable
         return [$key, $this->locale()];
     }
 
-    protected function getAttributeOrFallback(?string $locale, string $attribute)
+    protected function getAttributeOrFallback(?string $locale, string $attribute): mixed
     {
         $translation = $this->getTranslation($locale);
 
