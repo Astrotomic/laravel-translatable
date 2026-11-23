@@ -266,6 +266,23 @@ final class ScopesTest extends TestCase
     }
 
     #[Test]
+    public function where_translation_uses_exact_match_for_locale_with_custom_operator(): void
+    {
+        factory(Country::class)->create(['code' => 'de', 'name:de' => 'Deutschland']);
+        factory(Country::class)->create(['code' => 'us', 'name:en-US' => 'United States']);
+        factory(Country::class)->create(['code' => 'at', 'name:de-DE' => 'Österreich']);
+
+        $result = Country::whereTranslation('name', 'A', 'de', 'whereHas', '>=')->get();
+
+        self::assertCount(1, $result);
+        self::assertSame('de', $result->first()->code);
+
+        $likeQuery = Country::whereTranslationLike('name', '%reich%', 'de_DE');
+
+        self::assertCount(0, $likeQuery->get());
+    }
+
+    #[Test]
     public function order_by_translation_sorts_by_key_asc(): void
     {
         factory(Country::class)->create(['code' => 'el', 'name' => 'Greece']);
